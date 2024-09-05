@@ -11,5 +11,5 @@ int main(const int argc, char *argv[]) {
 
     // TODO: add lexer call here
 
-    return 0;
+    return EXIT_SUCCESS;
 }
