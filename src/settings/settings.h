@@ -20,6 +20,8 @@ public:
 
     std::string get_infile() const;
 
+    bool get_debug() const;
+
     friend std::ostream &operator<<(std::ostream &os, Settings const &settings);
 };
 

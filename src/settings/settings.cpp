@@ -65,6 +65,9 @@ std::string Settings::get_infile() const {
     return this->infile;
 }
 
+bool Settings::get_debug() const {
+    return this->debug;
+}
 
 std::ostream &operator<<(std::ostream &os, Settings const &settings) {
     return os << "{infile='" << settings.infile

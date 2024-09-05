@@ -6,9 +6,10 @@
 
 class Lexer {
     std::ifstream infile;
+    bool debug;
 
 public:
-    explicit Lexer(const std::string &infile_path);
+    explicit Lexer(const std::string &infile_path, const bool &debug);
 
     void parse();
 
