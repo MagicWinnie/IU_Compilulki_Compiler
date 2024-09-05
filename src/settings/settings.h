@@ -15,7 +15,7 @@ public:
 
     void print_help() const;
 
-    bool process();
+    void process();
 
     friend std::ostream &operator<<(std::ostream &os, Settings const &settings);
 };

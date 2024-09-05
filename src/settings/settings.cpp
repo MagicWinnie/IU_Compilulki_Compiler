@@ -39,26 +39,25 @@ void Settings::print_help() const {
 }
 
 
-bool Settings::process() {
+void Settings::process() {
     if (this->help) {
         this->print_help();
 
-        return false;
+        std::exit(1);
     }
     if (this->infile.empty()) {
         std::cerr << "Missing mandatory parameter INFILE" << std::endl;
         this->print_help();
 
-        return false;
+        std::exit(1);
     }
     if (this->outfile.empty()) {
         std::filesystem::path path(this->infile);
         path.replace_extension(".o");
         this->outfile = path.string();
 
-        return true;
+        std::exit(1);
     }
-    return true;
 }
 
 
