@@ -14,5 +14,9 @@ int main(const int argc, char *argv[]) {
     auto lexer = Lexer(settings.get_infile(), settings.get_debug());
     lexer.parse();
 
+    // TODO: syntax analyzer
+    // TODO: semantics analyzer
+    // TODO: code generation
+
     return EXIT_SUCCESS;
 }
