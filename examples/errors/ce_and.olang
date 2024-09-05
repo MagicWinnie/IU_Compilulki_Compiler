@@ -1,0 +1,16 @@
+// Boolean logic test
+// Logical AND operation
+
+Program: Main
+
+class Main is
+    this()
+        var a : Boolean(true)
+        var b : Boolean(false)
+
+        var result := a.And(b)
+
+        print(result)
+    end
+
+end

@@ -1,0 +1,15 @@
+// Positive number test
+// Check if a number is positive
+
+Program: Main(lalala) # lalala
+
+class Main is
+    this(num: Integer)
+        if num.Greater(Integer(0)) then
+            print("Positive")
+        else
+            print("Non-positive")
+        end
+    end
+
+end

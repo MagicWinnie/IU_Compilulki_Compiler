@@ -1,0 +1,33 @@
+// Basic class with member variable
+
+Program: Main()
+
+// Define a class Counter
+class Counter is
+    var c : Integer(0)
+
+    method inc() is
+        c := c.Plus(1)
+    end
+
+    method getCounter() : Integer is
+        return count
+    end
+end
+
+// The main entry point of the program
+class Main is
+    this() is
+        var counter : Counter()
+
+        myCounter.inc()
+        myCounter.inc()
+        myCounter.inc()
+
+        var currentValue : Integer
+        currentValue := myCounter.getCounter()
+
+        currentValue.print() // -> 3
+    end
+   
+end

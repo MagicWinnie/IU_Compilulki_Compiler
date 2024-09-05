@@ -1,0 +1,31 @@
+// Method with the same name in base and derived classes
+
+Program: Main()
+
+// Base class
+class Base is
+    method show() is
+        Integer(1).print()
+    end
+end
+
+// Derived class that inherits from the Base class
+class Derived extends Base is
+     method show() is
+        Integer(2).print()
+    end
+end
+ 
+class Main is
+    this() is
+        var b : Base
+        b := Base()
+        
+        var d : Base
+        d := Derived()
+        
+        b.show() // -> 1
+        d.show() // -> 2
+    end
+
+end

@@ -1,0 +1,32 @@
+// Encapsulation
+
+
+Program: Main()
+
+class A is
+    // Private member variable
+    var value : Integer(0)
+
+    // Public method to get the value
+    method getValue() : Integer is
+        return value
+    end
+
+    // Public method to set a new value
+    method setValue(newValue: Integer) is
+        value := newValue
+    end
+end
+
+class Main is
+    this() is
+        var a : A()
+        
+        print(a.getValue()) // -> 0
+        
+        a.setValue(1)
+        
+        a.getValue().print() // -> 1
+    end
+   
+end

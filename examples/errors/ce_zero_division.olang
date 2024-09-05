@@ -1,0 +1,16 @@
+// Division test
+// Division of two integers
+
+Program: Main(20, 0) # 0
+
+class Main is
+    this(num1: Integer, num2: Integer)
+        var a : num1
+        var b : num2
+
+        var divResult := a.Div(b)
+        
+        divResult.print()
+    end
+
+end

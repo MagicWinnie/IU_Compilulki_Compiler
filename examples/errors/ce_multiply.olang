@@ -1,0 +1,16 @@
+// Method call test
+// Multiply two integers
+
+Program: Main
+
+class Main is
+    this()
+        var result := multiply(Array(6), Integer(7)) # Array
+        result.print()
+    end
+
+    method multiply(x: Integer, y: Integer) : Integer is
+        return x.Mult(y)
+    end
+
+end
