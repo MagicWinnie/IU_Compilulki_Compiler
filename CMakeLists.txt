@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(compilulki src/main.cpp
         src/settings/settings.cpp
-        src/settings/settings.h)
+        src/settings/settings.h
+        src/lexical_analyzer/lexer.cpp
+        src/lexical_analyzer/lexer.h)

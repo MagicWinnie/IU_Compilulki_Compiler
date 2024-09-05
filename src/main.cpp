@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "lexical_analyzer/lexer.h"
 #include "settings/settings.h"
 
 
@@ -9,7 +11,7 @@ int main(const int argc, char *argv[]) {
 
     std::cout << settings << std::endl;
 
-    // TODO: add lexer call here
+    auto lexer = Lexer(settings.get_infile());
 
     return EXIT_SUCCESS;
 }
