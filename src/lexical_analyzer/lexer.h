@@ -3,6 +3,9 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
+
+#include "token.h"
 
 class Lexer {
     std::ifstream infile;
@@ -11,7 +14,7 @@ class Lexer {
 public:
     explicit Lexer(const std::string &infile_path, const bool &debug);
 
-    void parse();
+    std::vector<Token> parse();
 
     ~Lexer();
 };

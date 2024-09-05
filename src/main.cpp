@@ -12,7 +12,7 @@ int main(const int argc, char *argv[]) {
     std::cout << settings << std::endl;
 
     auto lexer = Lexer(settings.get_infile(), settings.get_debug());
-    lexer.parse();
+    auto tokens = lexer.parse();
 
     // TODO: syntax analyzer
     // TODO: semantics analyzer

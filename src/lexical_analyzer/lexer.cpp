@@ -13,7 +13,7 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-void Lexer::parse() {
+std::vector<Token> Lexer::parse() {
 }
 
 Lexer::~Lexer() {

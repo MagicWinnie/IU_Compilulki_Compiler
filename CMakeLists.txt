@@ -7,4 +7,6 @@ add_executable(compilulki src/main.cpp
         src/settings/settings.cpp
         src/settings/settings.h
         src/lexical_analyzer/lexer.cpp
-        src/lexical_analyzer/lexer.h)
+        src/lexical_analyzer/lexer.h
+        src/lexical_analyzer/token.cpp
+        src/lexical_analyzer/token.h)
