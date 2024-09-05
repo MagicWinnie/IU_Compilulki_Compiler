@@ -1,7 +1,7 @@
 #include <iostream>
 #include "settings.h"
 
-void Settings::parse(int argc, char *argv[]) {
+void Settings::parse(const int argc, char *argv[]) {
     this->me = std::string(argv[0]);
     for (int i = 1; i < argc; i++) {
         // first element is our filename

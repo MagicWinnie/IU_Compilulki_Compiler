@@ -11,5 +11,7 @@ int main(const int argc, char *argv[]) {
 
     std::cout << settings << std::endl;
 
+    // TODO: add lexer call here
+
     return 0;
 }
