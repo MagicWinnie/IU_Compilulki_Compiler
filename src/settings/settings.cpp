@@ -55,7 +55,7 @@ void Settings::process() {
     }
     if (this->outfile.empty()) {
         std::filesystem::path path(this->infile);
-        path.replace_extension(".o");
+        path.replace_extension(OUTPUT_DEFAULT_EXTENSION);
         this->outfile = path.string();
     }
 }

@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <string>
+#define OUTPUT_DEFAULT_EXTENSION ".o"
 
 class Settings {
     std::string me;
