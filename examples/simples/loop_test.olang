@@ -1,0 +1,21 @@
+// While loop test
+// "Complex way" of a summation of two integers
+
+Program: Main
+
+class Main is
+    this() is
+
+        var a : Integer().scan()
+        var b : Integer().scan()
+
+        while a.Greater(0) loop
+            b := b.Plus(1)
+            a := a.Minus(1)
+        end
+
+        b.print()
+
+    end
+
+end

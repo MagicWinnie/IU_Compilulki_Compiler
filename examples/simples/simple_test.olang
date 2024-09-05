@@ -1,0 +1,18 @@
+// Simplest program test
+// Just sum of two integers
+
+Program: Main
+
+class Main is
+    this() is
+
+        var a : Integer(5)
+        var b : Integer(10)
+
+        var sum := a.Plus(b)
+
+        sum.print()
+
+    end
+
+end
