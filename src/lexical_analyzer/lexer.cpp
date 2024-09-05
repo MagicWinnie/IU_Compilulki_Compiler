@@ -14,6 +14,14 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
 }
 
 std::vector<Token> Lexer::parse() {
+    std::vector<Token> tokens;
+
+    while (!this->infile.eof()) {
+        char ch = this->infile.get();
+        std::cout << ch;
+    }
+
+    return tokens;
 }
 
 Lexer::~Lexer() {
