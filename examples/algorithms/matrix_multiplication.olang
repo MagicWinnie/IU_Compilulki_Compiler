@@ -1,0 +1,50 @@
+// Произведение матриц
+
+Program: Main(2, 3, 3, 4)
+
+class Main is
+    this(a: Integer, b: Integer, c: Integer, d: Integer) is
+        var m1 : Array[Array[Integer](b)](a)
+        var m2 : Array[Array[Integer](d)](c)
+
+        var i : Integer(0)
+        while i.Less(a) loop
+            var j : Integer(0)
+            while j.Less(b) loop
+                m1.set(i, m1.get(i).set(j, Integer.scan()))
+                j := j.Plus(1)
+            end
+            i := i.Plus(1)
+        end
+        
+        i := 0
+        while i.Less(c) loop
+            var j : Integer(0)
+            while j.Less(d) loop
+                m2.set(i, m2.get(i).set(j, Integer.scan()))
+                j := j.Plus(1)
+            end
+            i := i.Plus(1)
+        end
+    
+        var result : Array[Array[Integer](d)](a)
+        i := Integer(0)
+        while i.Less(a) loop
+            var j : Integer(0)
+            while j.Less(d) loop
+                result.set(i, result.get(i).set(j, Integer(0)))
+                
+                var k : Integer(0)
+                while k.Less(c) loop
+                    result.set(i, result.get(i).set(j, result.get(i).get(j).Plus(m1.get(i).get(k).Mult(m2.get(k).get(j)))))
+                    k := k.Plus(1)
+                end
+                
+                result.get(i).get(j).print()
+                
+                j := j.Plus(1)
+            end
+            i := i.Plus(1)
+        end
+    end
+end

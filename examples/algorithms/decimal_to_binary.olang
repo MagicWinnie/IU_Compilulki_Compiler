@@ -1,0 +1,21 @@
+// Перевод числа из десятичной системы счисления в двоичную
+
+Program: Main(42)
+
+class Main is
+    this(n: Integer) is
+        var n : n
+        
+        var b : List[Integer]
+        while n.Greater(0) loop
+            k.append(n.Rem(2))
+            n := n.Div(2)
+        end
+        
+        var i : n.Minus(1)
+        while i.GreaterEqual(0) loop
+            b.get(i).print()
+            i := i.Minus(1)
+        end
+    end
+end

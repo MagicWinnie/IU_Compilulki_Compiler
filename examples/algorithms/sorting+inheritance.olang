@@ -1,0 +1,139 @@
+// Реализация алгоритмов сортировок
+// Пузырьком
+// Слиянием
+
+Program: Main()
+
+// Base class
+class BaseSorter is
+    method sort(arr: Array[Integer]) is
+    end
+end
+
+class BubbleSorter extends BaseSorter is
+    method sort(arr: Array[Integer]) is
+        var i : Integer(0)
+        while i.Less(arr.Length) loop
+            var j : Integer(0)
+            while j.Less(arr.Length.Minus(i).Minus(1)) loop
+                if arr.get(j).Greater(arr.get(j.Plus(1)) then
+                    var tmp : Integer(0)
+                    tmp := arr.get(j)
+                    arr.set(j, arr.get(j.Plus(1)))
+                    arr.set(j.Plus(1), tmp)
+                end
+                j := j.Plus(1)
+            end
+            i := i.Plus(1)
+        end
+    end
+end
+
+class MergeSorter extends BaseSorter is
+    method merge(arr: Array[Integer], left: Integer, mid: Integer, right: Integer) is
+        var i : Integer(0)
+        var j : Integer(0)
+        var k : Integer(0)
+
+        var n1 : mid.Minus(left).Plus(1)
+        var n2 : right.Minus(mid)
+
+        var leftArr : Array[Integer](n1)
+        var rightArr : Array[Integer](n2)
+
+        i := Integer(0)
+        while i.Less(n1) loop
+            leftArr.set(i, arr.get(left.Plus(i)))
+            i := i.Plus(1)
+        end
+        while j.Less(n2) loop
+            rightArr(j, arr.get(mid.Plus(j).Plus(1)))
+            j := j.Plus(1)
+        end
+
+        i := Integer(0)
+        j := Integer(0)
+        k := left
+        while i.Less(n1).And(j.Less(n2)) loop
+            if leftArr.get(i).LessEqual(rightArr.get(j))) then
+                arr.set(k, leftArr.get(i))
+                i := i.Plus(1)
+            else
+                arr.set(k, rightArr.get(j))
+                j := j.Plus(1)
+            end 
+            k := k.Plus(1)
+        end
+
+        while i.Less(n1) loop
+            arr.set(k, leftArr.get(i))
+            i := i.Plus(1)
+            k := k.Plus(1)
+        end
+
+        while j.Less(n2) loop
+            arr.set(k, rightArr.get(j))
+            j := j.Plus(1)
+            k := k.Plus(1)
+        end
+    end
+
+    method mergeSort(arr: Array[Integer], left: Integer, right: Integer) is
+        if right.Greater(left) then
+            var mid : left.Plus(right.Minus(left).Div(2))
+            
+            // Sort first and second halves
+            this.mergeSort(arr, left, mid)
+            this.mergeSort(arr, mid.Plus(1), right)
+
+            // Merge the sorted halves
+            this.merge(arr, left, mid, right)
+        end
+    end
+
+    method sort(arr: Array[Integer]) is
+        this.mergeSort(arr, 0, arr.Length.Minus(1))
+    end
+end
+ 
+class Main is
+    this() is
+        this.test()
+    end
+    
+    method createArray(size: Integer) : Array[Integer] is
+        var arr : Array[Integer](size)
+        var i : Integer(0)
+        while i.Less(size) loop
+            var el : Integer.scan()
+            arr.set(i, el)
+            i := i.Plus(1)
+        end
+        return arr
+    end
+    
+    method printArray(arr : Array[Integer]) is
+        var i : Integer(0)
+        while i.Less(arr.Length) loop
+            arr.get(i).print()
+            i := i.Plus(1)
+        end     
+    end
+    
+    method test() is
+        // sorter 1 (does nothing)
+        var arr1 : this.createArray(8)
+        BaseSorter().sort(arr1)
+        this.printArray(arr1)
+        
+        // sorter 2 (uses bubble sort)
+        var arr2 : this.createArray(5)
+        BubbleSorter().sort(arr2)
+        this.printArray(arr2)
+        
+        // sorter 3 (uses merge sort)
+        var arr3 : this.createArray(11)
+        MergeSorter().sort(arr3)
+        this.printArray(arr3)
+    end
+end
