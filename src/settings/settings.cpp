@@ -15,6 +15,7 @@ void Settings::parse(const int argc, char *argv[]) {
             } else {
                 std::cerr << "Unknown option: " << opt << "\n";
                 this->print_help();
+
                 std::exit(1);
             }
         } else {
@@ -25,6 +26,7 @@ void Settings::parse(const int argc, char *argv[]) {
             } else {
                 std::cerr << "Unknown argument: " << opt << "\n";
                 this->print_help();
+
                 std::exit(1);
             }
         }
