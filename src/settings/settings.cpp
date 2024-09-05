@@ -16,7 +16,7 @@ void Settings::parse(const int argc, char *argv[]) {
                 std::cerr << "Unknown option: " << opt << "\n";
                 this->print_help();
 
-                std::exit(1);
+                std::exit(EXIT_FAILURE);
             }
         } else {
             if (this->infile.empty()) {
@@ -27,7 +27,7 @@ void Settings::parse(const int argc, char *argv[]) {
                 std::cerr << "Unknown argument: " << opt << "\n";
                 this->print_help();
 
-                std::exit(1);
+                std::exit(EXIT_FAILURE);
             }
         }
     }
@@ -45,13 +45,13 @@ void Settings::process() {
     if (this->help) {
         this->print_help();
 
-        std::exit(1);
+        std::exit(EXIT_FAILURE);
     }
     if (this->infile.empty()) {
         std::cerr << "Missing mandatory parameter INFILE" << std::endl;
         this->print_help();
 
-        std::exit(1);
+        std::exit(EXIT_FAILURE);
     }
     if (this->outfile.empty()) {
         std::filesystem::path path(this->infile);
