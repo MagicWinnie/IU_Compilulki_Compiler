@@ -57,8 +57,6 @@ void Settings::process() {
         std::filesystem::path path(this->infile);
         path.replace_extension(".o");
         this->outfile = path.string();
-
-        std::exit(1);
     }
 }
 
