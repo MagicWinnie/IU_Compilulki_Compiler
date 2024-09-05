@@ -10,6 +10,8 @@ class Lexer {
 public:
     explicit Lexer(const std::string &infile_path);
 
+    void parse();
+
     ~Lexer();
 };
 

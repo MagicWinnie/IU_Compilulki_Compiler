@@ -11,6 +11,9 @@ Lexer::Lexer(const std::string &infile_path) {
     }
 }
 
+void Lexer::parse() {
+}
+
 Lexer::~Lexer() {
     this->infile.close();
 }

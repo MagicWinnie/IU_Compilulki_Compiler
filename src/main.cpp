@@ -12,6 +12,7 @@ int main(const int argc, char *argv[]) {
     std::cout << settings << std::endl;
 
     auto lexer = Lexer(settings.get_infile());
+    lexer.parse();
 
     return EXIT_SUCCESS;
 }
