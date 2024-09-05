@@ -7,16 +7,26 @@ void Settings::parse(const int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         // first element is our filename
         std::string opt{argv[i]};
-        if (opt == "--debug" || opt == "-g") {
-            this->debug = true;
-        } else if (opt == "--help" || opt == "-h") {
-            this->help = true;
-        } else if (this->infile.empty()) {
-            this->infile = opt;
-        } else if (this->outfile.empty()) {
-            this->outfile = opt;
+        if (opt.rfind("--", 0) == 0 || opt.rfind('-', 0) == 0) {
+            if (opt == "--debug" || opt == "-g") {
+                this->debug = true;
+            } else if (opt == "--help" || opt == "-h") {
+                this->help = true;
+            } else {
+                std::cerr << "Unknown option: " << opt << "\n";
+                this->print_help();
+                std::exit(1);
+            }
         } else {
-            throw std::invalid_argument("Invalid argument: " + opt);
+            if (this->infile.empty()) {
+                this->infile = opt;
+            } else if (this->outfile.empty()) {
+                this->outfile = opt;
+            } else {
+                std::cerr << "Unknown argument: " << opt << "\n";
+                this->print_help();
+                std::exit(1);
+            }
         }
     }
 }
