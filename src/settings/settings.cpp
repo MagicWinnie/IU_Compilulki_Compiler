@@ -61,6 +61,11 @@ void Settings::process() {
 }
 
 
+std::string Settings::get_infile() const {
+    return this->infile;
+}
+
+
 std::ostream &operator<<(std::ostream &os, Settings const &settings) {
     return os << "{infile='" << settings.infile
            << "'; outfile='" << settings.outfile

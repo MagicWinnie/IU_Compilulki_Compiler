@@ -18,6 +18,8 @@ public:
 
     void process();
 
+    std::string get_infile() const;
+
     friend std::ostream &operator<<(std::ostream &os, Settings const &settings);
 };
 
