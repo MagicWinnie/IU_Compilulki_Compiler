@@ -3,4 +3,6 @@ project(IU_Compilulki_Compiler)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(IU_Compilulki_Compiler src/main.cpp src/main.h)
+add_executable(IU_Compilulki_Compiler src/main.cpp
+        src/settings/settings.cpp
+        src/settings/settings.h)

@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
 #include <string>
 
@@ -20,4 +20,4 @@ public:
     friend std::ostream &operator<<(std::ostream &os, Settings const &settings);
 };
 
-#endif //MAIN_H
+#endif //SETTINGS_H
