@@ -2,6 +2,7 @@
 #define LEXER_H
 
 #include <fstream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,7 +15,7 @@ class Lexer {
 public:
     explicit Lexer(const std::string &infile_path, const bool &debug);
 
-    std::vector<Token> parse();
+    std::vector<std::unique_ptr<Token>> parse();
 
     ~Lexer();
 };

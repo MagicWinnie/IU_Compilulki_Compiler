@@ -13,12 +13,15 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-std::vector<Token> Lexer::parse() {
-    std::vector<Token> tokens;
+std::vector<std::unique_ptr<Token>> Lexer::parse() {
+    std::vector<std::unique_ptr<Token>> tokens;
 
     while (!this->infile.eof()) {
         char ch = this->infile.get();
         std::cout << ch;
+
+        // Example
+        // tokens.emplace_back(new Token());
     }
 
     return tokens;
