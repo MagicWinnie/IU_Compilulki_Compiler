@@ -1,21 +1,51 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 #include <string>
+#include <utility>
 
-enum TokenType {
-    RESERVED_WORD,
-    DELIMITER,
-    IDENTIFIER
-};
+#include "span.h"
+#include "token_code.h"
+
 
 class Token {
-    TokenType type;
-    std::string value;
-    size_t start;
-    size_t end;
+    Span span;
+    TokenCode code;
 
 public:
-    explicit Token(TokenType type, const std::string &value, size_t start, size_t end);
+    Token(const Span &span, const TokenCode code)
+        : span(span),
+          code(code) {
+    }
+};
+
+class Identifier : Token {
+    std::string identifier;
+
+public:
+    Identifier(const Span &span, const TokenCode code, std::string identifier)
+        : Token(span, code),
+          identifier(std::move(identifier)) {
+    }
+};
+
+class Integer : Token {
+    long value;
+
+public:
+    Integer(const Span &span, const TokenCode code, const long value)
+        : Token(span, code),
+          value(value) {
+    }
+};
+
+class Real : Token {
+    long double value;
+
+public:
+    Real(const Span &span, const TokenCode code, const long double value)
+        : Token(span, code),
+          value(value) {
+    }
 };
 
 #endif //TOKEN_H
