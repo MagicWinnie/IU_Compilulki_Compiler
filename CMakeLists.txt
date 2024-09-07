@@ -9,6 +9,16 @@ add_executable(compilulki src/main.cpp
         src/lexical_analyzer/lexer.cpp
         src/lexical_analyzer/lexer.h
         src/lexical_analyzer/token.h
+        src/lexical_analyzer/token.cpp
         src/lexical_analyzer/span.cpp
         src/lexical_analyzer/span.h
-        src/lexical_analyzer/token_code.h)
+        src/lexical_analyzer/token_code.h
+        src/utils/utils.cpp
+        src/utils/utils.h
+)
+
+add_executable(test_hash_function
+        tests/test_hash_function.cpp
+        src/utils/utils.cpp
+        src/utils/utils.h
+)

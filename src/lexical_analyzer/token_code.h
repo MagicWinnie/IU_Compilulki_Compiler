@@ -18,6 +18,13 @@ enum TokenCode {
     RETURN,
     DELIMITER_COLON,
     DELIMITER_DOT,
+    EQUAL,
+    EQUAL_EQUAL,
+    NOT_EQUAL,
+    EXCLAMATION,
+    PERCENT,
+    PERCENT_EQUAL,
+    UNKNOWN
 };
 
 #endif //TOKEN_CODE_H
