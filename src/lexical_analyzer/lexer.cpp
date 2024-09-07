@@ -18,8 +18,8 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-std::vector<std::unique_ptr<Token>> Lexer::parse() {
-    std::vector<std::unique_ptr<Token>> tokens;
+std::vector<std::unique_ptr<Token> > Lexer::parse() {
+    std::vector<std::unique_ptr<Token> > tokens;
     TokenCode tokCode = UNKNOWN;
     std::string buffer;
 
@@ -73,42 +73,36 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
                 tokCode = getKeywordToken(buffer);
                 break;
         }
-        if(tokCode!=UNKNOWN){
-            cout<<buffer<<endl;
+        if (tokCode != UNKNOWN) {
+            cout << buffer << endl;
             buffer.clear();
-            tokens.emplace_back(new Token(*new Span(line_number,start,end),tokCode));
+            tokens.emplace_back(new Token(Span(line_number, start, end), tokCode));
             tokCode = UNKNOWN;
             start = end;
         }
-
-    }
-    for (auto &token : tokens) {
-            std::cout << (*token).to_string() << std::endl;
-
     }
     return tokens;
 }
 
 
-
 TokenCode Lexer::getKeywordToken(const std::string &buffer) {
     // TODO add hash
     if (buffer == "switch") return WHILE;
-    else if (buffer == "while") return WHILE;
-    else if (buffer == "var") return VAR;
-    else if (buffer == "method") return METHOD;
-    else if (buffer == "this") return THIS;
-    else if (buffer == "loop") return LOOP;
-    else if (buffer == "if") return IF;
-    else if (buffer == "then") return THEN;
-    else if (buffer == "else") return ELSE;
-    else if (buffer == "return") return RETURN;
-    else if (buffer == "Program") return PROGRAM;
-    else if (buffer == "class") return CLASS;
-    else if (buffer == "extends") return EXTENDS;
-    else if (buffer == "is") return IS;
-    else if (buffer == "end") return END;
-    else return UNKNOWN ;
+    if (buffer == "while") return WHILE;
+    if (buffer == "var") return VAR;
+    if (buffer == "method") return METHOD;
+    if (buffer == "this") return THIS;
+    if (buffer == "loop") return LOOP;
+    if (buffer == "if") return IF;
+    if (buffer == "then") return THEN;
+    if (buffer == "else") return ELSE;
+    if (buffer == "return") return RETURN;
+    if (buffer == "Program") return PROGRAM;
+    if (buffer == "class") return CLASS;
+    if (buffer == "extends") return EXTENDS;
+    if (buffer == "is") return IS;
+    if (buffer == "end") return END;
+    return UNKNOWN;
     // TODO finish this
 }
 
