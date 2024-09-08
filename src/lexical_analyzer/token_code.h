@@ -28,6 +28,8 @@ enum TokenCode {
     LEFT_PAREN,
     RIGHT_PAREN,
     IDENTIFIER,
+    INTEGER,
+    REAL,
     UNKNOWN
 };
 

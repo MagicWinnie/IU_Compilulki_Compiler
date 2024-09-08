@@ -16,9 +16,11 @@ public:
         : span(span),
           code(code) {
     }
-
-
     std::string to_string();
+
+    TokenCode get_code() const {
+        return code;
+    }
 };
 
 class Identifier : Token {
