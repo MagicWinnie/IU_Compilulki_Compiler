@@ -20,6 +20,8 @@ public:
 
     std::vector<std::unique_ptr<Token> > parse();
 
+    void get_next_char(int*);
+
     ~Lexer();
 
     TokenCode getTokenCode();

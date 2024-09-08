@@ -61,6 +61,8 @@ std::string getEnumName(TokenCode code) {
             {LEFT_PAREN,      "LEFT_PAREN"},
             {RIGHT_PAREN,     "RIGHT_PAREN"},
             {IDENTIFIER,      "IDENTIFIER"},
+            {REAL,            "REAL"},
+            {INTEGER,         "INTEGER"},
             {UNKNOWN,         "UNKNOWN"}
     };
     auto it = tokenCodeToString.find(code);
@@ -68,6 +70,11 @@ std::string getEnumName(TokenCode code) {
         return it->second;  // Return the string if found
     }
     return "UNKNOWN_ENUM_VALUE";  // Fallback in case of unknown enum value
+}
+
+void Lexer::get_next_char(int *pos) {
+    infile.get();
+    (*pos)++;
 }
 
 std::vector<std::unique_ptr<Token>> Lexer::parse() {
@@ -78,92 +85,89 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
     std::string buffer;
 
     int line_number = 1;
-    int pos = 1;
+    int pos = 0;
 
     while (!this->infile.eof()) {
 
         char next_char = infile.peek();
-        pos++;
 
-        if(isdigit(next_char)) {
+        if (isdigit(next_char)) {
             // Handle integer and real numbers
-            infile.get();
+            get_next_char(&pos);
             buffer += next_char;
 
             while (isdigit(next_char = infile.peek())) {
                 buffer += next_char;
-                infile.get();
+                get_next_char(&pos);
             }
             if (next_char == '.') {
                 buffer += next_char;
-                infile.get();
+                get_next_char(&pos);
                 while (isdigit(next_char = infile.peek())) {
                     buffer += next_char;
-                    infile.get();
+                    get_next_char(&pos);
                 }
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length()-1, pos - 1), REAL));
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos), REAL));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             } else {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length()-1, pos - 1), INTEGER));
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos), INTEGER));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
-        } else
-        if (validTokens.find(next_char) != validTokens.end()) {
+        } else if (validTokens.find(next_char) != validTokens.end()) {
             // Handle case when buffer is not empty, but the current character is a valid token
-            if(buffer.length() > 0) {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length()-1, pos - 1),
+            if (buffer.length() > 0) {
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
                                                             getKeywordToken(buffer)));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
-            }
-            else{
+            } else {
                 tokCode = tokenMap[next_char];
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos -1, pos ), tokCode));
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos, pos + 1), tokCode));
                 tempStrings.emplace_back(string(1, next_char));
-                infile.get();
+                get_next_char(&pos);
             }
 
         } else if (next_char == '\n' || next_char == ' ') {
             if (buffer.length() > 0) {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos  - buffer.length()-1, pos - 1),
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
                                                             getKeywordToken(buffer)));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
             if (next_char == '\n') {
                 line_number++;
-                pos = 1;
+                pos = 0;
             }
-            infile.get();
+            get_next_char(&pos);
             continue;
         } else if (next_char == '/') {
             // Skip the comment line
             std::getline(infile, buffer);  // Skip the rest of the line
             line_number++;
-            pos = 1;
+            pos = 0;
             buffer.clear();
-            infile.get();
+            get_next_char(&pos);
             continue;
         } else {
             // Handle buffer (identifier or keyword)
             buffer += next_char;
-            infile.get();
+            get_next_char(&pos);
             continue;
         }
     }
 
     if (this->debug) {
         for (int i = 0; i < tokens.size(); i++) {
-            std::cout << (tokens[i])->to_string() << " -> " << tempStrings[i] << "          "<< getEnumName(tokens[i]->get_code()) << std::endl;
+            std::cout << (tokens[i])->to_string() << " -> " << tempStrings[i] << "          "
+                      << getEnumName(tokens[i]->get_code()) << std::endl;
         }
     }
 
 
     return tokens;
 }
-
 
 
 TokenCode Lexer::getKeywordToken(const std::string &buffer) {
