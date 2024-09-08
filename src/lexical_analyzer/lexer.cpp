@@ -18,29 +18,27 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-std::vector<std::unique_ptr<Token> > Lexer::parse() {
-    std::vector<std::unique_ptr<Token> > tokens;
+
+std::vector<std::unique_ptr<Token>> Lexer::parse() {
+    std::vector<std::unique_ptr<Token>> tokens;
+    std::vector<std::string> tempStrings;
+
     TokenCode tokCode = UNKNOWN;
     std::string buffer;
 
-    int line_number = 0;
-    int start = 0;
-    int end = 0;
+    int line_number = 1;
+    int start = 1;
+    int end = 1;
 
     while (!this->infile.eof()) {
         char ch = infile.get();
         end++;
         switch (ch) {
-            case ' ': // space
-                buffer.clear();
-                tokCode = UNKNOWN;
+            case '\n' :
                 break;
-            case '\n': // new line
-                line_number++;
-                tokCode = UNKNOWN;
-                start = 0;
-                end = 0;
-                buffer.clear();
+            case ' ':
+                break;
+            case EOF:
                 break;
             case '.':
                 tokCode = DELIMITER_DOT;
@@ -49,17 +47,10 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 tokCode = DELIMITER_COLON;
                 break;
             case '=': // = or ==
-                if (infile.get() == '=')
-                    tokCode = EQUAL_EQUAL;
-                else
-                    tokCode = EQUAL;
+                tokCode = EQUAL;
                 break;
             case '!': // ! or !=
-                if (infile.get() == '=') {
-                    tokCode = NOT_EQUAL;
-                } else {
-                    tokCode = EXCLAMATION;
-                }
+                tokCode = EXCLAMATION;
                 break;
             case '%': // % or %=
                 if (infile.get() == '=')
@@ -67,42 +58,69 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 else
                     tokCode = PERCENT;
                 break;
+            case '(':
+                tokCode = LEFT_PAREN;
+                break;
+            case ')':
+                tokCode = RIGHT_PAREN;
+                break;
 
             default:
                 buffer += ch;
                 tokCode = getKeywordToken(buffer);
+                if(tokCode!=UNKNOWN){
+                    ch = 0;
+                }
                 break;
         }
-        if (tokCode != UNKNOWN) {
-            cout << buffer << endl;
-            buffer.clear();
-            tokens.emplace_back(new Token(Span(line_number, start, end), tokCode));
+        if (tokCode != UNKNOWN || ch == '\n' || ch == ' ' || ch == EOF) {
+            if(!buffer.empty()){
+                tokCode = IDENTIFIER;
+                tokens.emplace_back(new Token(*new Span(line_number, start, end), tokCode));
+                tempStrings.emplace_back(buffer);
+                buffer.clear();
+            }
+            if(ch=='\n'){
+                line_number++;
+                start = 1;
+                end = 1;
+            }
+            if(ch!=0 && ch!='\n' && ch!=' ' && ch!=EOF){
+                tempStrings.emplace_back(string(1,ch));
+                tokens.emplace_back(new Token(*new Span(line_number, start, end), tokCode));
+            }
+
             tokCode = UNKNOWN;
             start = end;
         }
+
     }
+
+    for(int i=0;i<tokens.size();i++){
+        std::cout << (tokens[i])->to_string() << " -> "<<tempStrings[i] << std::endl;
+    }
+
     return tokens;
 }
 
 
 TokenCode Lexer::getKeywordToken(const std::string &buffer) {
     // TODO add hash
-    if (buffer == "switch") return WHILE;
     if (buffer == "while") return WHILE;
-    if (buffer == "var") return VAR;
-    if (buffer == "method") return METHOD;
-    if (buffer == "this") return THIS;
-    if (buffer == "loop") return LOOP;
-    if (buffer == "if") return IF;
-    if (buffer == "then") return THEN;
-    if (buffer == "else") return ELSE;
-    if (buffer == "return") return RETURN;
-    if (buffer == "Program") return PROGRAM;
-    if (buffer == "class") return CLASS;
-    if (buffer == "extends") return EXTENDS;
-    if (buffer == "is") return IS;
-    if (buffer == "end") return END;
-    return UNKNOWN;
+    else if (buffer == "var") return VAR;
+    else if (buffer == "method") return METHOD;
+    else if (buffer == "this") return THIS;
+    else if (buffer == "loop") return LOOP;
+    else if (buffer == "if") return IF;
+    else if (buffer == "then") return THEN;
+    else if (buffer == "else") return ELSE;
+    else if (buffer == "return") return RETURN;
+    else if (buffer == "Program") return PROGRAM;
+    else if (buffer == "class") return CLASS;
+    else if (buffer == "extends") return EXTENDS;
+    else if (buffer == "is") return IS;
+    else if (buffer == "end") return END;
+    else return UNKNOWN;
     // TODO finish this
 }
 
