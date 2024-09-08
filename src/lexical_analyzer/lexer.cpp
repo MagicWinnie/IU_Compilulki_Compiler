@@ -159,12 +159,14 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
     }
 
     if (this->debug) {
+        std::cout << "\033[1;33mDEBUG\033[0m" << std::endl;
+        cout << "\033[1;33m---------------------------------------------\033[0m" << endl;
         for (int i = 0; i < tokens.size(); i++) {
-            std::cout << (tokens[i])->to_string() << " -> " << tempStrings[i] << "          "
-                      << getEnumName(tokens[i]->get_code()) << std::endl;
+            std::cout << "\033[1;33m" << (tokens[i])->to_string() << " -> " << tempStrings[i] << "          "
+                      << getEnumName(tokens[i]->get_code()) << "\033[1;33m" << std::endl;
         }
+        cout << "\033[1;33m---------------------------------------------\033[0m" << endl;
     }
-
 
     return tokens;
 }
