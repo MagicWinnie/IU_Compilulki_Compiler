@@ -81,19 +81,25 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
     int pos = 1;
 
     while (!this->infile.eof()) {
-        char ch = infile.get();
+
+        char next_char = infile.peek();
         pos++;
 
-        if(isdigit(ch)) {
+        if(isdigit(next_char)) {
             // Handle integer and real numbers
-            buffer += ch;
-            while (isdigit(ch = infile.get())) {
-                buffer += ch;
+            infile.get();
+            buffer += next_char;
+
+            while (isdigit(next_char = infile.peek())) {
+                buffer += next_char;
+                infile.get();
             }
-            if (ch == '.') {
-                buffer += ch;
-                while (isdigit(ch = infile.get())) {
-                    buffer += ch;
+            if (next_char == '.') {
+                buffer += next_char;
+                infile.get();
+                while (isdigit(next_char = infile.peek())) {
+                    buffer += next_char;
+                    infile.get();
                 }
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length()-1, pos - 1), REAL));
                 tempStrings.emplace_back(buffer);
@@ -104,51 +110,51 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
                 buffer.clear();
             }
         } else
-        if (validTokens.find(ch) != validTokens.end()) {
+        if (validTokens.find(next_char) != validTokens.end()) {
             // Handle case when buffer is not empty, but the current character is a valid token
+            if(buffer.length() > 0) {
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length()-1, pos - 1),
+                                                            getKeywordToken(buffer)));
+                tempStrings.emplace_back(buffer);
+                buffer.clear();
+            }
+            else{
+                tokCode = tokenMap[next_char];
+                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos -1, pos ), tokCode));
+                tempStrings.emplace_back(string(1, next_char));
+                infile.get();
+            }
 
-            // Add identifier/keyboard token
+        } else if (next_char == '\n' || next_char == ' ') {
             if (buffer.length() > 0) {
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos  - buffer.length()-1, pos - 1),
                                                             getKeywordToken(buffer)));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
-            // Add operator signs, delimiters, etc
-            tokCode = tokenMap[ch];
-            tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos -1, pos ), tokCode));
-            tempStrings.emplace_back(string(1, ch));
-        } else if (ch == '\n' || ch == ' ') {
-            if (buffer.length() > 0) {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos  - buffer.length()-1, pos - 1),
-                                                            getKeywordToken(buffer)));
-                tempStrings.emplace_back(buffer);
-                buffer.clear();
-            }
-            if (ch == '\n') {
+            if (next_char == '\n') {
                 line_number++;
                 pos = 1;
             }
+            infile.get();
             continue;
-        } else if (ch == '/') {
+        } else if (next_char == '/') {
             // Skip the comment line
             std::getline(infile, buffer);  // Skip the rest of the line
             line_number++;
             pos = 1;
             buffer.clear();
+            infile.get();
             continue;
         } else {
             // Handle buffer (identifier or keyword)
-            buffer += ch;
+            buffer += next_char;
+            infile.get();
             continue;
         }
     }
 
     if (this->debug) {
-        // Create mapping from token code to token code name
-
-
-
         for (int i = 0; i < tokens.size(); i++) {
             std::cout << (tokens[i])->to_string() << " -> " << tempStrings[i] << "          "<< getEnumName(tokens[i]->get_code()) << std::endl;
         }
