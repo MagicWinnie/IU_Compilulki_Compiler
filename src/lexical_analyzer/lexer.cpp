@@ -96,9 +96,12 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
 
     }
 
-    for(int i=0;i<tokens.size();i++){
-        std::cout << (tokens[i])->to_string() << " -> "<<tempStrings[i] << std::endl;
+    if(this->debug){
+        for(int i=0;i<tokens.size();i++){
+            std::cout << (tokens[i])->to_string() << " -> "<<tempStrings[i] << std::endl;
+        }
     }
+
 
     return tokens;
 }
