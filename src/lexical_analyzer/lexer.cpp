@@ -27,12 +27,11 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
     std::string buffer;
 
     int line_number = 1;
-    int start = 1;
-    int end = 1;
+    int pos = 1;
 
     while (!this->infile.eof()) {
         char ch = infile.get();
-        end++;
+        pos++;
         switch (ch) {
             case '\n' :
                 break;
@@ -46,6 +45,9 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
             case ':':
                 tokCode = DELIMITER_COLON;
                 break;
+            case ',':
+                tokCode = DELIMITER_COMMA;
+                break;
             case '=': // = or ==
                 tokCode = EQUAL;
                 break;
@@ -53,10 +55,7 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
                 tokCode = EXCLAMATION;
                 break;
             case '%': // % or %=
-                if (infile.get() == '=')
-                    tokCode = PERCENT_EQUAL;
-                else
-                    tokCode = PERCENT;
+                tokCode = PERCENT;
                 break;
             case '(':
                 tokCode = LEFT_PAREN;
@@ -64,7 +63,6 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
             case ')':
                 tokCode = RIGHT_PAREN;
                 break;
-
             default:
                 buffer += ch;
                 tokCode = getKeywordToken(buffer);
@@ -76,22 +74,20 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
         if (tokCode != UNKNOWN || ch == '\n' || ch == ' ' || ch == EOF) {
             if(!buffer.empty()){
                 tokCode = IDENTIFIER;
-                tokens.emplace_back(new Token(*new Span(line_number, start, end), tokCode));
+                tokens.emplace_back(new Token(*new Span(line_number, pos-1-buffer.length(), pos-1), tokCode));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
             if(ch=='\n'){
                 line_number++;
-                start = 1;
-                end = 1;
+                pos = 1;
+
             }
             if(ch!=0 && ch!='\n' && ch!=' ' && ch!=EOF){
                 tempStrings.emplace_back(string(1,ch));
-                tokens.emplace_back(new Token(*new Span(line_number, start, end), tokCode));
+                tokens.emplace_back(new Token(*new Span(line_number, pos-1,pos), tokCode));
             }
-
             tokCode = UNKNOWN;
-            start = end;
         }
 
     }
