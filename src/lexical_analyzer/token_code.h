@@ -24,6 +24,9 @@ enum TokenCode {
     EXCLAMATION,
     PERCENT,
     PERCENT_EQUAL,
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    IDENTIFIER,
     UNKNOWN
 };
 
