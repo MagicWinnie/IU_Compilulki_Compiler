@@ -6,7 +6,7 @@ Program: Main(1.1, 1.2)
 class Main is
     this(a: Real, b: Real) is
 
-        var eq : True
+        var eq : True // Hello
         var dif : False
 
         if a.Equal(b).Not() then

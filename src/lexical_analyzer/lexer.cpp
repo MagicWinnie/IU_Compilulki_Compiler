@@ -33,6 +33,12 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
         char ch = infile.get();
         pos++;
         switch (ch) {
+            case '/': // Skip comments
+                std::getline(infile, buffer);
+                line_number++;
+                pos = 1;
+                buffer.clear();
+                break;
             case '\n' :
                 break;
             case ' ':
