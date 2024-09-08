@@ -18,9 +18,11 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
+
 std::vector<std::unique_ptr<Token>> Lexer::parse() {
     std::vector<std::unique_ptr<Token>> tokens;
     std::vector<std::string> tempStrings;
+
     TokenCode tokCode = UNKNOWN;
     std::string buffer;
 
@@ -104,8 +106,7 @@ std::vector<std::unique_ptr<Token>> Lexer::parse() {
 
 TokenCode Lexer::getKeywordToken(const std::string &buffer) {
     // TODO add hash
-    if (buffer == "switch") return WHILE;
-    else if (buffer == "while") return WHILE;
+    if (buffer == "while") return WHILE;
     else if (buffer == "var") return VAR;
     else if (buffer == "method") return METHOD;
     else if (buffer == "this") return THIS;

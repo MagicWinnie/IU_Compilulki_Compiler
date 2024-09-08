@@ -18,7 +18,7 @@ class Lexer {
 public:
     explicit Lexer(const std::string &infile_path, const bool &debug);
 
-    std::vector<std::unique_ptr<Token>> parse();
+    std::vector<std::unique_ptr<Token> > parse();
 
     ~Lexer();
 
