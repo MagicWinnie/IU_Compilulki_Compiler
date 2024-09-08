@@ -80,14 +80,12 @@ void printDebugInfo(const std::vector<std::unique_ptr<Token>>& tokens, const std
     if (debug) {
         std::cout << "\033[1;33mDEBUG\033[0m" << std::endl;
         std::cout << "\033[1;33m---------------------------------------------\033[0m" << std::endl;
-        // Assuming the maximum width needed is 30 characters
         const int nameWidth = 30;
 
         for (size_t i = 0; i < tokens.size(); ++i) {
             std::string tokenStr = tokens[i]->to_string();
             std::string enumName = getEnumName(tokens[i]->get_code());
 
-            // Adjust the width for tokenStr and enumName to ensure proper alignment
             std::cout << "\033[1;33m" << std::setw(nameWidth) << std::left << tokenStr
                       << " -> " << std::setw(nameWidth) << std::left << tempStrings[i]
                       << " -> " << std::setw(nameWidth) << std::left << enumName
