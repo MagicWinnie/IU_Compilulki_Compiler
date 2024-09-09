@@ -4,13 +4,13 @@
 Program: Main(1.1, 1.2)
 
 class Main is
-    this(aa: Real, bb: Real)
+    this(aa: Real, bb: Real) is
         var a : aa
         var b : bb
-        var eq : True
-        var dif : False
+        var eq : true
+        var dif : false
 
-        if a.Equal(b).Not() # then
+        if a.Equal(b).Not() // then
             dif.print()
         else
             eq.print()

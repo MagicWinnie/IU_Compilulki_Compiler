@@ -4,14 +4,14 @@
 #include <string>
 
 class Span {
-    long line_num;
-    int pos_begin, pos_end;
+    size_t line_num;
+    size_t pos_begin, pos_end;
 
 public:
-    Span(long line_num, int pos_begin, int pos_end);
+    Span(size_t line_num, size_t pos_begin, size_t pos_end);
 
     // to string
-    std::string to_string();
+    std::string to_string() const;
 };
 
 #endif //SPAN_H

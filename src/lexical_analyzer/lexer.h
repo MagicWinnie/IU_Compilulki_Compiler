@@ -5,10 +5,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include "token.h"
 
 class Lexer {
+    std::string infile_path;
     std::ifstream infile;
     bool debug;
     static const int nKW = 15; // Number of keywords
@@ -20,11 +22,13 @@ public:
 
     std::vector<std::unique_ptr<Token> > parse();
 
+    void get_next_char(size_t *);
+
     ~Lexer();
 
     TokenCode getTokenCode();
 
-    TokenCode getKeywordToken(const std::string &buffer);
+    std::unique_ptr<Token> getKeywordToken(const std::string &buffer, const Span &span);
 };
 
 #endif //LEXER_H
