@@ -5,10 +5,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include "token.h"
 
 class Lexer {
+    std::string infile_path;
     std::ifstream infile;
     bool debug;
     static const int nKW = 15; // Number of keywords

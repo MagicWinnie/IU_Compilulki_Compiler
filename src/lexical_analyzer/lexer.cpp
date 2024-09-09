@@ -11,6 +11,7 @@
 
 
 Lexer::Lexer(const std::string &infile_path, const bool &debug) {
+    this->infile_path = infile_path;
     this->infile.open(infile_path, std::ios_base::in);
     if (!this->infile.is_open()) {
         std::cerr << "Failed to open file " << infile_path << std::endl;
@@ -77,22 +78,25 @@ void Lexer::get_next_char(size_t *pos) {
 }
 
 void printDebugInfo(const std::vector<std::unique_ptr<Token> > &tokens, const std::vector<std::string> &tempStrings,
-                    bool debug) {
-    if (debug) {
-        std::cout << "\033[1;33mDEBUG\033[0m" << std::endl;
-        std::cout << "\033[1;33m---------------------------------------------\033[0m" << std::endl;
+                    std::ostream &out, const std::pair<std::string, std::string> &color) {
+    if (!color.first.empty()) {
+        out << color.first << "DEBUG" << color.second << std::endl;
+        out << color.first << "---------------------------------------------" << color.second << std::endl;
+    }
 
-        for (size_t i = 0; i < tokens.size(); ++i) {
-            constexpr int nameWidth = 46;
-            std::string tokenStr = tokens[i]->to_string();
-            std::string enumName = getEnumName(tokens[i]->get_code());
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        constexpr int nameWidth = 46;
+        std::string tokenStr = tokens[i]->to_string();
+        std::string enumName = getEnumName(tokens[i]->get_code());
 
-            std::cout << "\033[1;33m" << std::setw(nameWidth) << std::left << tokenStr
-                    << " -> " << std::setw(nameWidth / 2) << std::left << tempStrings[i]
-                    << " -> " << std::setw(nameWidth) << std::left << enumName
-                    << "\033[0m" << std::endl;
-        }
-        std::cout << "\033[1;33m---------------------------------------------\033[0m" << std::endl;
+        out << color.first << std::setw(nameWidth) << std::left << tokenStr
+                << " -> " << std::setw(nameWidth / 2) << std::left << tempStrings[i]
+                << " -> " << std::setw(nameWidth) << std::left << enumName
+                << color.second << std::endl;
+    }
+
+    if (!color.first.empty()) {
+        out << color.first << "---------------------------------------------" << color.second << std::endl;
     }
 }
 
@@ -183,7 +187,16 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
     }
 
     if (this->debug) {
-        printDebugInfo(tokens, tempStrings, this->debug);
+        printDebugInfo(tokens, tempStrings, std::cout, std::make_pair("\033[1;33m", "\033[0m"));
+
+        std::ofstream output_file;
+
+        std::filesystem::path path(this->infile_path);
+        path.replace_extension(".lexer");
+
+        output_file.open(path);
+        printDebugInfo(tokens, tempStrings, output_file, std::make_pair("", ""));
+        output_file.close();
     }
 
     return tokens;
