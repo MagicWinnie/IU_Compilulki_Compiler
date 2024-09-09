@@ -25,7 +25,6 @@ std::unordered_map<char, TokenCode> tokenMap = {
     {':', DELIMITER_COLON},
     {',', DELIMITER_COMMA},
     {'=', EQUAL},
-    {'%', PERCENT},
     {'(', LEFT_PAREN},
     {')', RIGHT_PAREN},
     // Add more mappings as necessary
@@ -53,8 +52,6 @@ std::string getEnumName(TokenCode code) {
         {DELIMITER_DOT, "DELIMITER_DOT"},
         {DELIMITER_COMMA, "DELIMITER_COMMA"},
         {EQUAL, "EQUAL"},
-        {PERCENT, "PERCENT"},
-        {PERCENT_EQUAL, "PERCENT_EQUAL"},
         {LEFT_PAREN, "LEFT_PAREN"},
         {RIGHT_PAREN, "RIGHT_PAREN"},
         {IDENTIFIER, "IDENTIFIER"},
