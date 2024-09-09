@@ -3,6 +3,8 @@ from pathlib import Path
 import flet as ft
 
 
+cannot_open_file_dlg = ft.AlertDialog(title=ft.Text("Cannot open the file"))
+
 lexer_does_not_exist_dlg = ft.AlertDialog(
     title=ft.Text("Lexer file does not exist"),
     content=ft.Text("You should compile the program with --debug flag"),
@@ -41,6 +43,9 @@ def main(page: ft.Page):
             page.remove_at(1)
             page.update()
 
+        if e.files[0].path is None:
+            page.open(cannot_open_file_dlg)
+            return
         olang_path = Path(e.files[0].path)
 
         lexer_path = olang_path.with_suffix(".lexer")
