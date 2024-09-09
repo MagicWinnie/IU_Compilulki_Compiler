@@ -94,10 +94,10 @@ Delimiter{Span(29, 11, 12), 15}                -> .                       -> DOT
 Identifier{Span(29, 12, 16), 22, show}         -> show                    -> IDENTIFIER                                    
 Delimiter{Span(29, 16, 17), 18}                -> (                       -> LEFT_PAREN                                    
 Delimiter{Span(29, 17, 18), 19}                -> )                       -> RIGHT_PAREN                                   
-Identifier{Span(30, 8, 10), 22, a2}            -> a2                      -> IDENTIFIER                                    
-Delimiter{Span(30, 10, 11), 15}                -> .                       -> DOT                                           
-Identifier{Span(30, 11, 15), 22, show}         -> show                    -> IDENTIFIER                                    
-Delimiter{Span(30, 15, 16), 18}                -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(30, 16, 17), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(31, 4, 7), 4}                     -> end                     -> END                                           
+Identifier{Span(30, 9, 11), 22, a2}            -> a2                      -> IDENTIFIER                                    
+Delimiter{Span(30, 11, 12), 15}                -> .                       -> DOT                                           
+Identifier{Span(30, 12, 16), 22, show}         -> show                    -> IDENTIFIER                                    
+Delimiter{Span(30, 16, 17), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(30, 17, 18), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(31, 5, 8), 4}                     -> end                     -> END                                           
 Keyword{Span(33, 1, 4), 4}                     -> end                     -> END                                           

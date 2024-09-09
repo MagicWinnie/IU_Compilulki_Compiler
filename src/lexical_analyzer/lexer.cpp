@@ -181,7 +181,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
             // Skip the comment line
             std::getline(infile, buffer); // Skip the rest of the line
             line_number++;
-            pos = 0;
+            pos = 1;
             buffer.clear();
         } else {
             // Handle buffer (identifier or keyword)
