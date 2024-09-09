@@ -20,7 +20,7 @@ public:
 
     std::vector<std::unique_ptr<Token> > parse();
 
-    void get_next_char(int*);
+    void get_next_char(size_t *);
 
     ~Lexer();
 
