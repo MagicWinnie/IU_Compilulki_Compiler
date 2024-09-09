@@ -10,7 +10,7 @@ class Main is
         var eq : true
         var dif : false
 
-        if a.Equal(b).Not() # then
+        if a.Equal(b).Not() // then
             dif.print()
         else
             eq.print()
