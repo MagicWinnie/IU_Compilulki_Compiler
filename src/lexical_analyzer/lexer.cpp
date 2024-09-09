@@ -24,9 +24,9 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
 
 
 std::unordered_map<char, TokenCode> tokenMap = {
-    {'.', DELIMITER_DOT},
-    {':', DELIMITER_COLON},
-    {',', DELIMITER_COMMA},
+    {'.', DOT},
+    {':', COLON},
+    {',', COMMA},
     {'(', LEFT_PAREN},
     {')', RIGHT_PAREN},
     {'[', LEFT_SQUARE_BRACKET},
@@ -52,9 +52,9 @@ std::string getEnumName(TokenCode code) {
         {THEN, "THEN"},
         {ELSE, "ELSE"},
         {RETURN, "RETURN"},
-        {DELIMITER_COLON, "DELIMITER_COLON"},
-        {DELIMITER_DOT, "DELIMITER_DOT"},
-        {DELIMITER_COMMA, "DELIMITER_COMMA"},
+        {COLON, "DELIMITER_COLON"},
+        {DOT, "DELIMITER_DOT"},
+        {COMMA, "DELIMITER_COMMA"},
         {COLON_EQUAL, "COLON_EQUAL"},
         {LEFT_PAREN, "LEFT_PAREN"},
         {RIGHT_PAREN, "RIGHT_PAREN"},
