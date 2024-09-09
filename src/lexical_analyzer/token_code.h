@@ -22,6 +22,8 @@ enum TokenCode {
     EQUAL,
     LEFT_PAREN,
     RIGHT_PAREN,
+    LEFT_SQUARE_BRACKET,
+    RIGHT_SQUARE_BRACKET,
     IDENTIFIER,
     INTEGER,
     REAL,
