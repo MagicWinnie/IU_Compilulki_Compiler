@@ -1,0 +1,48 @@
+Keyword{Span(4, 1, 8), 0}                      -> Program                 -> PROGRAM                                       
+Delimiter{Span(4, 9, 10), 14}                  -> :                       -> COLON                                         
+Identifier{Span(4, 10, 14), 22, Main}          -> Main                    -> IDENTIFIER                                    
+Delimiter{Span(4, 14, 15), 18}                 -> (                       -> LEFT_PAREN                                    
+Integer{Span(4, 15, 17), 23, 20}               -> 20                      -> INTEGER                                       
+Delimiter{Span(4, 17, 18), 16}                 -> ,                       -> COMMA                                         
+Integer{Span(4, 19, 20), 23, 0}                -> 0                       -> INTEGER                                       
+Delimiter{Span(4, 20, 21), 19}                 -> )                       -> RIGHT_PAREN                                   
+Identifier{Span(4, 22, 23), 22, #}             -> #                       -> IDENTIFIER                                    
+Integer{Span(4, 24, 25), 23, 0}                -> 0                       -> INTEGER                                       
+Keyword{Span(6, 1, 6), 1}                      -> class                   -> CLASS                                         
+Identifier{Span(6, 7, 11), 22, Main}           -> Main                    -> IDENTIFIER                                    
+Keyword{Span(6, 12, 14), 3}                    -> is                      -> IS                                            
+Keyword{Span(7, 5, 9), 7}                      -> this                    -> THIS                                          
+Delimiter{Span(7, 9, 10), 18}                  -> (                       -> LEFT_PAREN                                    
+Identifier{Span(7, 10, 14), 22, num1}          -> num1                    -> IDENTIFIER                                    
+Delimiter{Span(7, 15, 16), 14}                 -> :                       -> COLON                                         
+Identifier{Span(7, 16, 23), 22, Integer}       -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(7, 23, 24), 16}                 -> ,                       -> COMMA                                         
+Identifier{Span(7, 25, 29), 22, num2}          -> num2                    -> IDENTIFIER                                    
+Delimiter{Span(7, 30, 31), 14}                 -> :                       -> COLON                                         
+Identifier{Span(7, 31, 38), 22, Integer}       -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(7, 38, 39), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(7, 40, 42), 3}                    -> is                      -> IS                                            
+Keyword{Span(8, 9, 12), 5}                     -> var                     -> VAR                                           
+Identifier{Span(8, 13, 14), 22, a}             -> a                       -> IDENTIFIER                                    
+Delimiter{Span(8, 16, 17), 14}                 -> :                       -> COLON                                         
+Identifier{Span(8, 17, 21), 22, num1}          -> num1                    -> IDENTIFIER                                    
+Keyword{Span(9, 9, 12), 5}                     -> var                     -> VAR                                           
+Identifier{Span(9, 13, 14), 22, b}             -> b                       -> IDENTIFIER                                    
+Delimiter{Span(9, 16, 17), 14}                 -> :                       -> COLON                                         
+Identifier{Span(9, 17, 21), 22, num2}          -> num2                    -> IDENTIFIER                                    
+Keyword{Span(11, 9, 12), 5}                    -> var                     -> VAR                                           
+Identifier{Span(11, 13, 22), 22, divResult}    -> divResult               -> IDENTIFIER                                    
+Delimiter{Span(11, 23, 25), 17}                -> :=                      -> COLON_EQUAL                                   
+Identifier{Span(11, 26, 27), 22, a}            -> a                       -> IDENTIFIER                                    
+Delimiter{Span(11, 27, 28), 15}                -> .                       -> DOT                                           
+Identifier{Span(11, 28, 31), 22, Div}          -> Div                     -> IDENTIFIER                                    
+Delimiter{Span(11, 31, 32), 18}                -> (                       -> LEFT_PAREN                                    
+Identifier{Span(11, 32, 33), 22, b}            -> b                       -> IDENTIFIER                                    
+Delimiter{Span(11, 33, 34), 19}                -> )                       -> RIGHT_PAREN                                   
+Identifier{Span(13, 9, 18), 22, divResult}     -> divResult               -> IDENTIFIER                                    
+Delimiter{Span(13, 18, 19), 15}                -> .                       -> DOT                                           
+Identifier{Span(13, 19, 24), 22, print}        -> print                   -> IDENTIFIER                                    
+Delimiter{Span(13, 24, 25), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(13, 25, 26), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(14, 5, 8), 4}                     -> end                     -> END                                           
+Keyword{Span(16, 1, 4), 4}                     -> end                     -> END                                           
