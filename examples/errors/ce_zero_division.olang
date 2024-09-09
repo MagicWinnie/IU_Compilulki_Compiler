@@ -4,7 +4,7 @@
 Program: Main(20, 0) # 0
 
 class Main is
-    this(num1: Integer, num2: Integer)
+    this(num1: Integer, num2: Integer) is
         var a : num1
         var b : num2
 

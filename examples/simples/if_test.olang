@@ -6,8 +6,8 @@ Program: Main(1.1, 1.2)
 class Main is
     this(a: Real, b: Real) is
 
-        var eq : True
-        var dif : False
+        var eq : true
+        var dif : false
 
         if a.Equal(b).Not() then
             dif.print()
