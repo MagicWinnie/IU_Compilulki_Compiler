@@ -26,7 +26,7 @@ public:
 
     TokenCode getTokenCode();
 
-    TokenCode getKeywordToken(const std::string &buffer);
+    std::unique_ptr<Token> getKeywordToken(const std::string &buffer, const Span &span);
 };
 
 #endif //LEXER_H

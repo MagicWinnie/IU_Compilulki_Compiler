@@ -27,6 +27,8 @@ enum TokenCode {
     IDENTIFIER,
     INTEGER,
     REAL,
+    TRUE,
+    FALSE,
     UNKNOWN
 };
 

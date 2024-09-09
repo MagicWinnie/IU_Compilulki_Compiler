@@ -138,8 +138,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
         } else if (validTokens.find(next_char) != validTokens.end()) {
             // Handle case when buffer is not empty, but the current character is a valid token
             if (!buffer.empty()) {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
-                                                            getKeywordToken(buffer)));
+                tokens.emplace_back(getKeywordToken(buffer,Span(line_number, pos - buffer.length(), pos) ));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             } else {
@@ -160,8 +159,8 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
             }
         } else if (next_char == '\n' || isspace(next_char) || next_char == EOF) {
             if (!buffer.empty()) {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
-                                                            getKeywordToken(buffer)));
+                tokens.emplace_back(getKeywordToken(buffer,Span(line_number, pos - buffer.length(), pos)));
+
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
@@ -191,24 +190,24 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
 }
 
 
-TokenCode Lexer::getKeywordToken(const std::string &buffer) {
-    // TODO add hash
-    if (buffer == "while") return WHILE;
-    if (buffer == "var") return VAR;
-    if (buffer == "method") return METHOD;
-    if (buffer == "this") return THIS;
-    if (buffer == "loop") return LOOP;
-    if (buffer == "if") return IF;
-    if (buffer == "then") return THEN;
-    if (buffer == "else") return ELSE;
-    if (buffer == "return") return RETURN;
-    if (buffer == "Program") return PROGRAM;
-    if (buffer == "class") return CLASS;
-    if (buffer == "extends") return EXTENDS;
-    if (buffer == "is") return IS;
-    if (buffer == "end") return END;
-    return IDENTIFIER;
-    // TODO finish this
+std::unique_ptr<Token> Lexer::getKeywordToken(const std::string &buffer, const Span &span) {
+    if (buffer == "while") return std::make_unique<Keyword>(span, WHILE);
+    if (buffer == "var") return std::make_unique<Keyword>(span, VAR);
+    if (buffer == "method") return std::make_unique<Keyword>(span, METHOD);
+    if (buffer == "this") return std::make_unique<Keyword>(span, THIS);
+    if (buffer == "loop") return std::make_unique<Keyword>(span, LOOP);
+    if (buffer == "if") return std::make_unique<Keyword>(span, IF);
+    if (buffer == "then") return std::make_unique<Keyword>(span, THEN);
+    if (buffer == "else") return std::make_unique<Keyword>(span, ELSE);
+    if (buffer == "return") return std::make_unique<Keyword>(span, RETURN);
+    if (buffer == "Program") return std::make_unique<Keyword>(span, PROGRAM);
+    if (buffer == "class") return std::make_unique<Keyword>(span, CLASS);
+    if (buffer == "extends") return std::make_unique<Keyword>(span, EXTENDS);
+    if (buffer == "is") return std::make_unique<Keyword>(span, IS);
+    if (buffer == "end") return std::make_unique<Keyword>(span, END);
+    if(buffer == "true") return std::make_unique<Boolean>(span, TRUE, true);
+    if(buffer == "false") return std::make_unique<Boolean>(span, FALSE, false);
+    return std::make_unique<Keyword>(span, IDENTIFIER);
 }
 
 
