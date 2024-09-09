@@ -64,6 +64,19 @@ public:
     std::string to_string() override;
 };
 
+class Boolean : public Token {
+protected:
+    bool value;
+
+public:
+    Boolean(const Span &span, const TokenCode code, const bool value)
+        : Token(span, code),
+          value(value) {
+    }
+
+    std::string to_string() override;
+};
+
 class Delimiter : public Token {
 public:
     Delimiter(const Span &span, const TokenCode code)

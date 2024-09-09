@@ -24,6 +24,10 @@ std::string Real::to_string() {
     return "Real{" + span.to_string() + ", " + std::to_string(code) + ", " + std::to_string(value) + "}";
 }
 
+std::string Boolean::to_string() {
+    return "Boolean{" + span.to_string() + ", " + std::to_string(code) + ", " + std::to_string(value) + "}";
+}
+
 std::string Delimiter::to_string() {
     return "Delimiter{" + span.to_string() + ", " + std::to_string(code) + "}";
 }

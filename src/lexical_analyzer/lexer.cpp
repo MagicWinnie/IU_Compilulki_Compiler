@@ -27,10 +27,12 @@ std::unordered_map<char, TokenCode> tokenMap = {
     {'=', EQUAL},
     {'(', LEFT_PAREN},
     {')', RIGHT_PAREN},
+    {'[', LEFT_SQUARE_BRACKET},
+    {']', RIGHT_SQUARE_BRACKET},
     // Add more mappings as necessary
 };
 
-std::unordered_set<char> validTokens = {'.', ':', ',', '=', '(', ')'};
+std::unordered_set<char> validTokens = {'.', ':', ',', '=', '(', ')', '[', ']'};
 
 std::string getEnumName(TokenCode code) {
     std::unordered_map<TokenCode, std::string> tokenCodeToString = {
@@ -55,6 +57,8 @@ std::string getEnumName(TokenCode code) {
         {COLON_EQUAL, "COLON_EQUAL"},
         {LEFT_PAREN, "LEFT_PAREN"},
         {RIGHT_PAREN, "RIGHT_PAREN"},
+        {LEFT_SQUARE_BRACKET, "LEFT_SQUARE_BRACKET"},
+        {RIGHT_SQUARE_BRACKET, "RIGHT_SQUARE_BRACKET"},
         {IDENTIFIER, "IDENTIFIER"},
         {REAL, "REAL"},
         {INTEGER, "INTEGER"},
