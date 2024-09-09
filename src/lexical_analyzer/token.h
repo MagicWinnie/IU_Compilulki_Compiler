@@ -8,22 +8,25 @@
 
 
 class Token {
+protected:
     Span span;
     TokenCode code;
 
 public:
+    virtual ~Token() = default;
+
     Token(const Span &span, const TokenCode code)
         : span(span),
           code(code) {
     }
-    std::string to_string();
 
-    TokenCode get_code() const {
-        return code;
-    }
+    virtual std::string to_string();
+
+    TokenCode get_code() const;
 };
 
-class Identifier : Token {
+class Identifier : public Token {
+protected:
     std::string identifier;
 
 public:
@@ -31,9 +34,12 @@ public:
         : Token(span, code),
           identifier(std::move(identifier)) {
     }
+
+    std::string to_string() override;
 };
 
-class Integer : Token {
+class Integer : public Token {
+protected:
     long value;
 
 public:
@@ -41,9 +47,12 @@ public:
         : Token(span, code),
           value(value) {
     }
+
+    std::string to_string() override;
 };
 
-class Real : Token {
+class Real : public Token {
+protected:
     long double value;
 
 public:
@@ -51,6 +60,17 @@ public:
         : Token(span, code),
           value(value) {
     }
+
+    std::string to_string() override;
+};
+
+class Delimiter : public Token {
+public:
+    Delimiter(const Span &span, const TokenCode code)
+        : Token(span, code) {
+    }
+
+    std::string to_string() override;
 };
 
 #endif //TOKEN_H
