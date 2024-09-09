@@ -4,8 +4,8 @@
 Program: Main
 
 class Main is
-    this()
-        var result := multiply(Array(6), Integer(7)) # Array
+    this() is
+        var result := multiply(Array[Integer](6), Integer[Integer](7)) # Array
         result.print()
     end
 
