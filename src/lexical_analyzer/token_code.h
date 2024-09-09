@@ -20,8 +20,6 @@ enum TokenCode {
     DELIMITER_DOT,
     DELIMITER_COMMA,
     EQUAL,
-    PERCENT,
-    PERCENT_EQUAL,
     LEFT_PAREN,
     RIGHT_PAREN,
     IDENTIFIER,
