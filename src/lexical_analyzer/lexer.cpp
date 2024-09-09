@@ -5,7 +5,6 @@
 #include <iomanip>
 #include <iostream>
 
-using namespace std;
 //const TokenCode Lexer::Table[Lexer::nKW] = {
 //        PROGRAM, CLASS, EXTENDS, IS, END, VAR, METHOD, THIS, WHILE, LOOP, IF, THEN, ELSE, RETURN, DELIMITER_COLON
 //};
@@ -20,7 +19,6 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
 
     this->debug = debug;
 }
-
 
 
 std::unordered_map<char, TokenCode> tokenMap = {
@@ -52,9 +50,9 @@ std::string getEnumName(TokenCode code) {
         {THEN, "THEN"},
         {ELSE, "ELSE"},
         {RETURN, "RETURN"},
-        {COLON, "DELIMITER_COLON"},
-        {DOT, "DELIMITER_DOT"},
-        {COMMA, "DELIMITER_COMMA"},
+        {COLON, "COLON"},
+        {DOT, "DOT"},
+        {COMMA, "COMMA"},
         {COLON_EQUAL, "COLON_EQUAL"},
         {LEFT_PAREN, "LEFT_PAREN"},
         {RIGHT_PAREN, "RIGHT_PAREN"},
@@ -63,6 +61,7 @@ std::string getEnumName(TokenCode code) {
         {IDENTIFIER, "IDENTIFIER"},
         {REAL, "REAL"},
         {INTEGER, "INTEGER"},
+        {BOOLEAN, "BOOLEAN"},
         {UNKNOWN, "UNKNOWN"}
     };
     auto it = tokenCodeToString.find(code);
@@ -138,14 +137,15 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
         } else if (validTokens.find(next_char) != validTokens.end()) {
             // Handle case when buffer is not empty, but the current character is a valid token
             if (!buffer.empty()) {
-                tokens.emplace_back(getKeywordToken(buffer,Span(line_number, pos - buffer.length(), pos) ));
+                tokens.emplace_back(getKeywordToken(buffer, Span(line_number, pos - buffer.length(), pos)));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             } else {
                 if (next_char == ':') {
                     get_next_char(&pos);
                     if (infile.peek() == '=') {
-                        tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
+                        tokens.emplace_back(
+                            std::make_unique<Delimiter>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
                         tempStrings.emplace_back(":=");
                         get_next_char(&pos);
                         continue;
@@ -159,7 +159,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
             }
         } else if (next_char == '\n' || isspace(next_char) || next_char == EOF) {
             if (!buffer.empty()) {
-                tokens.emplace_back(getKeywordToken(buffer,Span(line_number, pos - buffer.length(), pos)));
+                tokens.emplace_back(getKeywordToken(buffer, Span(line_number, pos - buffer.length(), pos)));
 
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
@@ -205,8 +205,8 @@ std::unique_ptr<Token> Lexer::getKeywordToken(const std::string &buffer, const S
     if (buffer == "extends") return std::make_unique<Keyword>(span, EXTENDS);
     if (buffer == "is") return std::make_unique<Keyword>(span, IS);
     if (buffer == "end") return std::make_unique<Keyword>(span, END);
-    if(buffer == "true") return std::make_unique<Boolean>(span, TRUE, true);
-    if(buffer == "false") return std::make_unique<Boolean>(span, FALSE, false);
+    if (buffer == "true") return std::make_unique<Boolean>(span, BOOLEAN, true);
+    if (buffer == "false") return std::make_unique<Boolean>(span, BOOLEAN, false);
     return std::make_unique<Keyword>(span, IDENTIFIER);
 }
 
