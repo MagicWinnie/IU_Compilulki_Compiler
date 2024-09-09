@@ -25,6 +25,14 @@ public:
     TokenCode get_code() const;
 };
 
+class Keyword : public Token {
+public:
+    Keyword(const Span &span, const TokenCode code) : Token(span, code) {
+    }
+
+    std::string to_string() override;
+};
+
 class Identifier : public Token {
 protected:
     std::string identifier;
