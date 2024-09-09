@@ -10,6 +10,7 @@ using namespace std;
 //        PROGRAM, CLASS, EXTENDS, IS, END, VAR, METHOD, THIS, WHILE, LOOP, IF, THEN, ELSE, RETURN, DELIMITER_COLON
 //};
 
+
 Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->infile.open(infile_path, std::ios_base::in);
     if (!this->infile.is_open()) {
@@ -19,6 +20,8 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
 
     this->debug = debug;
 }
+
+
 
 std::unordered_map<char, TokenCode> tokenMap = {
     {'.', DELIMITER_DOT},
@@ -106,7 +109,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
     while (!this->infile.eof()) {
         char next_char = infile.peek();
 
-        if (isdigit(next_char)) {
+        if (isdigit(next_char) && buffer.empty()) {
             // Handle integer and real numbers
             get_next_char(&pos);
             buffer += next_char;
