@@ -84,7 +84,7 @@ void printDebugInfo(const std::vector<std::unique_ptr<Token> > &tokens, const st
         std::cout << "\033[1;33m---------------------------------------------\033[0m" << std::endl;
 
         for (size_t i = 0; i < tokens.size(); ++i) {
-            constexpr int nameWidth = 30;
+            constexpr int nameWidth = 36;
             std::string tokenStr = tokens[i]->to_string();
             std::string enumName = getEnumName(tokens[i]->get_code());
 
@@ -125,11 +125,13 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                     buffer += next_char;
                     get_next_char(&pos);
                 }
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos), REAL));
+                tokens.emplace_back(std::make_unique<Real>(Span(line_number, pos - buffer.length(), pos), REAL,
+                                                           std::stod(buffer)));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             } else {
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos), INTEGER));
+                tokens.emplace_back(std::make_unique<Integer>(Span(line_number, pos - buffer.length(), pos), INTEGER,
+                                                              std::stoi(buffer)));
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
