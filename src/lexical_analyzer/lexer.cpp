@@ -83,12 +83,12 @@ void printDebugInfo(const std::vector<std::unique_ptr<Token> > &tokens, const st
         std::cout << "\033[1;33m---------------------------------------------\033[0m" << std::endl;
 
         for (size_t i = 0; i < tokens.size(); ++i) {
-            constexpr int nameWidth = 36;
+            constexpr int nameWidth = 46;
             std::string tokenStr = tokens[i]->to_string();
             std::string enumName = getEnumName(tokens[i]->get_code());
 
             std::cout << "\033[1;33m" << std::setw(nameWidth) << std::left << tokenStr
-                    << " -> " << std::setw(nameWidth) << std::left << tempStrings[i]
+                    << " -> " << std::setw(nameWidth / 2) << std::left << tempStrings[i]
                     << " -> " << std::setw(nameWidth) << std::left << enumName
                     << "\033[0m" << std::endl;
         }
@@ -207,7 +207,7 @@ std::unique_ptr<Token> Lexer::getKeywordToken(const std::string &buffer, const S
     if (buffer == "end") return std::make_unique<Keyword>(span, END);
     if (buffer == "true") return std::make_unique<Boolean>(span, BOOLEAN, true);
     if (buffer == "false") return std::make_unique<Boolean>(span, BOOLEAN, false);
-    return std::make_unique<Keyword>(span, IDENTIFIER);
+    return std::make_unique<Identifier>(span, IDENTIFIER, buffer);
 }
 
 
