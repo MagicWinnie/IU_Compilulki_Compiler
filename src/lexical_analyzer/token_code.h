@@ -19,7 +19,6 @@ enum TokenCode {
     DELIMITER_COLON,
     DELIMITER_DOT,
     DELIMITER_COMMA,
-    EQUAL,
     COLON_EQUAL,
     LEFT_PAREN,
     RIGHT_PAREN,
