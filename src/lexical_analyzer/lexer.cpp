@@ -147,7 +147,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 tempStrings.emplace_back(1, next_char);
                 get_next_char(&pos);
             }
-        } else if (next_char == '\n' || next_char == ' ') {
+        } else if (next_char == '\n' || isspace(next_char)) {
             if (!buffer.empty()) {
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
                                                             getKeywordToken(buffer)));
