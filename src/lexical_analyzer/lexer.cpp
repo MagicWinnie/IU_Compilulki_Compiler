@@ -161,7 +161,6 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
             line_number++;
             pos = 0;
             buffer.clear();
-            get_next_char(&pos);
         } else {
             // Handle buffer (identifier or keyword)
             buffer += next_char;
