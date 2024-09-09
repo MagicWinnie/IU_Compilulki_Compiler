@@ -1,5 +1,5 @@
 Keyword{Span(4, 1, 8), 0}                      -> Program                 -> PROGRAM                                       
-Delimiter{Span(4, 9, 10), 14}                  -> :                       -> COLON                                         
+Delimiter{Span(4, 8, 9), 14}                   -> :                       -> COLON                                         
 Identifier{Span(4, 10, 14), 22, Main}          -> Main                    -> IDENTIFIER                                    
 Keyword{Span(6, 1, 6), 1}                      -> class                   -> CLASS                                         
 Identifier{Span(6, 7, 11), 22, Main}           -> Main                    -> IDENTIFIER                                    
@@ -10,14 +10,14 @@ Delimiter{Span(7, 10, 11), 19}                 -> )                       -> RIG
 Keyword{Span(7, 12, 14), 3}                    -> is                      -> IS                                            
 Keyword{Span(8, 9, 12), 5}                     -> var                     -> VAR                                           
 Identifier{Span(8, 13, 14), 22, a}             -> a                       -> IDENTIFIER                                    
-Delimiter{Span(8, 16, 17), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(8, 15, 16), 14}                 -> :                       -> COLON                                         
 Identifier{Span(8, 17, 24), 22, Boolean}       -> Boolean                 -> IDENTIFIER                                    
 Delimiter{Span(8, 24, 25), 18}                 -> (                       -> LEFT_PAREN                                    
 Boolean{Span(8, 25, 29), 25, 1}                -> true                    -> BOOLEAN                                       
 Delimiter{Span(8, 29, 30), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(9, 9, 12), 5}                     -> var                     -> VAR                                           
 Identifier{Span(9, 13, 14), 22, b}             -> b                       -> IDENTIFIER                                    
-Delimiter{Span(9, 16, 17), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(9, 15, 16), 14}                 -> :                       -> COLON                                         
 Identifier{Span(9, 17, 24), 22, Boolean}       -> Boolean                 -> IDENTIFIER                                    
 Delimiter{Span(9, 24, 25), 18}                 -> (                       -> LEFT_PAREN                                    
 Boolean{Span(9, 25, 30), 25, 0}                -> false                   -> BOOLEAN                                       

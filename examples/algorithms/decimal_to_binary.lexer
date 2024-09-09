@@ -1,5 +1,5 @@
 Keyword{Span(3, 1, 8), 0}                      -> Program                 -> PROGRAM                                       
-Delimiter{Span(3, 9, 10), 14}                  -> :                       -> COLON                                         
+Delimiter{Span(3, 8, 9), 14}                   -> :                       -> COLON                                         
 Identifier{Span(3, 10, 14), 22, Main}          -> Main                    -> IDENTIFIER                                    
 Delimiter{Span(3, 14, 15), 18}                 -> (                       -> LEFT_PAREN                                    
 Integer{Span(3, 15, 17), 23, 42}               -> 42                      -> INTEGER                                       
@@ -10,17 +10,17 @@ Keyword{Span(5, 12, 14), 3}                    -> is                      -> IS
 Keyword{Span(6, 5, 9), 7}                      -> this                    -> THIS                                          
 Delimiter{Span(6, 9, 10), 18}                  -> (                       -> LEFT_PAREN                                    
 Identifier{Span(6, 10, 11), 22, n}             -> n                       -> IDENTIFIER                                    
-Delimiter{Span(6, 12, 13), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(6, 11, 12), 14}                 -> :                       -> COLON                                         
 Identifier{Span(6, 13, 20), 22, Integer}       -> Integer                 -> IDENTIFIER                                    
 Delimiter{Span(6, 20, 21), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(6, 22, 24), 3}                    -> is                      -> IS                                            
 Keyword{Span(7, 9, 12), 5}                     -> var                     -> VAR                                           
 Identifier{Span(7, 13, 14), 22, n}             -> n                       -> IDENTIFIER                                    
-Delimiter{Span(7, 16, 17), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(7, 15, 16), 14}                 -> :                       -> COLON                                         
 Identifier{Span(7, 17, 18), 22, n}             -> n                       -> IDENTIFIER                                    
 Keyword{Span(9, 9, 12), 5}                     -> var                     -> VAR                                           
 Identifier{Span(9, 13, 14), 22, b}             -> b                       -> IDENTIFIER                                    
-Delimiter{Span(9, 16, 17), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(9, 15, 16), 14}                 -> :                       -> COLON                                         
 Identifier{Span(9, 17, 21), 22, List}          -> List                    -> IDENTIFIER                                    
 Delimiter{Span(9, 21, 22), 20}                 -> [                       -> LEFT_SQUARE_BRACKET                           
 Identifier{Span(9, 22, 29), 22, Integer}       -> Integer                 -> IDENTIFIER                                    
@@ -55,7 +55,7 @@ Delimiter{Span(12, 25, 26), 19}                -> )                       -> RIG
 Keyword{Span(13, 9, 12), 4}                    -> end                     -> END                                           
 Keyword{Span(15, 9, 12), 5}                    -> var                     -> VAR                                           
 Identifier{Span(15, 13, 14), 22, i}            -> i                       -> IDENTIFIER                                    
-Delimiter{Span(15, 16, 17), 14}                -> :                       -> COLON                                         
+Delimiter{Span(15, 15, 16), 14}                -> :                       -> COLON                                         
 Identifier{Span(15, 17, 18), 22, n}            -> n                       -> IDENTIFIER                                    
 Delimiter{Span(15, 18, 19), 15}                -> .                       -> DOT                                           
 Identifier{Span(15, 19, 24), 22, Minus}        -> Minus                   -> IDENTIFIER                                    

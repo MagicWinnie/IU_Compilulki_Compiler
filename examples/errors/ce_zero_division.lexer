@@ -1,5 +1,5 @@
 Keyword{Span(4, 1, 8), 0}                      -> Program                 -> PROGRAM                                       
-Delimiter{Span(4, 9, 10), 14}                  -> :                       -> COLON                                         
+Delimiter{Span(4, 8, 9), 14}                   -> :                       -> COLON                                         
 Identifier{Span(4, 10, 14), 22, Main}          -> Main                    -> IDENTIFIER                                    
 Delimiter{Span(4, 14, 15), 18}                 -> (                       -> LEFT_PAREN                                    
 Integer{Span(4, 15, 17), 23, 20}               -> 20                      -> INTEGER                                       
@@ -14,21 +14,21 @@ Keyword{Span(6, 12, 14), 3}                    -> is                      -> IS
 Keyword{Span(7, 5, 9), 7}                      -> this                    -> THIS                                          
 Delimiter{Span(7, 9, 10), 18}                  -> (                       -> LEFT_PAREN                                    
 Identifier{Span(7, 10, 14), 22, num1}          -> num1                    -> IDENTIFIER                                    
-Delimiter{Span(7, 15, 16), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(7, 14, 15), 14}                 -> :                       -> COLON                                         
 Identifier{Span(7, 16, 23), 22, Integer}       -> Integer                 -> IDENTIFIER                                    
 Delimiter{Span(7, 23, 24), 16}                 -> ,                       -> COMMA                                         
 Identifier{Span(7, 25, 29), 22, num2}          -> num2                    -> IDENTIFIER                                    
-Delimiter{Span(7, 30, 31), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(7, 29, 30), 14}                 -> :                       -> COLON                                         
 Identifier{Span(7, 31, 38), 22, Integer}       -> Integer                 -> IDENTIFIER                                    
 Delimiter{Span(7, 38, 39), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(7, 40, 42), 3}                    -> is                      -> IS                                            
 Keyword{Span(8, 9, 12), 5}                     -> var                     -> VAR                                           
 Identifier{Span(8, 13, 14), 22, a}             -> a                       -> IDENTIFIER                                    
-Delimiter{Span(8, 16, 17), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(8, 15, 16), 14}                 -> :                       -> COLON                                         
 Identifier{Span(8, 17, 21), 22, num1}          -> num1                    -> IDENTIFIER                                    
 Keyword{Span(9, 9, 12), 5}                     -> var                     -> VAR                                           
 Identifier{Span(9, 13, 14), 22, b}             -> b                       -> IDENTIFIER                                    
-Delimiter{Span(9, 16, 17), 14}                 -> :                       -> COLON                                         
+Delimiter{Span(9, 15, 16), 14}                 -> :                       -> COLON                                         
 Identifier{Span(9, 17, 21), 22, num2}          -> num2                    -> IDENTIFIER                                    
 Keyword{Span(11, 9, 12), 5}                    -> var                     -> VAR                                           
 Identifier{Span(11, 13, 22), 22, divResult}    -> divResult               -> IDENTIFIER                                    

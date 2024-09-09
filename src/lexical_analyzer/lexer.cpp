@@ -152,8 +152,12 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                             std::make_unique<Delimiter>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
                         tempStrings.emplace_back(":=");
                         get_next_char(&pos);
-                        continue;
+                    } else {
+                        tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos - 1, pos), COLON));
+                        tempStrings.emplace_back(1, next_char);
+                        get_next_char(&pos);
                     }
+                    continue;
                 }
 
                 TokenCode tokCode = tokenMap[next_char];
