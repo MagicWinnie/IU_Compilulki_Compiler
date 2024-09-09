@@ -146,7 +146,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 if (next_char == ':') {
                     get_next_char(&pos);
                     if (infile.peek() == '=') {
-                        tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
+                        tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
                         tempStrings.emplace_back(":=");
                         get_next_char(&pos);
                         continue;
@@ -154,7 +154,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 }
 
                 TokenCode tokCode = tokenMap[next_char];
-                tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos, pos + 1), tokCode));
+                tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos, pos + 1), tokCode));
                 tempStrings.emplace_back(1, next_char);
                 get_next_char(&pos);
             }
