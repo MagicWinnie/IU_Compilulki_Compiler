@@ -52,6 +52,7 @@ std::string getEnumName(TokenCode code) {
         {DELIMITER_DOT, "DELIMITER_DOT"},
         {DELIMITER_COMMA, "DELIMITER_COMMA"},
         {EQUAL, "EQUAL"},
+        {COLON_EQUAL, "COLON_EQUAL"},
         {LEFT_PAREN, "LEFT_PAREN"},
         {RIGHT_PAREN, "RIGHT_PAREN"},
         {IDENTIFIER, "IDENTIFIER"},
@@ -127,7 +128,13 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             }
-        } else if (validTokens.find(next_char) != validTokens.end()) {
+
+        }
+        // Add check for :=
+
+
+
+        else if (validTokens.find(next_char) != validTokens.end()) {
             // Handle case when buffer is not empty, but the current character is a valid token
             if (!buffer.empty()) {
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
@@ -135,11 +142,23 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 tempStrings.emplace_back(buffer);
                 buffer.clear();
             } else {
+                if(next_char == ':'){
+                    get_next_char(&pos);
+                    if(infile.peek() == '='){
+                        tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - 1, pos+1 ), COLON_EQUAL));
+                        tempStrings.emplace_back(":=");
+                        get_next_char(&pos);
+                        continue;
+                    }
+                }
+
                 TokenCode tokCode = tokenMap[next_char];
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos, pos + 1), tokCode));
                 tempStrings.emplace_back(1, next_char);
                 get_next_char(&pos);
             }
+
+
         } else if (next_char == '\n' || isspace(next_char) || next_char == EOF) {
             if (!buffer.empty()) {
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
