@@ -25,14 +25,13 @@ std::unordered_map<char, TokenCode> tokenMap = {
     {':', DELIMITER_COLON},
     {',', DELIMITER_COMMA},
     {'=', EQUAL},
-    {'!', EXCLAMATION},
     {'%', PERCENT},
     {'(', LEFT_PAREN},
     {')', RIGHT_PAREN},
     // Add more mappings as necessary
 };
 
-std::unordered_set<char> validTokens = {'.', ':', ',', '=', '!', '%', '(', ')'};
+std::unordered_set<char> validTokens = {'.', ':', ',', '=', '(', ')'};
 
 std::string getEnumName(TokenCode code) {
     std::unordered_map<TokenCode, std::string> tokenCodeToString = {
@@ -54,9 +53,6 @@ std::string getEnumName(TokenCode code) {
         {DELIMITER_DOT, "DELIMITER_DOT"},
         {DELIMITER_COMMA, "DELIMITER_COMMA"},
         {EQUAL, "EQUAL"},
-        {EQUAL_EQUAL, "EQUAL_EQUAL"},
-        {NOT_EQUAL, "NOT_EQUAL"},
-        {EXCLAMATION, "EXCLAMATION"},
         {PERCENT, "PERCENT"},
         {PERCENT_EQUAL, "PERCENT_EQUAL"},
         {LEFT_PAREN, "LEFT_PAREN"},
@@ -147,7 +143,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 tempStrings.emplace_back(1, next_char);
                 get_next_char(&pos);
             }
-        } else if (next_char == '\n' || isspace(next_char) || next_char==EOF) {
+        } else if (next_char == '\n' || isspace(next_char) || next_char == EOF) {
             if (!buffer.empty()) {
                 tokens.emplace_back(std::make_unique<Token>(Span(line_number, pos - buffer.length(), pos),
                                                             getKeywordToken(buffer)));
