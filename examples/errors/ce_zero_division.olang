@@ -1,7 +1,7 @@
 // Division test
 // Division of two integers
 
-Program: Main(20, 0) # 0
+Program: Main(20, 0) // 0
 
 class Main is
     this(num1: Integer, num2: Integer) is
