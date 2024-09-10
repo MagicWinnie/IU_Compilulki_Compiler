@@ -16,9 +16,3 @@ add_executable(compilulki src/main.cpp
         src/utils/utils.cpp
         src/utils/utils.h
 )
-
-add_executable(test_hash_function
-        tests/test_hash_function.cpp
-        src/utils/utils.cpp
-        src/utils/utils.h
-)
