@@ -13,6 +13,4 @@ add_executable(compilulki src/main.cpp
         src/lexical_analyzer/span.cpp
         src/lexical_analyzer/span.h
         src/lexical_analyzer/token_code.h
-        src/utils/utils.cpp
-        src/utils/utils.h
 )
