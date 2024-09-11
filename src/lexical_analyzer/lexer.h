@@ -58,12 +58,12 @@ class Lexer {
     std::ifstream infile;
     bool debug;
 
-    void get_next_char(size_t *);
+    void getNextChar(size_t *);
 
-    static std::unique_ptr<Token> getKeywordToken(const std::string &buffer, const Span &span);
+    static std::unique_ptr<Token> getKeywordToken(const std::string &, const Span &);
 
 public:
-    explicit Lexer(const std::string &infile_path, const bool &debug);
+    explicit Lexer(const std::string &, const bool &);
 
     std::vector<std::unique_ptr<Token> > parse();
 

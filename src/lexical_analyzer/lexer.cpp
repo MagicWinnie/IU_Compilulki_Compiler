@@ -22,7 +22,7 @@ std::string getEnumName(const TokenCode code) {
     return "UNKNOWN_ENUM_VALUE"; // Fallback in case of unknown enum value
 }
 
-void Lexer::get_next_char(size_t *pos) {
+void Lexer::getNextChar(size_t *pos) {
     infile.get();
     (*pos)++;
 }
@@ -64,19 +64,19 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
 
         if (isdigit(next_char) && buffer.empty()) {
             // Handle integer and real numbers
-            get_next_char(&pos);
+            getNextChar(&pos);
             buffer += next_char;
 
             while (isdigit(next_char = static_cast<char>(infile.peek()))) {
                 buffer += next_char;
-                get_next_char(&pos);
+                getNextChar(&pos);
             }
             if (next_char == '.') {
                 buffer += next_char;
-                get_next_char(&pos);
+                getNextChar(&pos);
                 while (isdigit(next_char = static_cast<char>(infile.peek()))) {
                     buffer += next_char;
-                    get_next_char(&pos);
+                    getNextChar(&pos);
                 }
                 tokens.emplace_back(std::make_unique<Real>(Span(line_number, pos - buffer.length(), pos), REAL,
                                                            std::stod(buffer)));
@@ -96,16 +96,16 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 buffer.clear();
             } else {
                 if (next_char == ':') {
-                    get_next_char(&pos);
+                    getNextChar(&pos);
                     if (infile.peek() == '=') {
                         tokens.emplace_back(
                             std::make_unique<Delimiter>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
                         tempStrings.emplace_back(":=");
-                        get_next_char(&pos);
+                        getNextChar(&pos);
                     } else {
                         tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos - 1, pos), COLON));
                         tempStrings.emplace_back(1, next_char);
-                        get_next_char(&pos);
+                        getNextChar(&pos);
                     }
                     continue;
                 }
@@ -113,7 +113,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 TokenCode tokCode = tokenMap[next_char];
                 tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos, pos + 1), tokCode));
                 tempStrings.emplace_back(1, next_char);
-                get_next_char(&pos);
+                getNextChar(&pos);
             }
         } else if (next_char == '\n' || isspace(next_char) || next_char == EOF) {
             if (!buffer.empty()) {
@@ -126,7 +126,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 line_number++;
                 pos = 0;
             }
-            get_next_char(&pos);
+            getNextChar(&pos);
         } else if (next_char == '/') {
             // Skip the comment line
             std::getline(infile, buffer); // Skip the rest of the line
@@ -136,7 +136,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
         } else {
             // Handle buffer (identifier or keyword)
             buffer += next_char;
-            get_next_char(&pos);
+            getNextChar(&pos);
         }
     }
 
