@@ -60,7 +60,7 @@ class Lexer {
 
     void get_next_char(size_t *);
 
-    std::unique_ptr<Token> getKeywordToken(const std::string &buffer, const Span &span);
+    static std::unique_ptr<Token> getKeywordToken(const std::string &buffer, const Span &span);
 
 public:
     explicit Lexer(const std::string &infile_path, const bool &debug);
