@@ -14,8 +14,8 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-std::string getEnumName(TokenCode code) {
-    auto it = tokenCodeToString.find(code);
+std::string getEnumName(const TokenCode code) {
+    const auto it = tokenCodeToString.find(code);
     if (it != tokenCodeToString.end()) {
         return it->second; // Return the string if found
     }
@@ -60,21 +60,21 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
     size_t pos = 0;
 
     while (!this->infile.eof()) {
-        char next_char = infile.peek();
+        char next_char = static_cast<char>(infile.peek());
 
         if (isdigit(next_char) && buffer.empty()) {
             // Handle integer and real numbers
             get_next_char(&pos);
             buffer += next_char;
 
-            while (isdigit(next_char = infile.peek())) {
+            while (isdigit(next_char = static_cast<char>(infile.peek()))) {
                 buffer += next_char;
                 get_next_char(&pos);
             }
             if (next_char == '.') {
                 buffer += next_char;
                 get_next_char(&pos);
-                while (isdigit(next_char = infile.peek())) {
+                while (isdigit(next_char = static_cast<char>(infile.peek()))) {
                     buffer += next_char;
                     get_next_char(&pos);
                 }
