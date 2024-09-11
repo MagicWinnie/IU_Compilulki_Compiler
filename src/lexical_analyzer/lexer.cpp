@@ -1,14 +1,7 @@
 #include "lexer.h"
 #include "token.h"
-#include <unordered_map>
-#include <unordered_set>
 #include <iomanip>
 #include <iostream>
-
-//const TokenCode Lexer::Table[Lexer::nKW] = {
-//        PROGRAM, CLASS, EXTENDS, IS, END, VAR, METHOD, THIS, WHILE, LOOP, IF, THEN, ELSE, RETURN, DELIMITER_COLON
-//};
-
 
 Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->infile_path = infile_path;
@@ -21,50 +14,7 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-
-std::unordered_map<char, TokenCode> tokenMap = {
-    {'.', DOT},
-    {':', COLON},
-    {',', COMMA},
-    {'(', LEFT_PAREN},
-    {')', RIGHT_PAREN},
-    {'[', LEFT_SQUARE_BRACKET},
-    {']', RIGHT_SQUARE_BRACKET},
-    // Add more mappings as necessary
-};
-
-std::unordered_set<char> validTokens = {'.', ':', ',', '(', ')', '[', ']'};
-
 std::string getEnumName(TokenCode code) {
-    std::unordered_map<TokenCode, std::string> tokenCodeToString = {
-        {PROGRAM, "PROGRAM"},
-        {CLASS, "CLASS"},
-        {EXTENDS, "EXTENDS"},
-        {IS, "IS"},
-        {END, "END"},
-        {VAR, "VAR"},
-        {METHOD, "METHOD"},
-        {THIS, "THIS"},
-        {WHILE, "WHILE"},
-        {LOOP, "LOOP"},
-        {IF, "IF"},
-        {THEN, "THEN"},
-        {ELSE, "ELSE"},
-        {RETURN, "RETURN"},
-        {COLON, "COLON"},
-        {DOT, "DOT"},
-        {COMMA, "COMMA"},
-        {COLON_EQUAL, "COLON_EQUAL"},
-        {LEFT_PAREN, "LEFT_PAREN"},
-        {RIGHT_PAREN, "RIGHT_PAREN"},
-        {LEFT_SQUARE_BRACKET, "LEFT_SQUARE_BRACKET"},
-        {RIGHT_SQUARE_BRACKET, "RIGHT_SQUARE_BRACKET"},
-        {IDENTIFIER, "IDENTIFIER"},
-        {REAL, "REAL"},
-        {INTEGER, "INTEGER"},
-        {BOOLEAN, "BOOLEAN"},
-        {UNKNOWN, "UNKNOWN"}
-    };
     auto it = tokenCodeToString.find(code);
     if (it != tokenCodeToString.end()) {
         return it->second; // Return the string if found
