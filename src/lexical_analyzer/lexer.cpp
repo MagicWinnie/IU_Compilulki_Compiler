@@ -1,14 +1,7 @@
 #include "lexer.h"
 #include "token.h"
-#include <unordered_map>
-#include <unordered_set>
 #include <iomanip>
 #include <iostream>
-
-//const TokenCode Lexer::Table[Lexer::nKW] = {
-//        PROGRAM, CLASS, EXTENDS, IS, END, VAR, METHOD, THIS, WHILE, LOOP, IF, THEN, ELSE, RETURN, DELIMITER_COLON
-//};
-
 
 Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->infile_path = infile_path;
@@ -21,58 +14,15 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-
-std::unordered_map<char, TokenCode> tokenMap = {
-    {'.', DOT},
-    {':', COLON},
-    {',', COMMA},
-    {'(', LEFT_PAREN},
-    {')', RIGHT_PAREN},
-    {'[', LEFT_SQUARE_BRACKET},
-    {']', RIGHT_SQUARE_BRACKET},
-    // Add more mappings as necessary
-};
-
-std::unordered_set<char> validTokens = {'.', ':', ',', '(', ')', '[', ']'};
-
-std::string getEnumName(TokenCode code) {
-    std::unordered_map<TokenCode, std::string> tokenCodeToString = {
-        {PROGRAM, "PROGRAM"},
-        {CLASS, "CLASS"},
-        {EXTENDS, "EXTENDS"},
-        {IS, "IS"},
-        {END, "END"},
-        {VAR, "VAR"},
-        {METHOD, "METHOD"},
-        {THIS, "THIS"},
-        {WHILE, "WHILE"},
-        {LOOP, "LOOP"},
-        {IF, "IF"},
-        {THEN, "THEN"},
-        {ELSE, "ELSE"},
-        {RETURN, "RETURN"},
-        {COLON, "COLON"},
-        {DOT, "DOT"},
-        {COMMA, "COMMA"},
-        {COLON_EQUAL, "COLON_EQUAL"},
-        {LEFT_PAREN, "LEFT_PAREN"},
-        {RIGHT_PAREN, "RIGHT_PAREN"},
-        {LEFT_SQUARE_BRACKET, "LEFT_SQUARE_BRACKET"},
-        {RIGHT_SQUARE_BRACKET, "RIGHT_SQUARE_BRACKET"},
-        {IDENTIFIER, "IDENTIFIER"},
-        {REAL, "REAL"},
-        {INTEGER, "INTEGER"},
-        {BOOLEAN, "BOOLEAN"},
-        {UNKNOWN, "UNKNOWN"}
-    };
-    auto it = tokenCodeToString.find(code);
+std::string getEnumName(const TokenCode code) {
+    const auto it = tokenCodeToString.find(code);
     if (it != tokenCodeToString.end()) {
         return it->second; // Return the string if found
     }
     return "UNKNOWN_ENUM_VALUE"; // Fallback in case of unknown enum value
 }
 
-void Lexer::get_next_char(size_t *pos) {
+void Lexer::getNextChar(size_t *pos) {
     infile.get();
     (*pos)++;
 }
@@ -110,23 +60,23 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
     size_t pos = 0;
 
     while (!this->infile.eof()) {
-        char next_char = infile.peek();
+        char next_char = static_cast<char>(infile.peek());
 
         if (isdigit(next_char) && buffer.empty()) {
             // Handle integer and real numbers
-            get_next_char(&pos);
+            getNextChar(&pos);
             buffer += next_char;
 
-            while (isdigit(next_char = infile.peek())) {
+            while (isdigit(next_char = static_cast<char>(infile.peek()))) {
                 buffer += next_char;
-                get_next_char(&pos);
+                getNextChar(&pos);
             }
             if (next_char == '.') {
                 buffer += next_char;
-                get_next_char(&pos);
-                while (isdigit(next_char = infile.peek())) {
+                getNextChar(&pos);
+                while (isdigit(next_char = static_cast<char>(infile.peek()))) {
                     buffer += next_char;
-                    get_next_char(&pos);
+                    getNextChar(&pos);
                 }
                 tokens.emplace_back(std::make_unique<Real>(Span(line_number, pos - buffer.length(), pos), REAL,
                                                            std::stod(buffer)));
@@ -146,16 +96,16 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 buffer.clear();
             } else {
                 if (next_char == ':') {
-                    get_next_char(&pos);
+                    getNextChar(&pos);
                     if (infile.peek() == '=') {
                         tokens.emplace_back(
                             std::make_unique<Delimiter>(Span(line_number, pos - 1, pos + 1), COLON_EQUAL));
                         tempStrings.emplace_back(":=");
-                        get_next_char(&pos);
+                        getNextChar(&pos);
                     } else {
                         tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos - 1, pos), COLON));
                         tempStrings.emplace_back(1, next_char);
-                        get_next_char(&pos);
+                        getNextChar(&pos);
                     }
                     continue;
                 }
@@ -163,7 +113,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 TokenCode tokCode = tokenMap[next_char];
                 tokens.emplace_back(std::make_unique<Delimiter>(Span(line_number, pos, pos + 1), tokCode));
                 tempStrings.emplace_back(1, next_char);
-                get_next_char(&pos);
+                getNextChar(&pos);
             }
         } else if (next_char == '\n' || isspace(next_char) || next_char == EOF) {
             if (!buffer.empty()) {
@@ -176,7 +126,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
                 line_number++;
                 pos = 0;
             }
-            get_next_char(&pos);
+            getNextChar(&pos);
         } else if (next_char == '/') {
             // Skip the comment line
             std::getline(infile, buffer); // Skip the rest of the line
@@ -186,7 +136,7 @@ std::vector<std::unique_ptr<Token> > Lexer::parse() {
         } else {
             // Handle buffer (identifier or keyword)
             buffer += next_char;
-            get_next_char(&pos);
+            getNextChar(&pos);
         }
     }
 

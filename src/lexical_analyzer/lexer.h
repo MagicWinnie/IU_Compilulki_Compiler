@@ -6,29 +6,68 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "token.h"
+
+inline std::unordered_set<char> validTokens = {'.', ':', ',', '(', ')', '[', ']'};
+
+inline std::unordered_map<char, TokenCode> tokenMap = {
+    {'.', DOT},
+    {':', COLON},
+    {',', COMMA},
+    {'(', LEFT_PAREN},
+    {')', RIGHT_PAREN},
+    {'[', LEFT_SQUARE_BRACKET},
+    {']', RIGHT_SQUARE_BRACKET}
+};
+
+inline std::unordered_map<TokenCode, std::string> tokenCodeToString = {
+    {PROGRAM, "PROGRAM"},
+    {CLASS, "CLASS"},
+    {EXTENDS, "EXTENDS"},
+    {IS, "IS"},
+    {END, "END"},
+    {VAR, "VAR"},
+    {METHOD, "METHOD"},
+    {THIS, "THIS"},
+    {WHILE, "WHILE"},
+    {LOOP, "LOOP"},
+    {IF, "IF"},
+    {THEN, "THEN"},
+    {ELSE, "ELSE"},
+    {RETURN, "RETURN"},
+    {COLON, "COLON"},
+    {DOT, "DOT"},
+    {COMMA, "COMMA"},
+    {COLON_EQUAL, "COLON_EQUAL"},
+    {LEFT_PAREN, "LEFT_PAREN"},
+    {RIGHT_PAREN, "RIGHT_PAREN"},
+    {LEFT_SQUARE_BRACKET, "LEFT_SQUARE_BRACKET"},
+    {RIGHT_SQUARE_BRACKET, "RIGHT_SQUARE_BRACKET"},
+    {IDENTIFIER, "IDENTIFIER"},
+    {REAL, "REAL"},
+    {INTEGER, "INTEGER"},
+    {BOOLEAN, "BOOLEAN"},
+    {UNKNOWN, "UNKNOWN"}
+};
 
 class Lexer {
     std::string infile_path;
     std::ifstream infile;
     bool debug;
-    static const int nKW = 15; // Number of keywords
-    static const TokenCode Table[nKW]; // Table of keywords
 
+    void getNextChar(size_t *);
+
+    static std::unique_ptr<Token> getKeywordToken(const std::string &, const Span &);
 
 public:
-    explicit Lexer(const std::string &infile_path, const bool &debug);
+    explicit Lexer(const std::string &, const bool &);
 
     std::vector<std::unique_ptr<Token> > parse();
 
-    void get_next_char(size_t *);
-
     ~Lexer();
-
-    TokenCode getTokenCode();
-
-    std::unique_ptr<Token> getKeywordToken(const std::string &buffer, const Span &span);
 };
 
 #endif //LEXER_H
