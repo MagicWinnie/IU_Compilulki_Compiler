@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "lexical_analyzer/lexer.h"
+#include "syntax_analyzer/parser.h"
 #include "settings/settings.h"
 
 
@@ -13,6 +14,10 @@ int main(const int argc, char *argv[]) {
 
     auto lexer = Lexer(settings.get_infile(), settings.get_debug());
     auto tokens = lexer.parse();
+
+    auto parser = Parser(std::move(tokens));
+    parser.parse();
+
 
     // TODO: syntax analyzer
     // TODO: semantics analyzer

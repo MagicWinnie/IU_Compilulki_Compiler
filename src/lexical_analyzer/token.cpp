@@ -12,6 +12,10 @@ TokenCode Token::get_code() const {
     return code;
 }
 
+std::string Identifier::get_identifier() const {
+    return identifier;
+}
+
 std::string Keyword::to_string() {
     return "Keyword{" + span.to_string() + ", " + std::to_string(code) + "}";
 }

@@ -43,6 +43,8 @@ public:
           identifier(std::move(identifier)) {
     }
 
+    std::string get_identifier() const;
+
     std::string to_string() override;
 };
 

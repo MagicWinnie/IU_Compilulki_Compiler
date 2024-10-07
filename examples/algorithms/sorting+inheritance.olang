@@ -122,7 +122,7 @@ class Main is
     
     method test() is
         // sorter 1 (does nothing)
-        var arr1 : this.createArray(8)
+        var 123arr1.2 : this.createArray(8)
         BaseSorter().sort(arr1)
         this.printArray(arr1)
         
