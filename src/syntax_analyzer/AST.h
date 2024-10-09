@@ -9,6 +9,13 @@
 #include "vector"
 #include "string"
 
+class ProgramArguments;
+class ClassDeclaration;
+class ClassDeclarations;
+class Primary;
+class CompoundExpression;
+class Expressions;
+class Expression;
 class Parameters;
 class Extension;
 class BodyDeclarations;
@@ -41,6 +48,7 @@ public:
 
 class Literals : public Entity
 {
+public:
     std::vector<std::unique_ptr<Literal>> literals;
 
     Literals(std::vector<std::unique_ptr<Literal>> literals)
@@ -51,6 +59,7 @@ class Literals : public Entity
 
 class Literal : public Entity
 {
+public:
     std::string value;
 
     Literal(std::string value) : value(std::move(value))
@@ -61,10 +70,11 @@ class Literal : public Entity
 
 class Arguments : public Entity
 {
-    std::vector<std::unique_ptr<Entity>> arguments;
+public:
+    std::unique_ptr<Expressions> expressions;
 
-    Arguments(std::vector<std::unique_ptr<Entity>> args)
-        : arguments(std::move(args))
+    explicit Arguments(std::unique_ptr<Expressions> expressions)
+        : expressions(std::move(expressions))
     {
     }
 };
@@ -72,6 +82,7 @@ class Arguments : public Entity
 
 class ClassName : public Entity
 {
+public:
     std::string name;
 
     ClassName(std::string name) : name(std::move(name))
@@ -82,8 +93,8 @@ class ClassName : public Entity
 class ProgramDeclaration : public Entity
 {
 public:
-    std::string className;
-    std::unique_ptr<Arguments> arguments;
+    std::unique_ptr<ClassName> className;
+    std::unique_ptr<ProgramArguments> arguments;
 };
 
 
@@ -91,7 +102,18 @@ class Program : public Entity
 {
 public:
     std::unique_ptr<ProgramDeclaration> programDeclaration;
-    std::vector<std::unique_ptr<Entity>> classDeclarations;
+    std::unique_ptr<ClassDeclarations> classDeclarations;
+};
+
+class ClassDeclarations : public Entity
+{
+public:
+    std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations;
+
+    explicit ClassDeclarations(std::vector<std::unique_ptr<ClassDeclaration>> class_declarations)
+        : classDeclarations(std::move(class_declarations))
+    {
+    }
 };
 
 class ClassDeclaration : public Entity
@@ -100,7 +122,12 @@ public:
     std::unique_ptr<ClassName> className;
     std::unique_ptr<Extension> extension;
     std::unique_ptr<ClassBody> classBody;
+};
 
+class MemberDeclarations : public Entity
+{
+public:
+    std::vector<std::unique_ptr<MemberDeclaration>> member_declarations;
 };
 
 class Extension : public Entity
@@ -117,20 +144,69 @@ public:
 class ClassBody : public Entity
 {
 public:
-    std::vector<std::unique_ptr<MemberDeclaration>> memberDeclarations;\
+    std::unique_ptr<MemberDeclarations> memberDeclarations;
 
-    explicit ClassBody(const std::vector<std::unique_ptr<MemberDeclaration>>& member_declarations)
-        : memberDeclarations(member_declarations)
+    explicit ClassBody(std::unique_ptr<MemberDeclarations> member_declarations)
+        : memberDeclarations(std::move(member_declarations))
     {
     }
 };
 
+class Expressions : public Entity
+{
+public:
+    std::vector<std::unique_ptr<Expression>> expressions;
+};
+
+
 class Expression : public Entity
 {
+public:
     std::unique_ptr<Primary> primary;
     std::unique_ptr<CompoundExpression> compoundExpression;
 };
 
+class Primary
+{
+public:
+    std::string value;
+    std::unique_ptr<ClassName> class_name;
+
+    Primary(const std::string& value)
+        : value(value)
+    {
+    }
+
+    Primary(std::unique_ptr<ClassName> class_name)
+        : class_name(std::move(class_name))
+    {
+    }
+};
+
+class CompoundExpression
+{
+public:
+    std::string identifier;
+    std::unique_ptr<Arguments> arguments;
+    std::unique_ptr<CompoundExpression> compoundExpression;
+
+    CompoundExpression(std::string id, std::unique_ptr<Arguments> args = nullptr,
+                       std::unique_ptr<CompoundExpression> compExpr = nullptr)
+        : identifier(std::move(id)), arguments(std::move(args)), compoundExpression(std::move(compExpr))
+    {
+    }
+};
+
+class ProgramArguments : public Entity
+{
+public:
+    std::unique_ptr<Literals> literals;
+
+    ProgramArguments(std::unique_ptr<Literals> literals)
+        : literals(std::move(literals))
+    {
+    }
+};
 
 class MemberDeclaration : public Entity
 {
@@ -143,8 +219,14 @@ public:
 class ConstructorDeclaration : public Entity
 {
 public:
-    std::vector<std::unique_ptr<Parameter>> parameters;
+    std::unique_ptr<Parameters> parameters;
     std::unique_ptr<Body> body;
+
+    ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body)
+        : parameters(std::move(parameters)),
+          body(std::move(body))
+    {
+    }
 };
 
 class VariableDeclaration : public Entity
@@ -152,6 +234,12 @@ class VariableDeclaration : public Entity
 public:
     std::unique_ptr<VariableName> variable;
     std::unique_ptr<Expression> expression;
+
+    VariableDeclaration(std::unique_ptr<VariableName> variable, std::unique_ptr<Expression> expression)
+        : variable(std::move(variable)),
+          expression(std::move(expression))
+    {
+    }
 };
 
 class MethodDeclaration : public Entity
@@ -161,6 +249,15 @@ public:
     std::unique_ptr<Parameters> parameters;
     std::unique_ptr<ReturnType> returnType;
     std::unique_ptr<Body> body;
+
+    MethodDeclaration(std::unique_ptr<MethodName>& method_name, std::unique_ptr<Parameters>& parameters,
+                      std::unique_ptr<ReturnType>& return_type, std::unique_ptr<Body>& body)
+        : methodName(std::move(method_name)),
+          parameters(std::move(parameters)),
+          returnType(std::move(return_type)),
+          body(std::move(body))
+    {
+    }
 };
 
 class Parameters : public Entity
@@ -185,7 +282,7 @@ public:
     std::string name;
     std::unique_ptr<ClassName> className;
 
-    Parameter(const std::string& name,std::unique_ptr<ClassName> class_name)
+    Parameter(const std::string& name, std::unique_ptr<ClassName> class_name)
         : name(name),
           className(std::move(class_name))
     {
@@ -252,6 +349,12 @@ class WhileLoop : public Entity
 public:
     std::unique_ptr<Expression> expression;
     std::unique_ptr<Body> body;
+
+    WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Body> body)
+        : expression(std::move(expression)),
+          body(std::move(body))
+    {
+    }
 };
 
 class IfStatement : public Entity
@@ -260,18 +363,36 @@ public:
     std::unique_ptr<Expression> expression;
     std::unique_ptr<IfBranch> ifBranch;
     std::unique_ptr<ElseBranch> elseBranch;
+
+    IfStatement(std::unique_ptr<Expression> expression, std::unique_ptr<IfBranch> if_branch,
+                std::unique_ptr<ElseBranch> else_branch = nullptr)
+        : expression(std::move(expression)),
+          ifBranch(std::move(if_branch)),
+          elseBranch(std::move(else_branch))
+    {
+    }
 };
 
 class IfBranch : public Entity
 {
 public:
     std::unique_ptr<Body> body;
+
+    explicit IfBranch(std::unique_ptr<Body> body)
+        : body(std::move(body))
+    {
+    }
 };
 
 class ElseBranch : public Entity
 {
 public:
     std::unique_ptr<Body> body;
+
+    explicit ElseBranch(std::unique_ptr<Body> body)
+        : body(std::move(body))
+    {
+    }
 };
 
 class ReturnStatement : public Entity
@@ -296,8 +417,8 @@ class BodyDeclarations : public Entity
 public:
     std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarations;
 
-    explicit BodyDeclarations(const std::vector<std::unique_ptr<BodyDeclaration>>& body_declarations)
-        : bodyDeclarations(body_declarations)
+    explicit BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>> body_declarations)
+        : bodyDeclarations(std::move(body_declarations))
     {
     }
 };

@@ -21,6 +21,7 @@ public:
 
     void parse();
 
+    void expectAndConsume(TokenCode code);
     void expect(TokenCode code);
 
     TokenCode peekNextToken();
@@ -32,12 +33,15 @@ public:
     std::unique_ptr<Program> parseProgram();
 
     std::unique_ptr<ProgramDeclaration> parseProgramDeclaration();
-    std::unique_ptr<Arguments> parseProgramArguments();
+    std::unique_ptr<ProgramArguments> parseProgramArguments();
     std::unique_ptr<Literals> parseLiterals();
     std::unique_ptr<Literal> parseLiteral();
     std::unique_ptr<Arguments> parseArguments();
+    std::unique_ptr<Expressions> parseExpressions();
     std::unique_ptr<Expression> parseExpression();
-    std::vector<std::unique_ptr<ClassDeclaration>> parseClassDeclarations();
+    std::unique_ptr<Primary> parsePrimary();
+    std::unique_ptr<CompoundExpression> parseCompoundExpression();
+    std::unique_ptr<ClassDeclarations> parseClassDeclarations();
     std::unique_ptr<ClassDeclaration> parseClassDeclaration();
     std::unique_ptr<ClassBody> parseClassBody();
     std::unique_ptr<ClassName> parseClassName();
@@ -46,9 +50,14 @@ public:
     std::unique_ptr<BodyDeclarations> parseBodyDeclarations();
     std::unique_ptr<BodyDeclaration> parseBodyDeclaration();
     std::unique_ptr<Statement> parseStatement();
+    std::unique_ptr<IfStatement> parseIfStatement();
+    std::unique_ptr<IfBranch> parseIfBranch();
+    std::unique_ptr<ElseBranch> parseElsebranch();
+    std::unique_ptr<WhileLoop> parseWhileLoop();
     std::unique_ptr<Assignment> parseAssignment();
-    std::vector<std::unique_ptr<MemberDeclaration>> parseMemberDeclarations();
+    std::unique_ptr<MemberDeclarations> parseMemberDeclarations();
     std::unique_ptr<MemberDeclaration> parseMemberDeclaration();
+    std::unique_ptr<ConstructorDeclaration> parseConstructorDeclaration();
     std::unique_ptr<VariableDeclaration> parseVariableDeclaration();
     std::unique_ptr<MethodDeclaration> parseMethodDeclaration();
     std::unique_ptr<MethodName> parseMethodName();
