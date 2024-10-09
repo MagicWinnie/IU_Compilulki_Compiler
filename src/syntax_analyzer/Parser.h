@@ -9,8 +9,8 @@
 #include "vector"
 #include "iostream"
 #include "memory"
-#include "../lexical_analyzer/Token.h"
-#include "Nodes.h"
+#include "../lexical_analyzer/token.h"
+#include "AST.h"
 
 class Parser {
     std::vector<std::unique_ptr<Token>> tokens;
@@ -29,10 +29,34 @@ public:
 
     void consumeToken();
 
-    std::unique_ptr<Entity> parseProgram();
+    std::unique_ptr<Program> parseProgram();
 
-    std::unique_ptr<Entity> parseProgramDeclaration();
-
+    std::unique_ptr<ProgramDeclaration> parseProgramDeclaration();
+    std::unique_ptr<Arguments> parseProgramArguments();
+    std::unique_ptr<Literals> parseLiterals();
+    std::unique_ptr<Literal> parseLiteral();
+    std::unique_ptr<Arguments> parseArguments();
+    std::unique_ptr<Expression> parseExpression();
+    std::vector<std::unique_ptr<ClassDeclaration>> parseClassDeclarations();
+    std::unique_ptr<ClassDeclaration> parseClassDeclaration();
+    std::unique_ptr<ClassBody> parseClassBody();
+    std::unique_ptr<ClassName> parseClassName();
+    std::unique_ptr<Extension> parseExtension();
+    std::unique_ptr<Body> parseBody();
+    std::unique_ptr<BodyDeclarations> parseBodyDeclarations();
+    std::unique_ptr<BodyDeclaration> parseBodyDeclaration();
+    std::unique_ptr<Statement> parseStatement();
+    std::unique_ptr<Assignment> parseAssignment();
+    std::vector<std::unique_ptr<MemberDeclaration>> parseMemberDeclarations();
+    std::unique_ptr<MemberDeclaration> parseMemberDeclaration();
+    std::unique_ptr<VariableDeclaration> parseVariableDeclaration();
+    std::unique_ptr<MethodDeclaration> parseMethodDeclaration();
+    std::unique_ptr<MethodName> parseMethodName();
+    std::unique_ptr<Parameters> parseParameters();
+    std::unique_ptr<Parameter> parseParameter();
+    std::unique_ptr<ReturnType> parseReturnType();
+    std::unique_ptr<VariableName> parseVariableName();
+    bool isPrimary(TokenCode code);
 };
 
 

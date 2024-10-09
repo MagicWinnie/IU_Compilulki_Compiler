@@ -13,8 +13,8 @@ add_executable(compilulki src/main.cpp
         src/lexical_analyzer/span.cpp
         src/lexical_analyzer/span.h
         src/lexical_analyzer/token_code.h
-        src/syntax_analyzer/Nodes.h
+        src/syntax_analyzer/AST.h
         src/syntax_analyzer/Parser.h
         src/syntax_analyzer/Parser.cpp
-        src/syntax_analyzer/Nodes.cpp
+        src/syntax_analyzer/AST.cpp
 )

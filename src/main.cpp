@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "lexical_analyzer/lexer.h"
-#include "syntax_analyzer/parser.h"
+#include "syntax_analyzer/Parser.h"
 #include "settings/settings.h"
 
 
