@@ -19,7 +19,6 @@ int main(const int argc, char *argv[]) {
     parser.parse();
 
 
-    // TODO: syntax analyzer
     // TODO: semantics analyzer
     // TODO: code generation
 
