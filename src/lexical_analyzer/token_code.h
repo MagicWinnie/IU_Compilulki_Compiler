@@ -28,7 +28,8 @@ enum TokenCode {
     INTEGER,
     REAL,
     BOOLEAN,
-    UNKNOWN
+    UNKNOWN,
+    END_OF_FILE
 };
 
 #endif //TOKEN_CODE_H

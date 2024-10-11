@@ -49,7 +49,12 @@ void Parser::expect(TokenCode code)
 
 TokenCode Parser::peekNextToken()
 {
+    if(current_token >= tokens.size())
+    {
+        return END_OF_FILE;
+    }
     return tokens[current_token]->get_code();
+
 }
 
 std::unique_ptr<Token> Parser::getNextToken()
@@ -93,6 +98,12 @@ std::unique_ptr<ProgramArguments> Parser::parseProgramArguments()
     if (peekNextToken() == LEFT_PAREN)
     {
         consumeToken(); // consume LEFT_PAREN
+        if(peekNextToken() == RIGHT_PAREN)
+        {
+            consumeToken(); // consume RIGHT_PAREN
+            return nullptr; // Empty arguments
+        }
+
         auto literals = parseLiterals();
         expectAndConsume(RIGHT_PAREN);
         return std::make_unique<ProgramArguments>(std::move(literals));

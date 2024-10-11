@@ -1,7 +1,7 @@
 // Simplest program test
 // Just sum of two integers
 
-Program: Main
+Program: Main()
 
 class Main is
     this() is
