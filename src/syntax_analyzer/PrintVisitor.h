@@ -73,7 +73,10 @@ public:
         std::cout << "CompoundExpression: " << node.identifier << std::endl;
         indentationLevel++;
         if (node.arguments) node.arguments->accept(*this);
-        if (node.compoundExpression) node.compoundExpression->accept(*this);
+        for(auto& compoundExpression: node.compoundExpressions)
+        {
+            compoundExpression->accept(*this);
+        }
         indentationLevel--;
     }
 

@@ -1,7 +1,7 @@
 // While loop test
 // "Complex way" of a summation of two integers
 
-Program: Main
+Program: Main()
 
 class Main is
     this() is

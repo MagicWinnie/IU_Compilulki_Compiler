@@ -132,7 +132,7 @@ class Arguments : public Entity
 public:
     std::unique_ptr<Expressions> expressions;
 
-    explicit Arguments(std::unique_ptr<Expressions> expressions)
+    Arguments(std::unique_ptr<Expressions> expressions)
         : expressions(std::move(expressions))
     {
     }
@@ -283,11 +283,11 @@ class CompoundExpression : public Entity
 public:
     std::string identifier;
     std::unique_ptr<Arguments> arguments;
-    std::unique_ptr<CompoundExpression> compoundExpression;
+    std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
     CompoundExpression(std::string id, std::unique_ptr<Arguments> args = nullptr,
-                       std::unique_ptr<CompoundExpression> compExpr = nullptr)
-        : identifier(std::move(id)), arguments(std::move(args)), compoundExpression(std::move(compExpr))
+                       std::vector<std::unique_ptr<CompoundExpression>> compExpr = {})
+        : identifier(std::move(id)), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
     {
     }
     void accept(Visitor& visitor) const override {
@@ -558,6 +558,12 @@ class ReturnStatement : public Entity
 {
 public:
     std::unique_ptr<Expression> expression;
+
+    explicit ReturnStatement(std::unique_ptr<Expression> expression)
+        : expression(std::move(expression))
+    {
+    }
+
     void accept(Visitor& visitor) const override {
         visitor.visit(*this);
     }

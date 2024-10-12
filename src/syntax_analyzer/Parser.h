@@ -24,7 +24,7 @@ public:
     void expectAndConsume(TokenCode code);
     void expect(TokenCode code);
 
-    TokenCode peekNextToken();
+    TokenCode peekNextToken(int offset = 0);
 
     std::unique_ptr<Token> getNextToken();
 
