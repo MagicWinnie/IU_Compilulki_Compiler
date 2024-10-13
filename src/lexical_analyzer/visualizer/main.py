@@ -5,10 +5,8 @@ from pathlib import Path
 
 import flet as ft
 
-
 CODE_TEXT_SIZE = 18
 CODE_ROW_HEIGHT = 24
-
 
 cannot_open_file_dlg = ft.AlertDialog(title=ft.Text("Cannot open the file"))
 
@@ -124,7 +122,7 @@ def main(page: ft.Page):
                         )
                     )
                 if line_indices[i][-1][1] != len(line):
-                    row.append(ft.Text(value=line[line_indices[i][-1][1] :], size=CODE_TEXT_SIZE))
+                    row.append(ft.Text(value=line[line_indices[i][-1][1]:], size=CODE_TEXT_SIZE))
                 rows.append(ft.Row(row, alignment=ft.MainAxisAlignment.START, height=CODE_ROW_HEIGHT))
 
             page.add(
