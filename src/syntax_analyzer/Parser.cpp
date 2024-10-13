@@ -389,7 +389,7 @@ std::unique_ptr<Statement> Parser::parseStatement()
     {
         //TODO add return
         auto statement = std::make_unique<Statement>();
-        statement->expression = parseReturnStatement();
+        statement->returnStatement = parseReturnStatement();
         return statement;
     }
     else
