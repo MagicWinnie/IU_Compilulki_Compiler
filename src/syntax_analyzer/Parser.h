@@ -12,7 +12,8 @@
 #include "../lexical_analyzer/token.h"
 #include "AST.h"
 
-class Parser {
+class Parser
+{
     std::vector<std::unique_ptr<Token>> tokens;
     int current_token = 0;
 
@@ -39,7 +40,7 @@ public:
     std::unique_ptr<Arguments> parseArguments();
     std::unique_ptr<Expressions> parseExpressions();
     std::unique_ptr<Expression> parseExpression();
-	std::unique_ptr<ReturnStatement> parseReturnStatement();
+    std::unique_ptr<ReturnStatement> parseReturnStatement();
     std::unique_ptr<Primary> parsePrimary();
     std::unique_ptr<CompoundExpression> parseCompoundExpression();
     std::unique_ptr<ClassDeclarations> parseClassDeclarations();

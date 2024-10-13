@@ -7,8 +7,4 @@
 #include "AST.h"
 
 
-
-
-
-
 #endif //VISITOR_H

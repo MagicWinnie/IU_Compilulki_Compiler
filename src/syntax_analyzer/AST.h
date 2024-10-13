@@ -46,8 +46,10 @@ class Assignment;
 class Statement;
 class Literal;
 
-class Visitor {
+class Visitor
+{
 public:
+    virtual ~Visitor() = default;
     virtual void visit(const Program& node) = 0;
     virtual void visit(const ProgramDeclaration& node) = 0;
     virtual void visit(const ClassName& node) = 0;
@@ -94,7 +96,8 @@ public:
     virtual void accept(class Visitor& visitor) const = 0;
 
     // Helper function to print indentation
-    void printIndent(int indent) const {
+    void printIndent(int indent) const
+    {
         for (int i = 0; i < indent; ++i) std::cout << "  ";
     }
 };
@@ -108,7 +111,9 @@ public:
         : literals(std::move(literals))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -121,7 +126,9 @@ public:
     Literal(std::string value) : value(std::move(value))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -136,7 +143,9 @@ public:
         : expressions(std::move(expressions))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -148,10 +157,13 @@ public:
     std::string name;
     std::unique_ptr<ClassName> className;
 
-    ClassName(std::string name, std::unique_ptr<ClassName> className = nullptr) : name(std::move(name)), className(std::move(className))
+    ClassName(std::string name, std::unique_ptr<ClassName> className = nullptr) : name(std::move(name)),
+        className(std::move(className))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -161,7 +173,9 @@ class ProgramDeclaration : public Entity
 public:
     std::unique_ptr<ClassName> className;
     std::unique_ptr<ProgramArguments> arguments;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -172,17 +186,20 @@ class Program : public Entity
 public:
     std::unique_ptr<ProgramDeclaration> programDeclaration;
     std::unique_ptr<ClassDeclarations> classDeclarations;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class ClassDeclarations : public Entity
 {
 public:
     std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -193,10 +210,11 @@ public:
     std::unique_ptr<ClassName> className;
     std::unique_ptr<Extension> extension;
     std::unique_ptr<ClassBody> classBody;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class MemberDeclarations : public Entity
@@ -204,7 +222,8 @@ class MemberDeclarations : public Entity
 public:
     std::vector<std::unique_ptr<MemberDeclaration>> member_declarations;
 
-    void accept(Visitor& visitor) const override {
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -218,10 +237,11 @@ public:
         : className(std::move(class_name))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class ClassBody : public Entity
@@ -233,17 +253,20 @@ public:
         : memberDeclarations(std::move(member_declarations))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class Expressions : public Entity
 {
 public:
     std::vector<std::unique_ptr<Expression>> expressions;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -254,7 +277,9 @@ class Expression : public Entity
 public:
     std::unique_ptr<Primary> primary;
     std::unique_ptr<CompoundExpression> compoundExpression;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -274,7 +299,9 @@ public:
         : class_name(std::move(class_name))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -291,10 +318,11 @@ public:
         : identifier(std::move(id)), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class ProgramArguments : public Entity
@@ -306,10 +334,11 @@ public:
         : literals(std::move(literals))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class MemberDeclaration : public Entity
@@ -319,7 +348,8 @@ public:
     std::unique_ptr<MethodDeclaration> methodDeclaration;
     std::unique_ptr<ConstructorDeclaration> constructorDeclaration;
 
-    void accept(Visitor& visitor) const override {
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -335,10 +365,11 @@ public:
           body(std::move(body))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class VariableDeclaration : public Entity
@@ -352,10 +383,11 @@ public:
           expression(std::move(expression))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class MethodDeclaration : public Entity
@@ -374,10 +406,11 @@ public:
           body(std::move(body))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class Parameters : public Entity
@@ -385,7 +418,8 @@ class Parameters : public Entity
 public:
     std::vector<std::unique_ptr<Parameter>> parameters;
 
-    void accept(Visitor& visitor) const override {
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -398,10 +432,11 @@ public:
     MethodName(std::string name) : name(std::move(name))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class Parameter : public Entity
@@ -415,7 +450,9 @@ public:
           className(std::move(class_name))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -428,10 +465,11 @@ public:
     VariableName(std::string name) : name(std::move(name))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
-
 };
 
 class ReturnType : public Entity
@@ -443,7 +481,9 @@ public:
         : className(std::move(class_name))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -464,7 +504,9 @@ public:
         : statement(std::move(statement))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -477,7 +519,9 @@ public:
     std::unique_ptr<IfStatement> ifStatement;
     std::unique_ptr<WhileLoop> whileLoop;
     std::unique_ptr<ReturnStatement> returnStatement;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -487,7 +531,9 @@ class Assignment : public Entity
 public:
     std::unique_ptr<VariableName> variableName;
     std::unique_ptr<Expression> expression;
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -503,7 +549,9 @@ public:
           body(std::move(body))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -522,7 +570,9 @@ public:
           elseBranch(std::move(else_branch))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -536,7 +586,9 @@ public:
         : body(std::move(body))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -550,7 +602,9 @@ public:
         : body(std::move(body))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -565,7 +619,8 @@ public:
     {
     }
 
-    void accept(Visitor& visitor) const override {
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -579,7 +634,9 @@ public:
         : bodyDeclarations(std::move(body_declarations))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
@@ -593,7 +650,9 @@ public:
         : bodyDeclarations(std::move(body_declarations))
     {
     }
-    void accept(Visitor& visitor) const override {
+
+    void accept(Visitor& visitor) const override
+    {
         visitor.visit(*this);
     }
 };
