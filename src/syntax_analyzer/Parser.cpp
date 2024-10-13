@@ -398,13 +398,13 @@ std::unique_ptr<Statement> Parser::parseStatement()
     }
 }
 
-
 std::unique_ptr<ReturnStatement> Parser::parseReturnStatement()
 {
     expectAndConsume(RETURN);
     auto expression = parseExpression();
     return std::make_unique<ReturnStatement>(std::move(expression));
 }
+
 std::unique_ptr<IfStatement> Parser::parseIfStatement()
 {
     expectAndConsume(IF);

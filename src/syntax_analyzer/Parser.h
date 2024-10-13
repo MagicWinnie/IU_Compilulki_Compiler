@@ -39,6 +39,7 @@ public:
     std::unique_ptr<Arguments> parseArguments();
     std::unique_ptr<Expressions> parseExpressions();
     std::unique_ptr<Expression> parseExpression();
+	std::unique_ptr<ReturnStatement> parseReturnStatement();
     std::unique_ptr<Primary> parsePrimary();
     std::unique_ptr<CompoundExpression> parseCompoundExpression();
     std::unique_ptr<ClassDeclarations> parseClassDeclarations();
