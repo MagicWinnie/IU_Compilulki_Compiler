@@ -167,6 +167,17 @@ std::unique_ptr<Expressions> Parser::parseExpressions()
 
 std::unique_ptr<Expression> Parser::parseExpression()
 {
+    if(peekNextToken()==THIS){
+        if(peekNextToken(1)==DOT){
+            auto expression = std::make_unique<Expression>();
+            expression->compoundExpression = parseCompoundExpression();
+            return expression;
+        }
+        auto expression = std::make_unique<Expression>();
+        expression->primary = parsePrimary();
+        return expression;
+
+    }
     if (isPrimary(peekNextToken()))
     {
         auto expression = std::make_unique<Expression>();
@@ -204,6 +215,20 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
 {
     auto identifier = getNextToken();
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
+
+    if(identifier->get_code() == THIS)
+    {
+        if(peekNextToken() == DOT)
+        {
+            consumeToken(); // consume DOT
+            compoundExpressions.push_back(parseCompoundExpression());
+            return std::make_unique<CompoundExpression>("this", nullptr, std::move(compoundExpressions));
+        }
+        else
+        {
+            throw std::runtime_error("Expected '.' after 'this', got: " + peekNextToken());
+        }
+    }
     if (identifier->get_code() != IDENTIFIER)
     {
         throw std::runtime_error("Expected identifier, got: " + identifier->to_string());
@@ -234,12 +259,6 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
             return std::make_unique<CompoundExpression>(identifier->to_string(), std::move(arguments), std::move(compoundExpressions));
         }
 
-        if (peekNextToken() == DOT)
-        {
-            consumeToken(); // consume DOT
-            compoundExpressions.push_back(parseCompoundExpression());
-            return std::make_unique<CompoundExpression>(identifier->to_string(), nullptr, std::move(compoundExpressions));
-        }
 
         return std::make_unique<CompoundExpression>(identifier->to_string(), nullptr,std::move(compoundExpressions));
     }
@@ -267,6 +286,8 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
         compoundExpressions.push_back(parseCompoundExpression());
         return std::make_unique<CompoundExpression>(identifier->to_string(), nullptr, std::move(compoundExpressions));
     }
+
+
 
 
     return std::make_unique<CompoundExpression>(identifier->to_string());
@@ -309,7 +330,15 @@ std::unique_ptr<ClassName> Parser::parseClassName()
     {
         throw std::runtime_error("Expected identifier, got: " + tokens[current_token]->to_string());
     }
-    return std::make_unique<ClassName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
+
+    std::unique_ptr<ClassName> subClassName = nullptr;
+    if(peekNextToken()==LEFT_SQUARE_BRACKET){
+        consumeToken();
+        subClassName = parseClassName();
+        expectAndConsume(RIGHT_SQUARE_BRACKET);
+    }
+
+    return std::make_unique<ClassName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier(), std::move(subClassName));
 }
 
 
@@ -337,12 +366,17 @@ std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
         bodyDeclarations.push_back(parseBodyDeclaration());
         // TODO add statement parsing
     }
-    while (peekNextToken() == VAR || peekNextToken() == IF || peekNextToken() == WHILE || peekNextToken()==RETURN || peekNextToken()==IDENTIFIER);
+    while (peekNextToken() == VAR || peekNextToken() == IF || peekNextToken() == WHILE || peekNextToken()==RETURN || peekNextToken()==IDENTIFIER ||
+            peekNextToken() == THIS);
     return std::make_unique<BodyDeclarations>(std::move(bodyDeclarations));
 }
 
 std::unique_ptr<BodyDeclaration> Parser::parseBodyDeclaration()
 {
+    if(peekNextToken()==END){
+        return nullptr;
+    }
+
     if (peekNextToken() == VAR && peekNextToken(2)!=COLON_EQUAL)
     {
         return std::make_unique<BodyDeclaration>(parseVariableDeclaration());
@@ -390,6 +424,12 @@ std::unique_ptr<Statement> Parser::parseStatement()
         //TODO add return
         auto statement = std::make_unique<Statement>();
         statement->returnStatement = parseReturnStatement();
+        return statement;
+    }
+    if(peekNextToken()==THIS)
+    {
+        auto statement = std::make_unique<Statement>();
+        statement->expression = parseExpression();
         return statement;
     }
     else
@@ -514,6 +554,9 @@ std::unique_ptr<MethodDeclaration> Parser::parseMethodDeclaration()
 {
     expectAndConsume(METHOD);
     auto methodName = parseMethodName();
+    if(methodName->name=="mergeSort"){
+        int a = 0;
+    }
     expectAndConsume(LEFT_PAREN);
     auto parameters = parseParameters();
     expectAndConsume(RIGHT_PAREN);
@@ -604,5 +647,5 @@ std::unique_ptr<VariableName> Parser::parseVariableName()
 
 bool Parser::isPrimary(TokenCode code)
 {
-    return code == INTEGER || code == REAL || code == BOOLEAN || code == THIS;
+    return code == INTEGER || code == REAL || code == BOOLEAN;
 }

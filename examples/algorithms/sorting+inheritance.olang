@@ -16,7 +16,7 @@ class BubbleSorter extends BaseSorter is
         while i.Less(arr.Length) loop
             var j : Integer(0)
             while j.Less(arr.Length.Minus(i).Minus(1)) loop
-                if arr.get(j).Greater(arr.get(j.Plus(1)) then
+                if arr.get(j).Greater(arr.get(j.Plus(1))) then
                     var tmp : Integer(0)
                     tmp := arr.get(j)
                     arr.set(j, arr.get(j.Plus(1)))
@@ -55,7 +55,7 @@ class MergeSorter extends BaseSorter is
         j := Integer(0)
         k := left
         while i.Less(n1).And(j.Less(n2)) loop
-            if leftArr.get(i).LessEqual(rightArr.get(j))) then
+            if leftArr.get(i).LessEqual(rightArr.get(j)) then
                 arr.set(k, leftArr.get(i))
                 i := i.Plus(1)
             else
@@ -122,7 +122,7 @@ class Main is
     
     method test() is
         // sorter 1 (does nothing)
-        var 123arr1.2 : this.createArray(8)
+        var arr1 : this.createArray(8)
         BaseSorter().sort(arr1)
         this.printArray(arr1)
         

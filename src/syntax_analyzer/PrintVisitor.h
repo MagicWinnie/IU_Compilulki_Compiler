@@ -119,7 +119,7 @@ public:
         std::cout << "BodyDeclarations" << std::endl;
         indentationLevel++;
         for (auto& bodyDeclaration : node.bodyDeclarations) {
-            bodyDeclaration->accept(*this);
+            if(bodyDeclaration) bodyDeclaration->accept(*this);
         }
         indentationLevel--;
     }
@@ -204,6 +204,8 @@ public:
         std::cout << "MemberDeclaration" << std::endl;
         indentationLevel++;
         if (node.constructorDeclaration) node.constructorDeclaration->accept(*this);
+        if(node.methodDeclaration) node.methodDeclaration->accept(*this);
+        if(node.variableDeclaration) node.variableDeclaration->accept(*this);
         indentationLevel--;
     }
 

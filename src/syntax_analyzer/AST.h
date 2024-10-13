@@ -146,8 +146,9 @@ class ClassName : public Entity
 {
 public:
     std::string name;
+    std::unique_ptr<ClassName> className;
 
-    ClassName(std::string name) : name(std::move(name))
+    ClassName(std::string name, std::unique_ptr<ClassName> className = nullptr) : name(std::move(name)), className(std::move(className))
     {
     }
     void accept(Visitor& visitor) const override {
