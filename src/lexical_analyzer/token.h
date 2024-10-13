@@ -23,6 +23,7 @@ public:
     virtual std::string to_string();
 
     TokenCode get_code() const;
+    Span get_span() const;
 };
 
 class Keyword : public Token {

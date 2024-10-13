@@ -12,6 +12,12 @@ TokenCode Token::get_code() const {
     return code;
 }
 
+Span Token::get_span() const {
+    return span;
+}
+
+
+
 std::string Identifier::get_identifier() const {
     return identifier;
 }

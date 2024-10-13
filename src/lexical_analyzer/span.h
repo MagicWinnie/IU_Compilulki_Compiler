@@ -12,6 +12,9 @@ public:
 
     // to string
     std::string to_string() const;
+    int get_line_num() const;
+    int get_pos_begin() const;
+    int get_pos_end() const;
 };
 
 #endif //SPAN_H

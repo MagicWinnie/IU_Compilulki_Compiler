@@ -21,4 +21,5 @@ add_executable(compilulki src/main.cpp
         src/syntax_analyzer/Visitor.h
         src/syntax_analyzer/PrintVisitor.cpp
         src/syntax_analyzer/PrintVisitor.h
+        src/utils/helper.cpp
 )

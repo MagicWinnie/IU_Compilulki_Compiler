@@ -3,7 +3,7 @@
 //
 
 #include "Parser.h"
-
+#include "../utils/helper.cpp"
 #include "PrintVisitor.h"
 
 
@@ -30,20 +30,26 @@ void Parser::parse()
 
 void Parser::expectAndConsume(TokenCode code)
 {
-    auto next_token = tokens[current_token]->get_code();
-    if (next_token != code)
-    {
-        throw std::runtime_error("Unexpected token: " + tokens[current_token]->to_string());
-    }
+    expect(code);
     current_token++;
 }
 
+
+void throwError(std::string expected, std::string got, int lineNumber, int column)
+{
+    std::string errorString = "Expected token: " + expected + " at line: " + std::to_string(lineNumber) +
+            " column: " + std::to_string(column) + ", got: " + got;
+    throw std::runtime_error(errorString);
+}
 void Parser::expect(TokenCode code)
 {
     auto next_token = tokens[current_token]->get_code();
     if (next_token != code)
     {
-        throw std::runtime_error("Unexpected token: " + tokens[current_token]->to_string());
+        auto span = tokens[current_token]->get_span();
+        auto line = span.get_line_num();
+        auto column = span.get_pos_begin();
+        throwError(getEnumName(code), getEnumName(tokens[current_token]->get_code()), line, column);
     }
 }
 
@@ -70,7 +76,6 @@ std::unique_ptr<Program> Parser::parseProgram()
 {
     auto program = std::make_unique<Program>();
     program->programDeclaration = parseProgramDeclaration();
-    // TODO add class declarations parsing
     program->classDeclarations = parseClassDeclarations();
     return program;
 }
@@ -136,7 +141,9 @@ std::unique_ptr<Literal> Parser::parseLiteral()
     case BOOLEAN:
         return std::make_unique<Literal>(next_token->to_string());
     default:
-        throw std::runtime_error("Expected literal, got: " + tokens[current_token]->to_string());
+        auto span = tokens[current_token]->get_span();
+        throwError("literal", getEnumName(tokens[current_token]->get_code()),  span.get_line_num(), span.get_pos_begin());
+
     }
 }
 
@@ -206,7 +213,7 @@ std::unique_ptr<Primary> Parser::parsePrimary()
     case THIS:
         return std::make_unique<Primary>(token->to_string());
     default:
-        throw std::runtime_error("Unexpected token in primary: " + token->to_string());
+        throw std::runtime_error("Unexpected token: " + token->to_string());
     }
 }
 
@@ -231,7 +238,8 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
     }
     if (identifier->get_code() != IDENTIFIER)
     {
-        throw std::runtime_error("Expected identifier, got: " + identifier->to_string());
+        auto span = tokens[current_token]->get_span();
+        throwError("indetifier", tokens[current_token]->to_string(),  span.get_line_num(), span.get_pos_begin());
     }
 
     // Check if it's an array type with square brackets
@@ -324,7 +332,8 @@ std::unique_ptr<ClassName> Parser::parseClassName()
     const auto next_token = getNextToken();
     if (next_token->get_code() != IDENTIFIER)
     {
-        throw std::runtime_error("Expected identifier, got: " + tokens[current_token]->to_string());
+        auto span = tokens[current_token]->get_span();
+        throwError("identifier", getEnumName(tokens[current_token]->get_code()),  span.get_line_num(), span.get_pos_begin());
     }
 
     std::unique_ptr<ClassName> subClassName = nullptr;
@@ -553,10 +562,6 @@ std::unique_ptr<MethodDeclaration> Parser::parseMethodDeclaration()
 {
     expectAndConsume(METHOD);
     auto methodName = parseMethodName();
-    if (methodName->name == "mergeSort")
-    {
-        int a = 0;
-    }
     expectAndConsume(LEFT_PAREN);
     auto parameters = parseParameters();
     expectAndConsume(RIGHT_PAREN);
@@ -578,7 +583,8 @@ std::unique_ptr<MethodName> Parser::parseMethodName()
     auto next_token = getNextToken();
     if (next_token->get_code() != IDENTIFIER)
     {
-        throw std::runtime_error("Expected identifier, got: " + tokens[current_token]->to_string());
+        auto span = tokens[current_token]->get_span();
+        throwError("identifier", getEnumName(tokens[current_token]->get_code()),  span.get_line_num(), span.get_pos_begin());
     }
     return std::make_unique<MethodName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
 }
@@ -603,18 +609,6 @@ std::unique_ptr<Parameters> Parser::parseParameters()
         return parameters;
     }
 
-
-    return nullptr;
-
-
-    // TODO implement the logic to parse the parameters
-    // if (peekNextToken() != RIGHT_PAREN) {  // Assuming RIGHT_PAREN is the token that closes the parameter list
-    //     parameters->parameters.push_back(parseParameter());
-    //     while (peekNextToken() == COMMA) {
-    //         consumeToken();
-    //         parameters->parameters.push_back(parseParameter());
-    //     }
-    // }
 }
 
 std::unique_ptr<Parameter> Parser::parseParameter()

@@ -2,6 +2,7 @@
 #include "token.h"
 #include <iomanip>
 #include <iostream>
+#include "../utils/helper.cpp"
 
 Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->infile_path = infile_path;
@@ -14,13 +15,7 @@ Lexer::Lexer(const std::string &infile_path, const bool &debug) {
     this->debug = debug;
 }
 
-std::string getEnumName(const TokenCode code) {
-    const auto it = tokenCodeToString.find(code);
-    if (it != tokenCodeToString.end()) {
-        return it->second; // Return the string if found
-    }
-    return "UNKNOWN_ENUM_VALUE"; // Fallback in case of unknown enum value
-}
+
 
 void Lexer::getNextChar(size_t *pos) {
     infile.get();
