@@ -108,7 +108,7 @@ def main(page: ft.Page):
                     row.append(
                         ft.Container(
                             content=ft.Text(
-                                value=line[start:end],
+                                value=line[start:end] + " ",
                                 tooltip=ft.Tooltip(
                                     f"{token_class}: {token_type}",
                                     text_style=ft.TextStyle(size=CODE_TEXT_SIZE, color=ft.colors.BLACK),
@@ -122,12 +122,12 @@ def main(page: ft.Page):
                         )
                     )
                 if line_indices[i][-1][1] != len(line):
-                    row.append(ft.Text(value=line[line_indices[i][-1][1]:], size=CODE_TEXT_SIZE))
-                rows.append(ft.Row(row, alignment=ft.MainAxisAlignment.START, height=CODE_ROW_HEIGHT))
+                    row.append(ft.Text(value=line[line_indices[i][-1][1] :], size=CODE_TEXT_SIZE))
+                rows.append(ft.Row(row, alignment=ft.MainAxisAlignment.START, height=CODE_ROW_HEIGHT, spacing=0))
 
             page.add(
                 ft.Container(
-                    ft.Column(rows, expand=True, scroll=ft.ScrollMode.AUTO),
+                    ft.Column(rows, expand=True, scroll=ft.ScrollMode.AUTO, spacing=0),
                     bgcolor=ft.colors.GREY_900,
                     padding=24,
                     expand=True,
