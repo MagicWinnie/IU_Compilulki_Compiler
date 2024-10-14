@@ -6,9 +6,8 @@
 #define PRINTVISITOR_H
 #include "AST.h"
 
-class PrintVisitor : public Visitor
+class PrintVisitor final : public Visitor
 {
-private:
     int indentationLevel = 0;
 
     // Helper function to print indentation
