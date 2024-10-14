@@ -6,20 +6,23 @@
 #define IU_COMPILULKI_COMPILER_PARSER_H
 
 
-#include "vector"
-#include "memory"
+#include <filesystem>
+#include <memory>
+#include <vector>
 #include "../lexical_analyzer/token.h"
 #include "AST.h"
 
 class Parser
 {
+    std::string infile_path;
+    bool debug;
     std::vector<std::unique_ptr<Token>> tokens;
     int current_token = 0;
 
 public:
-    explicit Parser(std::vector<std::unique_ptr<Token>> tokens);
+    explicit Parser(std::vector<std::unique_ptr<Token>> tokens, const std::string& infile_path, const bool& debug);
 
-    void parse();
+    std::unique_ptr<Program> parse();
 
     void expectAndConsume(TokenCode code);
     void expect(TokenCode code) const;

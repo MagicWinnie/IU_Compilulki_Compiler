@@ -8,6 +8,7 @@
 
 class PrintVisitor final : public Visitor
 {
+    std::ostream& out;
     int indentationLevel = 0;
 
     // Helper function to print indentation
@@ -15,15 +16,19 @@ class PrintVisitor final : public Visitor
     {
         for (int i = 0; i < indentationLevel; ++i)
         {
-            std::cout << "  "; // Two spaces for each indentation level
+            out << "  "; // Two spaces for each indentation level
         }
     }
 
 public:
+    explicit PrintVisitor(std::ostream& out) : out(out)
+    {
+    }
+
     void visit(const Literals& node) override
     {
         printIndentation();
-        std::cout << "Literals" << std::endl;
+        out << "Literals" << std::endl;
         indentationLevel++;
         for (auto& literal : node.literals)
         {
@@ -35,13 +40,13 @@ public:
     void visit(const Literal& node) override
     {
         printIndentation();
-        std::cout << "Literal: " << node.value << std::endl;
+        out << "Literal: " << node.value << std::endl;
     }
 
     void visit(const Arguments& node) override
     {
         printIndentation();
-        std::cout << "Arguments" << std::endl;
+        out << "Arguments" << std::endl;
         indentationLevel++;
         if (node.expressions) node.expressions->accept(*this);
         indentationLevel--;
@@ -50,7 +55,7 @@ public:
     void visit(const Expressions& node) override
     {
         printIndentation();
-        std::cout << "Expressions" << std::endl;
+        out << "Expressions" << std::endl;
         indentationLevel++;
         for (auto& expression : node.expressions)
         {
@@ -62,7 +67,7 @@ public:
     void visit(const Expression& node) override
     {
         printIndentation();
-        std::cout << "Expression" << std::endl;
+        out << "Expression" << std::endl;
         indentationLevel++;
         if (node.primary) node.primary->accept(*this);
         if (node.compoundExpression) node.compoundExpression->accept(*this);
@@ -72,7 +77,7 @@ public:
     void visit(const Primary& node) override
     {
         printIndentation();
-        std::cout << "Primary: " << node.value << std::endl;
+        out << "Primary: " << node.value << std::endl;
         indentationLevel++;
         if (node.class_name) node.class_name->accept(*this);
         indentationLevel--;
@@ -81,7 +86,7 @@ public:
     void visit(const CompoundExpression& node) override
     {
         printIndentation();
-        std::cout << "CompoundExpression: " << node.identifier << std::endl;
+        out << "CompoundExpression: " << node.identifier << std::endl;
         indentationLevel++;
         if (node.arguments) node.arguments->accept(*this);
         for (auto& compoundExpression : node.compoundExpressions)
@@ -94,7 +99,7 @@ public:
     void visit(const ClassDeclaration& node) override
     {
         printIndentation();
-        std::cout << "ClassDeclaration" << std::endl;
+        out << "ClassDeclaration" << std::endl;
         indentationLevel++;
         if (node.className) node.className->accept(*this);
         if (node.extension) node.extension->accept(*this);
@@ -105,7 +110,7 @@ public:
     void visit(const ClassBody& node) override
     {
         printIndentation();
-        std::cout << "ClassBody" << std::endl;
+        out << "ClassBody" << std::endl;
         indentationLevel++;
         if (node.memberDeclarations) node.memberDeclarations->accept(*this);
         indentationLevel--;
@@ -114,7 +119,7 @@ public:
     void visit(const Extension& node) override
     {
         printIndentation();
-        std::cout << "Extension" << std::endl;
+        out << "Extension" << std::endl;
         indentationLevel++;
         if (node.className) node.className->accept(*this);
         indentationLevel--;
@@ -123,7 +128,7 @@ public:
     void visit(const Body& node) override
     {
         printIndentation();
-        std::cout << "Body" << std::endl;
+        out << "Body" << std::endl;
         indentationLevel++;
         if (node.bodyDeclarations) node.bodyDeclarations->accept(*this);
         indentationLevel--;
@@ -132,7 +137,7 @@ public:
     void visit(const BodyDeclarations& node) override
     {
         printIndentation();
-        std::cout << "BodyDeclarations" << std::endl;
+        out << "BodyDeclarations" << std::endl;
         indentationLevel++;
         for (auto& bodyDeclaration : node.bodyDeclarations)
         {
@@ -144,7 +149,7 @@ public:
     void visit(const BodyDeclaration& node) override
     {
         printIndentation();
-        std::cout << "BodyDeclaration" << std::endl;
+        out << "BodyDeclaration" << std::endl;
         indentationLevel++;
         if (node.variableDeclaration) node.variableDeclaration->accept(*this);
         if (node.statement) node.statement->accept(*this);
@@ -154,7 +159,7 @@ public:
     void visit(const Statement& node) override
     {
         printIndentation();
-        std::cout << "Statement" << std::endl;
+        out << "Statement" << std::endl;
         indentationLevel++;
         if (node.assignment) node.assignment->accept(*this);
         if (node.expression) node.expression->accept(*this);
@@ -167,7 +172,7 @@ public:
     void visit(const IfStatement& node) override
     {
         printIndentation();
-        std::cout << "IfStatement" << std::endl;
+        out << "IfStatement" << std::endl;
         indentationLevel++;
         if (node.expression) node.expression->accept(*this);
         if (node.ifBranch) node.ifBranch->accept(*this);
@@ -178,7 +183,7 @@ public:
     void visit(const IfBranch& node) override
     {
         printIndentation();
-        std::cout << "IfBranch" << std::endl;
+        out << "IfBranch" << std::endl;
         indentationLevel++;
         if (node.body) node.body->accept(*this);
         indentationLevel--;
@@ -187,7 +192,7 @@ public:
     void visit(const ElseBranch& node) override
     {
         printIndentation();
-        std::cout << "ElseBranch" << std::endl;
+        out << "ElseBranch" << std::endl;
         indentationLevel++;
         if (node.body) node.body->accept(*this);
         indentationLevel--;
@@ -196,7 +201,7 @@ public:
     void visit(const WhileLoop& node) override
     {
         printIndentation();
-        std::cout << "WhileLoop" << std::endl;
+        out << "WhileLoop" << std::endl;
         indentationLevel++;
         if (node.body) node.body->accept(*this);
         if (node.expression) node.expression->accept(*this);
@@ -206,7 +211,7 @@ public:
     void visit(const Assignment& node) override
     {
         printIndentation();
-        std::cout << "Assignment" << std::endl;
+        out << "Assignment" << std::endl;
         indentationLevel++;
         if (node.expression) node.expression->accept(*this);
         if (node.variableName) node.variableName->accept(*this);
@@ -216,7 +221,7 @@ public:
     void visit(const MemberDeclarations& node) override
     {
         printIndentation();
-        std::cout << "MemberDeclarations" << std::endl;
+        out << "MemberDeclarations" << std::endl;
         indentationLevel++;
         for (auto& memberDeclaration : node.member_declarations)
         {
@@ -228,7 +233,7 @@ public:
     void visit(const MemberDeclaration& node) override
     {
         printIndentation();
-        std::cout << "MemberDeclaration" << std::endl;
+        out << "MemberDeclaration" << std::endl;
         indentationLevel++;
         if (node.constructorDeclaration) node.constructorDeclaration->accept(*this);
         if (node.methodDeclaration) node.methodDeclaration->accept(*this);
@@ -239,7 +244,7 @@ public:
     void visit(const ConstructorDeclaration& node) override
     {
         printIndentation();
-        std::cout << "ConstructorDeclaration" << std::endl;
+        out << "ConstructorDeclaration" << std::endl;
         indentationLevel++;
         if (node.body) node.body->accept(*this);
         if (node.parameters) node.parameters->accept(*this);
@@ -249,7 +254,7 @@ public:
     void visit(const ReturnStatement& node) override
     {
         printIndentation();
-        std::cout << "ReturnStatement" << std::endl;
+        out << "ReturnStatement" << std::endl;
         indentationLevel++;
         if (node.expression) node.expression->accept(*this);
         indentationLevel--;
@@ -258,7 +263,7 @@ public:
     void visit(const VariableDeclaration& node) override
     {
         printIndentation();
-        std::cout << "VariableDeclaration" << std::endl;
+        out << "VariableDeclaration" << std::endl;
         indentationLevel++;
         if (node.expression) node.expression->accept(*this);
         if (node.variable) node.variable->accept(*this);
@@ -268,7 +273,7 @@ public:
     void visit(const MethodDeclaration& node) override
     {
         printIndentation();
-        std::cout << "MethodDeclaration" << std::endl;
+        out << "MethodDeclaration" << std::endl;
         indentationLevel++;
         if (node.body) node.body->accept(*this);
         if (node.parameters) node.parameters->accept(*this);
@@ -280,13 +285,13 @@ public:
     void visit(const MethodName& node) override
     {
         printIndentation();
-        std::cout << "MethodName: " << node.name << std::endl;
+        out << "MethodName: " << node.name << std::endl;
     }
 
     void visit(const Parameters& node) override
     {
         printIndentation();
-        std::cout << "Parameters" << std::endl;
+        out << "Parameters" << std::endl;
         indentationLevel++;
         for (auto& parameter : node.parameters)
         {
@@ -298,7 +303,7 @@ public:
     void visit(const Parameter& node) override
     {
         printIndentation();
-        std::cout << "Parameter: " << node.name << std::endl;
+        out << "Parameter: " << node.name << std::endl;
         indentationLevel++;
         if (node.className) node.className->accept(*this);
         indentationLevel--;
@@ -307,7 +312,7 @@ public:
     void visit(const ReturnType& node) override
     {
         printIndentation();
-        std::cout << "ReturnType" << std::endl;
+        out << "ReturnType" << std::endl;
         indentationLevel++;
         if (node.className) node.className->accept(*this);
         indentationLevel--;
@@ -316,13 +321,13 @@ public:
     void visit(const VariableName& node) override
     {
         printIndentation();
-        std::cout << "VariableName: " << node.name << std::endl;
+        out << "VariableName: " << node.name << std::endl;
     }
 
     void visit(const Program& node) override
     {
         printIndentation();
-        std::cout << "Program" << std::endl;
+        out << "Program" << std::endl;
         indentationLevel++;
         if (node.programDeclaration) node.programDeclaration->accept(*this);
         if (node.classDeclarations) node.classDeclarations->accept(*this);
@@ -332,7 +337,7 @@ public:
     void visit(const ProgramDeclaration& node) override
     {
         printIndentation();
-        std::cout << "ProgramDeclaration" << std::endl;
+        out << "ProgramDeclaration" << std::endl;
         indentationLevel++;
         if (node.className) node.className->accept(*this);
         if (node.arguments) node.arguments->accept(*this);
@@ -342,13 +347,13 @@ public:
     void visit(const ClassName& node) override
     {
         printIndentation();
-        std::cout << "ClassName: " << node.name << std::endl;
+        out << "ClassName: " << node.name << std::endl;
     }
 
     void visit(const ProgramArguments& node) override
     {
         printIndentation();
-        std::cout << "ProgramArguments" << std::endl;
+        out << "ProgramArguments" << std::endl;
         indentationLevel++;
         if (node.literals) node.literals->accept(*this);
         indentationLevel--;
@@ -357,7 +362,7 @@ public:
     void visit(const ClassDeclarations& node) override
     {
         printIndentation();
-        std::cout << "ClassDeclarations" << std::endl;
+        out << "ClassDeclarations" << std::endl;
         indentationLevel++;
         for (auto& classDeclaration : node.classDeclarations)
         {

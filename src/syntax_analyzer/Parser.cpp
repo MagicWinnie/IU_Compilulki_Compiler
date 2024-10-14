@@ -3,23 +3,40 @@
 //
 
 #include "Parser.h"
+
+#include <fstream>
+
 #include "../utils/helper.cpp"
 #include "PrintVisitor.h"
 
 
-Parser::Parser(std::vector<std::unique_ptr<Token>> tokens)
+Parser::Parser(std::vector<std::unique_ptr<Token>> tokens, const std::string& infile_path, const bool& debug)
 {
     this->tokens = std::move(tokens);
+    this->infile_path = infile_path;
+    this->debug = debug;
 }
 
-void Parser::parse()
+std::unique_ptr<Program> Parser::parse()
 {
     try
     {
-        const auto program = parseProgram();
-        std::cout << "Parsed program" << std::endl;
-        PrintVisitor printer;
-        program->accept(printer);
+        auto program = parseProgram();
+        if (this->debug)
+        {
+            std::filesystem::path path(this->infile_path);
+            path.replace_extension(".syntax");
+            std::cout << "Syntax analyzer writing to " << path << std::endl;
+
+            std::ofstream output_file;
+            output_file.open(path);
+
+            PrintVisitor printer(output_file);
+            program->accept(printer);
+
+            output_file.close();
+        }
+        return program;
     }
     catch (std::runtime_error& e)
     {

@@ -5,17 +5,21 @@
 #include "settings/settings.h"
 
 
-int main(const int argc, char *argv[]) {
+int main(const int argc, char* argv[])
+{
     auto settings = Settings();
     settings.parse(argc, argv);
     settings.process();
 
-    std::cout << settings << std::endl;
+    if (settings.get_debug())
+    {
+        std::cout << settings << std::endl;
+    }
 
     auto lexer = Lexer(settings.get_infile(), settings.get_debug());
     auto tokens = lexer.parse();
 
-    auto parser = Parser(std::move(tokens));
+    auto parser = Parser(std::move(tokens), settings.get_infile(), settings.get_debug());
     parser.parse();
 
 

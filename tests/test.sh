@@ -24,7 +24,7 @@ if [[ $(basename "$current_dir") == "$expected_base_directory" ]]; then
 
     find "$current_dir/examples" -type f -name "*.olang" | while read -r file; do
 
-        "$current_dir/cmake-build-debug/compilulki" "$file" > /dev/null
+        "$current_dir/cmake-build-debug/compilulki" -g "$file" > /dev/null
 
         exit_code=$?
         if [[ $exit_code -eq 0 ]]; then
