@@ -143,8 +143,8 @@ std::unique_ptr<Literal> Parser::parseLiteral()
         return std::make_unique<Literal>(next_token->to_string());
     default:
         const auto span = tokens[current_token]->get_span();
-        throwError("literal", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
-                   span.get_pos_begin());
+        throwError("literal", getEnumName(tokens[current_token]->get_code()),
+                   span.get_line_num(), span.get_pos_begin());
     }
 }
 
@@ -236,8 +236,9 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
     }
     if (identifier->get_code() != IDENTIFIER)
     {
-        auto span = tokens[current_token]->get_span();
-        throwError("identifier", tokens[current_token]->to_string(), span.get_line_num(), span.get_pos_begin());
+        const auto span = tokens[current_token]->get_span();
+        throwError("identifier", getEnumName(tokens[current_token]->get_code()),
+                   span.get_line_num(), span.get_pos_begin());
     }
 
     // Check if it's an array type with square brackets
@@ -438,8 +439,8 @@ std::unique_ptr<Statement> Parser::parseStatement()
         return statement;
     }
     const auto span = tokens[current_token]->get_span();
-    throwError(":=, if, while, identifier, return or this", tokens[current_token]->to_string(),
-        span.get_line_num(), span.get_pos_begin());
+    throwError(":=, if, while, identifier, return or this", getEnumName(tokens[current_token]->get_code()),
+               span.get_line_num(), span.get_pos_begin());
 }
 
 std::unique_ptr<ReturnStatement> Parser::parseReturnStatement()
@@ -529,8 +530,8 @@ std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration()
         return memberDeclaration;
     }
     const auto span = tokens[current_token]->get_span();
-    throwError("var, method, or this", tokens[current_token]->to_string(), span.get_line_num(),
-               span.get_pos_begin());
+    throwError("var, method, or this", getEnumName(tokens[current_token]->get_code()),
+               span.get_line_num(), span.get_pos_begin());
 }
 
 std::unique_ptr<ConstructorDeclaration> Parser::parseConstructorDeclaration()
@@ -628,8 +629,8 @@ std::unique_ptr<VariableName> Parser::parseVariableName()
     if (next_token->get_code() != IDENTIFIER)
     {
         const auto span = tokens[current_token]->get_span();
-        throwError("identifier", tokens[current_token]->to_string(), span.get_line_num(),
-                   span.get_pos_begin());
+        throwError("identifier", getEnumName(tokens[current_token]->get_code()),
+                   span.get_line_num(), span.get_pos_begin());
     }
     return std::make_unique<VariableName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
 }
