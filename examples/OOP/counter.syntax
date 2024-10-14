@@ -1,0 +1,91 @@
+Parsed program
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Counter
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            VariableDeclaration
+              Expression
+                CompoundExpression: Identifier{Span(7, 13, 20), 22, Integer}
+                  Arguments
+                    Expressions
+                      Expression
+                        Primary: Integer{Span(7, 21, 22), 23, 0}
+              VariableName: c
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Statement
+                      Assignment
+                        Expression
+                          CompoundExpression: Identifier{Span(10, 14, 15), 22, c}
+                            CompoundExpression: Identifier{Span(10, 16, 20), 22, Plus}
+                              Arguments
+                                Expressions
+                                  Expression
+                                    Primary: Integer{Span(10, 21, 22), 23, 1}
+                        VariableName: c
+              MethodName: inc
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Statement
+                      ReturnStatement
+                        Expression
+                          CompoundExpression: Identifier{Span(14, 16, 21), 22, count}
+              ReturnType
+                ClassName: Integer
+              MethodName: getCounter
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(21, 23, 30), 22, Counter}
+                      VariableName: counter
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(23, 9, 18), 22, myCounter}
+                          CompoundExpression: Identifier{Span(23, 19, 22), 22, inc}
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(24, 9, 18), 22, myCounter}
+                          CompoundExpression: Identifier{Span(24, 19, 22), 22, inc}
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(25, 9, 18), 22, myCounter}
+                          CompoundExpression: Identifier{Span(25, 19, 22), 22, inc}
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(27, 28, 35), 22, Integer}
+                      VariableName: currentValue
+                  BodyDeclaration
+                    Statement
+                      Assignment
+                        Expression
+                          CompoundExpression: Identifier{Span(28, 25, 34), 22, myCounter}
+                            CompoundExpression: Identifier{Span(28, 35, 45), 22, getCounter}
+                        VariableName: currentValue
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(30, 9, 21), 22, currentValue}
+                          CompoundExpression: Identifier{Span(30, 22, 27), 22, print}

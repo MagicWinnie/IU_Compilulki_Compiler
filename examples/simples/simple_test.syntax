@@ -1,0 +1,46 @@
+Parsed program
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(9, 17, 24), 22, Integer}
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: Integer{Span(9, 25, 26), 23, 5}
+                      VariableName: a
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(10, 17, 24), 22, Integer}
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: Integer{Span(10, 25, 27), 23, 10}
+                      VariableName: b
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(12, 19, 20), 22, a}
+                          CompoundExpression: Identifier{Span(12, 21, 25), 22, Plus}
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: Identifier{Span(12, 26, 27), 22, b}
+                      VariableName: sum
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(14, 9, 12), 22, sum}
+                          CompoundExpression: Identifier{Span(14, 13, 18), 22, print}

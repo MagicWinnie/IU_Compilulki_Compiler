@@ -1,0 +1,114 @@
+Parsed program
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: A
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            VariableDeclaration
+              Expression
+                CompoundExpression: Identifier{Span(6, 13, 20), 22, Integer}
+                  Arguments
+                    Expressions
+                      Expression
+                        Primary: Integer{Span(6, 21, 22), 23, 0}
+              VariableName: a
+          MemberDeclaration
+            VariableDeclaration
+              Expression
+                CompoundExpression: Identifier{Span(7, 13, 20), 22, Integer}
+                  Arguments
+                    Expressions
+                      Expression
+                        Primary: Integer{Span(7, 21, 22), 23, 0}
+              VariableName: b
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Statement
+                      Assignment
+                        Expression
+                          CompoundExpression: Identifier{Span(10, 14, 15), 22, x}
+                        VariableName: a
+                  BodyDeclaration
+                    Statement
+                      Assignment
+                        Expression
+                          CompoundExpression: Identifier{Span(11, 14, 15), 22, y}
+                        VariableName: b
+              Parameters
+                Parameter: Identifier{Span(9, 10, 11), 22, x}
+                  ClassName: Integer
+                Parameter: Identifier{Span(9, 22, 23), 22, y}
+                  ClassName: Integer
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Statement
+                      Assignment
+                        Expression
+                          CompoundExpression: Identifier{Span(15, 14, 15), 22, x}
+                        VariableName: a
+              Parameters
+                Parameter: Identifier{Span(14, 10, 11), 22, x}
+                  ClassName: Integer
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(19, 9, 10), 22, a}
+                          CompoundExpression: Identifier{Span(19, 11, 16), 22, print}
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(20, 9, 10), 22, b}
+                          CompoundExpression: Identifier{Span(20, 11, 16), 22, print}
+              MethodName: show
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(26, 18, 19), 22, A}
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: Integer{Span(26, 20, 21), 23, 1}
+                              Expression
+                                Primary: Integer{Span(26, 22, 23), 23, 2}
+                      VariableName: a1
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Identifier{Span(27, 18, 19), 22, A}
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: Integer{Span(27, 20, 21), 23, 1}
+                      VariableName: a2
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(29, 9, 11), 22, a1}
+                          CompoundExpression: Identifier{Span(29, 12, 16), 22, show}
+                  BodyDeclaration
+                    Statement
+                      Expression
+                        CompoundExpression: Identifier{Span(30, 9, 11), 22, a2}
+                          CompoundExpression: Identifier{Span(30, 12, 16), 22, show}
