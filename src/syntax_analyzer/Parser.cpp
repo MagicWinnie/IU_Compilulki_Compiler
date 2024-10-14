@@ -16,7 +16,7 @@ void Parser::parse()
 {
     try
     {
-        auto program = parseProgram();
+        const auto program = parseProgram();
         std::cout << "Parsed program" << std::endl;
         PrintVisitor printer;
         program->accept(printer);
@@ -28,32 +28,33 @@ void Parser::parse()
     }
 }
 
-void Parser::expectAndConsume(TokenCode code)
+void Parser::expectAndConsume(const TokenCode code)
 {
     expect(code);
     current_token++;
 }
 
 
-void throwError(std::string expected, std::string got, int lineNumber, int column)
+void throwError(const std::string& expected, const std::string& got, const int lineNumber, const int column)
 {
-    std::string errorString = "Expected token: " + expected + " at line: " + std::to_string(lineNumber) +
-            " column: " + std::to_string(column) + ", got: " + got;
+    const std::string errorString = "Expected token: " + expected + " at line: " + std::to_string(lineNumber) +
+        " column: " + std::to_string(column) + ", got: " + got;
     throw std::runtime_error(errorString);
 }
-void Parser::expect(TokenCode code)
+
+void Parser::expect(const TokenCode code) const
 {
-    auto next_token = tokens[current_token]->get_code();
+    const auto next_token = tokens[current_token]->get_code();
     if (next_token != code)
     {
-        auto span = tokens[current_token]->get_span();
-        auto line = span.get_line_num();
-        auto column = span.get_pos_begin();
+        const auto span = tokens[current_token]->get_span();
+        const auto line = span.get_line_num();
+        const auto column = span.get_pos_begin();
         throwError(getEnumName(code), getEnumName(tokens[current_token]->get_code()), line, column);
     }
 }
 
-TokenCode Parser::peekNextToken(int offset)
+TokenCode Parser::peekNextToken(const int offset) const
 {
     if (current_token >= tokens.size())
     {
@@ -130,7 +131,7 @@ std::unique_ptr<Literals> Parser::parseLiterals()
 
 std::unique_ptr<Literal> Parser::parseLiteral()
 {
-    auto next_token = getNextToken();
+    const auto next_token = getNextToken();
     switch (next_token->get_code())
     {
     // TODO fix
@@ -141,9 +142,9 @@ std::unique_ptr<Literal> Parser::parseLiteral()
     case BOOLEAN:
         return std::make_unique<Literal>(next_token->to_string());
     default:
-        auto span = tokens[current_token]->get_span();
-        throwError("literal", getEnumName(tokens[current_token]->get_code()),  span.get_line_num(), span.get_pos_begin());
-
+        const auto span = tokens[current_token]->get_span();
+        throwError("literal", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
+                   span.get_pos_begin());
     }
 }
 
@@ -201,7 +202,7 @@ std::unique_ptr<Expression> Parser::parseExpression()
 
 std::unique_ptr<Primary> Parser::parsePrimary()
 {
-    auto token = getNextToken();
+    const auto token = getNextToken();
     switch (token->get_code())
     {
     case INTEGER:
@@ -220,7 +221,7 @@ std::unique_ptr<Primary> Parser::parsePrimary()
 // TODO needs to be testes
 std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
 {
-    auto identifier = getNextToken();
+    const auto identifier = getNextToken();
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
     if (identifier->get_code() == THIS)
@@ -231,15 +232,12 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
             compoundExpressions.push_back(parseCompoundExpression());
             return std::make_unique<CompoundExpression>("this", nullptr, std::move(compoundExpressions));
         }
-        else
-        {
-            throw std::runtime_error("Expected '.' after 'this', got: " + peekNextToken());
-        }
+        throw std::runtime_error("Expected '.' after 'this', got: " + peekNextToken());
     }
     if (identifier->get_code() != IDENTIFIER)
     {
         auto span = tokens[current_token]->get_span();
-        throwError("indetifier", tokens[current_token]->to_string(),  span.get_line_num(), span.get_pos_begin());
+        throwError("identifier", tokens[current_token]->to_string(), span.get_line_num(), span.get_pos_begin());
     }
 
     // Check if it's an array type with square brackets
@@ -332,8 +330,9 @@ std::unique_ptr<ClassName> Parser::parseClassName()
     const auto next_token = getNextToken();
     if (next_token->get_code() != IDENTIFIER)
     {
-        auto span = tokens[current_token]->get_span();
-        throwError("identifier", getEnumName(tokens[current_token]->get_code()),  span.get_line_num(), span.get_pos_begin());
+        const auto span = tokens[current_token]->get_span();
+        throwError("identifier", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
+                   span.get_pos_begin());
     }
 
     std::unique_ptr<ClassName> subClassName = nullptr;
@@ -441,10 +440,7 @@ std::unique_ptr<Statement> Parser::parseStatement()
         statement->expression = parseExpression();
         return statement;
     }
-    else
-    {
-        throw std::runtime_error("Unexpected token in statement: " + tokens[current_token]->to_string());
-    }
+    throw std::runtime_error("Unexpected token in statement: " + tokens[current_token]->to_string());
 }
 
 std::unique_ptr<ReturnStatement> Parser::parseReturnStatement()
@@ -515,7 +511,7 @@ std::unique_ptr<MemberDeclarations> Parser::parseMemberDeclarations()
 
 std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration()
 {
-    auto nextToken = peekNextToken();
+    const auto nextToken = peekNextToken();
     auto memberDeclaration = std::make_unique<MemberDeclaration>();
     if (nextToken == VAR)
     {
@@ -580,41 +576,38 @@ std::unique_ptr<MethodDeclaration> Parser::parseMethodDeclaration()
 
 std::unique_ptr<MethodName> Parser::parseMethodName()
 {
-    auto next_token = getNextToken();
+    const auto next_token = getNextToken();
     if (next_token->get_code() != IDENTIFIER)
     {
-        auto span = tokens[current_token]->get_span();
-        throwError("identifier", getEnumName(tokens[current_token]->get_code()),  span.get_line_num(), span.get_pos_begin());
+        const auto span = tokens[current_token]->get_span();
+        throwError("identifier", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
+                   span.get_pos_begin());
     }
     return std::make_unique<MethodName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
 }
 
 std::unique_ptr<Parameters> Parser::parseParameters()
 {
-    auto next_token = peekNextToken();
+    const auto next_token = peekNextToken();
     // No parameters
     if (next_token == RIGHT_PAREN)
     {
         return nullptr;
     }
-    else
+    auto parameters = std::make_unique<Parameters>();
+    parameters->parameters.push_back(parseParameter());
+    while (peekNextToken() == COMMA)
     {
-        auto parameters = std::make_unique<Parameters>();
+        consumeToken();
         parameters->parameters.push_back(parseParameter());
-        while (peekNextToken() == COMMA)
-        {
-            consumeToken();
-            parameters->parameters.push_back(parseParameter());
-        }
-        return parameters;
     }
-
+    return parameters;
 }
 
 std::unique_ptr<Parameter> Parser::parseParameter()
 {
     expect(IDENTIFIER);
-    auto identifier = getNextToken();
+    const auto identifier = getNextToken();
     expectAndConsume(COLON);
     auto className = parseClassName();
     return std::make_unique<Parameter>(identifier->to_string(), std::move(className));
@@ -630,7 +623,7 @@ std::unique_ptr<ReturnType> Parser::parseReturnType()
 
 std::unique_ptr<VariableName> Parser::parseVariableName()
 {
-    auto next_token = getNextToken();
+    const auto next_token = getNextToken();
     if (next_token->get_code() != IDENTIFIER)
     {
         throw std::runtime_error("Expected identifier, got: " + tokens[current_token]->to_string());
@@ -639,7 +632,7 @@ std::unique_ptr<VariableName> Parser::parseVariableName()
 }
 
 
-bool Parser::isPrimary(TokenCode code)
+bool Parser::isPrimary(const TokenCode code)
 {
     return code == INTEGER || code == REAL || code == BOOLEAN;
 }

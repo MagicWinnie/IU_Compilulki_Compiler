@@ -6,6 +6,7 @@
 #define IU_COMPILULKI_COMPILER_NODES_H
 
 #include <iostream>
+#include <utility>
 #include "memory"
 #include "vector"
 #include "string"
@@ -93,21 +94,21 @@ public:
     //    virtual bool validate() = 0;
     //    virtual void generate() = 0;
     virtual ~Entity() = default;
-    virtual void accept(class Visitor& visitor) const = 0;
+    virtual void accept(Visitor& visitor) const = 0;
 
     // Helper function to print indentation
-    void printIndent(int indent) const
+    static void printIndent(const int indent)
     {
         for (int i = 0; i < indent; ++i) std::cout << "  ";
     }
 };
 
-class Literals : public Entity
+class Literals final : public Entity
 {
 public:
     std::vector<std::unique_ptr<Literal>> literals;
 
-    Literals(std::vector<std::unique_ptr<Literal>> literals)
+    explicit Literals(std::vector<std::unique_ptr<Literal>> literals)
         : literals(std::move(literals))
     {
     }
@@ -118,12 +119,12 @@ public:
     }
 };
 
-class Literal : public Entity
+class Literal final : public Entity
 {
 public:
     std::string value;
 
-    Literal(std::string value) : value(std::move(value))
+    explicit Literal(std::string value) : value(std::move(value))
     {
     }
 
@@ -134,12 +135,12 @@ public:
 };
 
 
-class Arguments : public Entity
+class Arguments final : public Entity
 {
 public:
     std::unique_ptr<Expressions> expressions;
 
-    Arguments(std::unique_ptr<Expressions> expressions)
+    explicit Arguments(std::unique_ptr<Expressions> expressions)
         : expressions(std::move(expressions))
     {
     }
@@ -151,13 +152,13 @@ public:
 };
 
 
-class ClassName : public Entity
+class ClassName final : public Entity
 {
 public:
     std::string name;
     std::unique_ptr<ClassName> className;
 
-    ClassName(std::string name, std::unique_ptr<ClassName> className = nullptr) : name(std::move(name)),
+    explicit ClassName(std::string name, std::unique_ptr<ClassName> className = nullptr) : name(std::move(name)),
         className(std::move(className))
     {
     }
@@ -168,7 +169,7 @@ public:
     }
 };
 
-class ProgramDeclaration : public Entity
+class ProgramDeclaration final : public Entity
 {
 public:
     std::unique_ptr<ClassName> className;
@@ -181,7 +182,7 @@ public:
 };
 
 
-class Program : public Entity
+class Program final : public Entity
 {
 public:
     std::unique_ptr<ProgramDeclaration> programDeclaration;
@@ -193,7 +194,7 @@ public:
     }
 };
 
-class ClassDeclarations : public Entity
+class ClassDeclarations final : public Entity
 {
 public:
     std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations;
@@ -204,7 +205,7 @@ public:
     }
 };
 
-class ClassDeclaration : public Entity
+class ClassDeclaration final : public Entity
 {
 public:
     std::unique_ptr<ClassName> className;
@@ -217,7 +218,7 @@ public:
     }
 };
 
-class MemberDeclarations : public Entity
+class MemberDeclarations final : public Entity
 {
 public:
     std::vector<std::unique_ptr<MemberDeclaration>> member_declarations;
@@ -228,12 +229,12 @@ public:
     }
 };
 
-class Extension : public Entity
+class Extension final : public Entity
 {
 public:
     std::unique_ptr<ClassName> className;
 
-    Extension(std::unique_ptr<ClassName> class_name)
+    explicit Extension(std::unique_ptr<ClassName> class_name)
         : className(std::move(class_name))
     {
     }
@@ -244,7 +245,7 @@ public:
     }
 };
 
-class ClassBody : public Entity
+class ClassBody final : public Entity
 {
 public:
     std::unique_ptr<MemberDeclarations> memberDeclarations;
@@ -260,7 +261,7 @@ public:
     }
 };
 
-class Expressions : public Entity
+class Expressions final : public Entity
 {
 public:
     std::vector<std::unique_ptr<Expression>> expressions;
@@ -272,7 +273,7 @@ public:
 };
 
 
-class Expression : public Entity
+class Expression final : public Entity
 {
 public:
     std::unique_ptr<Primary> primary;
@@ -284,18 +285,18 @@ public:
     }
 };
 
-class Primary : public Entity
+class Primary final : public Entity
 {
 public:
     std::string value;
     std::unique_ptr<ClassName> class_name;
 
-    Primary(const std::string& value)
-        : value(value)
+    explicit Primary(std::string value)
+        : value(std::move(value))
     {
     }
 
-    Primary(std::unique_ptr<ClassName> class_name)
+    explicit Primary(std::unique_ptr<ClassName> class_name)
         : class_name(std::move(class_name))
     {
     }
@@ -306,15 +307,15 @@ public:
     }
 };
 
-class CompoundExpression : public Entity
+class CompoundExpression final : public Entity
 {
 public:
     std::string identifier;
     std::unique_ptr<Arguments> arguments;
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
-    CompoundExpression(std::string id, std::unique_ptr<Arguments> args = nullptr,
-                       std::vector<std::unique_ptr<CompoundExpression>> compExpr = {})
+    explicit CompoundExpression(std::string id, std::unique_ptr<Arguments> args = nullptr,
+                                std::vector<std::unique_ptr<CompoundExpression>> compExpr = {})
         : identifier(std::move(id)), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
     {
     }
@@ -325,12 +326,12 @@ public:
     }
 };
 
-class ProgramArguments : public Entity
+class ProgramArguments final : public Entity
 {
 public:
     std::unique_ptr<Literals> literals;
 
-    ProgramArguments(std::unique_ptr<Literals> literals)
+    explicit ProgramArguments(std::unique_ptr<Literals> literals)
         : literals(std::move(literals))
     {
     }
@@ -341,7 +342,7 @@ public:
     }
 };
 
-class MemberDeclaration : public Entity
+class MemberDeclaration final : public Entity
 {
 public:
     std::unique_ptr<VariableDeclaration> variableDeclaration;
@@ -354,7 +355,7 @@ public:
     }
 };
 
-class ConstructorDeclaration : public Entity
+class ConstructorDeclaration final : public Entity
 {
 public:
     std::unique_ptr<Parameters> parameters;
@@ -372,7 +373,7 @@ public:
     }
 };
 
-class VariableDeclaration : public Entity
+class VariableDeclaration final : public Entity
 {
 public:
     std::unique_ptr<VariableName> variable;
@@ -390,7 +391,7 @@ public:
     }
 };
 
-class MethodDeclaration : public Entity
+class MethodDeclaration final : public Entity
 {
 public:
     std::unique_ptr<MethodName> methodName;
@@ -413,7 +414,7 @@ public:
     }
 };
 
-class Parameters : public Entity
+class Parameters final : public Entity
 {
 public:
     std::vector<std::unique_ptr<Parameter>> parameters;
@@ -424,12 +425,12 @@ public:
     }
 };
 
-class MethodName : public Entity
+class MethodName final : public Entity
 {
 public:
     std::string name;
 
-    MethodName(std::string name) : name(std::move(name))
+    explicit MethodName(std::string name) : name(std::move(name))
     {
     }
 
@@ -439,14 +440,14 @@ public:
     }
 };
 
-class Parameter : public Entity
+class Parameter final : public Entity
 {
 public:
     std::string name;
     std::unique_ptr<ClassName> className;
 
-    Parameter(const std::string& name, std::unique_ptr<ClassName> class_name)
-        : name(name),
+    Parameter(std::string name, std::unique_ptr<ClassName> class_name)
+        : name(std::move(name)),
           className(std::move(class_name))
     {
     }
@@ -457,12 +458,12 @@ public:
     }
 };
 
-class VariableName : public Entity
+class VariableName final : public Entity
 {
 public:
     std::string name;
 
-    VariableName(std::string name) : name(std::move(name))
+    explicit VariableName(std::string name) : name(std::move(name))
     {
     }
 
@@ -472,12 +473,12 @@ public:
     }
 };
 
-class ReturnType : public Entity
+class ReturnType final : public Entity
 {
 public:
     std::unique_ptr<ClassName> className;
 
-    ReturnType(std::unique_ptr<ClassName> class_name)
+    explicit ReturnType(std::unique_ptr<ClassName> class_name)
         : className(std::move(class_name))
     {
     }
@@ -488,13 +489,13 @@ public:
     }
 };
 
-class BodyDeclaration : public Entity
+class BodyDeclaration final : public Entity
 {
 public:
     std::unique_ptr<VariableDeclaration> variableDeclaration = nullptr;
     std::unique_ptr<Statement> statement = nullptr;
 
-    BodyDeclaration(std::unique_ptr<VariableDeclaration> variable_declaration
+    explicit BodyDeclaration(std::unique_ptr<VariableDeclaration> variable_declaration
     )
         : variableDeclaration(std::move(variable_declaration))
     {
@@ -511,7 +512,7 @@ public:
     }
 };
 
-class Statement : public Entity
+class Statement final : public Entity
 {
 public:
     std::unique_ptr<Assignment> assignment;
@@ -526,7 +527,7 @@ public:
     }
 };
 
-class Assignment : public Entity
+class Assignment final : public Entity
 {
 public:
     std::unique_ptr<VariableName> variableName;
@@ -538,7 +539,7 @@ public:
     }
 };
 
-class WhileLoop : public Entity
+class WhileLoop final : public Entity
 {
 public:
     std::unique_ptr<Expression> expression;
@@ -556,7 +557,7 @@ public:
     }
 };
 
-class IfStatement : public Entity
+class IfStatement final : public Entity
 {
 public:
     std::unique_ptr<Expression> expression;
@@ -577,7 +578,7 @@ public:
     }
 };
 
-class IfBranch : public Entity
+class IfBranch final : public Entity
 {
 public:
     std::unique_ptr<Body> body;
@@ -593,7 +594,7 @@ public:
     }
 };
 
-class ElseBranch : public Entity
+class ElseBranch final : public Entity
 {
 public:
     std::unique_ptr<Body> body;
@@ -609,7 +610,7 @@ public:
     }
 };
 
-class ReturnStatement : public Entity
+class ReturnStatement final : public Entity
 {
 public:
     std::unique_ptr<Expression> expression;
@@ -625,7 +626,7 @@ public:
     }
 };
 
-class Body : public Entity
+class Body final : public Entity
 {
 public:
     std::unique_ptr<BodyDeclarations> bodyDeclarations;
@@ -641,7 +642,7 @@ public:
     }
 };
 
-class BodyDeclarations : public Entity
+class BodyDeclarations final : public Entity
 {
 public:
     std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarations;

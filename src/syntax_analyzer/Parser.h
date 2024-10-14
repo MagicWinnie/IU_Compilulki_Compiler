@@ -7,7 +7,6 @@
 
 
 #include "vector"
-#include "iostream"
 #include "memory"
 #include "../lexical_analyzer/token.h"
 #include "AST.h"
@@ -23,9 +22,9 @@ public:
     void parse();
 
     void expectAndConsume(TokenCode code);
-    void expect(TokenCode code);
+    void expect(TokenCode code) const;
 
-    TokenCode peekNextToken(int offset = 0);
+    [[nodiscard]] TokenCode peekNextToken(int offset = 0) const;
 
     std::unique_ptr<Token> getNextToken();
 
@@ -67,7 +66,7 @@ public:
     std::unique_ptr<Parameter> parseParameter();
     std::unique_ptr<ReturnType> parseReturnType();
     std::unique_ptr<VariableName> parseVariableName();
-    bool isPrimary(TokenCode code);
+    static bool isPrimary(TokenCode code);
 };
 
 
