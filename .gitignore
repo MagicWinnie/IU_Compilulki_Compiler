@@ -32,6 +32,7 @@
 *.app
 
 # CMake
+.cmake/
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -45,5 +46,10 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 cmake-build-debug
+
+# Ninja
+.ninja_deps
+.ninja_log
+build.ninja
 
 .idea
