@@ -389,10 +389,7 @@ std::unique_ptr<BodyDeclaration> Parser::parseBodyDeclaration()
     {
         return std::make_unique<BodyDeclaration>(parseVariableDeclaration());
     }
-    else
-    {
-        return std::make_unique<BodyDeclaration>(parseStatement());
-    }
+    return std::make_unique<BodyDeclaration>(parseStatement());
     // TODO add statement parsing
     // else if (peekNextToken() == ???) {
     //     return std::make_unique<BodyDeclaration>(parseStatement());
@@ -440,7 +437,9 @@ std::unique_ptr<Statement> Parser::parseStatement()
         statement->expression = parseExpression();
         return statement;
     }
-    throw std::runtime_error("Unexpected token in statement: " + tokens[current_token]->to_string());
+    const auto span = tokens[current_token]->get_span();
+    throwError(":=, if, while, identifier, return or this", tokens[current_token]->to_string(),
+        span.get_line_num(), span.get_pos_begin());
 }
 
 std::unique_ptr<ReturnStatement> Parser::parseReturnStatement()
@@ -518,18 +517,20 @@ std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration()
         memberDeclaration->variableDeclaration = parseVariableDeclaration();
         return memberDeclaration;
     }
-    else if (nextToken == METHOD)
+    if (nextToken == METHOD)
     {
         memberDeclaration->methodDeclaration = parseMethodDeclaration();
         return memberDeclaration;
         // TODO maybe error??
     }
-    else if (nextToken == THIS)
+    if (nextToken == THIS)
     {
         memberDeclaration->constructorDeclaration = parseConstructorDeclaration();
         return memberDeclaration;
     }
-    throw std::runtime_error("Unexpected token in member declaration: " + tokens[current_token]->to_string());
+    const auto span = tokens[current_token]->get_span();
+    throwError("var, method, or this", tokens[current_token]->to_string(), span.get_line_num(),
+               span.get_pos_begin());
 }
 
 std::unique_ptr<ConstructorDeclaration> Parser::parseConstructorDeclaration()
@@ -626,7 +627,9 @@ std::unique_ptr<VariableName> Parser::parseVariableName()
     const auto next_token = getNextToken();
     if (next_token->get_code() != IDENTIFIER)
     {
-        throw std::runtime_error("Expected identifier, got: " + tokens[current_token]->to_string());
+        const auto span = tokens[current_token]->get_span();
+        throwError("identifier", tokens[current_token]->to_string(), span.get_line_num(),
+                   span.get_pos_begin());
     }
     return std::make_unique<VariableName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
 }

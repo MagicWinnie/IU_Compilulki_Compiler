@@ -22,11 +22,11 @@ public:
 
     virtual std::string to_string();
 
-    TokenCode get_code() const;
-    Span get_span() const;
+    [[nodiscard]] TokenCode get_code() const;
+    [[nodiscard]] Span get_span() const;
 };
 
-class Keyword : public Token {
+class Keyword final : public Token {
 public:
     Keyword(const Span &span, const TokenCode code) : Token(span, code) {
     }
@@ -34,7 +34,7 @@ public:
     std::string to_string() override;
 };
 
-class Identifier : public Token {
+class Identifier final : public Token {
 protected:
     std::string identifier;
 
@@ -44,12 +44,12 @@ public:
           identifier(std::move(identifier)) {
     }
 
-    std::string get_identifier() const;
+    [[nodiscard]] std::string get_identifier() const;
 
     std::string to_string() override;
 };
 
-class Integer : public Token {
+class Integer final : public Token {
 protected:
     long value;
 
@@ -62,7 +62,7 @@ public:
     std::string to_string() override;
 };
 
-class Real : public Token {
+class Real final : public Token {
 protected:
     long double value;
 
@@ -75,7 +75,7 @@ public:
     std::string to_string() override;
 };
 
-class Boolean : public Token {
+class Boolean final : public Token {
 protected:
     bool value;
 
@@ -88,7 +88,7 @@ public:
     std::string to_string() override;
 };
 
-class Delimiter : public Token {
+class Delimiter final : public Token {
 public:
     Delimiter(const Span &span, const TokenCode code)
         : Token(span, code) {
