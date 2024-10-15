@@ -40,7 +40,7 @@ def main():
 
     G = pgv.AGraph("tree.dot", rankdir="TB", strict=True)
     G.layout(prog="dot", args="")
-    G.draw("tree.png")
+    G.draw("tree.pdf")
 
 
 if __name__ == "__main__":
