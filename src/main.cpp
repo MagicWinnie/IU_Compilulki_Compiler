@@ -3,6 +3,7 @@
 #include "lexical_analyzer/lexer.h"
 #include "syntax_analyzer/Parser.h"
 #include "settings/settings.h"
+#include "syntax_analyzer/SymbolTableVisitor.cpp"
 
 
 int main(const int argc, char* argv[])
@@ -20,7 +21,11 @@ int main(const int argc, char* argv[])
     auto tokens = lexer.parse();
 
     auto parser = Parser(std::move(tokens), settings.get_infile(), settings.get_debug());
-    parser.parse();
+    std::unique_ptr<Program> program = parser.parse();
+
+    SymbolTableVisitor symbolTableVisitor;
+    program->accept(symbolTableVisitor);
+    symbolTableVisitor;
 
 
     // TODO: semantics analyzer

@@ -22,4 +22,6 @@ add_executable(compilulki src/main.cpp
         src/syntax_analyzer/PrintVisitor.cpp
         src/syntax_analyzer/PrintVisitor.h
         src/utils/helper.cpp
+        src/syntax_analyzer/SymbolTable.cpp
+        src/syntax_analyzer/SymbolTableVisitor.cpp
 )

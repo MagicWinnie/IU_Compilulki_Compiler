@@ -50,42 +50,43 @@ class Literal;
 class Visitor
 {
 public:
+    Visitor() = default;
     virtual ~Visitor() = default;
-    virtual void visit(const Program& node) = 0;
-    virtual void visit(const ProgramDeclaration& node) = 0;
-    virtual void visit(const ClassName& node) = 0;
-    virtual void visit(const ProgramArguments& node) = 0;
-    virtual void visit(const Literals& node) = 0;
-    virtual void visit(const Literal& node) = 0;
-    virtual void visit(const Arguments& node) = 0;
-    virtual void visit(const Expressions& node) = 0;
-    virtual void visit(const Expression& node) = 0;
-    virtual void visit(const Primary& node) = 0;
-    virtual void visit(const CompoundExpression& node) = 0;
-    virtual void visit(const ClassDeclarations& node) = 0;
-    virtual void visit(const ClassDeclaration& node) = 0;
-    virtual void visit(const ClassBody& node) = 0;
-    virtual void visit(const Extension& node) = 0;
-    virtual void visit(const Body& node) = 0;
-    virtual void visit(const BodyDeclarations& node) = 0;
-    virtual void visit(const BodyDeclaration& node) = 0;
-    virtual void visit(const Statement& node) = 0;
-    virtual void visit(const IfStatement& node) = 0;
-    virtual void visit(const IfBranch& node) = 0;
-    virtual void visit(const ElseBranch& node) = 0;
-    virtual void visit(const WhileLoop& node) = 0;
-    virtual void visit(const Assignment& node) = 0;
-    virtual void visit(const MemberDeclarations& node) = 0;
-    virtual void visit(const MemberDeclaration& node) = 0;
-    virtual void visit(const ConstructorDeclaration& node) = 0;
-    virtual void visit(const ReturnStatement& node) = 0;
-    virtual void visit(const VariableDeclaration& node) = 0;
-    virtual void visit(const MethodDeclaration& node) = 0;
-    virtual void visit(const MethodName& node) = 0;
-    virtual void visit(const Parameters& node) = 0;
-    virtual void visit(const Parameter& node) = 0;
-    virtual void visit(const ReturnType& node) = 0;
-    virtual void visit(const VariableName& node) = 0;
+    virtual void visitProgram(const Program& node) = 0;
+    virtual void visitProgramDeclaration(const ProgramDeclaration& node) = 0;
+    virtual void visitClassName(const ClassName& node) = 0;
+    virtual void visitProgramArguments(const ProgramArguments& node) = 0;
+    virtual void visitLiterals(const Literals& node) = 0;
+    virtual void visitLiteral(const Literal& node) = 0;
+    virtual void visitArguments(const Arguments& node) = 0;
+    virtual void visitExpressions(const Expressions& node) = 0;
+    virtual void visitExpression(const Expression& node) = 0;
+    virtual void visitPrimary(const Primary& node) = 0;
+    virtual void visitCompoundExpression(const CompoundExpression& node) = 0;
+    virtual void visitClassDeclarations(const ClassDeclarations& node) = 0;
+    virtual void visitClassDeclaration(const ClassDeclaration& node) = 0;
+    virtual void visitClassBody(const ClassBody& node) = 0;
+    virtual void visitExtension(const Extension& node) = 0;
+    virtual void visitBody(const Body& node) = 0;
+    virtual void visitBodyDeclarations(const BodyDeclarations& node) = 0;
+    virtual void visitBodyDeclaration(const BodyDeclaration& node) = 0;
+    virtual void visitStatement(const Statement& node) = 0;
+    virtual void visitIfStatement(const IfStatement& node) = 0;
+    virtual void visitIfBranch(const IfBranch& node) = 0;
+    virtual void visitElseBranch(const ElseBranch& node) = 0;
+    virtual void visitWhileLoop(const WhileLoop& node) = 0;
+    virtual void visitAssignment(const Assignment& node) = 0;
+    virtual void visitMemberDeclarations(const MemberDeclarations& node) = 0;
+    virtual void visitMemberDeclaration(const MemberDeclaration& node) = 0;
+    virtual void visitConstructorDeclaration(const ConstructorDeclaration& node) = 0;
+    virtual void visitReturnStatement(const ReturnStatement& node) = 0;
+    virtual void visitVariableDeclaration(const VariableDeclaration& node) = 0;
+    virtual void visitMethodDeclaration(const MethodDeclaration& node) = 0;
+    virtual void visitMethodName(const MethodName& node) = 0;
+    virtual void visitParameters(const Parameters& node) = 0;
+    virtual void visitParameter(const Parameter& node) = 0;
+    virtual void visitReturnType(const ReturnType& node) = 0;
+    virtual void visitVariableName(const VariableName& node) = 0;
 };
 
 class Entity
@@ -115,7 +116,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitLiterals(*this);
     }
 };
 
@@ -130,7 +131,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitLiteral(*this);
     }
 };
 
@@ -147,7 +148,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitArguments(*this);
     }
 };
 
@@ -165,7 +166,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitClassName(*this);
     }
 };
 
@@ -177,7 +178,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitProgramDeclaration(*this);
     }
 };
 
@@ -190,7 +191,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitProgram(*this);
     }
 };
 
@@ -201,7 +202,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitClassDeclarations(*this);
     }
 };
 
@@ -214,7 +215,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitClassDeclaration(*this);
     }
 };
 
@@ -225,7 +226,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitMemberDeclarations(*this);
     }
 };
 
@@ -241,7 +242,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitExtension(*this);
     }
 };
 
@@ -257,7 +258,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitClassBody(*this);
     }
 };
 
@@ -268,7 +269,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitExpressions(*this);
     }
 };
 
@@ -281,7 +282,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitExpression(*this);
     }
 };
 
@@ -303,7 +304,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitPrimary(*this);
     }
 };
 
@@ -322,7 +323,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitCompoundExpression(*this);
     }
 };
 
@@ -338,7 +339,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitProgramArguments(*this);
     }
 };
 
@@ -351,7 +352,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitMemberDeclaration(*this);
     }
 };
 
@@ -369,7 +370,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitConstructorDeclaration(*this);
     }
 };
 
@@ -387,7 +388,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitVariableDeclaration(*this);
     }
 };
 
@@ -410,7 +411,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitMethodDeclaration(*this);
     }
 };
 
@@ -421,7 +422,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitParameters(*this);
     }
 };
 
@@ -436,7 +437,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitMethodName(*this);
     }
 };
 
@@ -454,7 +455,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitParameter(*this);
     }
 };
 
@@ -469,7 +470,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitVariableName(*this);
     }
 };
 
@@ -485,7 +486,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitReturnType(*this);
     }
 };
 
@@ -508,7 +509,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitBodyDeclaration(*this);
     }
 };
 
@@ -523,7 +524,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitStatement(*this);
     }
 };
 
@@ -535,7 +536,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitAssignment(*this);
     }
 };
 
@@ -553,7 +554,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitWhileLoop(*this);
     }
 };
 
@@ -574,7 +575,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitIfStatement(*this);
     }
 };
 
@@ -590,7 +591,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitIfBranch(*this);
     }
 };
 
@@ -606,7 +607,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitElseBranch(*this);
     }
 };
 
@@ -622,7 +623,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitReturnStatement(*this);
     }
 };
 
@@ -638,7 +639,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitBody(*this);
     }
 };
 
@@ -654,7 +655,7 @@ public:
 
     void accept(Visitor& visitor) const override
     {
-        visitor.visit(*this);
+        visitor.visitBodyDeclarations(*this);
     }
 };
 
