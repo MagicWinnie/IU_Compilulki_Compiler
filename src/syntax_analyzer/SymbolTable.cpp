@@ -3,8 +3,9 @@
 //
 
 
-#include <stack>
+#include <vector>
 #include <string>
+#include <stdexcept>
 #include <unordered_map>
 
 struct SymbolTableEntry {
@@ -35,36 +36,47 @@ public:
 
 class ScopedSymbolTable {
 private:
-    std::stack<SymbolTable> scopes;
+    std::vector<SymbolTable> scopes;
 
 public:
     // Enter a new scope (push a new symbol table onto the stack)
     void enterScope() {
-        scopes.emplace(SymbolTable());
+        scopes.push_back(SymbolTable());
     }
 
     // Leave a scope (pop the current symbol table)
     void leaveScope() {
         if (!scopes.empty()) {
-            scopes.pop();
+            scopes.pop_back();
         }
     }
 
     // Add an entry in the current scope
     void addEntry(const std::string& name, const std::string& type, bool is_constant = false) {
+
         if (!scopes.empty()) {
-            scopes.top().addEntry(name, type, is_constant);
+            // Use a reference to modify the actual scope on the stack
+            auto& current_scope = scopes.back();
+
+            if (current_scope.entries.find(name) != current_scope.entries.end()) {
+                throw std::runtime_error("Variable '" + name + "' is already declared in this scope.");
+            }
+
+            // Add the new entry to the current scope
+            current_scope.addEntry(name, type, is_constant);
         }
     }
 
     // Lookup an entry across all scopes (from innermost to outermost)
-    SymbolTableEntry* lookup(const std::string& name) {
-        // for (auto it = scopes.rbegin(); it != scopes.rend(); ++it) {
-        //     auto* entry = it->lookup(name);
-        //     if (entry) {
-        //         return entry;
-        //     }
-        // }
-        return nullptr; // Not found in any scope
+    std::string lookup(const std::string& name) const
+    {
+        for (auto it = scopes.rbegin(); it != scopes.rend(); ++it) {
+            const auto& scope = *it;
+            auto found = scope.entries.find(name);
+            if (found != scope.entries.end()) {
+                return found->second.type;
+            }
+        }
+        throw std::runtime_error("Variable '" + name + "' used before declaration.");
     }
 };

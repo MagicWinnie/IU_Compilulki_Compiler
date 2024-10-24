@@ -13,7 +13,7 @@ private:
 public:
     SymbolTableVisitor()
     {
-        symbolTable.enterScope();
+
     }
 
     ~SymbolTableVisitor()
@@ -92,6 +92,7 @@ public:
 
     void visitClassDeclarations(const ClassDeclarations& node) override
     {
+
         for (auto& classDeclaration : node.classDeclarations)
         {
             classDeclaration->accept(*this);
@@ -100,9 +101,12 @@ public:
 
     void visitClassDeclaration(const ClassDeclaration& node) override
     {
+        symbolTable.enterScope();
         if (node.className) node.className->accept(*this);
         if (node.extension) node.extension->accept(*this);
         if (node.classBody) node.classBody->accept(*this);
+        symbolTable.leaveScope();
+        // TODO add leaveScope in other places
     }
 
     void visitClassBody(const ClassBody& node) override
@@ -237,7 +241,11 @@ public:
     }
     void visitVariableName(const VariableName& node) override
     {
-
+        try {
+            symbolTable.lookup(node.name);
+        } catch (const std::runtime_error& e) {
+            std::cerr << e.what() << std::endl;
+        }
     }
 
     // Implement other visit methods as needed
