@@ -5,7 +5,6 @@
 
 #include <vector>
 #include <string>
-#include <stdexcept>
 #include <unordered_map>
 
 struct VariableEntry

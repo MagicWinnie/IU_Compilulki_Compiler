@@ -1,3 +1,4 @@
+#include <iostream>
 #include "SymbolTable.h"
 
 void SymbolTable::addVariableEntry(const std::string& name, const std::string& type, bool is_constant)

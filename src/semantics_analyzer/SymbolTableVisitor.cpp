@@ -1,3 +1,5 @@
+#include <iostream>
+#include <stdexcept>
 #include "SymbolTableVisitor.h"
 
 SymbolTableVisitor::SymbolTableVisitor() = default;
