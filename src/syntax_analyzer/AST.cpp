@@ -40,8 +40,8 @@ void Arguments::accept(Visitor& visitor) const
     visitor.visitArguments(*this);
 }
 
-ClassName::ClassName(std::string name, std::unique_ptr<ClassName> className): name(std::move(name)),
-                                                                              className(std::move(className))
+ClassName::ClassName(std::string name, std::unique_ptr<ClassName> className):
+    name(std::move(name)), className(std::move(className))
 {
 }
 
@@ -192,8 +192,8 @@ void MethodName::accept(Visitor& visitor) const
     visitor.visitMethodName(*this);
 }
 
-Parameter::Parameter(std::string name, std::unique_ptr<ClassName> class_name): name(std::move(name)),
-                                                                               className(std::move(class_name))
+Parameter::Parameter(std::string name, const Span& span, std::unique_ptr<ClassName> class_name):
+    name(std::move(name)), span(span), className(std::move(class_name))
 {
 }
 
@@ -202,7 +202,7 @@ void Parameter::accept(Visitor& visitor) const
     visitor.visitParameter(*this);
 }
 
-VariableName::VariableName(std::string name, Span span): name(std::move(name)), span(span)
+VariableName::VariableName(std::string name, const Span& span): name(std::move(name)), span(span)
 {
 }
 

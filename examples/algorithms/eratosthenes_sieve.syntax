@@ -16,11 +16,6 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: n
-                      VariableName: n
-                  BodyDeclaration
-                    VariableDeclaration
-                      Expression
                         CompoundExpression: Array
                           Arguments
                             Expressions
@@ -30,7 +25,7 @@ Program
                                     Arguments
                                       Expressions
                                         Expression
-                                          Primary: Integer{Span(9, 39, 40), 23, 1}
+                                          Primary: Integer{Span(7, 39, 40), 23, 1}
                           CompoundExpression: Boolean
                       VariableName: A
                   BodyDeclaration
@@ -40,7 +35,7 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(10, 25, 26), 23, 0}
+                                Primary: Integer{Span(8, 25, 26), 23, 0}
                       VariableName: i
                   BodyDeclaration
                     Statement
@@ -57,7 +52,7 @@ Program
                                           Expression
                                             CompoundExpression: i
                                           Expression
-                                            Primary: Boolean{Span(14, 22, 26), 25, 1}
+                                            Primary: Boolean{Span(12, 22, 26), 25, 1}
                             BodyDeclaration
                               Statement
                                 Assignment
@@ -67,7 +62,7 @@ Program
                                         Arguments
                                           Expressions
                                             Expression
-                                              Primary: Integer{Span(15, 25, 26), 23, 1}
+                                              Primary: Integer{Span(13, 25, 26), 23, 1}
                                   VariableName: i
                         Expression
                           CompoundExpression: i
@@ -85,7 +80,7 @@ Program
                             Arguments
                               Expressions
                                 Expression
-                                  Primary: Integer{Span(19, 22, 23), 23, 2}
+                                  Primary: Integer{Span(17, 22, 23), 23, 2}
                         VariableName: i
                   BodyDeclaration
                     Statement
@@ -112,7 +107,7 @@ Program
                                                 Arguments
                                                   Expressions
                                                     Expression
-                                                      Primary: Integer{Span(22, 33, 34), 23, 0}
+                                                      Primary: Integer{Span(20, 33, 34), 23, 0}
                                             VariableName: j
                                         BodyDeclaration
                                           VariableDeclaration
@@ -149,7 +144,7 @@ Program
                                                                 Expression
                                                                   CompoundExpression: k
                                                                 Expression
-                                                                  Primary: Boolean{Span(25, 30, 35), 25, 0}
+                                                                  Primary: Boolean{Span(23, 30, 35), 25, 0}
                                                   BodyDeclaration
                                                     Statement
                                                       Assignment
@@ -159,7 +154,7 @@ Program
                                                               Arguments
                                                                 Expressions
                                                                   Expression
-                                                                    Primary: Integer{Span(26, 33, 34), 23, 1}
+                                                                    Primary: Integer{Span(24, 33, 34), 23, 1}
                                                         VariableName: j
                                                   BodyDeclaration
                                                     Statement
@@ -199,7 +194,7 @@ Program
                                         Arguments
                                           Expressions
                                             Expression
-                                              Primary: Integer{Span(30, 25, 26), 23, 1}
+                                              Primary: Integer{Span(28, 25, 26), 23, 1}
                                   VariableName: i
                         Expression
                           CompoundExpression: i
@@ -222,7 +217,7 @@ Program
                             Arguments
                               Expressions
                                 Expression
-                                  Primary: Integer{Span(34, 22, 23), 23, 0}
+                                  Primary: Integer{Span(32, 22, 23), 23, 0}
                         VariableName: i
                   BodyDeclaration
                     Statement
@@ -256,7 +251,7 @@ Program
                                         Arguments
                                           Expressions
                                             Expression
-                                              Primary: Integer{Span(39, 25, 26), 23, 1}
+                                              Primary: Integer{Span(37, 25, 26), 23, 1}
                                   VariableName: i
                         Expression
                           CompoundExpression: i

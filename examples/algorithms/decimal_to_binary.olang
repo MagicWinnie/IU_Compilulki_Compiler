@@ -4,8 +4,6 @@ Program: Main(42)
 
 class Main is
     this(n: Integer) is
-        var n : n
-        
         var b : List[Integer]
         while n.Greater(0) loop
             k.append(n.Rem(2))

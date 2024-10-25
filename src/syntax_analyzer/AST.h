@@ -331,9 +331,10 @@ class Parameter final : public Entity
 {
 public:
     std::string name;
+    Span span;
     std::unique_ptr<ClassName> className;
 
-    Parameter(std::string, std::unique_ptr<ClassName>);
+    Parameter(std::string, const Span&, std::unique_ptr<ClassName>);
 
     void accept(Visitor&) const override;
 };
@@ -344,7 +345,7 @@ public:
     std::string name;
     Span span;
 
-    explicit VariableName(std::string, Span);
+    explicit VariableName(std::string, const Span&);
 
     void accept(Visitor&) const override;
 };

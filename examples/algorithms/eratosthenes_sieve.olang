@@ -4,8 +4,6 @@ Program: Main(50)
 
 class Main is
     this(n: Integer) is
-        var n : n
-        
         var A : Array[Boolean](n.Plus(1)) // array from 0 to n (has n + 1 elements)
         var i : Integer(0)
         

@@ -45,7 +45,8 @@ void ScopedSymbolTable::leaveScope()
     }
 }
 
-void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::string& type, const bool is_constant)
+void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::string& type, const Span& span,
+                                         const bool is_constant)
 {
     if (!scopes.empty())
     {
@@ -54,7 +55,10 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
 
         if (current_scope.varEntries.find(name) != current_scope.varEntries.end())
         {
-            throw std::runtime_error("Variable '" + name + "' is already declared in this scope.");
+            throw std::runtime_error("Variable '" + name + "' is already declared in this scope " +
+                "at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
         }
 
         // Add the new entry to the current scope

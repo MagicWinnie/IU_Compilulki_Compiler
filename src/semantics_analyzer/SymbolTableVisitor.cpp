@@ -216,7 +216,7 @@ void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaratio
         for (const auto& parameter : node.parameters->parameters)
         {
             paramNames.push_back(parameter->className->name);
-            symbolTable.addVariableEntry(parameter->name, parameter->className->name);
+            symbolTable.addVariableEntry(parameter->name, parameter->className->name, parameter->span);
         }
     }
 
@@ -255,7 +255,8 @@ void SymbolTableVisitor::visitVariableDeclaration(const VariableDeclaration& nod
     }
     else if (node.expression->compoundExpression)
     {
-        symbolTable.addVariableEntry(node.variable->name, node.expression->compoundExpression->identifier);
+        symbolTable.addVariableEntry(node.variable->name, node.expression->compoundExpression->identifier,
+                                     node.variable->span);
     }
 
     if (node.expression) node.expression->accept(*this);
@@ -272,7 +273,7 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
         for (const auto& parameter : node.parameters->parameters)
         {
             paramNames.push_back(parameter->className->name);
-            symbolTable.addVariableEntry(parameter->name, parameter->className->name);
+            symbolTable.addVariableEntry(parameter->name, parameter->className->name, parameter->span);
         }
     }
 

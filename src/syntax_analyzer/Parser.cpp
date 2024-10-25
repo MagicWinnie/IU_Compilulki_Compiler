@@ -105,14 +105,12 @@ std::unique_ptr<ProgramDeclaration> Parser::parseProgramDeclaration()
     expectAndConsume(COLON);
 
     auto node = std::make_unique<ProgramDeclaration>();
-    //    node->className = parseClassName();
 
     expect(IDENTIFIER);
 
-
     node->className = std::make_unique<ClassName>((dynamic_cast<Identifier*>(getNextToken().get()))->get_identifier());
-
     node->arguments = parseProgramArguments();
+
     return node;
 }
 
@@ -351,9 +349,9 @@ std::unique_ptr<ClassBody> Parser::parseClassBody()
 std::unique_ptr<ClassName> Parser::parseClassName()
 {
     const auto next_token = getNextToken();
+    const auto span = tokens[current_token]->get_span();
     if (next_token->get_code() != IDENTIFIER)
     {
-        const auto span = tokens[current_token]->get_span();
         throwError("identifier", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
                    span.get_pos_begin());
     }
@@ -631,7 +629,8 @@ std::unique_ptr<Parameter> Parser::parseParameter()
     const auto identifier = getNextToken();
     expectAndConsume(COLON);
     auto className = parseClassName();
-    return std::make_unique<Parameter>(identifier->to_string(), std::move(className));
+    return std::make_unique<Parameter>(identifier->to_string(), tokens[current_token]->get_span(),
+                                       std::move(className));
 }
 
 std::unique_ptr<ReturnType> Parser::parseReturnType()

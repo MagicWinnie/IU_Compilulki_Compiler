@@ -16,11 +16,6 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: n
-                      VariableName: n
-                  BodyDeclaration
-                    VariableDeclaration
-                      Expression
                         CompoundExpression: List
                           CompoundExpression: Integer
                       VariableName: b
@@ -42,7 +37,7 @@ Program
                                                 Arguments
                                                   Expressions
                                                     Expression
-                                                      Primary: Integer{Span(11, 28, 29), 23, 2}
+                                                      Primary: Integer{Span(9, 28, 29), 23, 2}
                             BodyDeclaration
                               Statement
                                 Assignment
@@ -52,7 +47,7 @@ Program
                                         Arguments
                                           Expressions
                                             Expression
-                                              Primary: Integer{Span(12, 24, 25), 23, 2}
+                                              Primary: Integer{Span(10, 24, 25), 23, 2}
                                   VariableName: n
                         Expression
                           CompoundExpression: n
@@ -60,7 +55,7 @@ Program
                               Arguments
                                 Expressions
                                   Expression
-                                    Primary: Integer{Span(10, 25, 26), 23, 0}
+                                    Primary: Integer{Span(8, 25, 26), 23, 0}
                   BodyDeclaration
                     VariableDeclaration
                       Expression
@@ -69,7 +64,7 @@ Program
                             Arguments
                               Expressions
                                 Expression
-                                  Primary: Integer{Span(15, 25, 26), 23, 1}
+                                  Primary: Integer{Span(13, 25, 26), 23, 1}
                       VariableName: i
                   BodyDeclaration
                     Statement
@@ -95,7 +90,7 @@ Program
                                         Arguments
                                           Expressions
                                             Expression
-                                              Primary: Integer{Span(18, 26, 27), 23, 1}
+                                              Primary: Integer{Span(16, 26, 27), 23, 1}
                                   VariableName: i
                         Expression
                           CompoundExpression: i
@@ -103,7 +98,7 @@ Program
                               Arguments
                                 Expressions
                                   Expression
-                                    Primary: Integer{Span(16, 30, 31), 23, 0}
+                                    Primary: Integer{Span(14, 30, 31), 23, 0}
               Parameters
                 Parameter: n
                   ClassName: Integer
