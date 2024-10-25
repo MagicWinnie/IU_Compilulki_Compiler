@@ -1,7 +1,7 @@
 //
 // Created by nai1ka on 10/23/24.
 //
-
+#pragma once
 
 #include <vector>
 #include <string>

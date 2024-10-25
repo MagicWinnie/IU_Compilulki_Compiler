@@ -1,10 +1,7 @@
 //
 // Created by Nail Minnemullin on 08.10.2024.
 //
-
-#ifndef IU_COMPILULKI_COMPILER_PARSER_H
-#define IU_COMPILULKI_COMPILER_PARSER_H
-
+#pragma once
 
 #include <filesystem>
 #include <memory>
@@ -71,6 +68,3 @@ public:
     std::unique_ptr<VariableName> parseVariableName();
     static bool isPrimary(TokenCode);
 };
-
-
-#endif //IU_COMPILULKI_COMPILER_PARSER_H

@@ -1,9 +1,7 @@
 //
 // Created by Nail Minnemullin on 08.10.2024.
 //
-
-#ifndef IU_COMPILULKI_COMPILER_NODES_H
-#define IU_COMPILULKI_COMPILER_NODES_H
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -463,6 +461,3 @@ public:
 
     void accept(Visitor&) const override;
 };
-
-
-#endif //IU_COMPILULKI_COMPILER_NODES_H

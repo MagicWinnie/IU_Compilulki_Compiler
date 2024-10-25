@@ -1,9 +1,8 @@
 //
 // Created by nai1ka on 10/10/24.
 //
+#pragma once
 
-#ifndef PRINTVISITOR_H
-#define PRINTVISITOR_H
 #include "AST.h"
 
 class PrintVisitor final : public Visitor
@@ -54,5 +53,3 @@ public:
 
     // Implement other visit methods for different types
 };
-
-#endif //PRINTVISITOR_H
