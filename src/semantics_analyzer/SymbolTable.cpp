@@ -83,9 +83,9 @@ std::string ScopedSymbolTable::lookupVariable(const std::string& name, const Spa
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
-        const auto& scope = *it;
-        auto found = scope.varEntries.find(name);
-        if (found != scope.varEntries.end())
+        const auto& [varEntries, funcEntries] = *it;
+        auto found = varEntries.find(name);
+        if (found != varEntries.end())
         {
             return found->second.type;
         }
@@ -101,9 +101,9 @@ FunctionEntry ScopedSymbolTable::lookupFunction(const std::string& name, const S
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
-        const auto& scope = *it;
-        auto found = scope.funcEntries.find(name);
-        if (found != scope.funcEntries.end())
+        const auto& [varEntries, funcEntries] = *it;
+        auto found = funcEntries.find(name);
+        if (found != funcEntries.end())
         {
             return found->second;
         }

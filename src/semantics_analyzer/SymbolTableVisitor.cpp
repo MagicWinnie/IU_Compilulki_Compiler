@@ -272,7 +272,7 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
         for (const auto& parameter : node.parameters->parameters)
         {
             paramNames.push_back(parameter->className->name);
-            //symbolTable.addVariableEntry()
+            symbolTable.addVariableEntry(parameter->name, parameter->className->name);
         }
     }
 
