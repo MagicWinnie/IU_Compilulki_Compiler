@@ -164,6 +164,7 @@ std::unique_ptr<Literal> Parser::parseLiteral()
         throwError("literal", getEnumName(tokens[current_token]->get_code()),
                    span.get_line_num(), span.get_pos_begin());
     }
+    return nullptr;
 }
 
 std::unique_ptr<Arguments> Parser::parseArguments()
@@ -409,11 +410,6 @@ std::unique_ptr<BodyDeclaration> Parser::parseBodyDeclaration()
         return std::make_unique<BodyDeclaration>(parseVariableDeclaration());
     }
     return std::make_unique<BodyDeclaration>(parseStatement());
-    // TODO add statement parsing
-    // else if (peekNextToken() == ???) {
-    //     return std::make_unique<BodyDeclaration>(parseStatement());
-    // }
-    throw std::runtime_error("Unexpected token in body declaration: " + tokens[current_token]->to_string());
 }
 
 std::unique_ptr<Statement> Parser::parseStatement()
@@ -459,6 +455,7 @@ std::unique_ptr<Statement> Parser::parseStatement()
     const auto span = tokens[current_token]->get_span();
     throwError(":=, if, while, identifier, return or this", getEnumName(tokens[current_token]->get_code()),
                span.get_line_num(), span.get_pos_begin());
+    return nullptr;
 }
 
 std::unique_ptr<ReturnStatement> Parser::parseReturnStatement()
@@ -550,6 +547,7 @@ std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration()
     const auto span = tokens[current_token]->get_span();
     throwError("var, method, or this", getEnumName(tokens[current_token]->get_code()),
                span.get_line_num(), span.get_pos_begin());
+    return nullptr;
 }
 
 std::unique_ptr<ConstructorDeclaration> Parser::parseConstructorDeclaration()
@@ -603,7 +601,7 @@ std::unique_ptr<MethodName> Parser::parseMethodName()
         throwError("identifier", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
                    span.get_pos_begin());
     }
-    return std::make_unique<MethodName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
+    return std::make_unique<MethodName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier());
 }
 
 std::unique_ptr<Parameters> Parser::parseParameters()
@@ -650,7 +648,7 @@ std::unique_ptr<VariableName> Parser::parseVariableName()
         throwError("identifier", getEnumName(tokens[current_token]->get_code()),
                    span.get_line_num(), span.get_pos_begin());
     }
-    return std::make_unique<VariableName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier());
+    return std::make_unique<VariableName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier());
 }
 
 
