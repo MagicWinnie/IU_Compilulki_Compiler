@@ -31,7 +31,7 @@ std::string Keyword::to_string()
 
 std::string Identifier::to_string()
 {
-    return "Identifier{" + span.to_string() + ", " + std::to_string(code) + ", " + identifier + "}";
+    return identifier;
 }
 
 std::string Integer::to_string()

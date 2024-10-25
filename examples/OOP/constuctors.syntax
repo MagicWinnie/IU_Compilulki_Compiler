@@ -9,7 +9,7 @@ Program
           MemberDeclaration
             VariableDeclaration
               Expression
-                CompoundExpression: Identifier{Span(6, 13, 20), 22, Integer}
+                CompoundExpression: Integer
                   Arguments
                     Expressions
                       Expression
@@ -18,7 +18,7 @@ Program
           MemberDeclaration
             VariableDeclaration
               Expression
-                CompoundExpression: Identifier{Span(7, 13, 20), 22, Integer}
+                CompoundExpression: Integer
                   Arguments
                     Expressions
                       Expression
@@ -32,18 +32,18 @@ Program
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(10, 14, 15), 22, x}
+                          CompoundExpression: x
                         VariableName: a
                   BodyDeclaration
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(11, 14, 15), 22, y}
+                          CompoundExpression: y
                         VariableName: b
               Parameters
-                Parameter: Identifier{Span(9, 10, 11), 22, x}
+                Parameter: x
                   ClassName: Integer
-                Parameter: Identifier{Span(9, 22, 23), 22, y}
+                Parameter: y
                   ClassName: Integer
           MemberDeclaration
             ConstructorDeclaration
@@ -53,10 +53,10 @@ Program
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(15, 14, 15), 22, x}
+                          CompoundExpression: x
                         VariableName: a
               Parameters
-                Parameter: Identifier{Span(14, 10, 11), 22, x}
+                Parameter: x
                   ClassName: Integer
           MemberDeclaration
             MethodDeclaration
@@ -65,13 +65,13 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(19, 9, 10), 22, a}
-                          CompoundExpression: Identifier{Span(19, 11, 16), 22, print}
+                        CompoundExpression: a
+                          CompoundExpression: print
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(20, 9, 10), 22, b}
-                          CompoundExpression: Identifier{Span(20, 11, 16), 22, print}
+                        CompoundExpression: b
+                          CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Main
@@ -84,7 +84,7 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(26, 18, 19), 22, A}
+                        CompoundExpression: A
                           Arguments
                             Expressions
                               Expression
@@ -95,7 +95,7 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(27, 18, 19), 22, A}
+                        CompoundExpression: A
                           Arguments
                             Expressions
                               Expression
@@ -104,10 +104,10 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(29, 9, 11), 22, a1}
-                          CompoundExpression: Identifier{Span(29, 12, 16), 22, show}
+                        CompoundExpression: a1
+                          CompoundExpression: show
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(30, 9, 11), 22, a2}
-                          CompoundExpression: Identifier{Span(30, 12, 16), 22, show}
+                        CompoundExpression: a2
+                          CompoundExpression: show

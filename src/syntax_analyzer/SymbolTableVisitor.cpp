@@ -13,7 +13,6 @@ private:
 public:
     SymbolTableVisitor()
     {
-
     }
 
     ~SymbolTableVisitor()
@@ -29,14 +28,14 @@ public:
 
     void visitProgramDeclaration(const ProgramDeclaration& node) override
     {
-        symbolTable.addEntry(node.className->name, "ProgramType");
+        // TODO handle classes
+        // symbolTable.addClassEntry(node.className->name, "ProgramType");
         if (node.className) node.className->accept(*this);
         if (node.arguments) node.arguments->accept(*this);
     }
 
     void visitClassName(const ClassName& node) override
     {
-
     }
 
     void visitProgramArguments(const ProgramArguments& node) override
@@ -54,7 +53,6 @@ public:
 
     void visitLiteral(const Literal& node) override
     {
-
     }
 
     void visitArguments(const Arguments& node) override
@@ -92,7 +90,6 @@ public:
 
     void visitClassDeclarations(const ClassDeclarations& node) override
     {
-
         for (auto& classDeclaration : node.classDeclarations)
         {
             classDeclaration->accept(*this);
@@ -156,22 +153,50 @@ public:
 
     void visitIfBranch(const IfBranch& node) override
     {
+        symbolTable.enterScope();
         if (node.body) node.body->accept(*this);
+        symbolTable.leaveScope();
+
     }
 
     void visitElseBranch(const ElseBranch& node) override
     {
+        symbolTable.enterScope();
         if (node.body) node.body->accept(*this);
+        symbolTable.leaveScope();
     }
 
     void visitWhileLoop(const WhileLoop& node) override
     {
+        symbolTable.enterScope();
         if (node.body) node.body->accept(*this);
         if (node.expression) node.expression->accept(*this);
+        symbolTable.leaveScope();
     }
 
     void visitAssignment(const Assignment& node) override
     {
+        // [CHECK] if variable is declared
+        try
+        {
+            symbolTable.lookupVariable(node.variableName->name);
+        }
+        catch (const std::runtime_error& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+
+        // [CHECK] if variable is assigned to the correct type
+        auto variableType = symbolTable.lookupVariable(node.variableName->name);
+        // TODO firstly check if we assign a variable or a class or a method
+        // auto expressionType = node.expression->compoundExpression->identifier;
+        // if (variableType != expressionType)
+        // {
+        //     throw std::runtime_error(
+        //         "Variable " + node.variableName->name + " is of type " + variableType +
+        //         " but is being assigned to type " + expressionType);
+        // }
+
         if (node.expression) node.expression->accept(*this);
         if (node.variableName) node.variableName->accept(*this);
     }
@@ -193,8 +218,40 @@ public:
 
     void visitConstructorDeclaration(const ConstructorDeclaration& node) override
     {
-        if (node.body) node.body->accept(*this);
+        symbolTable.enterScope();
         if (node.parameters) node.parameters->accept(*this);
+        auto paramNames = std::vector<std::string>();
+
+        // Add parameters to the symbol table
+        if (node.parameters)
+        {
+            for (auto& parameter : node.parameters->parameters)
+            {
+                paramNames.push_back(parameter->className->name);
+                symbolTable.addVariableEntry(parameter->name, parameter->className->name);
+            }
+        }
+
+        symbolTable.addFunctionEntry("this", "void", paramNames);
+        if (node.body) node.body->accept(*this);
+
+        std::unique_ptr<ReturnStatement> returnStatement = nullptr;
+        for (auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
+        {
+            if (bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
+            {
+                returnStatement = std::move(bodyDeclaration->statement->returnStatement);
+            }
+        }
+
+
+        // [CHECK] if constructor has return statement
+        if(returnStatement != nullptr)
+        {
+            throw std::runtime_error("Constructor cannot have return statement");
+        }
+
+        symbolTable.leaveScope();
     }
 
     void visitReturnStatement(const ReturnStatement& node) override
@@ -204,22 +261,80 @@ public:
 
     void visitVariableDeclaration(const VariableDeclaration& node) override
     {
-        symbolTable.addEntry(node.variable->name, "VariableType");
+        if(node.expression->primary)
+        {
+            //symbolTable.addVariableEntry(node.variable->name, node.expression->);
+        }
+        else if (node.expression->compoundExpression)
+        {
+            symbolTable.addVariableEntry(node.variable->name, node.expression->compoundExpression->identifier);
+        }
+
         if (node.expression) node.expression->accept(*this);
         if (node.variable) node.variable->accept(*this);
     }
 
     void visitMethodDeclaration(const MethodDeclaration& node) override
     {
+        symbolTable.enterScope();
+        auto paramNames = std::vector<std::string>();
+
+        if (node.parameters)
+        {
+            for (auto& parameter : node.parameters->parameters)
+            {
+                paramNames.push_back(parameter->className->name);
+                //symbolTable.addVariableEntry()
+
+            }
+        }
+
+        symbolTable.addFunctionEntry(node.methodName->name, node.returnType ? node.returnType->className->name : "void", paramNames);
+
         if (node.body) node.body->accept(*this);
         if (node.parameters) node.parameters->accept(*this);
+
+        // [CHECK] if return type is correct
+        auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name).returnType;
+        std::unique_ptr<ReturnStatement> returnStatement = nullptr;
+        for (auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
+        {
+            if (bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
+            {
+                returnStatement = std::move(bodyDeclaration->statement->returnStatement);
+            }
+        }
+
+
+        if (returnStatement == nullptr)
+        {
+            if (expectedReturnType != "void")
+            {
+                throw std::runtime_error(
+                    "Method " + node.methodName->name + " is of type " + expectedReturnType +
+                    " but is being assigned to type void");
+            }
+        }
+        else
+        {
+            // TODO check type of the last element in the compound expression
+            auto returnVariable = returnStatement->expression->compoundExpression->identifier;
+            auto returnVariableType = symbolTable.lookupVariable(returnVariable);
+            if (expectedReturnType != returnVariableType)
+            {
+                throw std::runtime_error(
+                    "Method " + node.methodName->name + " is of type " + expectedReturnType +
+                    " but is being assigned to type " + returnVariableType);
+            }
+        }
+
         if (node.returnType) node.returnType->accept(*this);
         if (node.methodName) node.methodName->accept(*this);
+        symbolTable.leaveScope();
     }
 
     void visitMethodName(const MethodName& node) override
     {
-
     }
 
     void visitParameters(const Parameters& node) override
@@ -237,15 +352,10 @@ public:
 
     void visitReturnType(const ReturnType& node) override
     {
-
     }
+
     void visitVariableName(const VariableName& node) override
     {
-        try {
-            symbolTable.lookup(node.name);
-        } catch (const std::runtime_error& e) {
-            std::cerr << e.what() << std::endl;
-        }
     }
 
     // Implement other visit methods as needed

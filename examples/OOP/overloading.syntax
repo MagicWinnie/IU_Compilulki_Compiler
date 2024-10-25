@@ -14,16 +14,16 @@ Program
                     Statement
                       ReturnStatement
                         Expression
-                          CompoundExpression: Identifier{Span(9, 16, 17), 22, x}
-                            CompoundExpression: Identifier{Span(9, 18, 22), 22, Plus}
+                          CompoundExpression: x
+                            CompoundExpression: Plus
                               Arguments
                                 Expressions
                                   Expression
-                                    CompoundExpression: Identifier{Span(9, 23, 24), 22, y}
+                                    CompoundExpression: y
               Parameters
-                Parameter: Identifier{Span(8, 16, 17), 22, x}
+                Parameter: x
                   ClassName: Integer
-                Parameter: Identifier{Span(8, 28, 29), 22, y}
+                Parameter: y
                   ClassName: Integer
               ReturnType
                 ClassName: Integer
@@ -36,23 +36,23 @@ Program
                     Statement
                       ReturnStatement
                         Expression
-                          CompoundExpression: Identifier{Span(14, 16, 17), 22, x}
-                            CompoundExpression: Identifier{Span(14, 18, 22), 22, Plus}
+                          CompoundExpression: x
+                            CompoundExpression: Plus
                               Arguments
                                 Expressions
                                   Expression
-                                    CompoundExpression: Identifier{Span(14, 23, 24), 22, y}
-                              CompoundExpression: Identifier{Span(14, 26, 30), 22, Plus}
+                                    CompoundExpression: y
+                              CompoundExpression: Plus
                                 Arguments
                                   Expressions
                                     Expression
-                                      CompoundExpression: Identifier{Span(14, 31, 32), 22, z}
+                                      CompoundExpression: z
               Parameters
-                Parameter: Identifier{Span(13, 16, 17), 22, x}
+                Parameter: x
                   ClassName: Integer
-                Parameter: Identifier{Span(13, 28, 29), 22, y}
+                Parameter: y
                   ClassName: Integer
-                Parameter: Identifier{Span(13, 40, 41), 22, z}
+                Parameter: z
                   ClassName: Integer
               ReturnType
                 ClassName: Integer
@@ -65,16 +65,16 @@ Program
                     Statement
                       ReturnStatement
                         Expression
-                          CompoundExpression: Identifier{Span(19, 16, 17), 22, x}
-                            CompoundExpression: Identifier{Span(19, 18, 22), 22, Plus}
+                          CompoundExpression: x
+                            CompoundExpression: Plus
                               Arguments
                                 Expressions
                                   Expression
-                                    CompoundExpression: Identifier{Span(19, 23, 24), 22, y}
+                                    CompoundExpression: y
               Parameters
-                Parameter: Identifier{Span(18, 16, 17), 22, x}
+                Parameter: x
                   ClassName: Real
-                Parameter: Identifier{Span(18, 25, 26), 22, y}
+                Parameter: y
                   ClassName: Real
               ReturnType
                 ClassName: Real
@@ -90,29 +90,29 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(26, 26, 36), 22, Calculator}
+                        CompoundExpression: Calculator
                       VariableName: calculator
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(28, 20, 27), 22, Integer}
+                        CompoundExpression: Integer
                       VariableName: res1
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(29, 19, 26), 22, Integer}
+                        CompoundExpression: Integer
                       VariableName: res2
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(30, 19, 23), 22, Real}
+                        CompoundExpression: Real
                       VariableName: res3
                   BodyDeclaration
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(32, 17, 27), 22, calculator}
-                            CompoundExpression: Identifier{Span(32, 28, 31), 22, add}
+                          CompoundExpression: calculator
+                            CompoundExpression: add
                               Arguments
                                 Expressions
                                   Expression
@@ -124,8 +124,8 @@ Program
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(33, 17, 27), 22, calculator}
-                            CompoundExpression: Identifier{Span(33, 28, 31), 22, add}
+                          CompoundExpression: calculator
+                            CompoundExpression: add
                               Arguments
                                 Expressions
                                   Expression
@@ -139,8 +139,8 @@ Program
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(34, 17, 27), 22, calculator}
-                            CompoundExpression: Identifier{Span(34, 28, 31), 22, add}
+                          CompoundExpression: calculator
+                            CompoundExpression: add
                               Arguments
                                 Expressions
                                   Expression
@@ -151,15 +151,15 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(36, 9, 13), 22, res1}
-                          CompoundExpression: Identifier{Span(36, 14, 19), 22, print}
+                        CompoundExpression: res1
+                          CompoundExpression: print
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(37, 9, 13), 22, res2}
-                          CompoundExpression: Identifier{Span(37, 14, 19), 22, print}
+                        CompoundExpression: res2
+                          CompoundExpression: print
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(38, 9, 13), 22, res3}
-                          CompoundExpression: Identifier{Span(38, 14, 19), 22, print}
+                        CompoundExpression: res3
+                          CompoundExpression: print

@@ -13,14 +13,14 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(9, 17, 24), 22, Integer}
-                          CompoundExpression: Identifier{Span(9, 27, 31), 22, scan}
+                        CompoundExpression: Integer
+                          CompoundExpression: scan
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(10, 17, 24), 22, Integer}
-                          CompoundExpression: Identifier{Span(10, 27, 31), 22, scan}
+                        CompoundExpression: Integer
+                          CompoundExpression: scan
                       VariableName: b
                   BodyDeclaration
                     Statement
@@ -31,8 +31,8 @@ Program
                               Statement
                                 Assignment
                                   Expression
-                                    CompoundExpression: Identifier{Span(13, 18, 19), 22, b}
-                                      CompoundExpression: Identifier{Span(13, 20, 24), 22, Plus}
+                                    CompoundExpression: b
+                                      CompoundExpression: Plus
                                         Arguments
                                           Expressions
                                             Expression
@@ -42,16 +42,16 @@ Program
                               Statement
                                 Assignment
                                   Expression
-                                    CompoundExpression: Identifier{Span(14, 18, 19), 22, a}
-                                      CompoundExpression: Identifier{Span(14, 20, 25), 22, Minus}
+                                    CompoundExpression: a
+                                      CompoundExpression: Minus
                                         Arguments
                                           Expressions
                                             Expression
                                               Primary: Integer{Span(14, 26, 27), 23, 1}
                                   VariableName: a
                         Expression
-                          CompoundExpression: Identifier{Span(12, 15, 16), 22, a}
-                            CompoundExpression: Identifier{Span(12, 17, 24), 22, Greater}
+                          CompoundExpression: a
+                            CompoundExpression: Greater
                               Arguments
                                 Expressions
                                   Expression
@@ -59,5 +59,5 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(17, 9, 10), 22, b}
-                          CompoundExpression: Identifier{Span(17, 11, 16), 22, print}
+                        CompoundExpression: b
+                          CompoundExpression: print

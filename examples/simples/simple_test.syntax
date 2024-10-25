@@ -13,7 +13,7 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(9, 17, 24), 22, Integer}
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
@@ -22,7 +22,7 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(10, 17, 24), 22, Integer}
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
@@ -31,15 +31,15 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(12, 19, 20), 22, a}
-                          CompoundExpression: Identifier{Span(12, 21, 25), 22, Plus}
+                        CompoundExpression: a
+                          CompoundExpression: Plus
                             Arguments
                               Expressions
                                 Expression
-                                  CompoundExpression: Identifier{Span(12, 26, 27), 22, b}
+                                  CompoundExpression: b
                       VariableName: sum
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(14, 9, 12), 22, sum}
-                          CompoundExpression: Identifier{Span(14, 13, 18), 22, print}
+                        CompoundExpression: sum
+                          CompoundExpression: print

@@ -13,17 +13,17 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(9, 17, 21), 22, List}
+                        CompoundExpression: List
                           Arguments
                             Expressions
                               Expression
                                 Primary: Integer{Span(9, 31, 32), 23, 5}
-                          CompoundExpression: Identifier{Span(9, 22, 29), 22, Integer}
+                          CompoundExpression: Integer
                       VariableName: l
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(11, 18, 25), 22, Integer}
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
@@ -37,25 +37,25 @@ Program
                             BodyDeclaration
                               Statement
                                 Expression
-                                  CompoundExpression: Identifier{Span(13, 13, 14), 22, l}
-                                    CompoundExpression: Identifier{Span(13, 15, 21), 22, append}
+                                  CompoundExpression: l
+                                    CompoundExpression: append
                                       Arguments
                                         Expressions
                                           Expression
-                                            CompoundExpression: Identifier{Span(13, 22, 24), 22, i1}
-                                              CompoundExpression: Identifier{Span(13, 25, 29), 22, Mult}
+                                            CompoundExpression: i1
+                                              CompoundExpression: Mult
                                                 Arguments
                                                   Expressions
                                                     Expression
-                                                      CompoundExpression: Identifier{Span(13, 30, 31), 22, i}
-                                                CompoundExpression: Identifier{Span(13, 33, 37), 22, Mult}
+                                                      CompoundExpression: i
+                                                CompoundExpression: Mult
                                                   Arguments
                                                     Expressions
                                                       Expression
-                                                        CompoundExpression: Identifier{Span(13, 38, 40), 22, i1}
+                                                        CompoundExpression: i1
                         Expression
-                          CompoundExpression: Identifier{Span(12, 15, 17), 22, i1}
-                            CompoundExpression: Identifier{Span(12, 18, 27), 22, LessEqual}
+                          CompoundExpression: i1
+                            CompoundExpression: LessEqual
                               Arguments
                                 Expressions
                                   Expression
@@ -63,13 +63,13 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(16, 17, 24), 22, Integer}
-                          CompoundExpression: Identifier{Span(16, 27, 31), 22, scan}
+                        CompoundExpression: Integer
+                          CompoundExpression: scan
                       VariableName: i
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(18, 18, 25), 22, Integer}
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
@@ -84,19 +84,19 @@ Program
                               Statement
                                 Assignment
                                   Expression
-                                    CompoundExpression: Identifier{Span(20, 18, 19), 22, l}
-                                      CompoundExpression: Identifier{Span(20, 20, 24), 22, tail}
+                                    CompoundExpression: l
+                                      CompoundExpression: tail
                                   VariableName: l
                         Expression
-                          CompoundExpression: Identifier{Span(19, 15, 17), 22, i2}
-                            CompoundExpression: Identifier{Span(19, 18, 22), 22, Less}
+                          CompoundExpression: i2
+                            CompoundExpression: Less
                               Arguments
                                 Expressions
                                   Expression
-                                    CompoundExpression: Identifier{Span(19, 23, 24), 22, i}
+                                    CompoundExpression: i
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(23, 9, 10), 22, l}
-                          CompoundExpression: Identifier{Span(23, 11, 15), 22, head}
-                            CompoundExpression: Identifier{Span(23, 18, 23), 22, print}
+                        CompoundExpression: l
+                          CompoundExpression: head
+                            CompoundExpression: print

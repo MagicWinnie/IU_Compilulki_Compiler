@@ -16,13 +16,13 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(7, 17, 18), 22, n}
+                        CompoundExpression: n
                       VariableName: n
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(9, 17, 21), 22, List}
-                          CompoundExpression: Identifier{Span(9, 22, 29), 22, Integer}
+                        CompoundExpression: List
+                          CompoundExpression: Integer
                       VariableName: b
                   BodyDeclaration
                     Statement
@@ -32,13 +32,13 @@ Program
                             BodyDeclaration
                               Statement
                                 Expression
-                                  CompoundExpression: Identifier{Span(11, 13, 14), 22, k}
-                                    CompoundExpression: Identifier{Span(11, 15, 21), 22, append}
+                                  CompoundExpression: k
+                                    CompoundExpression: append
                                       Arguments
                                         Expressions
                                           Expression
-                                            CompoundExpression: Identifier{Span(11, 22, 23), 22, n}
-                                              CompoundExpression: Identifier{Span(11, 24, 27), 22, Rem}
+                                            CompoundExpression: n
+                                              CompoundExpression: Rem
                                                 Arguments
                                                   Expressions
                                                     Expression
@@ -47,16 +47,16 @@ Program
                               Statement
                                 Assignment
                                   Expression
-                                    CompoundExpression: Identifier{Span(12, 18, 19), 22, n}
-                                      CompoundExpression: Identifier{Span(12, 20, 23), 22, Div}
+                                    CompoundExpression: n
+                                      CompoundExpression: Div
                                         Arguments
                                           Expressions
                                             Expression
                                               Primary: Integer{Span(12, 24, 25), 23, 2}
                                   VariableName: n
                         Expression
-                          CompoundExpression: Identifier{Span(10, 15, 16), 22, n}
-                            CompoundExpression: Identifier{Span(10, 17, 24), 22, Greater}
+                          CompoundExpression: n
+                            CompoundExpression: Greater
                               Arguments
                                 Expressions
                                   Expression
@@ -64,8 +64,8 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(15, 17, 18), 22, n}
-                          CompoundExpression: Identifier{Span(15, 19, 24), 22, Minus}
+                        CompoundExpression: n
+                          CompoundExpression: Minus
                             Arguments
                               Expressions
                                 Expression
@@ -79,31 +79,31 @@ Program
                             BodyDeclaration
                               Statement
                                 Expression
-                                  CompoundExpression: Identifier{Span(17, 13, 14), 22, b}
-                                    CompoundExpression: Identifier{Span(17, 15, 18), 22, get}
+                                  CompoundExpression: b
+                                    CompoundExpression: get
                                       Arguments
                                         Expressions
                                           Expression
-                                            CompoundExpression: Identifier{Span(17, 19, 20), 22, i}
-                                      CompoundExpression: Identifier{Span(17, 22, 27), 22, print}
+                                            CompoundExpression: i
+                                      CompoundExpression: print
                             BodyDeclaration
                               Statement
                                 Assignment
                                   Expression
-                                    CompoundExpression: Identifier{Span(18, 18, 19), 22, i}
-                                      CompoundExpression: Identifier{Span(18, 20, 25), 22, Minus}
+                                    CompoundExpression: i
+                                      CompoundExpression: Minus
                                         Arguments
                                           Expressions
                                             Expression
                                               Primary: Integer{Span(18, 26, 27), 23, 1}
                                   VariableName: i
                         Expression
-                          CompoundExpression: Identifier{Span(16, 15, 16), 22, i}
-                            CompoundExpression: Identifier{Span(16, 17, 29), 22, GreaterEqual}
+                          CompoundExpression: i
+                            CompoundExpression: GreaterEqual
                               Arguments
                                 Expressions
                                   Expression
                                     Primary: Integer{Span(16, 30, 31), 23, 0}
               Parameters
-                Parameter: Identifier{Span(6, 10, 11), 22, n}
+                Parameter: n
                   ClassName: Integer

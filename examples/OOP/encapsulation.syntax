@@ -9,7 +9,7 @@ Program
           MemberDeclaration
             VariableDeclaration
               Expression
-                CompoundExpression: Identifier{Span(8, 17, 24), 22, Integer}
+                CompoundExpression: Integer
                   Arguments
                     Expressions
                       Expression
@@ -23,7 +23,7 @@ Program
                     Statement
                       ReturnStatement
                         Expression
-                          CompoundExpression: Identifier{Span(12, 16, 21), 22, value}
+                          CompoundExpression: value
               ReturnType
                 ClassName: Integer
               MethodName: getValue
@@ -35,10 +35,10 @@ Program
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(17, 18, 26), 22, newValue}
+                          CompoundExpression: newValue
                         VariableName: value
               Parameters
-                Parameter: Identifier{Span(16, 21, 29), 22, newValue}
+                Parameter: newValue
                   ClassName: Integer
               MethodName: setValue
     ClassDeclaration
@@ -52,22 +52,22 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(23, 17, 18), 22, A}
+                        CompoundExpression: A
                       VariableName: a
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(25, 9, 14), 22, print}
+                        CompoundExpression: print
                           Arguments
                             Expressions
                               Expression
-                                CompoundExpression: Identifier{Span(25, 15, 16), 22, a}
-                                  CompoundExpression: Identifier{Span(25, 17, 25), 22, getValue}
+                                CompoundExpression: a
+                                  CompoundExpression: getValue
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(27, 9, 10), 22, a}
-                          CompoundExpression: Identifier{Span(27, 11, 19), 22, setValue}
+                        CompoundExpression: a
+                          CompoundExpression: setValue
                             Arguments
                               Expressions
                                 Expression
@@ -75,6 +75,6 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(29, 9, 10), 22, a}
-                          CompoundExpression: Identifier{Span(29, 11, 19), 22, getValue}
-                            CompoundExpression: Identifier{Span(29, 22, 27), 22, print}
+                        CompoundExpression: a
+                          CompoundExpression: getValue
+                            CompoundExpression: print

@@ -1,39 +1,39 @@
 Keyword{Span(4, 1, 8), 0}                      -> Program                 -> PROGRAM                                       
 Delimiter{Span(4, 8, 9), 14}                   -> :                       -> COLON                                         
-Identifier{Span(4, 10, 14), 22, Main}          -> Main                    -> IDENTIFIER                                    
+Main                                           -> Main                    -> IDENTIFIER                                    
 Keyword{Span(6, 1, 6), 1}                      -> class                   -> CLASS                                         
-Identifier{Span(6, 7, 11), 22, Main}           -> Main                    -> IDENTIFIER                                    
+Main                                           -> Main                    -> IDENTIFIER                                    
 Keyword{Span(6, 12, 14), 3}                    -> is                      -> IS                                            
 Keyword{Span(7, 5, 9), 7}                      -> this                    -> THIS                                          
 Delimiter{Span(7, 9, 10), 18}                  -> (                       -> LEFT_PAREN                                    
 Delimiter{Span(7, 10, 11), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(7, 12, 14), 3}                    -> is                      -> IS                                            
 Keyword{Span(8, 9, 12), 5}                     -> var                     -> VAR                                           
-Identifier{Span(8, 13, 14), 22, a}             -> a                       -> IDENTIFIER                                    
+a                                              -> a                       -> IDENTIFIER                                    
 Delimiter{Span(8, 15, 16), 14}                 -> :                       -> COLON                                         
-Identifier{Span(8, 17, 24), 22, Boolean}       -> Boolean                 -> IDENTIFIER                                    
+Boolean                                        -> Boolean                 -> IDENTIFIER                                    
 Delimiter{Span(8, 24, 25), 18}                 -> (                       -> LEFT_PAREN                                    
 Boolean{Span(8, 25, 29), 25, 1}                -> true                    -> BOOLEAN                                       
 Delimiter{Span(8, 29, 30), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(9, 9, 12), 5}                     -> var                     -> VAR                                           
-Identifier{Span(9, 13, 14), 22, b}             -> b                       -> IDENTIFIER                                    
+b                                              -> b                       -> IDENTIFIER                                    
 Delimiter{Span(9, 15, 16), 14}                 -> :                       -> COLON                                         
-Identifier{Span(9, 17, 24), 22, Boolean}       -> Boolean                 -> IDENTIFIER                                    
+Boolean                                        -> Boolean                 -> IDENTIFIER                                    
 Delimiter{Span(9, 24, 25), 18}                 -> (                       -> LEFT_PAREN                                    
 Boolean{Span(9, 25, 30), 25, 0}                -> false                   -> BOOLEAN                                       
 Delimiter{Span(9, 30, 31), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(11, 9, 12), 5}                    -> var                     -> VAR                                           
-Identifier{Span(11, 13, 19), 22, result}       -> result                  -> IDENTIFIER                                    
+result                                         -> result                  -> IDENTIFIER                                    
 Delimiter{Span(11, 20, 22), 17}                -> :=                      -> COLON_EQUAL                                   
-Identifier{Span(11, 23, 24), 22, a}            -> a                       -> IDENTIFIER                                    
+a                                              -> a                       -> IDENTIFIER                                    
 Delimiter{Span(11, 24, 25), 15}                -> .                       -> DOT                                           
-Identifier{Span(11, 25, 28), 22, And}          -> And                     -> IDENTIFIER                                    
+And                                            -> And                     -> IDENTIFIER                                    
 Delimiter{Span(11, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
-Identifier{Span(11, 29, 30), 22, b}            -> b                       -> IDENTIFIER                                    
+b                                              -> b                       -> IDENTIFIER                                    
 Delimiter{Span(11, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
-Identifier{Span(13, 9, 14), 22, print}         -> print                   -> IDENTIFIER                                    
+print                                          -> print                   -> IDENTIFIER                                    
 Delimiter{Span(13, 14, 15), 18}                -> (                       -> LEFT_PAREN                                    
-Identifier{Span(13, 15, 21), 22, result}       -> result                  -> IDENTIFIER                                    
+result                                         -> result                  -> IDENTIFIER                                    
 Delimiter{Span(13, 21, 22), 19}                -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(14, 5, 8), 4}                     -> end                     -> END                                           
 Keyword{Span(16, 1, 4), 4}                     -> end                     -> END                                           

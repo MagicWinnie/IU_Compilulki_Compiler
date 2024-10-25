@@ -13,12 +13,12 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(8, 9, 16), 22, Integer}
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
                                 Primary: Integer{Span(8, 17, 18), 23, 1}
-                          CompoundExpression: Identifier{Span(8, 20, 25), 22, print}
+                          CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Derived
@@ -33,12 +33,12 @@ Program
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(15, 9, 16), 22, Integer}
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
                                 Primary: Integer{Span(15, 17, 18), 23, 2}
-                          CompoundExpression: Identifier{Span(15, 20, 25), 22, print}
+                          CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Main
@@ -51,32 +51,32 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(21, 17, 21), 22, Base}
+                        CompoundExpression: Base
                       VariableName: b
                   BodyDeclaration
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(22, 14, 18), 22, Base}
+                          CompoundExpression: Base
                         VariableName: b
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: Identifier{Span(24, 17, 21), 22, Base}
+                        CompoundExpression: Base
                       VariableName: d
                   BodyDeclaration
                     Statement
                       Assignment
                         Expression
-                          CompoundExpression: Identifier{Span(25, 14, 21), 22, Derived}
+                          CompoundExpression: Derived
                         VariableName: d
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(27, 9, 10), 22, b}
-                          CompoundExpression: Identifier{Span(27, 11, 15), 22, show}
+                        CompoundExpression: b
+                          CompoundExpression: show
                   BodyDeclaration
                     Statement
                       Expression
-                        CompoundExpression: Identifier{Span(28, 9, 10), 22, d}
-                          CompoundExpression: Identifier{Span(28, 11, 15), 22, show}
+                        CompoundExpression: d
+                          CompoundExpression: show

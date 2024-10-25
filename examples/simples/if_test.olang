@@ -5,7 +5,6 @@ Program: Main(1.1, 1.2)
 
 class Main is
     this(a: Real, b: Real) is
-
         var eq : true
         var dif : false
 
