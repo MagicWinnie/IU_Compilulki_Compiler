@@ -14,7 +14,7 @@ void SymbolTable::addFunctionEntry(const std::string& name, const std::string& r
 
 VariableEntry* SymbolTable::lookupVariable(const std::string& name)
 {
-    auto it = varEntries.find(name);
+    const auto it = varEntries.find(name);
     if (it != varEntries.end())
     {
         return &it->second;
@@ -24,7 +24,7 @@ VariableEntry* SymbolTable::lookupVariable(const std::string& name)
 
 FunctionEntry* SymbolTable::lookupFunction(const std::string& name)
 {
-    auto it = funcEntries.find(name);
+    const auto it = funcEntries.find(name);
     if (it != funcEntries.end())
     {
         return &it->second;
