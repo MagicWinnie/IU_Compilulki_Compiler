@@ -5,17 +5,14 @@
 #include "AST.h"
 #include "SymbolTable.cpp"
 
-class SymbolTableVisitor : public Visitor
+class SymbolTableVisitor final : public Visitor
 {
-private:
     ScopedSymbolTable symbolTable;
 
 public:
-    SymbolTableVisitor()
-    {
-    }
+    SymbolTableVisitor() = default;
 
-    ~SymbolTableVisitor()
+    ~SymbolTableVisitor() override
     {
         symbolTable.leaveScope();
     }
@@ -156,7 +153,6 @@ public:
         symbolTable.enterScope();
         if (node.body) node.body->accept(*this);
         symbolTable.leaveScope();
-
     }
 
     void visitElseBranch(const ElseBranch& node) override
@@ -225,7 +221,7 @@ public:
         // Add parameters to the symbol table
         if (node.parameters)
         {
-            for (auto& parameter : node.parameters->parameters)
+            for (const auto& parameter : node.parameters->parameters)
             {
                 paramNames.push_back(parameter->className->name);
                 symbolTable.addVariableEntry(parameter->name, parameter->className->name);
@@ -236,7 +232,7 @@ public:
         if (node.body) node.body->accept(*this);
 
         std::unique_ptr<ReturnStatement> returnStatement = nullptr;
-        for (auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
+        for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
         {
             if (bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
             {
@@ -246,7 +242,7 @@ public:
 
 
         // [CHECK] if constructor has return statement
-        if(returnStatement != nullptr)
+        if (returnStatement != nullptr)
         {
             throw std::runtime_error("Constructor cannot have return statement");
         }
@@ -261,7 +257,7 @@ public:
 
     void visitVariableDeclaration(const VariableDeclaration& node) override
     {
-        if(node.expression->primary)
+        if (node.expression->primary)
         {
             //symbolTable.addVariableEntry(node.variable->name, node.expression->);
         }
@@ -281,23 +277,23 @@ public:
 
         if (node.parameters)
         {
-            for (auto& parameter : node.parameters->parameters)
+            for (const auto& parameter : node.parameters->parameters)
             {
                 paramNames.push_back(parameter->className->name);
                 //symbolTable.addVariableEntry()
-
             }
         }
 
-        symbolTable.addFunctionEntry(node.methodName->name, node.returnType ? node.returnType->className->name : "void", paramNames);
+        symbolTable.addFunctionEntry(node.methodName->name, node.returnType ? node.returnType->className->name : "void",
+                                     paramNames);
 
         if (node.body) node.body->accept(*this);
         if (node.parameters) node.parameters->accept(*this);
 
         // [CHECK] if return type is correct
-        auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name).returnType;
+        const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name).returnType;
         std::unique_ptr<ReturnStatement> returnStatement = nullptr;
-        for (auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
+        for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
         {
             if (bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
             {
@@ -318,8 +314,8 @@ public:
         else
         {
             // TODO check type of the last element in the compound expression
-            auto returnVariable = returnStatement->expression->compoundExpression->identifier;
-            auto returnVariableType = symbolTable.lookupVariable(returnVariable);
+            const auto returnVariable = returnStatement->expression->compoundExpression->identifier;
+            const auto returnVariableType = symbolTable.lookupVariable(returnVariable);
             if (expectedReturnType != returnVariableType)
             {
                 throw std::runtime_error(
