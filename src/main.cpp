@@ -3,7 +3,7 @@
 #include "lexical_analyzer/lexer.h"
 #include "syntax_analyzer/Parser.h"
 #include "settings/settings.h"
-#include "syntax_analyzer/SymbolTableVisitor.cpp"
+#include "syntax_analyzer/SymbolTableVisitor.h"
 
 
 int main(const int argc, char* argv[])

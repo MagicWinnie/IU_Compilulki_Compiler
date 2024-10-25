@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "AST.h"
-#include "SymbolTable.cpp"
+#include "SymbolTable.h"
 
 class SymbolTableVisitor final : public Visitor
 {
