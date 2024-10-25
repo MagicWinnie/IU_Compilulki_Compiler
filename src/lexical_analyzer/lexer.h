@@ -1,5 +1,4 @@
-#ifndef LEXER_H
-#define LEXER_H
+#pragma once
 
 #include <fstream>
 #include <memory>
@@ -41,5 +40,3 @@ public:
 
     ~Lexer();
 };
-
-#endif //LEXER_H

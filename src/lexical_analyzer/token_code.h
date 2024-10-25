@@ -1,7 +1,7 @@
-#ifndef TOKEN_CODE_H
-#define TOKEN_CODE_H
+#pragma once
 
-enum TokenCode {
+enum TokenCode
+{
     PROGRAM,
     CLASS,
     EXTENDS,
@@ -31,5 +31,3 @@ enum TokenCode {
     UNKNOWN,
     END_OF_FILE
 };
-
-#endif //TOKEN_CODE_H

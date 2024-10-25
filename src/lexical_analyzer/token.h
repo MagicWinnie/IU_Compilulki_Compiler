@@ -1,5 +1,5 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#pragma once
+
 #include <string>
 #include <utility>
 
@@ -96,5 +96,3 @@ public:
 
     std::string to_string() override;
 };
-
-#endif //TOKEN_H

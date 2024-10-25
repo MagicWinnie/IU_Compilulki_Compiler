@@ -1,5 +1,4 @@
-#ifndef SPAN_H
-#define SPAN_H
+#pragma once
 
 #include <string>
 
@@ -16,5 +15,3 @@ public:
     int get_pos_begin() const;
     int get_pos_end() const;
 };
-
-#endif //SPAN_H
