@@ -5,11 +5,9 @@
 #ifndef IU_COMPILULKI_COMPILER_NODES_H
 #define IU_COMPILULKI_COMPILER_NODES_H
 
-#include <iostream>
-#include <utility>
-#include "memory"
-#include "vector"
-#include "string"
+#include <memory>
+#include <vector>
+#include <string>
 
 class MemberDeclarations;
 class BodyDeclaration;
@@ -94,14 +92,11 @@ class Entity
 public:
     //    virtual bool validate() = 0;
     //    virtual void generate() = 0;
-    virtual ~Entity() = default;
-    virtual void accept(Visitor& visitor) const = 0;
+    virtual ~Entity();
+    virtual void accept(Visitor&) const = 0;
 
     // Helper function to print indentation
-    static void printIndent(const int indent)
-    {
-        for (int i = 0; i < indent; ++i) std::cout << "  ";
-    }
+    static void printIndent(int);
 };
 
 class Literals final : public Entity
@@ -109,15 +104,9 @@ class Literals final : public Entity
 public:
     std::vector<std::unique_ptr<Literal>> literals;
 
-    explicit Literals(std::vector<std::unique_ptr<Literal>> literals)
-        : literals(std::move(literals))
-    {
-    }
+    explicit Literals(std::vector<std::unique_ptr<Literal>>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitLiterals(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Literal final : public Entity
@@ -125,14 +114,9 @@ class Literal final : public Entity
 public:
     std::string value;
 
-    explicit Literal(std::string value) : value(std::move(value))
-    {
-    }
+    explicit Literal(std::string);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitLiteral(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 
@@ -141,15 +125,9 @@ class Arguments final : public Entity
 public:
     std::unique_ptr<Expressions> expressions;
 
-    explicit Arguments(std::unique_ptr<Expressions> expressions)
-        : expressions(std::move(expressions))
-    {
-    }
+    explicit Arguments(std::unique_ptr<Expressions>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitArguments(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 
@@ -159,15 +137,9 @@ public:
     std::string name;
     std::unique_ptr<ClassName> className;
 
-    explicit ClassName(std::string name, std::unique_ptr<ClassName> className = nullptr) : name(std::move(name)),
-        className(std::move(className))
-    {
-    }
+    explicit ClassName(std::string, std::unique_ptr<ClassName> className = nullptr);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitClassName(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ProgramDeclaration final : public Entity
@@ -176,10 +148,7 @@ public:
     std::unique_ptr<ClassName> className;
     std::unique_ptr<ProgramArguments> arguments;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitProgramDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 
@@ -189,10 +158,7 @@ public:
     std::unique_ptr<ProgramDeclaration> programDeclaration;
     std::unique_ptr<ClassDeclarations> classDeclarations;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitProgram(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ClassDeclarations final : public Entity
@@ -200,10 +166,7 @@ class ClassDeclarations final : public Entity
 public:
     std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitClassDeclarations(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ClassDeclaration final : public Entity
@@ -213,10 +176,7 @@ public:
     std::unique_ptr<Extension> extension;
     std::unique_ptr<ClassBody> classBody;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitClassDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class MemberDeclarations final : public Entity
@@ -224,10 +184,7 @@ class MemberDeclarations final : public Entity
 public:
     std::vector<std::unique_ptr<MemberDeclaration>> member_declarations;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitMemberDeclarations(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Extension final : public Entity
@@ -235,15 +192,9 @@ class Extension final : public Entity
 public:
     std::unique_ptr<ClassName> className;
 
-    explicit Extension(std::unique_ptr<ClassName> class_name)
-        : className(std::move(class_name))
-    {
-    }
+    explicit Extension(std::unique_ptr<ClassName>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitExtension(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ClassBody final : public Entity
@@ -251,15 +202,9 @@ class ClassBody final : public Entity
 public:
     std::unique_ptr<MemberDeclarations> memberDeclarations;
 
-    explicit ClassBody(std::unique_ptr<MemberDeclarations> member_declarations)
-        : memberDeclarations(std::move(member_declarations))
-    {
-    }
+    explicit ClassBody(std::unique_ptr<MemberDeclarations>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitClassBody(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Expressions final : public Entity
@@ -267,10 +212,7 @@ class Expressions final : public Entity
 public:
     std::vector<std::unique_ptr<Expression>> expressions;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitExpressions(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 
@@ -280,10 +222,7 @@ public:
     std::unique_ptr<Primary> primary;
     std::unique_ptr<CompoundExpression> compoundExpression;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitExpression(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Primary final : public Entity
@@ -292,20 +231,11 @@ public:
     std::string value;
     std::unique_ptr<ClassName> class_name;
 
-    explicit Primary(std::string value)
-        : value(std::move(value))
-    {
-    }
+    explicit Primary(std::string);
 
-    explicit Primary(std::unique_ptr<ClassName> class_name)
-        : class_name(std::move(class_name))
-    {
-    }
+    explicit Primary(std::unique_ptr<ClassName>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitPrimary(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class CompoundExpression final : public Entity
@@ -315,16 +245,10 @@ public:
     std::unique_ptr<Arguments> arguments;
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
-    explicit CompoundExpression(std::string id, std::unique_ptr<Arguments> args = nullptr,
-                                std::vector<std::unique_ptr<CompoundExpression>> compExpr = {})
-        : identifier(std::move(id)), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
-    {
-    }
+    explicit CompoundExpression(std::string, std::unique_ptr<Arguments> args = nullptr,
+                                std::vector<std::unique_ptr<CompoundExpression>> compExpr = {});
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitCompoundExpression(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ProgramArguments final : public Entity
@@ -332,15 +256,9 @@ class ProgramArguments final : public Entity
 public:
     std::unique_ptr<Literals> literals;
 
-    explicit ProgramArguments(std::unique_ptr<Literals> literals)
-        : literals(std::move(literals))
-    {
-    }
+    explicit ProgramArguments(std::unique_ptr<Literals>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitProgramArguments(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class MemberDeclaration final : public Entity
@@ -350,10 +268,7 @@ public:
     std::unique_ptr<MethodDeclaration> methodDeclaration;
     std::unique_ptr<ConstructorDeclaration> constructorDeclaration;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitMemberDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ConstructorDeclaration final : public Entity
@@ -362,16 +277,9 @@ public:
     std::unique_ptr<Parameters> parameters;
     std::unique_ptr<Body> body;
 
-    ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body)
-        : parameters(std::move(parameters)),
-          body(std::move(body))
-    {
-    }
+    ConstructorDeclaration(std::unique_ptr<Parameters>, std::unique_ptr<Body>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitConstructorDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class VariableDeclaration final : public Entity
@@ -380,16 +288,9 @@ public:
     std::unique_ptr<VariableName> variable;
     std::unique_ptr<Expression> expression;
 
-    VariableDeclaration(std::unique_ptr<VariableName> variable, std::unique_ptr<Expression> expression)
-        : variable(std::move(variable)),
-          expression(std::move(expression))
-    {
-    }
+    VariableDeclaration(std::unique_ptr<VariableName>, std::unique_ptr<Expression>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitVariableDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class MethodDeclaration final : public Entity
@@ -400,19 +301,10 @@ public:
     std::unique_ptr<ReturnType> returnType;
     std::unique_ptr<Body> body;
 
-    MethodDeclaration(std::unique_ptr<MethodName>& method_name, std::unique_ptr<Parameters>& parameters,
-                      std::unique_ptr<ReturnType>& return_type, std::unique_ptr<Body>& body)
-        : methodName(std::move(method_name)),
-          parameters(std::move(parameters)),
-          returnType(std::move(return_type)),
-          body(std::move(body))
-    {
-    }
+    MethodDeclaration(std::unique_ptr<MethodName>&, std::unique_ptr<Parameters>&,
+                      std::unique_ptr<ReturnType>&, std::unique_ptr<Body>&);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitMethodDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Parameters final : public Entity
@@ -420,10 +312,7 @@ class Parameters final : public Entity
 public:
     std::vector<std::unique_ptr<Parameter>> parameters;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitParameters(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class MethodName final : public Entity
@@ -431,14 +320,9 @@ class MethodName final : public Entity
 public:
     std::string name;
 
-    explicit MethodName(std::string name) : name(std::move(name))
-    {
-    }
+    explicit MethodName(std::string);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitMethodName(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Parameter final : public Entity
@@ -447,16 +331,9 @@ public:
     std::string name;
     std::unique_ptr<ClassName> className;
 
-    Parameter(std::string name, std::unique_ptr<ClassName> class_name)
-        : name(std::move(name)),
-          className(std::move(class_name))
-    {
-    }
+    Parameter(std::string, std::unique_ptr<ClassName>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitParameter(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class VariableName final : public Entity
@@ -464,14 +341,9 @@ class VariableName final : public Entity
 public:
     std::string name;
 
-    explicit VariableName(std::string name) : name(std::move(name))
-    {
-    }
+    explicit VariableName(std::string);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitVariableName(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ReturnType final : public Entity
@@ -479,15 +351,9 @@ class ReturnType final : public Entity
 public:
     std::unique_ptr<ClassName> className;
 
-    explicit ReturnType(std::unique_ptr<ClassName> class_name)
-        : className(std::move(class_name))
-    {
-    }
+    explicit ReturnType(std::unique_ptr<ClassName>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitReturnType(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class BodyDeclaration final : public Entity
@@ -496,21 +362,11 @@ public:
     std::unique_ptr<VariableDeclaration> variableDeclaration = nullptr;
     std::unique_ptr<Statement> statement = nullptr;
 
-    explicit BodyDeclaration(std::unique_ptr<VariableDeclaration> variable_declaration
-    )
-        : variableDeclaration(std::move(variable_declaration))
-    {
-    }
+    explicit BodyDeclaration(std::unique_ptr<VariableDeclaration>);
 
-    explicit BodyDeclaration(std::unique_ptr<Statement> statement)
-        : statement(std::move(statement))
-    {
-    }
+    explicit BodyDeclaration(std::unique_ptr<Statement>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitBodyDeclaration(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Statement final : public Entity
@@ -522,10 +378,7 @@ public:
     std::unique_ptr<WhileLoop> whileLoop;
     std::unique_ptr<ReturnStatement> returnStatement;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitStatement(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Assignment final : public Entity
@@ -534,10 +387,7 @@ public:
     std::unique_ptr<VariableName> variableName;
     std::unique_ptr<Expression> expression;
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitAssignment(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class WhileLoop final : public Entity
@@ -546,16 +396,9 @@ public:
     std::unique_ptr<Expression> expression;
     std::unique_ptr<Body> body;
 
-    WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Body> body)
-        : expression(std::move(expression)),
-          body(std::move(body))
-    {
-    }
+    WhileLoop(std::unique_ptr<Expression>, std::unique_ptr<Body>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitWhileLoop(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class IfStatement final : public Entity
@@ -565,18 +408,10 @@ public:
     std::unique_ptr<IfBranch> ifBranch;
     std::unique_ptr<ElseBranch> elseBranch;
 
-    IfStatement(std::unique_ptr<Expression> expression, std::unique_ptr<IfBranch> if_branch,
-                std::unique_ptr<ElseBranch> else_branch = nullptr)
-        : expression(std::move(expression)),
-          ifBranch(std::move(if_branch)),
-          elseBranch(std::move(else_branch))
-    {
-    }
+    IfStatement(std::unique_ptr<Expression>, std::unique_ptr<IfBranch>,
+                std::unique_ptr<ElseBranch> else_branch = nullptr);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitIfStatement(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class IfBranch final : public Entity
@@ -584,15 +419,9 @@ class IfBranch final : public Entity
 public:
     std::unique_ptr<Body> body;
 
-    explicit IfBranch(std::unique_ptr<Body> body)
-        : body(std::move(body))
-    {
-    }
+    explicit IfBranch(std::unique_ptr<Body>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitIfBranch(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ElseBranch final : public Entity
@@ -600,15 +429,9 @@ class ElseBranch final : public Entity
 public:
     std::unique_ptr<Body> body;
 
-    explicit ElseBranch(std::unique_ptr<Body> body)
-        : body(std::move(body))
-    {
-    }
+    explicit ElseBranch(std::unique_ptr<Body>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitElseBranch(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class ReturnStatement final : public Entity
@@ -616,15 +439,9 @@ class ReturnStatement final : public Entity
 public:
     std::unique_ptr<Expression> expression;
 
-    explicit ReturnStatement(std::unique_ptr<Expression> expression)
-        : expression(std::move(expression))
-    {
-    }
+    explicit ReturnStatement(std::unique_ptr<Expression>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitReturnStatement(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class Body final : public Entity
@@ -632,15 +449,9 @@ class Body final : public Entity
 public:
     std::unique_ptr<BodyDeclarations> bodyDeclarations;
 
-    explicit Body(std::unique_ptr<BodyDeclarations> body_declarations)
-        : bodyDeclarations(std::move(body_declarations))
-    {
-    }
+    explicit Body(std::unique_ptr<BodyDeclarations>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitBody(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 class BodyDeclarations final : public Entity
@@ -648,15 +459,9 @@ class BodyDeclarations final : public Entity
 public:
     std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarations;
 
-    explicit BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>> body_declarations)
-        : bodyDeclarations(std::move(body_declarations))
-    {
-    }
+    explicit BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>>);
 
-    void accept(Visitor& visitor) const override
-    {
-        visitor.visitBodyDeclarations(*this);
-    }
+    void accept(Visitor&) const override;
 };
 
 

@@ -2,6 +2,7 @@
 // Created by nai1ka on 10/23/24.
 //
 
+#include <iostream>
 #include "AST.h"
 #include "SymbolTable.cpp"
 

@@ -2,6 +2,7 @@
 // Created by nai1ka on 10/10/24.
 //
 
+#include <iostream>
 #include "PrintVisitor.h"
 
 void PrintVisitor::printIndentation() const
@@ -15,7 +16,6 @@ void PrintVisitor::printIndentation() const
 PrintVisitor::PrintVisitor(std::ostream& out): out(out)
 {
 }
-
 
 
 void PrintVisitor::visitLiterals(const Literals& node)

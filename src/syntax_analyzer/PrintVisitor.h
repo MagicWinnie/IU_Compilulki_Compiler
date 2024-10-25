@@ -16,46 +16,43 @@ class PrintVisitor final : public Visitor
 
 public:
     explicit PrintVisitor(std::ostream& out);
-    void visitProgram(const Program& node) override;
-    void visitProgramDeclaration(const ProgramDeclaration& node) override;
-    void visitClassName(const ClassName& node) override;
-    void visitProgramArguments(const ProgramArguments& node) override;
-    void visitLiterals(const Literals& node) override;
-    void visitLiteral(const Literal& node) override;
-    void visitArguments(const Arguments& node) override;
-    void visitExpressions(const Expressions& node) override;
-    void visitExpression(const Expression& node) override;
-    void visitPrimary(const Primary& node) override;
-    void visitCompoundExpression(const CompoundExpression& node) override;
-    void visitClassDeclarations(const ClassDeclarations& node) override;
-    void visitClassDeclaration(const ClassDeclaration& node) override;
-    void visitClassBody(const ClassBody& node) override;
-    void visitExtension(const Extension& node) override;
-    void visitBody(const Body& node) override;
-    void visitBodyDeclarations(const BodyDeclarations& node) override;
-    void visitBodyDeclaration(const BodyDeclaration& node) override;
-    void visitStatement(const Statement& node) override;
-    void visitIfStatement(const IfStatement& node) override;
-    void visitIfBranch(const IfBranch& node) override;
-    void visitElseBranch(const ElseBranch& node) override;
-    void visitWhileLoop(const WhileLoop& node) override;
-    void visitAssignment(const Assignment& node) override;
-    void visitMemberDeclarations(const MemberDeclarations& node) override;
-    void visitMemberDeclaration(const MemberDeclaration& node) override;
-    void visitConstructorDeclaration(const ConstructorDeclaration& node) override;
-    void visitReturnStatement(const ReturnStatement& node) override;
-    void visitVariableDeclaration(const VariableDeclaration& node) override;
-    void visitMethodDeclaration(const MethodDeclaration& node) override;
-    void visitMethodName(const MethodName& node) override;
-    void visitParameters(const Parameters& node) override;
-    void visitParameter(const Parameter& node) override;
-    void visitReturnType(const ReturnType& node) override;
-    void visitVariableName(const VariableName& node) override;
+    void visitProgram(const Program&) override;
+    void visitProgramDeclaration(const ProgramDeclaration&) override;
+    void visitClassName(const ClassName&) override;
+    void visitProgramArguments(const ProgramArguments&) override;
+    void visitLiterals(const Literals&) override;
+    void visitLiteral(const Literal&) override;
+    void visitArguments(const Arguments&) override;
+    void visitExpressions(const Expressions&) override;
+    void visitExpression(const Expression&) override;
+    void visitPrimary(const Primary&) override;
+    void visitCompoundExpression(const CompoundExpression&) override;
+    void visitClassDeclarations(const ClassDeclarations&) override;
+    void visitClassDeclaration(const ClassDeclaration&) override;
+    void visitClassBody(const ClassBody&) override;
+    void visitExtension(const Extension&) override;
+    void visitBody(const Body&) override;
+    void visitBodyDeclarations(const BodyDeclarations&) override;
+    void visitBodyDeclaration(const BodyDeclaration&) override;
+    void visitStatement(const Statement&) override;
+    void visitIfStatement(const IfStatement&) override;
+    void visitIfBranch(const IfBranch&) override;
+    void visitElseBranch(const ElseBranch&) override;
+    void visitWhileLoop(const WhileLoop&) override;
+    void visitAssignment(const Assignment&) override;
+    void visitMemberDeclarations(const MemberDeclarations&) override;
+    void visitMemberDeclaration(const MemberDeclaration&) override;
+    void visitConstructorDeclaration(const ConstructorDeclaration&) override;
+    void visitReturnStatement(const ReturnStatement&) override;
+    void visitVariableDeclaration(const VariableDeclaration&) override;
+    void visitMethodDeclaration(const MethodDeclaration&) override;
+    void visitMethodName(const MethodName&) override;
+    void visitParameters(const Parameters&) override;
+    void visitParameter(const Parameter&) override;
+    void visitReturnType(const ReturnType&) override;
+    void visitVariableName(const VariableName&) override;
 
-
-
-
-    // Implement other visit methods for different node types
+    // Implement other visit methods for different types
 };
 
 #endif //PRINTVISITOR_H

@@ -4,6 +4,7 @@
 
 #include "Parser.h"
 
+#include <iostream>
 #include <fstream>
 
 #include "../utils/helper.cpp"
@@ -472,7 +473,7 @@ std::unique_ptr<IfStatement> Parser::parseIfStatement()
     expectAndConsume(IF);
     auto expression = parseExpression();
     auto ifBranch = parseIfBranch();
-    auto elseBranch = parseElsebranch();
+    auto elseBranch = parseElseBranch();
     expectAndConsume(END);
     return std::make_unique<IfStatement>(std::move(expression), std::move(ifBranch), std::move(elseBranch));
 }
@@ -483,7 +484,7 @@ std::unique_ptr<IfBranch> Parser::parseIfBranch()
     return std::make_unique<IfBranch>(parseBody());
 }
 
-std::unique_ptr<ElseBranch> Parser::parseElsebranch()
+std::unique_ptr<ElseBranch> Parser::parseElseBranch()
 {
     if (peekNextToken() == ELSE)
     {

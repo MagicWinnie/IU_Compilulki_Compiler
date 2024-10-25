@@ -20,12 +20,12 @@ class Parser
     int current_token = 0;
 
 public:
-    explicit Parser(std::vector<std::unique_ptr<Token>> tokens, const std::string& infile_path, const bool& debug);
+    explicit Parser(std::vector<std::unique_ptr<Token>>, const std::string&, const bool&);
 
     std::unique_ptr<Program> parse();
 
-    void expectAndConsume(TokenCode code);
-    void expect(TokenCode code) const;
+    void expectAndConsume(TokenCode);
+    void expect(TokenCode) const;
 
     [[nodiscard]] TokenCode peekNextToken(int offset = 0) const;
 
@@ -56,7 +56,7 @@ public:
     std::unique_ptr<Statement> parseStatement();
     std::unique_ptr<IfStatement> parseIfStatement();
     std::unique_ptr<IfBranch> parseIfBranch();
-    std::unique_ptr<ElseBranch> parseElsebranch();
+    std::unique_ptr<ElseBranch> parseElseBranch();
     std::unique_ptr<WhileLoop> parseWhileLoop();
     std::unique_ptr<Assignment> parseAssignment();
     std::unique_ptr<MemberDeclarations> parseMemberDeclarations();
@@ -69,7 +69,7 @@ public:
     std::unique_ptr<Parameter> parseParameter();
     std::unique_ptr<ReturnType> parseReturnType();
     std::unique_ptr<VariableName> parseVariableName();
-    static bool isPrimary(TokenCode code);
+    static bool isPrimary(TokenCode);
 };
 
 

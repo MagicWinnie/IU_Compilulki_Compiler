@@ -17,8 +17,6 @@ add_executable(compilulki src/main.cpp
         src/syntax_analyzer/Parser.h
         src/syntax_analyzer/Parser.cpp
         src/syntax_analyzer/AST.cpp
-        src/syntax_analyzer/Visitor.cpp
-        src/syntax_analyzer/Visitor.h
         src/syntax_analyzer/PrintVisitor.cpp
         src/syntax_analyzer/PrintVisitor.h
         src/utils/helper.cpp
