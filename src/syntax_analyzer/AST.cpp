@@ -117,9 +117,9 @@ void Primary::accept(Visitor& visitor) const
     visitor.visitPrimary(*this);
 }
 
-CompoundExpression::CompoundExpression(std::string id, std::unique_ptr<Arguments> args,
+CompoundExpression::CompoundExpression(std::string id, const Span& span, std::unique_ptr<Arguments> args,
                                        std::vector<std::unique_ptr<CompoundExpression>> compExpr):
-    identifier(std::move(id)), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
+    identifier(std::move(id)), span(span), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
 {
 }
 
@@ -183,7 +183,7 @@ void Parameters::accept(Visitor& visitor) const
     visitor.visitParameters(*this);
 }
 
-MethodName::MethodName(std::string name): name(std::move(name))
+MethodName::MethodName(std::string name, Span span): name(std::move(name)), span(span)
 {
 }
 
@@ -202,7 +202,7 @@ void Parameter::accept(Visitor& visitor) const
     visitor.visitParameter(*this);
 }
 
-VariableName::VariableName(std::string name): name(std::move(name))
+VariableName::VariableName(std::string name, Span span): name(std::move(name)), span(span)
 {
 }
 

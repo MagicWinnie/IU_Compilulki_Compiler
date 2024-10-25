@@ -7,6 +7,8 @@
 #include <vector>
 #include <string>
 
+#include "../lexical_analyzer/span.h"
+
 class MemberDeclarations;
 class BodyDeclaration;
 class Arguments;
@@ -240,10 +242,11 @@ class CompoundExpression final : public Entity
 {
 public:
     std::string identifier;
+    Span span;
     std::unique_ptr<Arguments> arguments;
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
-    explicit CompoundExpression(std::string, std::unique_ptr<Arguments> args = nullptr,
+    explicit CompoundExpression(std::string, const Span&, std::unique_ptr<Arguments> args = nullptr,
                                 std::vector<std::unique_ptr<CompoundExpression>> compExpr = {});
 
     void accept(Visitor&) const override;
@@ -317,8 +320,9 @@ class MethodName final : public Entity
 {
 public:
     std::string name;
+    Span span;
 
-    explicit MethodName(std::string);
+    explicit MethodName(std::string, Span);
 
     void accept(Visitor&) const override;
 };
@@ -338,8 +342,9 @@ class VariableName final : public Entity
 {
 public:
     std::string name;
+    Span span;
 
-    explicit VariableName(std::string);
+    explicit VariableName(std::string, Span);
 
     void accept(Visitor&) const override;
 };

@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include "../lexical_analyzer/span.h"
 
 struct VariableEntry
 {
@@ -58,7 +59,7 @@ public:
                           const std::vector<std::string>& paramTypes);
 
     // Lookup an entry across all scopes (from innermost to outermost)
-    std::string lookupVariable(const std::string& name) const;
+    std::string lookupVariable(const std::string&, const Span&) const;
 
-    FunctionEntry lookupFunction(const std::string& name) const;
+    FunctionEntry lookupFunction(const std::string&, const Span&) const;
 };

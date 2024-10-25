@@ -167,7 +167,7 @@ void SymbolTableVisitor::visitAssignment(const Assignment& node)
     // [CHECK] if variable is declared
     try
     {
-        symbolTable.lookupVariable(node.variableName->name);
+        symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
     }
     catch (const std::runtime_error& e)
     {
@@ -175,7 +175,7 @@ void SymbolTableVisitor::visitAssignment(const Assignment& node)
     }
 
     // [CHECK] if variable is assigned to the correct type
-    auto variableType = symbolTable.lookupVariable(node.variableName->name);
+    auto variableType = symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
     // TODO firstly check if we assign a variable or a class or a method
     // auto expressionType = node.expression->compoundExpression->identifier;
     // if (variableType != expressionType)
@@ -283,7 +283,7 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     if (node.parameters) node.parameters->accept(*this);
 
     // [CHECK] if return type is correct
-    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name).returnType;
+    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, node.methodName->span).returnType;
     std::unique_ptr<ReturnStatement> returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
@@ -306,13 +306,19 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     else
     {
         // TODO check type of the last element in the compound expression
-        const auto returnVariable = returnStatement->expression->compoundExpression->identifier;
-        const auto returnVariableType = symbolTable.lookupVariable(returnVariable);
+        const auto span = returnStatement->expression->compoundExpression->span;
+        const auto returnVariableType = symbolTable.lookupVariable(
+            returnStatement->expression->compoundExpression->identifier,
+            span
+        );
         if (expectedReturnType != returnVariableType)
         {
             throw std::runtime_error(
                 "Method " + node.methodName->name + " is of type " + expectedReturnType +
-                " but is being assigned to type " + returnVariableType);
+                " but is being assigned to type " + returnVariableType +
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
         }
     }
 

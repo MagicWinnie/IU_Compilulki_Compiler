@@ -243,19 +243,20 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
     const auto identifier = getNextToken();
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
+    const auto span = tokens[current_token]->get_span();
+
     if (identifier->get_code() == THIS)
     {
         if (peekNextToken() == DOT)
         {
             consumeToken(); // consume DOT
             compoundExpressions.push_back(parseCompoundExpression());
-            return std::make_unique<CompoundExpression>("this", nullptr, std::move(compoundExpressions));
+            return std::make_unique<CompoundExpression>("this", span, nullptr, std::move(compoundExpressions));
         }
         throw std::runtime_error("Expected '.' after 'this', got: " + peekNextToken());
     }
     if (identifier->get_code() != IDENTIFIER)
     {
-        const auto span = tokens[current_token]->get_span();
         throwError("identifier", getEnumName(tokens[current_token]->get_code()),
                    span.get_line_num(), span.get_pos_begin());
     }
@@ -280,12 +281,13 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
                 compoundExpressions.push_back(parseCompoundExpression());
             }
 
-            return std::make_unique<CompoundExpression>(identifier->to_string(), std::move(arguments),
+            return std::make_unique<CompoundExpression>(identifier->to_string(), span, std::move(arguments),
                                                         std::move(compoundExpressions));
         }
 
 
-        return std::make_unique<CompoundExpression>(identifier->to_string(), nullptr, std::move(compoundExpressions));
+        return std::make_unique<CompoundExpression>(identifier->to_string(), span, nullptr,
+                                                    std::move(compoundExpressions));
     }
 
     if (peekNextToken() == LEFT_PAREN)
@@ -298,22 +300,23 @@ std::unique_ptr<CompoundExpression> Parser::parseCompoundExpression()
         {
             consumeToken(); // consume DOT
             compoundExpressions.push_back(parseCompoundExpression());
-            return std::make_unique<CompoundExpression>(identifier->to_string(), std::move(arguments),
+            return std::make_unique<CompoundExpression>(identifier->to_string(), span, std::move(arguments),
                                                         std::move(compoundExpressions));
         }
 
-        return std::make_unique<CompoundExpression>(identifier->to_string(), std::move(arguments));
+        return std::make_unique<CompoundExpression>(identifier->to_string(), span, std::move(arguments));
     }
 
     if (peekNextToken() == DOT)
     {
         consumeToken(); // consume DOT
         compoundExpressions.push_back(parseCompoundExpression());
-        return std::make_unique<CompoundExpression>(identifier->to_string(), nullptr, std::move(compoundExpressions));
+        return std::make_unique<CompoundExpression>(identifier->to_string(), span, nullptr,
+                                                    std::move(compoundExpressions));
     }
 
 
-    return std::make_unique<CompoundExpression>(identifier->to_string());
+    return std::make_unique<CompoundExpression>(identifier->to_string(), span);
 }
 
 
@@ -595,13 +598,13 @@ std::unique_ptr<MethodDeclaration> Parser::parseMethodDeclaration()
 std::unique_ptr<MethodName> Parser::parseMethodName()
 {
     const auto next_token = getNextToken();
+    const auto span = tokens[current_token]->get_span();
     if (next_token->get_code() != IDENTIFIER)
     {
-        const auto span = tokens[current_token]->get_span();
         throwError("identifier", getEnumName(tokens[current_token]->get_code()), span.get_line_num(),
                    span.get_pos_begin());
     }
-    return std::make_unique<MethodName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier());
+    return std::make_unique<MethodName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier(), span);
 }
 
 std::unique_ptr<Parameters> Parser::parseParameters()
@@ -642,13 +645,13 @@ std::unique_ptr<ReturnType> Parser::parseReturnType()
 std::unique_ptr<VariableName> Parser::parseVariableName()
 {
     const auto next_token = getNextToken();
+    const auto span = tokens[current_token]->get_span();
     if (next_token->get_code() != IDENTIFIER)
     {
-        const auto span = tokens[current_token]->get_span();
         throwError("identifier", getEnumName(tokens[current_token]->get_code()),
                    span.get_line_num(), span.get_pos_begin());
     }
-    return std::make_unique<VariableName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier());
+    return std::make_unique<VariableName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier(), span);
 }
 
 
