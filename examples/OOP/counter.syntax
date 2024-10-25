@@ -13,8 +13,8 @@ Program
                   Arguments
                     Expressions
                       Expression
-                        Primary: Integer{Span(7, 21, 22), 23, 0}
-              VariableName: c
+                        Primary: Integer{Span(7, 25, 26), 23, 0}
+              VariableName: count
           MemberDeclaration
             MethodDeclaration
               Body
@@ -28,8 +28,8 @@ Program
                               Arguments
                                 Expressions
                                   Expression
-                                    Primary: Integer{Span(10, 21, 22), 23, 1}
-                        VariableName: c
+                                    Primary: Integer{Span(10, 25, 26), 23, 1}
+                        VariableName: count
               MethodName: inc
           MemberDeclaration
             MethodDeclaration

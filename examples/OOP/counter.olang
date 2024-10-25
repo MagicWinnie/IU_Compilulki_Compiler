@@ -4,10 +4,10 @@ Program: Main()
 
 // Define a class Counter
 class Counter is
-    var c : Integer(0)
+    var count : Integer(0)
 
     method inc() is
-        c := c.Plus(1)
+        count := c.Plus(1)
     end
 
     method getCounter() : Integer is
