@@ -26,7 +26,6 @@ int main(const int argc, char* argv[])
     SymbolTableVisitor symbolTableVisitor;
     program->accept(symbolTableVisitor);
 
-    // TODO: semantics analyzer
     // TODO: code generation
 
     return EXIT_SUCCESS;
