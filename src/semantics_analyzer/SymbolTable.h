@@ -55,7 +55,7 @@ public:
     // Add an entry in the current scope
     void addVariableEntry(const std::string&, const std::string&, const Span&, bool is_constant = false);
 
-    void addFunctionEntry(const std::string& name, const std::string& returnType,
+    void addFunctionEntry(const std::string& name, const std::string& returnType, const Span&,
                           const std::vector<std::string>& paramTypes);
 
     // Lookup an entry across all scopes (from innermost to outermost)

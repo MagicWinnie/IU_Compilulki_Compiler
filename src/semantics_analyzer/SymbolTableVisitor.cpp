@@ -220,7 +220,7 @@ void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaratio
         }
     }
 
-    symbolTable.addFunctionEntry("this", "void", paramNames);
+    symbolTable.addFunctionEntry("this", "void", Span(0, 0, 0), paramNames);
     if (node.body) node.body->accept(*this);
 
     std::unique_ptr<ReturnStatement> returnStatement = nullptr;
@@ -277,8 +277,12 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
         }
     }
 
-    symbolTable.addFunctionEntry(node.methodName->name, node.returnType ? node.returnType->className->name : "void",
-                                 paramNames);
+    symbolTable.addFunctionEntry(
+        node.methodName->name,
+        node.returnType ? node.returnType->className->name : "void",
+        node.methodName->span,
+        paramNames
+    );
 
     if (node.body) node.body->accept(*this);
     if (node.parameters) node.parameters->accept(*this);
@@ -288,7 +292,7 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     std::unique_ptr<ReturnStatement> returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
-        if (bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
         {
             returnStatement = std::move(bodyDeclaration->statement->returnStatement);
         }

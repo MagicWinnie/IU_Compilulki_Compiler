@@ -55,7 +55,8 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
 
         if (current_scope.varEntries.find(name) != current_scope.varEntries.end())
         {
-            throw std::runtime_error("Variable '" + name + "' is already declared in this scope " +
+            throw std::runtime_error(
+                "Variable '" + name + "' is already declared in this scope " +
                 "at line: " + std::to_string(span.get_line_num()) +
                 " column: " + std::to_string(span.get_pos_begin())
             );
@@ -66,7 +67,7 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
     }
 }
 
-void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& returnType,
+void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& returnType, const Span& span,
                                          const std::vector<std::string>& paramTypes)
 {
     if (!scopes.empty())
@@ -76,7 +77,11 @@ void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::str
 
         if (current_scope.funcEntries.find(name) != current_scope.funcEntries.end())
         {
-            throw std::runtime_error("Function '" + name + "' is already declared in this scope.");
+            throw std::runtime_error(
+                "Function '" + name + "' is already declared in this scope " +
+                "at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
         }
         // Add the new entry to the current scope
         current_scope.addFunctionEntry(name, returnType, paramTypes);
