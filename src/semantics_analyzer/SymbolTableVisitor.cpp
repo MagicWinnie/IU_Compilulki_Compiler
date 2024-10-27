@@ -9,6 +9,11 @@ SymbolTableVisitor::~SymbolTableVisitor()
     symbolTable.leaveScope();
 }
 
+ScopedSymbolTable SymbolTableVisitor::getSymbolTable() const
+{
+    return symbolTable;
+}
+
 void SymbolTableVisitor::visitProgram(const Program& node)
 {
     symbolTable.enterScope();

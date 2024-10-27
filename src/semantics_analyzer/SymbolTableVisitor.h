@@ -15,6 +15,8 @@ public:
 
     ~SymbolTableVisitor() override;
 
+    ScopedSymbolTable getSymbolTable() const;
+
     void visitProgram(const Program&) override;
 
     void visitProgramDeclaration(const ProgramDeclaration&) override;
