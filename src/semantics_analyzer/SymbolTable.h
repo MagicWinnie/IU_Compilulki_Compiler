@@ -15,7 +15,6 @@ struct VariableEntry
     bool is_constant{}; // Is it a constant?
 };
 
-// Structure to represent a function entry
 struct FunctionEntry
 {
     std::string name; // Function name
@@ -23,22 +22,31 @@ struct FunctionEntry
     std::vector<std::string> paramTypes; // Parameter types
 };
 
+struct ClassEntry
+{
+    std::string name; // Class name
+};
+
 class SymbolTable
 {
 public:
-    std::unordered_map<std::string, VariableEntry> varEntries; // Variable entries
+    std::unordered_map<std::string, VariableEntry> varEntries;
     std::unordered_map<std::string, FunctionEntry> funcEntries;
+    std::unordered_map<std::string, ClassEntry> classEntries;
 
     // Add an entry
-    void addVariableEntry(const std::string& name, const std::string& type, bool is_constant = false);
+    void addVariableEntry(const std::string&, const std::string&, bool is_constant = false);
 
-    void addFunctionEntry(const std::string& name, const std::string& returnType,
-                          const std::vector<std::string>& paramTypes);
+    void addFunctionEntry(const std::string&, const std::string&, const std::vector<std::string>&);
+
+    void addClassEntry(const std::string&);
 
     // Lookup an entry
-    VariableEntry* lookupVariable(const std::string& name);
+    VariableEntry* lookupVariable(const std::string&);
 
-    FunctionEntry* lookupFunction(const std::string& name);
+    FunctionEntry* lookupFunction(const std::string&);
+
+    ClassEntry* lookupClass(const std::string&);
 };
 
 class ScopedSymbolTable
@@ -55,11 +63,14 @@ public:
     // Add an entry in the current scope
     void addVariableEntry(const std::string&, const std::string&, const Span&, bool is_constant = false);
 
-    void addFunctionEntry(const std::string& name, const std::string& returnType, const Span&,
-                          const std::vector<std::string>& paramTypes);
+    void addFunctionEntry(const std::string&, const std::string&, const Span&, const std::vector<std::string>&);
+
+    void addClassEntry(const std::string&, const Span&);
 
     // Lookup an entry across all scopes (from innermost to outermost)
     std::string lookupVariable(const std::string&, const Span&) const;
 
     FunctionEntry lookupFunction(const std::string&, const Span&) const;
+
+    ClassEntry lookupClass(const std::string&, const Span&) const;
 };

@@ -11,8 +11,10 @@ SymbolTableVisitor::~SymbolTableVisitor()
 
 void SymbolTableVisitor::visitProgram(const Program& node)
 {
+    symbolTable.enterScope();
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
+    symbolTable.leaveScope();
 }
 
 void SymbolTableVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
@@ -88,6 +90,7 @@ void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
 void SymbolTableVisitor::visitClassDeclaration(const ClassDeclaration& node)
 {
     symbolTable.enterScope();
+    symbolTable.addClassEntry(node.className->name, Span(0, 0, 0));
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);
