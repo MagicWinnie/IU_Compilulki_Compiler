@@ -40,8 +40,8 @@ void Arguments::accept(Visitor& visitor) const
     visitor.visitArguments(*this);
 }
 
-ClassName::ClassName(std::string name, std::unique_ptr<ClassName> className):
-    name(std::move(name)), className(std::move(className))
+ClassName::ClassName(std::string name, const Span& span, std::unique_ptr<ClassName> className):
+    name(std::move(name)), className(std::move(className)), span(span)
 {
 }
 

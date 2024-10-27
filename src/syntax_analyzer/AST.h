@@ -135,9 +135,10 @@ class ClassName final : public Entity
 {
 public:
     std::string name;
+    Span span;
     std::unique_ptr<ClassName> className;
 
-    explicit ClassName(std::string, std::unique_ptr<ClassName> className = nullptr);
+    explicit ClassName(std::string, const Span&, std::unique_ptr<ClassName> className = nullptr);
 
     void accept(Visitor&) const override;
 };

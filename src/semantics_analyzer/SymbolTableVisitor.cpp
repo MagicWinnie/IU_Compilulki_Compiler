@@ -90,7 +90,7 @@ void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
 void SymbolTableVisitor::visitClassDeclaration(const ClassDeclaration& node)
 {
     symbolTable.enterScope();
-    symbolTable.addClassEntry(node.className->name, Span(0, 0, 0));
+    symbolTable.addClassEntry(node.className->name, node.className->span);
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);
