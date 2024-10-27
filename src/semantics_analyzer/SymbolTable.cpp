@@ -74,14 +74,17 @@ void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::str
     {
         // Use a reference to modify the actual scope on the stack
         auto& current_scope = scopes[scopes.size() - 2];
-
-        if (current_scope.funcEntries.find(name) != current_scope.funcEntries.end())
+        const auto foundFunc = current_scope.funcEntries.find(name);
+        if (foundFunc != current_scope.funcEntries.end())
         {
-            throw std::runtime_error(
-                "Method '" + name + "' is already declared in this scope " +
-                "at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
-            );
+            if (foundFunc->second.paramTypes == paramTypes)
+            {
+                throw std::runtime_error(
+                    "Method '" + name + "' is already declared in this scope " +
+                    "at line: " + std::to_string(span.get_line_num()) +
+                    " column: " + std::to_string(span.get_pos_begin())
+                );
+            }
         }
         // Add the new entry to the current scope
         current_scope.addFunctionEntry(name, returnType, paramTypes);
