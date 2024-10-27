@@ -220,7 +220,7 @@ void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaratio
         }
     }
 
-    symbolTable.addFunctionEntry("this", "void", Span(0, 0, 0), paramNames);
+    symbolTable.addFunctionEntry("this", "void", node.span, paramNames);
     if (node.body) node.body->accept(*this);
 
     std::unique_ptr<ReturnStatement> returnStatement = nullptr;

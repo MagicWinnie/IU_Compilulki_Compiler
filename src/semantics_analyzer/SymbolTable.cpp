@@ -70,15 +70,15 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
 void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& returnType, const Span& span,
                                          const std::vector<std::string>& paramTypes)
 {
-    if (!scopes.empty())
+    if (scopes.size() >= 2)
     {
         // Use a reference to modify the actual scope on the stack
-        auto& current_scope = scopes.back();
+        auto& current_scope = scopes[scopes.size() - 2];
 
         if (current_scope.funcEntries.find(name) != current_scope.funcEntries.end())
         {
             throw std::runtime_error(
-                "Function '" + name + "' is already declared in this scope " +
+                "Method '" + name + "' is already declared in this scope " +
                 "at line: " + std::to_string(span.get_line_num()) +
                 " column: " + std::to_string(span.get_pos_begin())
             );

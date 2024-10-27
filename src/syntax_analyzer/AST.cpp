@@ -142,9 +142,11 @@ void MemberDeclaration::accept(Visitor& visitor) const
     visitor.visitMemberDeclaration(*this);
 }
 
-ConstructorDeclaration::ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body):
+ConstructorDeclaration::ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body,
+                                               const Span& span):
     parameters(std::move(parameters)),
-    body(std::move(body))
+    body(std::move(body)),
+    span(span)
 {
 }
 

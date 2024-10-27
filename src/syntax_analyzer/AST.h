@@ -277,8 +277,9 @@ class ConstructorDeclaration final : public Entity
 public:
     std::unique_ptr<Parameters> parameters;
     std::unique_ptr<Body> body;
+    Span span;
 
-    ConstructorDeclaration(std::unique_ptr<Parameters>, std::unique_ptr<Body>);
+    ConstructorDeclaration(std::unique_ptr<Parameters>, std::unique_ptr<Body>, const Span&);
 
     void accept(Visitor&) const override;
 };

@@ -560,7 +560,8 @@ std::unique_ptr<ConstructorDeclaration> Parser::parseConstructorDeclaration()
     expectAndConsume(IS);
     auto body = parseBody();
     expectAndConsume(END);
-    return std::make_unique<ConstructorDeclaration>(std::move(parameters), std::move(body));
+    return std::make_unique<ConstructorDeclaration>(std::move(parameters), std::move(body),
+                                                    tokens[current_token]->get_span());
 }
 
 std::unique_ptr<VariableDeclaration> Parser::parseVariableDeclaration()
