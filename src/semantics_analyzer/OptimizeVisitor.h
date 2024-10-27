@@ -5,18 +5,17 @@
 
 #include "../syntax_analyzer/AST.h"
 #include "SymbolTable.h"
+#include <vector>
 
-class SymbolTableVisitor final : public Visitor
+class OptimizeVisitor final : public Visitor
 {
-
+private:
+    ScopedSymbolTable& symbolTable;
 
 public:
-    ScopedSymbolTable symbolTable;
-    SymbolTableVisitor();
+    OptimizeVisitor(ScopedSymbolTable& symbolTable) : symbolTable(symbolTable) {}
 
-    ~SymbolTableVisitor() override;
-
-    ScopedSymbolTable getSymbolTable() const;
+    ~OptimizeVisitor();
 
     void visitProgram(const Program&) override;
 

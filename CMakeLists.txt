@@ -24,4 +24,5 @@ add_executable(compilulki src/main.cpp
         src/semantics_analyzer/SymbolTable.h
         src/semantics_analyzer/SymbolTableVisitor.cpp
         src/semantics_analyzer/SymbolTableVisitor.h
+        src/semantics_analyzer/OptimizeVisitor.cpp
 )
