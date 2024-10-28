@@ -334,7 +334,7 @@ public:
     void accept(Visitor&) override;
 };
 
-class CompoundExpression : public Statement
+class CompoundExpression final : public Statement
 {
 public:
     std::string identifier;

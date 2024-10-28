@@ -27,7 +27,7 @@ void OptimizeVisitor::visitProgramArguments(ProgramArguments& node)
 
 void OptimizeVisitor::visitLiterals(Literals& node)
 {
-    for (auto& literal : node.literals)
+    for (const auto& literal : node.literals)
     {
         literal->accept(*this);
     }
@@ -44,7 +44,7 @@ void OptimizeVisitor::visitArguments(Arguments& node)
 
 void OptimizeVisitor::visitExpressions(Expressions& node)
 {
-    for (auto& expression : node.expressions)
+    for (const auto& expression : node.expressions)
     {
         expression->accept(*this);
     }
@@ -64,7 +64,7 @@ void OptimizeVisitor::visitPrimary(Primary& node)
 void OptimizeVisitor::visitCompoundExpression(CompoundExpression& node)
 {
     if (node.arguments) node.arguments->accept(*this);
-    for (auto& compoundExpression : node.compoundExpressions)
+    for (const auto& compoundExpression : node.compoundExpressions)
     {
         compoundExpression->accept(*this);
     }
@@ -72,7 +72,7 @@ void OptimizeVisitor::visitCompoundExpression(CompoundExpression& node)
 
 void OptimizeVisitor::visitClassDeclarations(ClassDeclarations& node)
 {
-    for (auto& classDeclaration : node.classDeclarations)
+    for (const auto& classDeclaration : node.classDeclarations)
     {
         classDeclaration->accept(*this);
     }
@@ -226,7 +226,7 @@ void OptimizeVisitor::visitAssignment(Assignment& node)
 
 void OptimizeVisitor::visitMemberDeclarations(MemberDeclarations& node)
 {
-    for (auto& memberDeclaration : node.member_declarations)
+    for (const auto& memberDeclaration : node.member_declarations)
     {
         memberDeclaration->accept(*this);
     }
@@ -285,7 +285,7 @@ void OptimizeVisitor::visitMethodName(MethodName& node)
 
 void OptimizeVisitor::visitParameters(Parameters& node)
 {
-    for (auto& parameter : node.parameters)
+    for (const auto& parameter : node.parameters)
     {
         parameter->accept(*this);
     }

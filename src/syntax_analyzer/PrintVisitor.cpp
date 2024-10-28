@@ -23,7 +23,7 @@ void PrintVisitor::visitLiterals(Literals& node)
     printIndentation();
     out << "Literals" << std::endl;
     indentationLevel++;
-    for (auto& literal : node.literals)
+    for (const auto& literal : node.literals)
     {
         literal->accept(*this);
     }
@@ -50,7 +50,7 @@ void PrintVisitor::visitExpressions(Expressions& node)
     printIndentation();
     out << "Expressions" << std::endl;
     indentationLevel++;
-    for (auto& expression : node.expressions)
+    for (const auto& expression : node.expressions)
     {
         expression->accept(*this);
     }
@@ -82,7 +82,7 @@ void PrintVisitor::visitCompoundExpression(CompoundExpression& node)
     out << "CompoundExpression: " << node.identifier << std::endl;
     indentationLevel++;
     if (node.arguments) node.arguments->accept(*this);
-    for (auto& compoundExpression : node.compoundExpressions)
+    for (const auto& compoundExpression : node.compoundExpressions)
     {
         compoundExpression->accept(*this);
     }
@@ -212,7 +212,7 @@ void PrintVisitor::visitMemberDeclarations(MemberDeclarations& node)
     printIndentation();
     out << "MemberDeclarations" << std::endl;
     indentationLevel++;
-    for (auto& memberDeclaration : node.member_declarations)
+    for (const auto& memberDeclaration : node.member_declarations)
     {
         memberDeclaration->accept(*this);
     }
@@ -282,7 +282,7 @@ void PrintVisitor::visitParameters(Parameters& node)
     printIndentation();
     out << "Parameters" << std::endl;
     indentationLevel++;
-    for (auto& parameter : node.parameters)
+    for (const auto& parameter : node.parameters)
     {
         parameter->accept(*this);
     }
@@ -353,7 +353,7 @@ void PrintVisitor::visitClassDeclarations(ClassDeclarations& node)
     printIndentation();
     out << "ClassDeclarations" << std::endl;
     indentationLevel++;
-    for (auto& classDeclaration : node.classDeclarations)
+    for (const auto& classDeclaration : node.classDeclarations)
     {
         classDeclaration->accept(*this);
     }

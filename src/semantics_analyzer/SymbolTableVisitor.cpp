@@ -66,7 +66,7 @@ void SymbolTableVisitor::visitArguments(Arguments& node)
 
 void SymbolTableVisitor::visitExpressions(Expressions& node)
 {
-    for (auto& expression : node.expressions)
+    for (const auto& expression : node.expressions)
     {
         expression->accept(*this);
     }
@@ -93,7 +93,7 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression& node)
     }
 
     if (node.arguments) node.arguments->accept(*this);
-    for (auto& compoundExpression : node.compoundExpressions)
+    for (const auto& compoundExpression : node.compoundExpressions)
     {
         compoundExpression->accept(*this);
     }
@@ -101,7 +101,7 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression& node)
 
 void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations& node)
 {
-    for (auto& classDeclaration : node.classDeclarations)
+    for (const auto& classDeclaration : node.classDeclarations)
     {
         symbolTable.addClassEntry(classDeclaration->className->name, classDeclaration->className->span);
         classDeclaration->accept(*this);
@@ -210,7 +210,7 @@ void SymbolTableVisitor::visitAssignment(Assignment& node)
 
 void SymbolTableVisitor::visitMemberDeclarations(MemberDeclarations& node)
 {
-    for (auto& memberDeclaration : node.member_declarations)
+    for (const auto& memberDeclaration : node.member_declarations)
     {
         memberDeclaration->accept(*this);
     }
@@ -242,7 +242,7 @@ void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration& nod
     symbolTable.addFunctionEntry("this", "void", node.span, paramNames);
     if (node.body) node.body->accept(*this);
 
-    ReturnStatement* returnStatement = nullptr;
+    const ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
         if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type ==
@@ -365,7 +365,7 @@ void SymbolTableVisitor::visitMethodName(MethodName& node)
 
 void SymbolTableVisitor::visitParameters(Parameters& node)
 {
-    for (auto& parameter : node.parameters)
+    for (const auto& parameter : node.parameters)
     {
         parameter->accept(*this);
     }

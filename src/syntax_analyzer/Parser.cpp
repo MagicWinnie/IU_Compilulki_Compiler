@@ -158,21 +158,21 @@ std::unique_ptr<Literal> Parser::parseLiteral()
     // TODO fix
     case INTEGER:
         {
-            auto integer = dynamic_cast<Integer*>(next_token.get());
+            const auto integer = dynamic_cast<Integer*>(next_token.get());
             std::unique_ptr<Literal> literal = std::make_unique<IntLiteral>(integer->value);
             return literal;
         }
 
     case REAL:
         {
-            auto real = dynamic_cast<Real*>(next_token.get());
+            const auto real = dynamic_cast<Real*>(next_token.get());
             std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
             return literal;
         }
 
     case BOOLEAN:
         {
-            auto boolean = dynamic_cast<Boolean*>(next_token.get());
+            const auto boolean = dynamic_cast<Boolean*>(next_token.get());
             std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
             return literal;
         }
@@ -244,19 +244,19 @@ std::unique_ptr<Primary> Parser::parsePrimary()
     {
     case TokenCode::INTEGER:
         {
-            auto integer = dynamic_cast<Integer*>(token.get());
+            const auto integer = dynamic_cast<Integer*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<IntLiteral>(integer->value);
             return std::make_unique<Primary>(literal);
         }
     case TokenCode::REAL:
         {
-            auto real = dynamic_cast<Real*>(token.get());
+            const auto real = dynamic_cast<Real*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
             return std::make_unique<Primary>(literal);
         }
     case TokenCode::BOOLEAN:
         {
-            auto boolean = dynamic_cast<Boolean*>(token.get());
+            const auto boolean = dynamic_cast<Boolean*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
             return std::make_unique<Primary>(literal);
         }
