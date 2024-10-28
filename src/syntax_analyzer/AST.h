@@ -50,41 +50,41 @@ class Visitor
 public:
     Visitor() = default;
     virtual ~Visitor() = default;
-    virtual void visitProgram(const Program&) = 0;
-    virtual void visitProgramDeclaration(const ProgramDeclaration&) = 0;
-    virtual void visitClassName(const ClassName&) = 0;
-    virtual void visitProgramArguments(const ProgramArguments&) = 0;
-    virtual void visitLiterals(const Literals&) = 0;
-    virtual void visitLiteral(const Literal&) = 0;
-    virtual void visitArguments(const Arguments&) = 0;
-    virtual void visitExpressions(const Expressions&) = 0;
-    virtual void visitExpression(const Expression&) = 0;
-    virtual void visitPrimary(const Primary&) = 0;
-    virtual void visitCompoundExpression(const CompoundExpression&) = 0;
-    virtual void visitClassDeclarations(const ClassDeclarations&) = 0;
-    virtual void visitClassDeclaration(const ClassDeclaration&) = 0;
-    virtual void visitClassBody(const ClassBody&) = 0;
-    virtual void visitExtension(const Extension&) = 0;
-    virtual void visitBody(const Body&) = 0;
-    virtual void visitBodyDeclarations(const BodyDeclarations&) = 0;
-    virtual void visitBodyDeclaration(const BodyDeclaration&) = 0;
-    virtual void visitStatement(const Statement&) = 0;
-    virtual void visitIfStatement(const IfStatement&) = 0;
-    virtual void visitIfBranch(const IfBranch&) = 0;
-    virtual void visitElseBranch(const ElseBranch&) = 0;
-    virtual void visitWhileLoop(const WhileLoop&) = 0;
-    virtual void visitAssignment(const Assignment&) = 0;
-    virtual void visitMemberDeclarations(const MemberDeclarations&) = 0;
-    virtual void visitMemberDeclaration(const MemberDeclaration&) = 0;
-    virtual void visitConstructorDeclaration(const ConstructorDeclaration&) = 0;
-    virtual void visitReturnStatement(const ReturnStatement&) = 0;
-    virtual void visitVariableDeclaration(const VariableDeclaration&) = 0;
-    virtual void visitMethodDeclaration(const MethodDeclaration&) = 0;
-    virtual void visitMethodName(const MethodName&) = 0;
-    virtual void visitParameters(const Parameters&) = 0;
-    virtual void visitParameter(const Parameter&) = 0;
-    virtual void visitReturnType(const ReturnType&) = 0;
-    virtual void visitVariableName(const VariableName&) = 0;
+    virtual void visitProgram(Program&) = 0;
+    virtual void visitProgramDeclaration(ProgramDeclaration&) = 0;
+    virtual void visitClassName(ClassName&) = 0;
+    virtual void visitProgramArguments(ProgramArguments&) = 0;
+    virtual void visitLiterals(Literals&) = 0;
+    virtual void visitLiteral(Literal&) = 0;
+    virtual void visitArguments(Arguments&) = 0;
+    virtual void visitExpressions(Expressions&) = 0;
+    virtual void visitExpression(Expression&) = 0;
+    virtual void visitPrimary(Primary&) = 0;
+    virtual void visitCompoundExpression(CompoundExpression&) = 0;
+    virtual void visitClassDeclarations(ClassDeclarations&) = 0;
+    virtual void visitClassDeclaration(ClassDeclaration&) = 0;
+    virtual void visitClassBody(ClassBody&) = 0;
+    virtual void visitExtension(Extension&) = 0;
+    virtual void visitBody(Body&) = 0;
+    virtual void visitBodyDeclarations(BodyDeclarations&) = 0;
+    virtual void visitBodyDeclaration(BodyDeclaration&) = 0;
+    virtual void visitStatement(Statement&) = 0;
+    virtual void visitIfStatement(IfStatement&) = 0;
+    virtual void visitIfBranch(IfBranch&) = 0;
+    virtual void visitElseBranch(ElseBranch&) = 0;
+    virtual void visitWhileLoop(WhileLoop&) = 0;
+    virtual void visitAssignment(Assignment&) = 0;
+    virtual void visitMemberDeclarations(MemberDeclarations&) = 0;
+    virtual void visitMemberDeclaration(MemberDeclaration&) = 0;
+    virtual void visitConstructorDeclaration(ConstructorDeclaration&) = 0;
+    virtual void visitReturnStatement(ReturnStatement&) = 0;
+    virtual void visitVariableDeclaration(VariableDeclaration&) = 0;
+    virtual void visitMethodDeclaration(MethodDeclaration&) = 0;
+    virtual void visitMethodName(MethodName&) = 0;
+    virtual void visitParameters(Parameters&) = 0;
+    virtual void visitParameter(Parameter&) = 0;
+    virtual void visitReturnType(ReturnType&) = 0;
+    virtual void visitVariableName(VariableName&) = 0;
 };
 
 class Entity
@@ -93,7 +93,7 @@ public:
     //    virtual bool validate() = 0;
     //    virtual void generate() = 0;
     virtual ~Entity();
-    virtual void accept(Visitor&) const = 0;
+    virtual void accept(Visitor&) = 0;
 
     // Helper function to print indentation
     static void printIndent(int);
@@ -106,7 +106,7 @@ public:
 
     explicit Literals(std::vector<std::unique_ptr<Literal>>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 enum LiteralType
@@ -126,7 +126,7 @@ public:
         return "";
     }
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class BoolLiteral final : public Literal
@@ -185,7 +185,7 @@ public:
 
     explicit Arguments(std::unique_ptr<Expressions>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 
@@ -198,7 +198,7 @@ public:
 
     ClassName(std::string, const Span&, std::unique_ptr<ClassName> className = nullptr);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ProgramDeclaration final : public Entity
@@ -207,7 +207,7 @@ public:
     std::unique_ptr<ClassName> className;
     std::unique_ptr<ProgramArguments> arguments;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 
@@ -217,7 +217,7 @@ public:
     std::unique_ptr<ProgramDeclaration> programDeclaration;
     std::unique_ptr<ClassDeclarations> classDeclarations;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ClassDeclarations final : public Entity
@@ -225,7 +225,7 @@ class ClassDeclarations final : public Entity
 public:
     std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ClassDeclaration final : public Entity
@@ -235,7 +235,7 @@ public:
     std::unique_ptr<Extension> extension;
     std::unique_ptr<ClassBody> classBody;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class MemberDeclarations final : public Entity
@@ -243,7 +243,7 @@ class MemberDeclarations final : public Entity
 public:
     std::vector<std::unique_ptr<MemberDeclaration>> member_declarations;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 enum StatementType
@@ -259,7 +259,7 @@ class Statement : public Entity
 public:
     BodyDeclaration* parent = nullptr;
     StatementType type;
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 
@@ -270,7 +270,7 @@ public:
 
     explicit Extension(std::unique_ptr<ClassName>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ClassBody final : public Entity
@@ -280,7 +280,7 @@ public:
 
     explicit ClassBody(std::unique_ptr<MemberDeclarations>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class Expressions final : public Entity
@@ -288,7 +288,7 @@ class Expressions final : public Entity
 public:
     std::vector<std::unique_ptr<Expression>> expressions;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 
@@ -298,7 +298,7 @@ public:
     std::unique_ptr<Primary> primary;
     std::unique_ptr<CompoundExpression> compoundExpression;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class Primary final : public Entity
@@ -331,7 +331,7 @@ public:
 
 
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class CompoundExpression : public Statement
@@ -345,7 +345,7 @@ public:
     explicit CompoundExpression(std::string, const Span& sp, std::unique_ptr<Arguments> args = nullptr,
                                 std::vector<std::unique_ptr<CompoundExpression>> compExpr = {});
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ProgramArguments final : public Entity
@@ -355,7 +355,7 @@ public:
 
     explicit ProgramArguments(std::unique_ptr<Literals>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class MemberDeclaration final : public Entity
@@ -365,7 +365,7 @@ public:
     std::unique_ptr<MethodDeclaration> methodDeclaration;
     std::unique_ptr<ConstructorDeclaration> constructorDeclaration;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ConstructorDeclaration final : public Entity
@@ -377,7 +377,7 @@ public:
 
     ConstructorDeclaration(std::unique_ptr<Parameters>, std::unique_ptr<Body>, const Span&);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class VariableDeclaration final : public Entity
@@ -391,7 +391,7 @@ public:
 
     VariableDeclaration(std::unique_ptr<VariableName>, std::unique_ptr<Expression>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class MethodDeclaration final : public Entity
@@ -405,7 +405,7 @@ public:
     MethodDeclaration(std::unique_ptr<MethodName>&, std::unique_ptr<Parameters>&,
                       std::unique_ptr<ReturnType>&, std::unique_ptr<Body>&);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class Parameters final : public Entity
@@ -413,7 +413,7 @@ class Parameters final : public Entity
 public:
     std::vector<std::unique_ptr<Parameter>> parameters;
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class MethodName final : public Entity
@@ -422,9 +422,9 @@ public:
     std::string name;
     Span span;
 
-    explicit MethodName(std::string, Span);
+    explicit MethodName(std::string, const Span&);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class Parameter final : public Entity
@@ -436,7 +436,7 @@ public:
 
     Parameter(std::string, const Span&, std::unique_ptr<ClassName>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class VariableName final : public Entity
@@ -447,7 +447,7 @@ public:
 
     explicit VariableName(std::string, const Span&);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ReturnType final : public Entity
@@ -457,7 +457,7 @@ public:
 
     explicit ReturnType(std::unique_ptr<ClassName>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class BodyDeclaration final : public Entity
@@ -471,7 +471,7 @@ public:
 
     explicit BodyDeclaration(std::unique_ptr<Statement>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 
@@ -486,7 +486,7 @@ public:
         type = ASSIGNMENT;
     }
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class WhileLoop final : public Statement
@@ -497,7 +497,7 @@ public:
 
     WhileLoop(std::unique_ptr<Expression>, std::unique_ptr<Body>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class IfStatement final : public Statement
@@ -510,7 +510,7 @@ public:
     IfStatement(std::unique_ptr<Expression>, std::unique_ptr<IfBranch>,
                 std::unique_ptr<ElseBranch> else_branch = nullptr);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class IfBranch final : public Entity
@@ -520,7 +520,7 @@ public:
 
     explicit IfBranch(std::unique_ptr<Body>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ElseBranch final : public Entity
@@ -530,7 +530,7 @@ public:
 
     explicit ElseBranch(std::unique_ptr<Body>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class ReturnStatement final : public Statement
@@ -541,7 +541,7 @@ public:
     explicit ReturnStatement(std::unique_ptr<Expression>);
 
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class Body final : public Entity
@@ -551,7 +551,7 @@ public:
 
     explicit Body(std::unique_ptr<BodyDeclarations>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };
 
 class BodyDeclarations final : public Entity
@@ -561,5 +561,5 @@ public:
 
     explicit BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>>);
 
-    void accept(Visitor&) const override;
+    void accept(Visitor&) override;
 };

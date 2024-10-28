@@ -23,7 +23,7 @@ ScopedSymbolTable SymbolTableVisitor::getSymbolTable() const
     return symbolTable;
 }
 
-void SymbolTableVisitor::visitProgram(const Program& node)
+void SymbolTableVisitor::visitProgram(Program& node)
 {
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
@@ -31,40 +31,40 @@ void SymbolTableVisitor::visitProgram(const Program& node)
         node.programDeclaration->className->accept(*this);
 }
 
-void SymbolTableVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
+void SymbolTableVisitor::visitProgramDeclaration(ProgramDeclaration& node)
 {
     // if (node.className) node.className->accept(*this);
     if (node.arguments) node.arguments->accept(*this);
 }
 
-void SymbolTableVisitor::visitClassName(const ClassName& node)
+void SymbolTableVisitor::visitClassName(ClassName& node)
 {
-    const auto& value = symbolTable.lookupClass(node.name, node.span);
+    symbolTable.lookupClass(node.name, node.span);
 }
 
-void SymbolTableVisitor::visitProgramArguments(const ProgramArguments& node)
+void SymbolTableVisitor::visitProgramArguments(ProgramArguments& node)
 {
     if (node.literals) node.literals->accept(*this);
 }
 
-void SymbolTableVisitor::visitLiterals(const Literals& node)
+void SymbolTableVisitor::visitLiterals(Literals& node)
 {
-    for (auto& literal : node.literals)
+    for (const auto& literal : node.literals)
     {
         literal->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitLiteral(const Literal& node)
+void SymbolTableVisitor::visitLiteral(Literal& node)
 {
 }
 
-void SymbolTableVisitor::visitArguments(const Arguments& node)
+void SymbolTableVisitor::visitArguments(Arguments& node)
 {
     if (node.expressions) node.expressions->accept(*this);
 }
 
-void SymbolTableVisitor::visitExpressions(const Expressions& node)
+void SymbolTableVisitor::visitExpressions(Expressions& node)
 {
     for (auto& expression : node.expressions)
     {
@@ -72,18 +72,18 @@ void SymbolTableVisitor::visitExpressions(const Expressions& node)
     }
 }
 
-void SymbolTableVisitor::visitExpression(const Expression& node)
+void SymbolTableVisitor::visitExpression(Expression& node)
 {
     if (node.primary) node.primary->accept(*this);
     if (node.compoundExpression) node.compoundExpression->accept(*this);
 }
 
-void SymbolTableVisitor::visitPrimary(const Primary& node)
+void SymbolTableVisitor::visitPrimary(Primary& node)
 {
     if (node.class_name) node.class_name->accept(*this);
 }
 
-void SymbolTableVisitor::visitCompoundExpression(const CompoundExpression& node)
+void SymbolTableVisitor::visitCompoundExpression(CompoundExpression& node)
 {
     // TODO check if identifier is a variable or a class or a method
 
@@ -99,7 +99,7 @@ void SymbolTableVisitor::visitCompoundExpression(const CompoundExpression& node)
     }
 }
 
-void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
+void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations& node)
 {
     for (auto& classDeclaration : node.classDeclarations)
     {
@@ -108,7 +108,7 @@ void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
     }
 }
 
-void SymbolTableVisitor::visitClassDeclaration(const ClassDeclaration& node)
+void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration& node)
 {
     symbolTable.enterScope();
     if (node.className) node.className->accept(*this);
@@ -117,22 +117,22 @@ void SymbolTableVisitor::visitClassDeclaration(const ClassDeclaration& node)
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitClassBody(const ClassBody& node)
+void SymbolTableVisitor::visitClassBody(ClassBody& node)
 {
     if (node.memberDeclarations) node.memberDeclarations->accept(*this);
 }
 
-void SymbolTableVisitor::visitExtension(const Extension& node)
+void SymbolTableVisitor::visitExtension(Extension& node)
 {
     if (node.className) node.className->accept(*this);
 }
 
-void SymbolTableVisitor::visitBody(const Body& node)
+void SymbolTableVisitor::visitBody(Body& node)
 {
     if (node.bodyDeclarations) node.bodyDeclarations->accept(*this);
 }
 
-void SymbolTableVisitor::visitBodyDeclarations(const BodyDeclarations& node)
+void SymbolTableVisitor::visitBodyDeclarations(BodyDeclarations& node)
 {
     for (auto& bodyDeclaration : node.bodyDeclarations)
     {
@@ -140,39 +140,39 @@ void SymbolTableVisitor::visitBodyDeclarations(const BodyDeclarations& node)
     }
 }
 
-void SymbolTableVisitor::visitBodyDeclaration(const BodyDeclaration& node)
+void SymbolTableVisitor::visitBodyDeclaration(BodyDeclaration& node)
 {
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
     if (node.statement) node.statement->accept(*this);
 }
 
-void SymbolTableVisitor::visitStatement(const Statement& node)
+void SymbolTableVisitor::visitStatement(Statement& node)
 {
     node.accept(*this);
 }
 
-void SymbolTableVisitor::visitIfStatement(const IfStatement& node)
+void SymbolTableVisitor::visitIfStatement(IfStatement& node)
 {
     if (node.expression) node.expression->accept(*this);
     if (node.ifBranch) node.ifBranch->accept(*this);
     if (node.elseBranch) node.elseBranch->accept(*this);
 }
 
-void SymbolTableVisitor::visitIfBranch(const IfBranch& node)
+void SymbolTableVisitor::visitIfBranch(IfBranch& node)
 {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitElseBranch(const ElseBranch& node)
+void SymbolTableVisitor::visitElseBranch(ElseBranch& node)
 {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitWhileLoop(const WhileLoop& node)
+void SymbolTableVisitor::visitWhileLoop(WhileLoop& node)
 {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
@@ -180,7 +180,7 @@ void SymbolTableVisitor::visitWhileLoop(const WhileLoop& node)
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitAssignment(const Assignment& node)
+void SymbolTableVisitor::visitAssignment(Assignment& node)
 {
     // [CHECK] if variable is declared
     try
@@ -208,7 +208,7 @@ void SymbolTableVisitor::visitAssignment(const Assignment& node)
     if (node.variableName) node.variableName->accept(*this);
 }
 
-void SymbolTableVisitor::visitMemberDeclarations(const MemberDeclarations& node)
+void SymbolTableVisitor::visitMemberDeclarations(MemberDeclarations& node)
 {
     for (auto& memberDeclaration : node.member_declarations)
     {
@@ -216,14 +216,14 @@ void SymbolTableVisitor::visitMemberDeclarations(const MemberDeclarations& node)
     }
 }
 
-void SymbolTableVisitor::visitMemberDeclaration(const MemberDeclaration& node)
+void SymbolTableVisitor::visitMemberDeclaration(MemberDeclaration& node)
 {
     if (node.constructorDeclaration) node.constructorDeclaration->accept(*this);
     if (node.methodDeclaration) node.methodDeclaration->accept(*this);
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
 }
 
-void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaration& node)
+void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration& node)
 {
     symbolTable.enterScope();
     if (node.parameters) node.parameters->accept(*this);
@@ -263,12 +263,12 @@ void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaratio
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitReturnStatement(const ReturnStatement& node)
+void SymbolTableVisitor::visitReturnStatement(ReturnStatement& node)
 {
     if (node.expression) node.expression->accept(*this);
 }
 
-void SymbolTableVisitor::visitVariableDeclaration(const VariableDeclaration& node)
+void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration& node)
 {
     if (node.expression->primary)
     {
@@ -289,7 +289,7 @@ void SymbolTableVisitor::visitVariableDeclaration(const VariableDeclaration& nod
     if (node.variable) node.variable->accept(*this);
 }
 
-void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
+void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
 {
     symbolTable.enterScope();
     auto paramNames = std::vector<std::string>();
@@ -316,11 +316,10 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     // [CHECK] if return type is correct
     const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, node.methodName->span)->
                                                 returnType;
-    ReturnStatement* returnStatement = nullptr;
+    const ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type ==
-            StatementType::RETURN_STATEMENT)
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == RETURN_STATEMENT)
         {
             returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
         }
@@ -360,11 +359,11 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitMethodName(const MethodName& node)
+void SymbolTableVisitor::visitMethodName(MethodName& node)
 {
 }
 
-void SymbolTableVisitor::visitParameters(const Parameters& node)
+void SymbolTableVisitor::visitParameters(Parameters& node)
 {
     for (auto& parameter : node.parameters)
     {
@@ -372,15 +371,15 @@ void SymbolTableVisitor::visitParameters(const Parameters& node)
     }
 }
 
-void SymbolTableVisitor::visitParameter(const Parameter& node)
+void SymbolTableVisitor::visitParameter(Parameter& node)
 {
     if (node.className) node.className->accept(*this);
 }
 
-void SymbolTableVisitor::visitReturnType(const ReturnType& node)
+void SymbolTableVisitor::visitReturnType(ReturnType& node)
 {
 }
 
-void SymbolTableVisitor::visitVariableName(const VariableName& node)
+void SymbolTableVisitor::visitVariableName(VariableName& node)
 {
 }

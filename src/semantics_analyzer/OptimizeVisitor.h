@@ -17,75 +17,75 @@ public:
 
     ~OptimizeVisitor() override;
 
-    void visitProgram(const Program&) override;
+    void visitProgram(Program&) override;
 
-    void visitProgramDeclaration(const ProgramDeclaration&) override;
+    void visitProgramDeclaration(ProgramDeclaration&) override;
 
-    void visitClassName(const ClassName&) override;
+    void visitClassName(ClassName&) override;
 
-    void visitProgramArguments(const ProgramArguments&) override;
+    void visitProgramArguments(ProgramArguments&) override;
 
-    void visitLiterals(const Literals&) override;
+    void visitLiterals(Literals&) override;
 
-    void visitLiteral(const Literal&) override;
+    void visitLiteral(Literal&) override;
 
-    void visitArguments(const Arguments&) override;
+    void visitArguments(Arguments&) override;
 
-    void visitExpressions(const Expressions&) override;
+    void visitExpressions(Expressions&) override;
 
-    void visitExpression(const Expression&) override;
+    void visitExpression(Expression&) override;
 
-    void visitPrimary(const Primary&) override;
+    void visitPrimary(Primary&) override;
 
-    void visitCompoundExpression(const CompoundExpression&) override;
+    void visitCompoundExpression(CompoundExpression&) override;
 
-    void visitClassDeclarations(const ClassDeclarations&) override;
+    void visitClassDeclarations(ClassDeclarations&) override;
 
-    void visitClassDeclaration(const ClassDeclaration&) override;
+    void visitClassDeclaration(ClassDeclaration&) override;
 
-    void visitClassBody(const ClassBody&) override;
+    void visitClassBody(ClassBody&) override;
 
-    void visitExtension(const Extension&) override;
+    void visitExtension(Extension&) override;
 
-    void visitBody(const Body&) override;
+    void visitBody(Body&) override;
 
-    void visitBodyDeclarations(const BodyDeclarations&) override;
+    void visitBodyDeclarations(BodyDeclarations&) override;
 
-    void visitBodyDeclaration(const BodyDeclaration&) override;
+    void visitBodyDeclaration(BodyDeclaration&) override;
 
-    void visitStatement(const Statement&) override;
+    void visitStatement(Statement&) override;
 
-    void visitIfStatement(const IfStatement&) override;
+    void visitIfStatement(IfStatement&) override;
 
-    void visitIfBranch(const IfBranch&) override;
+    void visitIfBranch(IfBranch&) override;
 
-    void visitElseBranch(const ElseBranch&) override;
+    void visitElseBranch(ElseBranch&) override;
 
-    void visitWhileLoop(const WhileLoop&) override;
+    void visitWhileLoop(WhileLoop&) override;
 
-    void visitAssignment(const Assignment&) override;
+    void visitAssignment(Assignment&) override;
 
-    void visitMemberDeclarations(const MemberDeclarations&) override;
+    void visitMemberDeclarations(MemberDeclarations&) override;
 
-    void visitMemberDeclaration(const MemberDeclaration&) override;
+    void visitMemberDeclaration(MemberDeclaration&) override;
 
-    void visitConstructorDeclaration(const ConstructorDeclaration&) override;
+    void visitConstructorDeclaration(ConstructorDeclaration&) override;
 
-    void visitReturnStatement(const ReturnStatement&) override;
+    void visitReturnStatement(ReturnStatement&) override;
 
-    void visitVariableDeclaration(const VariableDeclaration&) override;
+    void visitVariableDeclaration(VariableDeclaration&) override;
 
-    void visitMethodDeclaration(const MethodDeclaration&) override;
+    void visitMethodDeclaration(MethodDeclaration&) override;
 
-    void visitMethodName(const MethodName&) override;
+    void visitMethodName(MethodName&) override;
 
-    void visitParameters(const Parameters&) override;
+    void visitParameters(Parameters&) override;
 
-    void visitParameter(const Parameter&) override;
+    void visitParameter(Parameter&) override;
 
-    void visitReturnType(const ReturnType&) override;
+    void visitReturnType(ReturnType&) override;
 
-    void visitVariableName(const VariableName&) override;
+    void visitVariableName(VariableName&) override;
 
     // Implement other visit methods as needed
 };

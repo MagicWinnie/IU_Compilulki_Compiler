@@ -4,28 +4,28 @@
 
 OptimizeVisitor::~OptimizeVisitor() = default;
 
-void OptimizeVisitor::visitProgram(const Program& node)
+void OptimizeVisitor::visitProgram(Program& node)
 {
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
 }
 
-void OptimizeVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
+void OptimizeVisitor::visitProgramDeclaration(ProgramDeclaration& node)
 {
     if (node.className) node.className->accept(*this);
     if (node.arguments) node.arguments->accept(*this);
 }
 
-void OptimizeVisitor::visitClassName(const ClassName& node)
+void OptimizeVisitor::visitClassName(ClassName& node)
 {
 }
 
-void OptimizeVisitor::visitProgramArguments(const ProgramArguments& node)
+void OptimizeVisitor::visitProgramArguments(ProgramArguments& node)
 {
     if (node.literals) node.literals->accept(*this);
 }
 
-void OptimizeVisitor::visitLiterals(const Literals& node)
+void OptimizeVisitor::visitLiterals(Literals& node)
 {
     for (auto& literal : node.literals)
     {
@@ -33,16 +33,16 @@ void OptimizeVisitor::visitLiterals(const Literals& node)
     }
 }
 
-void OptimizeVisitor::visitLiteral(const Literal& node)
+void OptimizeVisitor::visitLiteral(Literal& node)
 {
 }
 
-void OptimizeVisitor::visitArguments(const Arguments& node)
+void OptimizeVisitor::visitArguments(Arguments& node)
 {
     if (node.expressions) node.expressions->accept(*this);
 }
 
-void OptimizeVisitor::visitExpressions(const Expressions& node)
+void OptimizeVisitor::visitExpressions(Expressions& node)
 {
     for (auto& expression : node.expressions)
     {
@@ -50,18 +50,18 @@ void OptimizeVisitor::visitExpressions(const Expressions& node)
     }
 }
 
-void OptimizeVisitor::visitExpression(const Expression& node)
+void OptimizeVisitor::visitExpression(Expression& node)
 {
     if (node.primary) node.primary->accept(*this);
     if (node.compoundExpression) node.compoundExpression->accept(*this);
 }
 
-void OptimizeVisitor::visitPrimary(const Primary& node)
+void OptimizeVisitor::visitPrimary(Primary& node)
 {
     if (node.class_name) node.class_name->accept(*this);
 }
 
-void OptimizeVisitor::visitCompoundExpression(const CompoundExpression& node)
+void OptimizeVisitor::visitCompoundExpression(CompoundExpression& node)
 {
     if (node.arguments) node.arguments->accept(*this);
     for (auto& compoundExpression : node.compoundExpressions)
@@ -70,7 +70,7 @@ void OptimizeVisitor::visitCompoundExpression(const CompoundExpression& node)
     }
 }
 
-void OptimizeVisitor::visitClassDeclarations(const ClassDeclarations& node)
+void OptimizeVisitor::visitClassDeclarations(ClassDeclarations& node)
 {
     for (auto& classDeclaration : node.classDeclarations)
     {
@@ -78,53 +78,62 @@ void OptimizeVisitor::visitClassDeclarations(const ClassDeclarations& node)
     }
 }
 
-void OptimizeVisitor::visitClassDeclaration(const ClassDeclaration& node)
+void OptimizeVisitor::visitClassDeclaration(ClassDeclaration& node)
 {
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);
 }
 
-void OptimizeVisitor::visitClassBody(const ClassBody& node)
+void OptimizeVisitor::visitClassBody(ClassBody& node)
 {
     if (node.memberDeclarations) node.memberDeclarations->accept(*this);
 }
 
-void OptimizeVisitor::visitExtension(const Extension& node)
+void OptimizeVisitor::visitExtension(Extension& node)
 {
     if (node.className) node.className->accept(*this);
 }
 
-void OptimizeVisitor::visitBody(const Body& node)
+void OptimizeVisitor::visitBody(Body& node)
 {
     if (node.bodyDeclarations) node.bodyDeclarations->accept(*this);
 }
 
-void OptimizeVisitor::visitBodyDeclarations(const BodyDeclarations& node)
+void OptimizeVisitor::visitBodyDeclarations(BodyDeclarations& node)
 {
-    for (auto& bodyDeclaration : node.bodyDeclarations)
+    for (int i = 0; i < node.bodyDeclarations.size(); i++)
     {
-        if (bodyDeclaration) bodyDeclaration->accept(*this);
+        auto& bodyDeclaration = node.bodyDeclarations[i];
+        if (bodyDeclaration)
+        {
+            bodyDeclaration->accept(*this);
+            if (bodyDeclaration->statement && bodyDeclaration->statement->type == RETURN_STATEMENT)
+            {
+                node.bodyDeclarations.erase(node.bodyDeclarations.begin() + i + 1, node.bodyDeclarations.end());
+                break;
+            }
+        }
     }
 }
 
-void OptimizeVisitor::visitBodyDeclaration(const BodyDeclaration& node)
+void OptimizeVisitor::visitBodyDeclaration(BodyDeclaration& node)
 {
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
     if (node.statement) node.statement->accept(*this);
 }
 
-void OptimizeVisitor::visitStatement(const Statement& node)
+void OptimizeVisitor::visitStatement(Statement& node)
 {
     node.accept(*this);
 }
 
-void OptimizeVisitor::visitIfStatement(const IfStatement& node)
+void OptimizeVisitor::visitIfStatement(IfStatement& node)
 {
     if (node.expression && node.expression->primary && node.expression->primary->literal)
     {
         const auto literal = std::move(node.expression->primary->literal);
-        if (literal->type == LiteralType::BOOL_LITERAL)
+        if (literal->type == BOOL_LITERAL)
         {
             const auto* boolLiteral = dynamic_cast<BoolLiteral*>(literal.get());
             BodyDeclaration* bodyDeclaration = node.parent;
@@ -193,29 +202,29 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
     if (node.elseBranch) node.elseBranch->accept(*this);
 }
 
-void OptimizeVisitor::visitIfBranch(const IfBranch& node)
+void OptimizeVisitor::visitIfBranch(IfBranch& node)
 {
     if (node.body) node.body->accept(*this);
 }
 
-void OptimizeVisitor::visitElseBranch(const ElseBranch& node)
+void OptimizeVisitor::visitElseBranch(ElseBranch& node)
 {
     if (node.body) node.body->accept(*this);
 }
 
-void OptimizeVisitor::visitWhileLoop(const WhileLoop& node)
+void OptimizeVisitor::visitWhileLoop(WhileLoop& node)
 {
     if (node.body) node.body->accept(*this);
     if (node.expression) node.expression->accept(*this);
 }
 
-void OptimizeVisitor::visitAssignment(const Assignment& node)
+void OptimizeVisitor::visitAssignment(Assignment& node)
 {
     if (node.expression) node.expression->accept(*this);
     if (node.variableName) node.variableName->accept(*this);
 }
 
-void OptimizeVisitor::visitMemberDeclarations(const MemberDeclarations& node)
+void OptimizeVisitor::visitMemberDeclarations(MemberDeclarations& node)
 {
     for (auto& memberDeclaration : node.member_declarations)
     {
@@ -223,26 +232,26 @@ void OptimizeVisitor::visitMemberDeclarations(const MemberDeclarations& node)
     }
 }
 
-void OptimizeVisitor::visitMemberDeclaration(const MemberDeclaration& node)
+void OptimizeVisitor::visitMemberDeclaration(MemberDeclaration& node)
 {
     if (node.constructorDeclaration) node.constructorDeclaration->accept(*this);
     if (node.methodDeclaration) node.methodDeclaration->accept(*this);
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
 }
 
-void OptimizeVisitor::visitConstructorDeclaration(const ConstructorDeclaration& node)
+void OptimizeVisitor::visitConstructorDeclaration(ConstructorDeclaration& node)
 {
     if (node.parameters) node.parameters->accept(*this);
 
     if (node.body) node.body->accept(*this);
 }
 
-void OptimizeVisitor::visitReturnStatement(const ReturnStatement& node)
+void OptimizeVisitor::visitReturnStatement(ReturnStatement& node)
 {
     if (node.expression) node.expression->accept(*this);
 }
 
-void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
+void OptimizeVisitor::visitVariableDeclaration(VariableDeclaration& node)
 {
     if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end())
     {
@@ -261,7 +270,7 @@ void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
     if (node.variable) node.variable->accept(*this);
 }
 
-void OptimizeVisitor::visitMethodDeclaration(const MethodDeclaration& node)
+void OptimizeVisitor::visitMethodDeclaration(MethodDeclaration& node)
 {
     if (node.body) node.body->accept(*this);
     if (node.parameters) node.parameters->accept(*this);
@@ -270,11 +279,11 @@ void OptimizeVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     if (node.methodName) node.methodName->accept(*this);
 }
 
-void OptimizeVisitor::visitMethodName(const MethodName& node)
+void OptimizeVisitor::visitMethodName(MethodName& node)
 {
 }
 
-void OptimizeVisitor::visitParameters(const Parameters& node)
+void OptimizeVisitor::visitParameters(Parameters& node)
 {
     for (auto& parameter : node.parameters)
     {
@@ -282,15 +291,15 @@ void OptimizeVisitor::visitParameters(const Parameters& node)
     }
 }
 
-void OptimizeVisitor::visitParameter(const Parameter& node)
+void OptimizeVisitor::visitParameter(Parameter& node)
 {
     if (node.className) node.className->accept(*this);
 }
 
-void OptimizeVisitor::visitReturnType(const ReturnType& node)
+void OptimizeVisitor::visitReturnType(ReturnType& node)
 {
 }
 
-void OptimizeVisitor::visitVariableName(const VariableName& node)
+void OptimizeVisitor::visitVariableName(VariableName& node)
 {
 }

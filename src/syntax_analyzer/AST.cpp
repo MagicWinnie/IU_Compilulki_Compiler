@@ -17,14 +17,14 @@ Literals::Literals(std::vector<std::unique_ptr<Literal>> literals): literals(std
 {
 }
 
-void Literals::accept(Visitor& visitor) const
+void Literals::accept(Visitor& visitor)
 {
     visitor.visitLiterals(*this);
 }
 
 
 
-void Literal::accept(Visitor& visitor) const
+void Literal::accept(Visitor& visitor)
 {
     visitor.visitLiteral(*this);
 }
@@ -33,42 +33,42 @@ Arguments::Arguments(std::unique_ptr<Expressions> expressions): expressions(std:
 {
 }
 
-void Arguments::accept(Visitor& visitor) const
+void Arguments::accept(Visitor& visitor)
 {
     visitor.visitArguments(*this);
 }
 
 ClassName::ClassName(std::string name, const Span& span, std::unique_ptr<ClassName> className):
-    name(std::move(name)), className(std::move(className)), span(span)
+    name(std::move(name)), span(span), className(std::move(className))
 {
 }
 
-void ClassName::accept(Visitor& visitor) const
+void ClassName::accept(Visitor& visitor)
 {
     visitor.visitClassName(*this);
 }
 
-void ProgramDeclaration::accept(Visitor& visitor) const
+void ProgramDeclaration::accept(Visitor& visitor)
 {
     visitor.visitProgramDeclaration(*this);
 }
 
-void Program::accept(Visitor& visitor) const
+void Program::accept(Visitor& visitor)
 {
     visitor.visitProgram(*this);
 }
 
-void ClassDeclarations::accept(Visitor& visitor) const
+void ClassDeclarations::accept(Visitor& visitor)
 {
     visitor.visitClassDeclarations(*this);
 }
 
-void ClassDeclaration::accept(Visitor& visitor) const
+void ClassDeclaration::accept(Visitor& visitor)
 {
     visitor.visitClassDeclaration(*this);
 }
 
-void MemberDeclarations::accept(Visitor& visitor) const
+void MemberDeclarations::accept(Visitor& visitor)
 {
     visitor.visitMemberDeclarations(*this);
 }
@@ -77,7 +77,7 @@ Extension::Extension(std::unique_ptr<ClassName> class_name): className(std::move
 {
 }
 
-void Extension::accept(Visitor& visitor) const
+void Extension::accept(Visitor& visitor)
 {
     visitor.visitExtension(*this);
 }
@@ -87,24 +87,24 @@ ClassBody::ClassBody(std::unique_ptr<MemberDeclarations> member_declarations): m
 {
 }
 
-void ClassBody::accept(Visitor& visitor) const
+void ClassBody::accept(Visitor& visitor)
 {
     visitor.visitClassBody(*this);
 }
 
-void Expressions::accept(Visitor& visitor) const
+void Expressions::accept(Visitor& visitor)
 {
     visitor.visitExpressions(*this);
 }
 
-void Expression::accept(Visitor& visitor) const
+void Expression::accept(Visitor& visitor)
 {
     visitor.visitExpression(*this);
 }
 
 
 
-void Primary::accept(Visitor& visitor) const
+void Primary::accept(Visitor& visitor)
 {
     visitor.visitPrimary(*this);
 }
@@ -116,7 +116,7 @@ CompoundExpression::CompoundExpression(std::string id, const Span& span, std::un
     type = COMPOUND_STATEMENT;
 }
 
-void CompoundExpression::accept(Visitor& visitor) const
+void CompoundExpression::accept(Visitor& visitor)
 {
     visitor.visitCompoundExpression(*this);
 }
@@ -125,12 +125,12 @@ ProgramArguments::ProgramArguments(std::unique_ptr<Literals> literals): literals
 {
 }
 
-void ProgramArguments::accept(Visitor& visitor) const
+void ProgramArguments::accept(Visitor& visitor)
 {
     visitor.visitProgramArguments(*this);
 }
 
-void MemberDeclaration::accept(Visitor& visitor) const
+void MemberDeclaration::accept(Visitor& visitor)
 {
     visitor.visitMemberDeclaration(*this);
 }
@@ -143,7 +143,7 @@ ConstructorDeclaration::ConstructorDeclaration(std::unique_ptr<Parameters> param
 {
 }
 
-void ConstructorDeclaration::accept(Visitor& visitor) const
+void ConstructorDeclaration::accept(Visitor& visitor)
 {
     visitor.visitConstructorDeclaration(*this);
 }
@@ -154,7 +154,7 @@ VariableDeclaration::VariableDeclaration(std::unique_ptr<VariableName> variable,
 {
 }
 
-void VariableDeclaration::accept(Visitor& visitor) const
+void VariableDeclaration::accept(Visitor& visitor)
 {
     visitor.visitVariableDeclaration(*this);
 }
@@ -168,21 +168,21 @@ MethodDeclaration::MethodDeclaration(std::unique_ptr<MethodName>& method_name, s
 {
 }
 
-void MethodDeclaration::accept(Visitor& visitor) const
+void MethodDeclaration::accept(Visitor& visitor)
 {
     visitor.visitMethodDeclaration(*this);
 }
 
-void Parameters::accept(Visitor& visitor) const
+void Parameters::accept(Visitor& visitor)
 {
     visitor.visitParameters(*this);
 }
 
-MethodName::MethodName(std::string name, Span span): name(std::move(name)), span(span)
+MethodName::MethodName(std::string name, const Span& span): name(std::move(name)), span(span)
 {
 }
 
-void MethodName::accept(Visitor& visitor) const
+void MethodName::accept(Visitor& visitor)
 {
     visitor.visitMethodName(*this);
 }
@@ -192,7 +192,7 @@ Parameter::Parameter(std::string name, const Span& span, std::unique_ptr<ClassNa
 {
 }
 
-void Parameter::accept(Visitor& visitor) const
+void Parameter::accept(Visitor& visitor)
 {
     visitor.visitParameter(*this);
 }
@@ -201,7 +201,7 @@ VariableName::VariableName(std::string name, const Span& span): name(std::move(n
 {
 }
 
-void VariableName::accept(Visitor& visitor) const
+void VariableName::accept(Visitor& visitor)
 {
     visitor.visitVariableName(*this);
 }
@@ -210,7 +210,7 @@ ReturnType::ReturnType(std::unique_ptr<ClassName> class_name): className(std::mo
 {
 }
 
-void ReturnType::accept(Visitor& visitor) const
+void ReturnType::accept(Visitor& visitor)
 {
     visitor.visitReturnType(*this);
 }
@@ -224,17 +224,17 @@ BodyDeclaration::BodyDeclaration(std::unique_ptr<Statement> statement): statemen
 {
 }
 
-void BodyDeclaration::accept(Visitor& visitor) const
+void BodyDeclaration::accept(Visitor& visitor)
 {
     visitor.visitBodyDeclaration(*this);
 }
 
-void Statement::accept(Visitor& visitor) const
+void Statement::accept(Visitor& visitor)
 {
     visitor.visitStatement(*this);
 }
 
-void Assignment::accept(Visitor& visitor) const
+void Assignment::accept(Visitor& visitor)
 {
     visitor.visitAssignment(*this);
 }
@@ -246,7 +246,7 @@ WhileLoop::WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Bod
     type = WHILE_LOOP;
 }
 
-void WhileLoop::accept(Visitor& visitor) const
+void WhileLoop::accept(Visitor& visitor)
 {
     visitor.visitWhileLoop(*this);
 }
@@ -259,7 +259,7 @@ IfStatement::IfStatement(std::unique_ptr<Expression> expression, std::unique_ptr
     type = IF_STATEMENT;
 }
 
-void IfStatement::accept(Visitor& visitor) const
+void IfStatement::accept(Visitor& visitor)
 {
     visitor.visitIfStatement(*this);
 }
@@ -268,7 +268,7 @@ IfBranch::IfBranch(std::unique_ptr<Body> body): body(std::move(body))
 {
 }
 
-void IfBranch::accept(Visitor& visitor) const
+void IfBranch::accept(Visitor& visitor)
 {
     visitor.visitIfBranch(*this);
 }
@@ -277,7 +277,7 @@ ElseBranch::ElseBranch(std::unique_ptr<Body> body): body(std::move(body))
 {
 }
 
-void ElseBranch::accept(Visitor& visitor) const
+void ElseBranch::accept(Visitor& visitor)
 {
     visitor.visitElseBranch(*this);
 }
@@ -287,7 +287,7 @@ ReturnStatement::ReturnStatement(std::unique_ptr<Expression> expression): expres
     type = RETURN_STATEMENT;
 }
 
-void ReturnStatement::accept(Visitor& visitor) const
+void ReturnStatement::accept(Visitor& visitor)
 {
     visitor.visitReturnStatement(*this);
 }
@@ -296,7 +296,7 @@ Body::Body(std::unique_ptr<BodyDeclarations> body_declarations): bodyDeclaration
 {
 }
 
-void Body::accept(Visitor& visitor) const
+void Body::accept(Visitor& visitor)
 {
     visitor.visitBody(*this);
 }
@@ -306,7 +306,7 @@ BodyDeclarations::BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>>
 {
 }
 
-void BodyDeclarations::accept(Visitor& visitor) const
+void BodyDeclarations::accept(Visitor& visitor)
 {
     visitor.visitBodyDeclarations(*this);
 }

@@ -18,7 +18,7 @@ PrintVisitor::PrintVisitor(std::ostream& out): out(out)
 }
 
 
-void PrintVisitor::visitLiterals(const Literals& node)
+void PrintVisitor::visitLiterals(Literals& node)
 {
     printIndentation();
     out << "Literals" << std::endl;
@@ -30,13 +30,13 @@ void PrintVisitor::visitLiterals(const Literals& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitLiteral(const Literal& node)
+void PrintVisitor::visitLiteral(Literal& node)
 {
     printIndentation();
     out << "Literal: " << node.to_string() << std::endl;
 }
 
-void PrintVisitor::visitArguments(const Arguments& node)
+void PrintVisitor::visitArguments(Arguments& node)
 {
     printIndentation();
     out << "Arguments" << std::endl;
@@ -45,7 +45,7 @@ void PrintVisitor::visitArguments(const Arguments& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitExpressions(const Expressions& node)
+void PrintVisitor::visitExpressions(Expressions& node)
 {
     printIndentation();
     out << "Expressions" << std::endl;
@@ -57,7 +57,7 @@ void PrintVisitor::visitExpressions(const Expressions& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitExpression(const Expression& node)
+void PrintVisitor::visitExpression(Expression& node)
 {
     printIndentation();
     out << "Expression" << std::endl;
@@ -67,7 +67,7 @@ void PrintVisitor::visitExpression(const Expression& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitPrimary(const Primary& node)
+void PrintVisitor::visitPrimary(Primary& node)
 {
     printIndentation();
     out << "Primary: " << node.to_string() << std::endl;
@@ -76,7 +76,7 @@ void PrintVisitor::visitPrimary(const Primary& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitCompoundExpression(const CompoundExpression& node)
+void PrintVisitor::visitCompoundExpression(CompoundExpression& node)
 {
     printIndentation();
     out << "CompoundExpression: " << node.identifier << std::endl;
@@ -89,7 +89,7 @@ void PrintVisitor::visitCompoundExpression(const CompoundExpression& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassDeclaration(const ClassDeclaration& node)
+void PrintVisitor::visitClassDeclaration(ClassDeclaration& node)
 {
     printIndentation();
     out << "ClassDeclaration" << std::endl;
@@ -100,7 +100,7 @@ void PrintVisitor::visitClassDeclaration(const ClassDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassBody(const ClassBody& node)
+void PrintVisitor::visitClassBody(ClassBody& node)
 {
     printIndentation();
     out << "ClassBody" << std::endl;
@@ -109,7 +109,7 @@ void PrintVisitor::visitClassBody(const ClassBody& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitExtension(const Extension& node)
+void PrintVisitor::visitExtension(Extension& node)
 {
     printIndentation();
     out << "Extension" << std::endl;
@@ -118,7 +118,7 @@ void PrintVisitor::visitExtension(const Extension& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitBody(const Body& node)
+void PrintVisitor::visitBody(Body& node)
 {
     printIndentation();
     out << "Body" << std::endl;
@@ -127,7 +127,7 @@ void PrintVisitor::visitBody(const Body& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitBodyDeclarations(const BodyDeclarations& node)
+void PrintVisitor::visitBodyDeclarations(BodyDeclarations& node)
 {
     printIndentation();
     out << "BodyDeclarations" << std::endl;
@@ -139,7 +139,7 @@ void PrintVisitor::visitBodyDeclarations(const BodyDeclarations& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitBodyDeclaration(const BodyDeclaration& node)
+void PrintVisitor::visitBodyDeclaration(BodyDeclaration& node)
 {
     printIndentation();
     out << "BodyDeclaration" << std::endl;
@@ -149,7 +149,7 @@ void PrintVisitor::visitBodyDeclaration(const BodyDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitStatement(const Statement& node)
+void PrintVisitor::visitStatement(Statement& node)
 {
     printIndentation();
     out << "Statement" << std::endl;
@@ -158,7 +158,7 @@ void PrintVisitor::visitStatement(const Statement& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitIfStatement(const IfStatement& node)
+void PrintVisitor::visitIfStatement(IfStatement& node)
 {
     printIndentation();
     out << "IfStatement" << std::endl;
@@ -169,7 +169,7 @@ void PrintVisitor::visitIfStatement(const IfStatement& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitIfBranch(const IfBranch& node)
+void PrintVisitor::visitIfBranch(IfBranch& node)
 {
     printIndentation();
     out << "IfBranch" << std::endl;
@@ -178,7 +178,7 @@ void PrintVisitor::visitIfBranch(const IfBranch& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitElseBranch(const ElseBranch& node)
+void PrintVisitor::visitElseBranch(ElseBranch& node)
 {
     printIndentation();
     out << "ElseBranch" << std::endl;
@@ -187,7 +187,7 @@ void PrintVisitor::visitElseBranch(const ElseBranch& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitWhileLoop(const WhileLoop& node)
+void PrintVisitor::visitWhileLoop(WhileLoop& node)
 {
     printIndentation();
     out << "WhileLoop" << std::endl;
@@ -197,7 +197,7 @@ void PrintVisitor::visitWhileLoop(const WhileLoop& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitAssignment(const Assignment& node)
+void PrintVisitor::visitAssignment(Assignment& node)
 {
     printIndentation();
     out << "Assignment" << std::endl;
@@ -207,7 +207,7 @@ void PrintVisitor::visitAssignment(const Assignment& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMemberDeclarations(const MemberDeclarations& node)
+void PrintVisitor::visitMemberDeclarations(MemberDeclarations& node)
 {
     printIndentation();
     out << "MemberDeclarations" << std::endl;
@@ -219,7 +219,7 @@ void PrintVisitor::visitMemberDeclarations(const MemberDeclarations& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMemberDeclaration(const MemberDeclaration& node)
+void PrintVisitor::visitMemberDeclaration(MemberDeclaration& node)
 {
     printIndentation();
     out << "MemberDeclaration" << std::endl;
@@ -230,7 +230,7 @@ void PrintVisitor::visitMemberDeclaration(const MemberDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitConstructorDeclaration(const ConstructorDeclaration& node)
+void PrintVisitor::visitConstructorDeclaration(ConstructorDeclaration& node)
 {
     printIndentation();
     out << "ConstructorDeclaration" << std::endl;
@@ -240,7 +240,7 @@ void PrintVisitor::visitConstructorDeclaration(const ConstructorDeclaration& nod
     indentationLevel--;
 }
 
-void PrintVisitor::visitReturnStatement(const ReturnStatement& node)
+void PrintVisitor::visitReturnStatement(ReturnStatement& node)
 {
     printIndentation();
     out << "ReturnStatement" << std::endl;
@@ -249,7 +249,7 @@ void PrintVisitor::visitReturnStatement(const ReturnStatement& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitVariableDeclaration(const VariableDeclaration& node)
+void PrintVisitor::visitVariableDeclaration(VariableDeclaration& node)
 {
     printIndentation();
     out << "VariableDeclaration" << std::endl;
@@ -259,7 +259,7 @@ void PrintVisitor::visitVariableDeclaration(const VariableDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMethodDeclaration(const MethodDeclaration& node)
+void PrintVisitor::visitMethodDeclaration(MethodDeclaration& node)
 {
     printIndentation();
     out << "MethodDeclaration" << std::endl;
@@ -271,13 +271,13 @@ void PrintVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMethodName(const MethodName& node)
+void PrintVisitor::visitMethodName(MethodName& node)
 {
     printIndentation();
     out << "MethodName: " << node.name << std::endl;
 }
 
-void PrintVisitor::visitParameters(const Parameters& node)
+void PrintVisitor::visitParameters(Parameters& node)
 {
     printIndentation();
     out << "Parameters" << std::endl;
@@ -289,7 +289,7 @@ void PrintVisitor::visitParameters(const Parameters& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitParameter(const Parameter& node)
+void PrintVisitor::visitParameter(Parameter& node)
 {
     printIndentation();
     out << "Parameter: " << node.name << std::endl;
@@ -298,7 +298,7 @@ void PrintVisitor::visitParameter(const Parameter& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitReturnType(const ReturnType& node)
+void PrintVisitor::visitReturnType(ReturnType& node)
 {
     printIndentation();
     out << "ReturnType" << std::endl;
@@ -307,13 +307,13 @@ void PrintVisitor::visitReturnType(const ReturnType& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitVariableName(const VariableName& node)
+void PrintVisitor::visitVariableName(VariableName& node)
 {
     printIndentation();
     out << "VariableName: " << node.name << std::endl;
 }
 
-void PrintVisitor::visitProgram(const Program& node)
+void PrintVisitor::visitProgram(Program& node)
 {
     printIndentation();
     out << "Program" << std::endl;
@@ -323,7 +323,7 @@ void PrintVisitor::visitProgram(const Program& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
+void PrintVisitor::visitProgramDeclaration(ProgramDeclaration& node)
 {
     printIndentation();
     out << "ProgramDeclaration" << std::endl;
@@ -333,13 +333,13 @@ void PrintVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassName(const ClassName& node)
+void PrintVisitor::visitClassName(ClassName& node)
 {
     printIndentation();
     out << "ClassName: " << node.name << std::endl;
 }
 
-void PrintVisitor::visitProgramArguments(const ProgramArguments& node)
+void PrintVisitor::visitProgramArguments(ProgramArguments& node)
 {
     printIndentation();
     out << "ProgramArguments" << std::endl;
@@ -348,7 +348,7 @@ void PrintVisitor::visitProgramArguments(const ProgramArguments& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassDeclarations(const ClassDeclarations& node)
+void PrintVisitor::visitClassDeclarations(ClassDeclarations& node)
 {
     printIndentation();
     out << "ClassDeclarations" << std::endl;
