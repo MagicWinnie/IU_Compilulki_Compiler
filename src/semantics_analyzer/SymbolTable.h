@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
+
 #include "../lexical_analyzer/span.h"
 
 struct VariableEntry
@@ -13,6 +15,7 @@ struct VariableEntry
     std::string name; // Variable name
     std::string type; // Variable type
     bool is_constant{}; // Is it a constant?
+    bool is_used = false; // Is it used?
 };
 
 struct FunctionEntry
@@ -34,6 +37,8 @@ public:
     std::unordered_map<std::string, FunctionEntry> funcEntries;
     std::unordered_map<std::string, ClassEntry> classEntries;
 
+
+
     // Add an entry
     void addVariableEntry(const std::string&, const std::string&, bool is_constant = false);
 
@@ -51,9 +56,11 @@ public:
 
 class ScopedSymbolTable
 {
-    std::vector<SymbolTable> scopes;
+
 
 public:
+    std::vector<SymbolTable> scopes;
+    std::pmr::unordered_set<std::string> unusedVariables;
     // Enter a new scope (push a new symbol table onto the stack)
     void enterScope();
 
@@ -69,6 +76,7 @@ public:
 
     // Lookup an entry across all scopes (from innermost to outermost)
     std::string lookupVariable(const std::string&, const Span&) const;
+    void makeVariableUsed(const std::string& name);
 
     FunctionEntry lookupFunction(const std::string&, const Span&) const;
 

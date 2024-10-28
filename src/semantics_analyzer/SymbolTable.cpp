@@ -1,6 +1,7 @@
 #include <iostream>
 #include "SymbolTable.h"
 
+
 void SymbolTable::addVariableEntry(const std::string& name, const std::string& type, bool is_constant)
 {
     varEntries[name] = {name, type, is_constant};
@@ -56,6 +57,16 @@ void ScopedSymbolTable::leaveScope()
 {
     if (!scopes.empty())
     {
+        // Find all unused variables in the current scope
+        auto& current_scope = scopes.back();
+        for (const auto& [name, entry] : current_scope.varEntries)
+        {
+            if (!entry.is_used)
+            {
+                unusedVariables.insert(name);
+            }
+        }
+
         scopes.pop_back();
     }
 }
@@ -141,6 +152,20 @@ std::string ScopedSymbolTable::lookupVariable(const std::string& name, const Spa
         "at line: " + std::to_string(span.get_line_num()) +
         " column: " + std::to_string(span.get_pos_begin())
     );
+}
+
+void ScopedSymbolTable::makeVariableUsed(const std::string& name)
+{
+    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    {
+        auto& [varEntries, funcEntries, classEntries] = *it;
+        auto found = varEntries.find(name);
+        if (found != varEntries.end())
+        {
+            found->second.is_used = true;
+            return;
+        }
+    }
 }
 
 FunctionEntry ScopedSymbolTable::lookupFunction(const std::string& name, const Span& span) const

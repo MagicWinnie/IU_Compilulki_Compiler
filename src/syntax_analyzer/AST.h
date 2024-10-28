@@ -290,6 +290,9 @@ class VariableDeclaration final : public Entity
 public:
     std::unique_ptr<VariableName> variable;
     std::unique_ptr<Expression> expression;
+    BodyDeclaration* bodyParent = nullptr;
+    MemberDeclaration* memberParent = nullptr;
+
 
     VariableDeclaration(std::unique_ptr<VariableName>, std::unique_ptr<Expression>);
 

@@ -179,6 +179,7 @@ void SymbolTableVisitor::visitAssignment(const Assignment& node)
     try
     {
         symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
+        symbolTable.makeVariableUsed(node.variableName->name);
     }
     catch (const std::runtime_error& e)
     {

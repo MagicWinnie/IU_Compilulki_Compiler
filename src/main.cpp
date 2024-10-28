@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "lexical_analyzer/lexer.h"
+#include "semantics_analyzer/OptimizeVisitor.h"
 #include "syntax_analyzer/Parser.h"
 #include "settings/settings.h"
 #include "semantics_analyzer/SymbolTableVisitor.h"
@@ -25,6 +26,18 @@ int main(const int argc, char* argv[])
 
     SymbolTableVisitor symbolTableVisitor;
     program->accept(symbolTableVisitor);
+
+    std::cout << "\033[33mUnused variables in this scope: ";
+    for (const auto& name : symbolTableVisitor.symbolTable.unusedVariables)
+    {
+        std::cout << name << " ";
+    }
+    std::cout << "\033[0m" << std::endl;
+
+    OptimizeVisitor optimizeVisitor(symbolTableVisitor.symbolTable);
+    program->accept(optimizeVisitor);
+
+
 
     // TODO: code generation
 
