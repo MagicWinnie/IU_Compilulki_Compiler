@@ -13,33 +13,31 @@ Program
                   Arguments
                     Expressions
                       Expression
-                        Primary: Integer{Span(7, 25, 26), 23, 0}
+                        Primary: 0
               VariableName: count
           MemberDeclaration
             MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: c
-                            CompoundExpression: Plus
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(10, 25, 26), 23, 1}
-                        VariableName: count
+                    Assignment
+                      Expression
+                        CompoundExpression: c
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 1
+                      VariableName: count
               MethodName: inc
           MemberDeclaration
             MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      ReturnStatement
-                        Expression
-                          CompoundExpression: count
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: count
               ReturnType
                 ClassName: Integer
               MethodName: getCounter
@@ -57,34 +55,29 @@ Program
                         CompoundExpression: Counter
                       VariableName: counter
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: myCounter
-                          CompoundExpression: inc
+                    Expression
+                      CompoundExpression: myCounter
+                        CompoundExpression: inc
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: myCounter
-                          CompoundExpression: inc
+                    Expression
+                      CompoundExpression: myCounter
+                        CompoundExpression: inc
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: myCounter
-                          CompoundExpression: inc
+                    Expression
+                      CompoundExpression: myCounter
+                        CompoundExpression: inc
                   BodyDeclaration
                     VariableDeclaration
                       Expression
                         CompoundExpression: Integer
                       VariableName: currentValue
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: myCounter
-                            CompoundExpression: getCounter
-                        VariableName: currentValue
-                  BodyDeclaration
-                    Statement
+                    Assignment
                       Expression
-                        CompoundExpression: currentValue
-                          CompoundExpression: print
+                        CompoundExpression: myCounter
+                          CompoundExpression: getCounter
+                      VariableName: currentValue
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: currentValue
+                        CompoundExpression: print

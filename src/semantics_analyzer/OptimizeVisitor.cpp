@@ -119,15 +119,71 @@ void OptimizeVisitor::visitBodyDeclaration(const BodyDeclaration& node)
 
 void OptimizeVisitor::visitStatement(const Statement& node)
 {
-    if (node.assignment) node.assignment->accept(*this);
-    if (node.expression) node.expression->accept(*this);
-    if (node.ifStatement) node.ifStatement->accept(*this);
-    if (node.whileLoop) node.whileLoop->accept(*this);
-    if (node.returnStatement) node.returnStatement->accept(*this);
+   node.accept(*this);
 }
 
 void OptimizeVisitor::visitIfStatement(const IfStatement& node)
 {
+    if(node.expression && node.expression->primary && node.expression->primary->literal)
+    {
+        auto literal = std::move(node.expression->primary->literal);
+        if(literal->type==LiteralType::BOOL_LITERAL)
+        {
+            BoolLiteral* boolLiteral = dynamic_cast<BoolLiteral*>(literal.get());
+            BodyDeclaration* bodyDeclaration = node.parent;
+            BodyDeclarations* parentBodyDeclarations = bodyDeclaration->parent;
+             int indexOfCurrentBodyDeclaration = -1;
+            for(int i = 0; i<parentBodyDeclarations->bodyDeclarations.size(); i++)
+            {
+                if(parentBodyDeclarations->bodyDeclarations[i].get() == bodyDeclaration)
+                {
+                    indexOfCurrentBodyDeclaration = i;
+                    break;
+                }
+            }
+            if(boolLiteral->value== true)
+            {
+
+                auto bodyDeclarations = std::move(node.ifBranch->body->bodyDeclarations);
+               // parentBodyDeclarations->bodyDeclarations
+
+                //
+                // Remove bodyDeclaration with index indexOfCurrentBodyDeclaration
+                // Add bodyDeclarations to parentBodyDeclarations at index indexOfCurrentBodyDeclaration
+
+                for(int i = 0; i<bodyDeclarations->bodyDeclarations.size(); i++)
+                {
+                    parentBodyDeclarations->bodyDeclarations.insert(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+i, std::move(bodyDeclarations->bodyDeclarations[i]));
+                }
+
+                parentBodyDeclarations->bodyDeclarations.erase(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+bodyDeclarations->bodyDeclarations.size());
+                bodyDeclaration->statement = nullptr;
+
+            }
+            else
+            {
+
+                // Remove if branch
+                auto bodyDeclarations = std::move(node.elseBranch->body->bodyDeclarations);
+                // parentBodyDeclarations->bodyDeclarations
+
+                //
+                // Remove bodyDeclaration with index indexOfCurrentBodyDeclaration
+                // Add bodyDeclarations to parentBodyDeclarations at index indexOfCurrentBodyDeclaration
+
+                for(int i = 0; i<bodyDeclarations->bodyDeclarations.size(); i++)
+                {
+                    parentBodyDeclarations->bodyDeclarations.insert(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+i, std::move(bodyDeclarations->bodyDeclarations[i]));
+                }
+
+                parentBodyDeclarations->bodyDeclarations.erase(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+bodyDeclarations->bodyDeclarations.size());
+                bodyDeclaration->statement = nullptr;
+            }
+        }
+        // Check if literal type is BoolLiteral
+
+
+    }
     if (node.expression) node.expression->accept(*this);
     if (node.ifBranch) node.ifBranch->accept(*this);
     if (node.elseBranch) node.elseBranch->accept(*this);

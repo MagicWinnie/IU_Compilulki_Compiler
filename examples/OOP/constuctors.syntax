@@ -13,7 +13,7 @@ Program
                   Arguments
                     Expressions
                       Expression
-                        Primary: Integer{Span(6, 21, 22), 23, 0}
+                        Primary: 0
               VariableName: a
           MemberDeclaration
             VariableDeclaration
@@ -22,24 +22,22 @@ Program
                   Arguments
                     Expressions
                       Expression
-                        Primary: Integer{Span(7, 21, 22), 23, 0}
+                        Primary: 0
               VariableName: b
           MemberDeclaration
             ConstructorDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: x
-                        VariableName: a
+                    Assignment
+                      Expression
+                        CompoundExpression: x
+                      VariableName: a
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: y
-                        VariableName: b
+                    Assignment
+                      Expression
+                        CompoundExpression: y
+                      VariableName: b
               Parameters
                 Parameter: x
                   ClassName: Integer
@@ -50,11 +48,10 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: x
-                        VariableName: a
+                    Assignment
+                      Expression
+                        CompoundExpression: x
+                      VariableName: a
               Parameters
                 Parameter: x
                   ClassName: Integer
@@ -63,15 +60,13 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: print
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: print
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: b
-                          CompoundExpression: print
+                    Expression
+                      CompoundExpression: b
+                        CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Main
@@ -88,9 +83,9 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(26, 20, 21), 23, 1}
+                                Primary: 1
                               Expression
-                                Primary: Integer{Span(26, 22, 23), 23, 2}
+                                Primary: 2
                       VariableName: a1
                   BodyDeclaration
                     VariableDeclaration
@@ -99,15 +94,13 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(27, 20, 21), 23, 1}
+                                Primary: 1
                       VariableName: a2
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: a1
-                          CompoundExpression: show
+                    Expression
+                      CompoundExpression: a1
+                        CompoundExpression: show
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: a2
-                          CompoundExpression: show
+                    Expression
+                      CompoundExpression: a2
+                        CompoundExpression: show

@@ -50,10 +50,11 @@ public:
 };
 
 class Integer final : public Token {
-protected:
-    long value;
+
+
 
 public:
+    long value;
     Integer(const Span &span, const TokenCode code, const long value)
         : Token(span, code),
           value(value) {
@@ -63,10 +64,11 @@ public:
 };
 
 class Real final : public Token {
-protected:
-    long double value;
+
+
 
 public:
+    long double value;
     Real(const Span &span, const TokenCode code, const long double value)
         : Token(span, code),
           value(value) {
@@ -76,10 +78,11 @@ public:
 };
 
 class Boolean final : public Token {
-protected:
-    bool value;
+
+
 
 public:
+    bool value;
     Boolean(const Span &span, const TokenCode code, const bool value)
         : Token(span, code),
           value(value) {

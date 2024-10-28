@@ -109,14 +109,72 @@ public:
     void accept(Visitor&) const override;
 };
 
-class Literal final : public Entity
+enum LiteralType
+{
+    BOOL_LITERAL,
+    INT_LITERAL,
+    REAL_LITERAL,
+};
+
+class Literal : public Entity
 {
 public:
-    std::string value;
 
-    explicit Literal(std::string);
+    LiteralType type;
+    virtual std::string to_string() const
+    {
+        return "";
+    }
 
     void accept(Visitor&) const override;
+};
+
+class BoolLiteral final : public Literal
+{
+public:
+    bool value;
+    std::string to_string() const override
+    {
+        return value ? "true" : "false";
+    }
+
+    explicit BoolLiteral(bool value)
+        : value(value)
+    {
+        type = BOOL_LITERAL;
+    }
+};
+
+class IntLiteral final : public Literal
+{
+public:
+    int value;
+    std::string to_string() const override
+    {
+        return std::to_string(value);
+    }
+
+    explicit IntLiteral(int value)
+        : value(value)
+    {
+        type = INT_LITERAL;
+    }
+};
+
+class RealLiteral final : public Literal
+{
+public:
+    long double value;
+    std::string to_string() const override
+    {
+        return std::to_string(value);
+    }
+
+    explicit RealLiteral(long double value)
+        : value(value)
+    {
+        type = REAL_LITERAL;
+    }
 };
 
 
@@ -138,7 +196,7 @@ public:
     Span span;
     std::unique_ptr<ClassName> className;
 
-    explicit ClassName(std::string, const Span&, std::unique_ptr<ClassName> className = nullptr);
+    ClassName(std::string, const Span&, std::unique_ptr<ClassName> className = nullptr);
 
     void accept(Visitor&) const override;
 };
@@ -188,6 +246,23 @@ public:
     void accept(Visitor&) const override;
 };
 
+enum StatementType
+{
+    ASSIGNMENT,
+    WHILE_LOOP,
+    IF_STATEMENT,
+    RETURN_STATEMENT,
+    COMPOUND_STATEMENT,
+};
+class Statement : public Entity
+{
+public:
+    BodyDeclaration* parent = nullptr;
+    StatementType type;
+    void accept(Visitor&) const override;
+};
+
+
 class Extension final : public Entity
 {
 public:
@@ -217,7 +292,7 @@ public:
 };
 
 
-class Expression final : public Entity
+class Expression final : public Statement
 {
 public:
     std::unique_ptr<Primary> primary;
@@ -229,17 +304,37 @@ public:
 class Primary final : public Entity
 {
 public:
-    std::string value;
-    std::unique_ptr<ClassName> class_name;
+    explicit Primary(std::unique_ptr<Literal>& literal)
+    : literal(std::move(literal)){}
 
-    explicit Primary(std::string);
+    explicit Primary(std::unique_ptr<ClassName>& class_name)
+        : class_name(std::move(class_name))    {
+    }
 
-    explicit Primary(std::unique_ptr<ClassName>);
+    std::unique_ptr<Literal> literal = nullptr;
+
+    std::unique_ptr<ClassName> class_name = nullptr;
+
+    std::string to_string() const
+    {
+        if (literal)
+        {
+            return literal->to_string();
+        }
+        if (class_name)
+        {
+            return class_name->name;
+        }
+        return "";
+    }
+
+
+
 
     void accept(Visitor&) const override;
 };
 
-class CompoundExpression final : public Entity
+class CompoundExpression : public Statement
 {
 public:
     std::string identifier;
@@ -247,7 +342,7 @@ public:
     std::unique_ptr<Arguments> arguments;
     std::vector<std::unique_ptr<CompoundExpression>> compoundExpressions;
 
-    explicit CompoundExpression(std::string, const Span&, std::unique_ptr<Arguments> args = nullptr,
+    explicit CompoundExpression(std::string, const Span& sp, std::unique_ptr<Arguments> args = nullptr,
                                 std::vector<std::unique_ptr<CompoundExpression>> compExpr = {});
 
     void accept(Visitor&) const override;
@@ -368,6 +463,7 @@ public:
 class BodyDeclaration final : public Entity
 {
 public:
+    BodyDeclarations* parent = nullptr;
     std::unique_ptr<VariableDeclaration> variableDeclaration = nullptr;
     std::unique_ptr<Statement> statement = nullptr;
 
@@ -378,28 +474,22 @@ public:
     void accept(Visitor&) const override;
 };
 
-class Statement final : public Entity
-{
-public:
-    std::unique_ptr<Assignment> assignment;
-    std::unique_ptr<Expression> expression;
-    std::unique_ptr<IfStatement> ifStatement;
-    std::unique_ptr<WhileLoop> whileLoop;
-    std::unique_ptr<ReturnStatement> returnStatement;
 
-    void accept(Visitor&) const override;
-};
-
-class Assignment final : public Entity
+class Assignment final : public Statement
 {
 public:
     std::unique_ptr<VariableName> variableName;
     std::unique_ptr<Expression> expression;
 
+    Assignment()
+    {
+        type = ASSIGNMENT;
+    }
+
     void accept(Visitor&) const override;
 };
 
-class WhileLoop final : public Entity
+class WhileLoop final : public Statement
 {
 public:
     std::unique_ptr<Expression> expression;
@@ -410,7 +500,7 @@ public:
     void accept(Visitor&) const override;
 };
 
-class IfStatement final : public Entity
+class IfStatement final : public Statement
 {
 public:
     std::unique_ptr<Expression> expression;
@@ -443,12 +533,13 @@ public:
     void accept(Visitor&) const override;
 };
 
-class ReturnStatement final : public Entity
+class ReturnStatement final : public Statement
 {
 public:
     std::unique_ptr<Expression> expression;
 
     explicit ReturnStatement(std::unique_ptr<Expression>);
+
 
     void accept(Visitor&) const override;
 };

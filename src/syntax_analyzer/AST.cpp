@@ -22,9 +22,7 @@ void Literals::accept(Visitor& visitor) const
     visitor.visitLiterals(*this);
 }
 
-Literal::Literal(std::string value): value(std::move(value))
-{
-}
+
 
 void Literal::accept(Visitor& visitor) const
 {
@@ -104,13 +102,7 @@ void Expression::accept(Visitor& visitor) const
     visitor.visitExpression(*this);
 }
 
-Primary::Primary(std::string value): value(std::move(value))
-{
-}
 
-Primary::Primary(std::unique_ptr<ClassName> class_name): class_name(std::move(class_name))
-{
-}
 
 void Primary::accept(Visitor& visitor) const
 {
@@ -121,6 +113,7 @@ CompoundExpression::CompoundExpression(std::string id, const Span& span, std::un
                                        std::vector<std::unique_ptr<CompoundExpression>> compExpr):
     identifier(std::move(id)), span(span), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
 {
+    type = COMPOUND_STATEMENT;
 }
 
 void CompoundExpression::accept(Visitor& visitor) const
@@ -250,6 +243,7 @@ WhileLoop::WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Bod
     expression(std::move(expression)),
     body(std::move(body))
 {
+    type = WHILE_LOOP;
 }
 
 void WhileLoop::accept(Visitor& visitor) const
@@ -262,6 +256,7 @@ IfStatement::IfStatement(std::unique_ptr<Expression> expression, std::unique_ptr
                                                                    ifBranch(std::move(if_branch)),
                                                                    elseBranch(std::move(else_branch))
 {
+    type = IF_STATEMENT;
 }
 
 void IfStatement::accept(Visitor& visitor) const
@@ -289,6 +284,7 @@ void ElseBranch::accept(Visitor& visitor) const
 
 ReturnStatement::ReturnStatement(std::unique_ptr<Expression> expression): expression(std::move(expression))
 {
+    type = RETURN_STATEMENT;
 }
 
 void ReturnStatement::accept(Visitor& visitor) const

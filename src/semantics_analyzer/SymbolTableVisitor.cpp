@@ -144,11 +144,7 @@ void SymbolTableVisitor::visitBodyDeclaration(const BodyDeclaration& node)
 
 void SymbolTableVisitor::visitStatement(const Statement& node)
 {
-    if (node.assignment) node.assignment->accept(*this);
-    if (node.expression) node.expression->accept(*this);
-    if (node.ifStatement) node.ifStatement->accept(*this);
-    if (node.whileLoop) node.whileLoop->accept(*this);
-    if (node.returnStatement) node.returnStatement->accept(*this);
+    node.accept(*this);
 }
 
 void SymbolTableVisitor::visitIfStatement(const IfStatement& node)
@@ -242,12 +238,13 @@ void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaratio
     symbolTable.addFunctionEntry("this", "void", node.span, paramNames);
     if (node.body) node.body->accept(*this);
 
-    std::unique_ptr<ReturnStatement> returnStatement = nullptr;
+    ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == StatementType::RETURN_STATEMENT)
         {
-            returnStatement = std::move(bodyDeclaration->statement->returnStatement);
+            // dynamic cast statement to ReturnStatement
+            returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
         }
     }
 
@@ -311,12 +308,12 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     // [CHECK] if return type is correct
     const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, node.methodName->span)->
                                                 returnType;
-    std::unique_ptr<ReturnStatement> returnStatement = nullptr;
+    ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->returnStatement)
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == StatementType::RETURN_STATEMENT)
         {
-            returnStatement = std::move(bodyDeclaration->statement->returnStatement);
+            returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
         }
     }
 

@@ -17,7 +17,7 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(9, 31, 32), 23, 5}
+                                Primary: 5
                           CompoundExpression: Integer
                       VariableName: l
                   BodyDeclaration
@@ -27,39 +27,37 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(11, 26, 27), 23, 0}
+                                Primary: 0
                       VariableName: i1
                   BodyDeclaration
-                    Statement
-                      WhileLoop
-                        Body
-                          BodyDeclarations
-                            BodyDeclaration
-                              Statement
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Expression
+                              CompoundExpression: l
+                                CompoundExpression: append
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: i1
+                                          CompoundExpression: Mult
+                                            Arguments
+                                              Expressions
+                                                Expression
+                                                  CompoundExpression: i
+                                            CompoundExpression: Mult
+                                              Arguments
+                                                Expressions
+                                                  Expression
+                                                    CompoundExpression: i1
+                      Expression
+                        CompoundExpression: i1
+                          CompoundExpression: LessEqual
+                            Arguments
+                              Expressions
                                 Expression
-                                  CompoundExpression: l
-                                    CompoundExpression: append
-                                      Arguments
-                                        Expressions
-                                          Expression
-                                            CompoundExpression: i1
-                                              CompoundExpression: Mult
-                                                Arguments
-                                                  Expressions
-                                                    Expression
-                                                      CompoundExpression: i
-                                                CompoundExpression: Mult
-                                                  Arguments
-                                                    Expressions
-                                                      Expression
-                                                        CompoundExpression: i1
-                        Expression
-                          CompoundExpression: i1
-                            CompoundExpression: LessEqual
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(12, 28, 29), 23, 4}
+                                  Primary: 4
                   BodyDeclaration
                     VariableDeclaration
                       Expression
@@ -73,30 +71,27 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(18, 26, 27), 23, 0}
+                                Primary: 0
                       VariableName: i2
                   BodyDeclaration
-                    Statement
-                      WhileLoop
-                        Body
-                          BodyDeclarations
-                            BodyDeclaration
-                              Statement
-                                Assignment
-                                  Expression
-                                    CompoundExpression: l
-                                      CompoundExpression: tail
-                                  VariableName: l
-                        Expression
-                          CompoundExpression: i2
-                            CompoundExpression: Less
-                              Arguments
-                                Expressions
-                                  Expression
-                                    CompoundExpression: i
-                  BodyDeclaration
-                    Statement
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Assignment
+                              Expression
+                                CompoundExpression: l
+                                  CompoundExpression: tail
+                              VariableName: l
                       Expression
-                        CompoundExpression: l
-                          CompoundExpression: head
-                            CompoundExpression: print
+                        CompoundExpression: i2
+                          CompoundExpression: Less
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: i
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: l
+                        CompoundExpression: head
+                          CompoundExpression: print

@@ -13,17 +13,16 @@ Program
                   Arguments
                     Expressions
                       Expression
-                        Primary: Integer{Span(8, 25, 26), 23, 0}
+                        Primary: 0
               VariableName: value
           MemberDeclaration
             MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      ReturnStatement
-                        Expression
-                          CompoundExpression: value
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: value
               ReturnType
                 ClassName: Integer
               MethodName: getValue
@@ -32,11 +31,10 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: newValue
-                        VariableName: value
+                    Assignment
+                      Expression
+                        CompoundExpression: newValue
+                      VariableName: value
               Parameters
                 Parameter: newValue
                   ClassName: Integer
@@ -55,26 +53,23 @@ Program
                         CompoundExpression: A
                       VariableName: a
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: print
+                    Expression
+                      CompoundExpression: print
+                        Arguments
+                          Expressions
+                            Expression
+                              CompoundExpression: a
+                                CompoundExpression: getValue
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: setValue
                           Arguments
                             Expressions
                               Expression
-                                CompoundExpression: a
-                                  CompoundExpression: getValue
+                                Primary: 1
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: setValue
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: Integer{Span(27, 20, 21), 23, 1}
-                  BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: getValue
-                            CompoundExpression: print
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: getValue
+                          CompoundExpression: print

@@ -11,15 +11,14 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      ReturnStatement
-                        Expression
-                          CompoundExpression: x
-                            CompoundExpression: Plus
-                              Arguments
-                                Expressions
-                                  Expression
-                                    CompoundExpression: y
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: x
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: y
               Parameters
                 Parameter: x
                   ClassName: Integer
@@ -33,20 +32,19 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      ReturnStatement
-                        Expression
-                          CompoundExpression: x
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: x
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: y
                             CompoundExpression: Plus
                               Arguments
                                 Expressions
                                   Expression
-                                    CompoundExpression: y
-                              CompoundExpression: Plus
-                                Arguments
-                                  Expressions
-                                    Expression
-                                      CompoundExpression: z
+                                    CompoundExpression: z
               Parameters
                 Parameter: x
                   ClassName: Integer
@@ -62,15 +60,14 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Statement
-                      ReturnStatement
-                        Expression
-                          CompoundExpression: x
-                            CompoundExpression: Plus
-                              Arguments
-                                Expressions
-                                  Expression
-                                    CompoundExpression: y
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: x
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: y
               Parameters
                 Parameter: x
                   ClassName: Real
@@ -108,58 +105,52 @@ Program
                         CompoundExpression: Real
                       VariableName: res3
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: calculator
-                            CompoundExpression: add
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(32, 32, 33), 23, 1}
-                                  Expression
-                                    Primary: Integer{Span(32, 34, 35), 23, 2}
-                        VariableName: res1
-                  BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: calculator
-                            CompoundExpression: add
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(33, 32, 33), 23, 1}
-                                  Expression
-                                    Primary: Integer{Span(33, 34, 35), 23, 2}
-                                  Expression
-                                    Primary: Integer{Span(33, 36, 37), 23, 3}
-                        VariableName: res2
-                  BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: calculator
-                            CompoundExpression: add
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Real{Span(34, 32, 35), 24, 1.000000}
-                                  Expression
-                                    Primary: Real{Span(34, 36, 39), 24, 2.000000}
-                        VariableName: res3
-                  BodyDeclaration
-                    Statement
+                    Assignment
                       Expression
-                        CompoundExpression: res1
-                          CompoundExpression: print
+                        CompoundExpression: calculator
+                          CompoundExpression: add
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 1
+                                Expression
+                                  Primary: 2
+                      VariableName: res1
                   BodyDeclaration
-                    Statement
+                    Assignment
                       Expression
-                        CompoundExpression: res2
-                          CompoundExpression: print
+                        CompoundExpression: calculator
+                          CompoundExpression: add
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 1
+                                Expression
+                                  Primary: 2
+                                Expression
+                                  Primary: 3
+                      VariableName: res2
                   BodyDeclaration
-                    Statement
+                    Assignment
                       Expression
-                        CompoundExpression: res3
-                          CompoundExpression: print
+                        CompoundExpression: calculator
+                          CompoundExpression: add
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 1.000000
+                                Expression
+                                  Primary: 2.000000
+                      VariableName: res3
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: res1
+                        CompoundExpression: print
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: res2
+                        CompoundExpression: print
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: res3
+                        CompoundExpression: print
