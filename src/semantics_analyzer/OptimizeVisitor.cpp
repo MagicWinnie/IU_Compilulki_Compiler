@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdexcept>
 #include "OptimizeVisitor.h"
 
 
@@ -13,8 +12,6 @@ void OptimizeVisitor::visitProgram(const Program& node)
 
 void OptimizeVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
 {
-    // TODO handle classes
-    // symbolTable.addClassEntry(node.className->name, "ProgramType");
     if (node.className) node.className->accept(*this);
     if (node.arguments) node.arguments->accept(*this);
 }
@@ -126,10 +123,10 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
 {
     if (node.expression && node.expression->primary && node.expression->primary->literal)
     {
-        auto literal = std::move(node.expression->primary->literal);
+        const auto literal = std::move(node.expression->primary->literal);
         if (literal->type == LiteralType::BOOL_LITERAL)
         {
-            BoolLiteral* boolLiteral = dynamic_cast<BoolLiteral*>(literal.get());
+            const auto* boolLiteral = dynamic_cast<BoolLiteral*>(literal.get());
             BodyDeclaration* bodyDeclaration = node.parent;
             BodyDeclarations* parentBodyDeclarations = bodyDeclaration->parent;
             int indexOfCurrentBodyDeclaration = -1;
@@ -143,7 +140,7 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
             }
             if (boolLiteral->value == true)
             {
-                auto bodyDeclarations = std::move(node.ifBranch->body->bodyDeclarations);
+                const auto bodyDeclarations = std::move(node.ifBranch->body->bodyDeclarations);
                 // parentBodyDeclarations->bodyDeclarations
 
                 //
@@ -158,14 +155,16 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
                 }
 
                 parentBodyDeclarations->bodyDeclarations.erase(
-                    parentBodyDeclarations->bodyDeclarations.begin() + indexOfCurrentBodyDeclaration + bodyDeclarations
-                    ->bodyDeclarations.size());
+                    parentBodyDeclarations->bodyDeclarations.begin() +
+                    indexOfCurrentBodyDeclaration +
+                    bodyDeclarations->bodyDeclarations.size()
+                );
                 bodyDeclaration->statement = nullptr;
             }
             else
             {
                 // Remove if branch
-                auto bodyDeclarations = std::move(node.elseBranch->body->bodyDeclarations);
+                const auto bodyDeclarations = std::move(node.elseBranch->body->bodyDeclarations);
                 // parentBodyDeclarations->bodyDeclarations
 
                 //
@@ -180,8 +179,10 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
                 }
 
                 parentBodyDeclarations->bodyDeclarations.erase(
-                    parentBodyDeclarations->bodyDeclarations.begin() + indexOfCurrentBodyDeclaration + bodyDeclarations
-                    ->bodyDeclarations.size());
+                    parentBodyDeclarations->bodyDeclarations.begin() +
+                    indexOfCurrentBodyDeclaration +
+                    bodyDeclarations->bodyDeclarations.size()
+                );
                 bodyDeclaration->statement = nullptr;
             }
         }
