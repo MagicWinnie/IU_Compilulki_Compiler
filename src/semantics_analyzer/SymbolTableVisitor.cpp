@@ -246,7 +246,7 @@ void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration& nod
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
         if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type ==
-            StatementType::RETURN_STATEMENT)
+            RETURN_STATEMENT)
         {
             // dynamic cast statement to ReturnStatement
             returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());

@@ -242,25 +242,25 @@ std::unique_ptr<Primary> Parser::parsePrimary()
     const auto token = getNextToken();
     switch (token->get_code())
     {
-    case TokenCode::INTEGER:
+    case INTEGER:
         {
             const auto integer = dynamic_cast<Integer*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<IntLiteral>(integer->value);
             return std::make_unique<Primary>(literal);
         }
-    case TokenCode::REAL:
+    case REAL:
         {
             const auto real = dynamic_cast<Real*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
             return std::make_unique<Primary>(literal);
         }
-    case TokenCode::BOOLEAN:
+    case BOOLEAN:
         {
             const auto boolean = dynamic_cast<Boolean*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
             return std::make_unique<Primary>(literal);
         }
-    case TokenCode::THIS:
+    case THIS:
         {
             auto className = std::make_unique<ClassName>(ClassName(token->to_string(), token->get_span()));
             return std::make_unique<Primary>(className);
@@ -426,8 +426,9 @@ std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
     do
     {
         auto bodyDeclaration = parseBodyDeclaration();
-        if (bodyDeclaration && bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent =
-            bodyDeclaration.get();
+        if (bodyDeclaration && bodyDeclaration->variableDeclaration)
+            bodyDeclaration->variableDeclaration->bodyParent =
+                bodyDeclaration.get();
         if (bodyDeclaration && bodyDeclaration->statement) bodyDeclaration->statement->parent = bodyDeclaration.get();
         bodyDeclarationsVector.push_back(std::move(bodyDeclaration));
     }
