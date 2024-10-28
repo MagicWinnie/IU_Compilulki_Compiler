@@ -138,7 +138,7 @@ public:
         return value ? "true" : "false";
     }
 
-    explicit BoolLiteral(bool value)
+    explicit BoolLiteral(const bool value)
         : value(value)
     {
         type = BOOL_LITERAL;
@@ -154,7 +154,7 @@ public:
         return std::to_string(value);
     }
 
-    explicit IntLiteral(int value)
+    explicit IntLiteral(const int value)
         : value(value)
     {
         type = INT_LITERAL;
@@ -170,7 +170,7 @@ public:
         return std::to_string(value);
     }
 
-    explicit RealLiteral(long double value)
+    explicit RealLiteral(const long double value)
         : value(value)
     {
         type = REAL_LITERAL;

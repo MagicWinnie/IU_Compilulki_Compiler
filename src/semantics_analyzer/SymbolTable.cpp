@@ -2,7 +2,7 @@
 #include "SymbolTable.h"
 
 
-void SymbolTable::addVariableEntry(const std::string& name, const std::string& type, bool is_constant)
+void SymbolTable::addVariableEntry(const std::string& name, const std::string& type, const bool is_constant)
 {
     varEntries[name] = {name, type, is_constant};
 }
@@ -174,7 +174,7 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
 }
 
 const FunctionEntry* ScopedSymbolTable::lookupFunction(const std::string& name, const Span& span,
-                                                       bool throw_error) const
+                                                       const bool throw_error) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
@@ -200,7 +200,7 @@ const FunctionEntry* ScopedSymbolTable::lookupFunction(const std::string& name, 
 }
 
 const ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& span,
-                                                 bool throw_error) const
+                                                 const bool throw_error) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
