@@ -1,0 +1,40 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                      VariableName: a
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 10
+                      VariableName: a
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Real
+                      VariableName: a
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Real
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 10.000000
+                      VariableName: a

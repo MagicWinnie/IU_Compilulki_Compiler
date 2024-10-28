@@ -18,6 +18,11 @@ Program
                     VariableDeclaration
                       Expression
                         CompoundExpression: Integer
+                      VariableName: a
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression

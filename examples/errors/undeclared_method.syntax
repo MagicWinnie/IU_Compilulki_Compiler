@@ -1,0 +1,34 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+    ProgramArguments
+      Literals
+        Literal: 1.100000
+        Literal: 1.200000
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                      VariableName: a
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 10
+                      VariableName: a
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: error
