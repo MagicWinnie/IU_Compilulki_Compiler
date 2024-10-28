@@ -77,6 +77,13 @@ void SymbolTableVisitor::visitPrimary(const Primary& node)
 
 void SymbolTableVisitor::visitCompoundExpression(const CompoundExpression& node)
 {
+    // TODO check if identifier is a variable or a class or a method
+
+    if (symbolTable.lookupVariable(node.identifier, node.span, false) != nullptr)
+    {
+        symbolTable.makeVariableUsed(node.identifier);
+    }
+
     if (node.arguments) node.arguments->accept(*this);
     for (auto& compoundExpression : node.compoundExpressions)
     {
@@ -297,7 +304,8 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     if (node.parameters) node.parameters->accept(*this);
 
     // [CHECK] if return type is correct
-    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, node.methodName->span).returnType;
+    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, node.methodName->span)->
+                                                returnType;
     std::unique_ptr<ReturnStatement> returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
@@ -321,15 +329,15 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     {
         // TODO check type of the last element in the compound expression
         const auto span = returnStatement->expression->compoundExpression->span;
-        const auto returnVariableType = symbolTable.lookupVariable(
+        const auto returnVariable = symbolTable.lookupVariable(
             returnStatement->expression->compoundExpression->identifier,
             span
         );
-        if (expectedReturnType != returnVariableType)
+        if (expectedReturnType != returnVariable->type)
         {
             throw std::runtime_error(
                 "Method " + node.methodName->name + " is of type " + expectedReturnType +
-                " but is being assigned to type " + returnVariableType +
+                " but is being assigned to type " + returnVariable->type +
                 " at line: " + std::to_string(span.get_line_num()) +
                 " column: " + std::to_string(span.get_pos_begin())
             );

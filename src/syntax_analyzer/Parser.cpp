@@ -392,7 +392,7 @@ std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
     do
     {
         auto bodyDeclaration = parseBodyDeclaration();
-        if(bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
+        if(bodyDeclaration && bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
         bodyDeclarations.push_back(std::move(bodyDeclaration));
         // TODO add statement parsing
     }

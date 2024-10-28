@@ -75,10 +75,10 @@ public:
     void addClassEntry(const std::string&, const Span&);
 
     // Lookup an entry across all scopes (from innermost to outermost)
-    std::string lookupVariable(const std::string&, const Span&) const;
+    const VariableEntry* lookupVariable(const std::string&, const Span&, bool throw_error = true) const;
     void makeVariableUsed(const std::string& name);
 
-    FunctionEntry lookupFunction(const std::string&, const Span&) const;
+    const FunctionEntry* lookupFunction(const std::string&, const Span&, bool throw_error = true) const;
 
-    ClassEntry lookupClass(const std::string&, const Span&) const;
+    const ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true) const;
 };

@@ -201,7 +201,7 @@ void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
 {
 
     if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end()){
-        // TODO remove variable from ast
+        // TODO error when varaible with same name in different scopes
         std::cout << "Unused variable: " << node.variable->name << std::endl;
         if(node.bodyParent)
         {
