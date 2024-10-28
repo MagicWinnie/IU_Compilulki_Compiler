@@ -1,0 +1,41 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 123
+                      VariableName: a
+                  BodyDeclaration
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: a
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 222
+                      VariableName: b
+              ReturnType
+                ClassName: Integer
+              MethodName: foo

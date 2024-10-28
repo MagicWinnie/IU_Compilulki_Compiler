@@ -1,0 +1,10 @@
+Program: Main
+
+class Main is
+    method foo(): Integer is
+        var a : Integer(123)
+        return a
+        a.print()
+        var b : Integer(222)
+    end
+end

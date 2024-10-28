@@ -1,0 +1,36 @@
+Keyword{Span(1, 0, 7), 0}                      -> Program                 -> PROGRAM                                       
+Delimiter{Span(1, 7, 8), 14}                   -> :                       -> COLON                                         
+Main                                           -> Main                    -> IDENTIFIER                                    
+Keyword{Span(3, 1, 6), 1}                      -> class                   -> CLASS                                         
+Main                                           -> Main                    -> IDENTIFIER                                    
+Keyword{Span(3, 12, 14), 3}                    -> is                      -> IS                                            
+Keyword{Span(4, 5, 11), 6}                     -> method                  -> METHOD                                        
+foo                                            -> foo                     -> IDENTIFIER                                    
+Delimiter{Span(4, 15, 16), 18}                 -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(4, 16, 17), 19}                 -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(4, 17, 18), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Keyword{Span(4, 27, 29), 3}                    -> is                      -> IS                                            
+Keyword{Span(5, 9, 12), 5}                     -> var                     -> VAR                                           
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(5, 15, 16), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(5, 24, 25), 18}                 -> (                       -> LEFT_PAREN                                    
+Integer{Span(5, 25, 28), 23, 123}              -> 123                     -> INTEGER                                       
+Delimiter{Span(5, 28, 29), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(6, 9, 15), 13}                    -> return                  -> RETURN                                        
+a                                              -> a                       -> IDENTIFIER                                    
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(7, 10, 11), 15}                 -> .                       -> DOT                                           
+print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(7, 16, 17), 18}                 -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(7, 17, 18), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(8, 9, 12), 5}                     -> var                     -> VAR                                           
+b                                              -> b                       -> IDENTIFIER                                    
+Delimiter{Span(8, 15, 16), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(8, 24, 25), 18}                 -> (                       -> LEFT_PAREN                                    
+Integer{Span(8, 25, 28), 23, 222}              -> 222                     -> INTEGER                                       
+Delimiter{Span(8, 28, 29), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(9, 5, 8), 4}                      -> end                     -> END                                           
+Keyword{Span(10, 1, 4), 4}                     -> end                     -> END                                           

@@ -1,0 +1,28 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 123
+                      VariableName: a
+                  BodyDeclaration
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: a
+              ReturnType
+                ClassName: Integer
+              MethodName: foo
