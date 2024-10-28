@@ -1,0 +1,59 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          CompoundExpression: scan
+                      VariableName: a
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          CompoundExpression: scan
+                      VariableName: b
+                  BodyDeclaration
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Assignment
+                              Expression
+                                CompoundExpression: b
+                                  CompoundExpression: Plus
+                                    Arguments
+                                      Expressions
+                                        Expression
+                                          Primary: 1
+                              VariableName: b
+                          BodyDeclaration
+                            Assignment
+                              Expression
+                                CompoundExpression: a
+                                  CompoundExpression: Minus
+                                    Arguments
+                                      Expressions
+                                        Expression
+                                          Primary: 1
+                              VariableName: a
+                      Expression
+                        CompoundExpression: a
+                          CompoundExpression: Greater
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 0
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: b
+                        CompoundExpression: print

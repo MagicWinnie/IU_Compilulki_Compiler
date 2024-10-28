@@ -1,0 +1,75 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: A
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            VariableDeclaration
+              Expression
+                CompoundExpression: Integer
+                  Arguments
+                    Expressions
+                      Expression
+                        Primary: 0
+              VariableName: value
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: value
+              ReturnType
+                ClassName: Integer
+              MethodName: getValue
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: newValue
+                      VariableName: value
+              Parameters
+                Parameter: newValue
+                  ClassName: Integer
+              MethodName: setValue
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: A
+                      VariableName: a
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: print
+                        Arguments
+                          Expressions
+                            Expression
+                              CompoundExpression: a
+                                CompoundExpression: getValue
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: setValue
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 1
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: getValue
+                          CompoundExpression: print

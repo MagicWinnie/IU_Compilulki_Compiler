@@ -1,0 +1,22 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+    ProgramArguments
+      Literals
+        Literal: 1.100000
+        Literal: 1.200000
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: eq
+                        CompoundExpression: print
+                  BodyDeclaration

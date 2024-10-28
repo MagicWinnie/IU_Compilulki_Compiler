@@ -37,6 +37,8 @@ int main(const int argc, char* argv[])
     OptimizeVisitor optimizeVisitor(symbolTableVisitor.symbolTable);
     program->accept(optimizeVisitor);
 
+    parser.toFile(".semantics", program);
+
     // TODO: code generation
 
     return EXIT_SUCCESS;

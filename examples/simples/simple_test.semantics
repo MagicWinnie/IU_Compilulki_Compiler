@@ -1,0 +1,44 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 5
+                      VariableName: a
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 10
+                      VariableName: b
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: a
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: b
+                      VariableName: sum
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: sum
+                        CompoundExpression: print

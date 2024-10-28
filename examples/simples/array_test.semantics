@@ -1,0 +1,91 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Array
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 5
+                          CompoundExpression: Integer
+                      VariableName: a
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 0
+                      VariableName: i1
+                  BodyDeclaration
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Expression
+                              CompoundExpression: a
+                                CompoundExpression: set
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: i1
+                                      Expression
+                                        CompoundExpression: i1
+                                          CompoundExpression: Mult
+                                            Arguments
+                                              Expressions
+                                                Expression
+                                                  CompoundExpression: i
+                                            CompoundExpression: Mult
+                                              Arguments
+                                                Expressions
+                                                  Expression
+                                                    CompoundExpression: i1
+                      Expression
+                        CompoundExpression: i1
+                          CompoundExpression: LessEqual
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 4
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 4
+                      VariableName: i2
+                  BodyDeclaration
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Expression
+                              CompoundExpression: a
+                                CompoundExpression: get
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: i2
+                                  CompoundExpression: print
+                      Expression
+                        CompoundExpression: i2
+                          CompoundExpression: GreaterEqual
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 0

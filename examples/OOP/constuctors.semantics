@@ -1,0 +1,106 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: A
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            VariableDeclaration
+              Expression
+                CompoundExpression: Integer
+                  Arguments
+                    Expressions
+                      Expression
+                        Primary: 0
+              VariableName: a
+          MemberDeclaration
+            VariableDeclaration
+              Expression
+                CompoundExpression: Integer
+                  Arguments
+                    Expressions
+                      Expression
+                        Primary: 0
+              VariableName: b
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: x
+                      VariableName: a
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: y
+                      VariableName: b
+              Parameters
+                Parameter: x
+                  ClassName: Integer
+                Parameter: y
+                  ClassName: Integer
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: x
+                      VariableName: a
+              Parameters
+                Parameter: x
+                  ClassName: Integer
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: print
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: b
+                        CompoundExpression: print
+              MethodName: show
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: A
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 1
+                              Expression
+                                Primary: 2
+                      VariableName: a1
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: A
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 1
+                      VariableName: a2
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a1
+                        CompoundExpression: show
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a2
+                        CompoundExpression: show

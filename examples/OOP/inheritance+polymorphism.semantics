@@ -1,0 +1,76 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Base
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Expression
+                              Primary: 1
+                        CompoundExpression: print
+              MethodName: show
+    ClassDeclaration
+      ClassName: Derived
+      Extension
+        ClassName: Base
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Expression
+                              Primary: 2
+                        CompoundExpression: print
+              MethodName: show
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Base
+                      VariableName: b
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Base
+                      VariableName: b
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Base
+                      VariableName: d
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Derived
+                      VariableName: d
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: b
+                        CompoundExpression: show
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: d
+                        CompoundExpression: show
