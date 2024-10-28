@@ -10,6 +10,24 @@ Program
             MethodDeclaration
               Body
                 BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 0
+                      VariableName: i
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 1
+                      VariableName: i
               Parameters
                 Parameter: arr
                   ClassName: Array

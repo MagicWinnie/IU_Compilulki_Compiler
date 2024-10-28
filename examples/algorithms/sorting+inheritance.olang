@@ -7,6 +7,8 @@ Program: Main()
 // Base class
 class BaseSorter is
     method sort(arr: Array[Integer]) is
+        var i : Integer(0)
+        i := Integer(1)
     end
 end
 

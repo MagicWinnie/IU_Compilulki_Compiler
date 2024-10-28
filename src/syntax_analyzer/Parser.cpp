@@ -422,15 +422,24 @@ std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
     do
     {
         auto bodyDeclaration = parseBodyDeclaration();
+        if (!bodyDeclaration)
+            continue;
         if (bodyDeclaration && bodyDeclaration->variableDeclaration)
-            bodyDeclaration->variableDeclaration->bodyParent =
-                bodyDeclaration.get();
+            bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
         if (bodyDeclaration && bodyDeclaration->statement) bodyDeclaration->statement->parent = bodyDeclaration.get();
         bodyDeclarationsVector.push_back(std::move(bodyDeclaration));
     }
     while (peekNextToken() == VAR || peekNextToken() == IF || peekNextToken() == WHILE || peekNextToken() == RETURN ||
         peekNextToken() == IDENTIFIER ||
         peekNextToken() == THIS);
+
+    if (bodyDeclarationsVector.empty())
+    {
+        const auto span = tokens[current_token]->get_span();
+        throwError("var, or statement", getEnumName(tokens[current_token]->get_code()),
+                   span.get_line_num(), span.get_pos_begin());
+    }
+
     auto bodyDeclarations = std::make_unique<BodyDeclarations>(std::move(bodyDeclarationsVector));
     for (auto& bodyDeclaration : bodyDeclarations->bodyDeclarations)
     {
