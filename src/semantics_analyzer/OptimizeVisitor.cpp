@@ -203,6 +203,14 @@ void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
     if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end()){
         // TODO remove variable from ast
         std::cout << "Unused variable: " << node.variable->name << std::endl;
+        if(node.bodyParent)
+        {
+            node.bodyParent->variableDeclaration = nullptr;
+        }
+        if(node.memberParent)
+        {
+            node.memberParent->variableDeclaration = nullptr;
+        }
 
     }
 

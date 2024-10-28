@@ -391,7 +391,9 @@ std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
     std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarations;
     do
     {
-        bodyDeclarations.push_back(parseBodyDeclaration());
+        auto bodyDeclaration = parseBodyDeclaration();
+        if(bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
+        bodyDeclarations.push_back(std::move(bodyDeclaration));
         // TODO add statement parsing
     }
     while (peekNextToken() == VAR || peekNextToken() == IF || peekNextToken() == WHILE || peekNextToken() == RETURN ||
@@ -533,6 +535,7 @@ std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration()
     if (nextToken == VAR)
     {
         memberDeclaration->variableDeclaration = parseVariableDeclaration();
+        memberDeclaration->variableDeclaration->memberParent = memberDeclaration.get();
         return memberDeclaration;
     }
     if (nextToken == METHOD)
