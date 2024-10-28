@@ -10,6 +10,7 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addClassEntry("Real", Span(0, 0, 0));
     symbolTable.addClassEntry("Array", Span(0, 0, 0));
     symbolTable.addClassEntry("List", Span(0, 0, 0));
+    symbolTable.addClassEntry("String", Span(0, 0, 0));
 }
 
 SymbolTableVisitor::~SymbolTableVisitor()
@@ -26,6 +27,8 @@ void SymbolTableVisitor::visitProgram(const Program& node)
 {
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
+    if (node.programDeclaration && node.programDeclaration->className) node.programDeclaration->className->
+                                                                            accept(*this);
 }
 
 void SymbolTableVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
@@ -36,6 +39,7 @@ void SymbolTableVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
 
 void SymbolTableVisitor::visitClassName(const ClassName& node)
 {
+    const auto& value = symbolTable.lookupClass(node.name, node.span);
 }
 
 void SymbolTableVisitor::visitProgramArguments(const ProgramArguments& node)
@@ -100,7 +104,7 @@ void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
 void SymbolTableVisitor::visitClassDeclaration(const ClassDeclaration& node)
 {
     symbolTable.enterScope();
-    if (node.className) node.className->accept(*this);
+    // if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);
     symbolTable.leaveScope();
@@ -267,8 +271,11 @@ void SymbolTableVisitor::visitVariableDeclaration(const VariableDeclaration& nod
     }
     else if (node.expression->compoundExpression)
     {
-        // symbolTable.lookupClass(node.expression->compoundExpression->identifier,
-        //                         node.expression->compoundExpression->span);
+        if (node.expression->compoundExpression->compoundExpressions.empty())
+        {
+            symbolTable.lookupClass(node.expression->compoundExpression->identifier,
+                                    node.expression->compoundExpression->span);
+        }
         symbolTable.addVariableEntry(node.variable->name, node.expression->compoundExpression->identifier,
                                      node.variable->span);
     }
