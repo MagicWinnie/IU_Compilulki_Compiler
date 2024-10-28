@@ -106,22 +106,26 @@ Program
                                     BodyDeclaration
                                       VariableDeclaration
                                         Expression
-                                          CompoundExpression: i
-                                            CompoundExpression: Mult
-                                              Arguments
-                                                Expressions
-                                                  Expression
-                                                    CompoundExpression: i
-                                              CompoundExpression: Plus
-                                                Arguments
-                                                  Expressions
-                                                    Expression
-                                                      CompoundExpression: j
-                                                        CompoundExpression: Mult
-                                                          Arguments
-                                                            Expressions
-                                                              Expression
-                                                                CompoundExpression: i
+                                          CompoundExpression: Integer
+                                            Arguments
+                                              Expressions
+                                                Expression
+                                                  CompoundExpression: i
+                                                    CompoundExpression: Mult
+                                                      Arguments
+                                                        Expressions
+                                                          Expression
+                                                            CompoundExpression: i
+                                                      CompoundExpression: Plus
+                                                        Arguments
+                                                          Expressions
+                                                            Expression
+                                                              CompoundExpression: j
+                                                                CompoundExpression: Mult
+                                                                  Arguments
+                                                                    Expressions
+                                                                      Expression
+                                                                        CompoundExpression: i
                                         VariableName: k
                                     BodyDeclaration
                                       WhileLoop

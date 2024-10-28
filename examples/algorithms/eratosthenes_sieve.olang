@@ -18,7 +18,7 @@ class Main is
         while i.Mult(i).Less(A.Length) loop
             if A.get(i) then
                 var j : Integer(0)
-                var k : i.Mult(i).Plus(j.Mult(i))
+                var k : Integer(i.Mult(i).Plus(j.Mult(i)))
                 while k.Less(A.Length) loop
                     A.set(k, false)
                     j := j.Plus(1)

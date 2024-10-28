@@ -102,22 +102,25 @@ Delimiter{Span(20, 34, 35), 19}                -> )                       -> RIG
 Keyword{Span(21, 17, 20), 5}                   -> var                     -> VAR                                           
 k                                              -> k                       -> IDENTIFIER                                    
 Delimiter{Span(21, 23, 24), 14}                -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(21, 32, 33), 18}                -> (                       -> LEFT_PAREN                                    
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(21, 26, 27), 15}                -> .                       -> DOT                                           
-Mult                                           -> Mult                    -> IDENTIFIER                                    
-Delimiter{Span(21, 31, 32), 18}                -> (                       -> LEFT_PAREN                                    
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(21, 33, 34), 19}                -> )                       -> RIGHT_PAREN                                   
 Delimiter{Span(21, 34, 35), 15}                -> .                       -> DOT                                           
-Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(21, 39, 40), 18}                -> (                       -> LEFT_PAREN                                    
-j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(21, 41, 42), 15}                -> .                       -> DOT                                           
 Mult                                           -> Mult                    -> IDENTIFIER                                    
-Delimiter{Span(21, 46, 47), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(21, 39, 40), 18}                -> (                       -> LEFT_PAREN                                    
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(21, 48, 49), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(21, 49, 50), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(21, 41, 42), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(21, 42, 43), 15}                -> .                       -> DOT                                           
+Plus                                           -> Plus                    -> IDENTIFIER                                    
+Delimiter{Span(21, 47, 48), 18}                -> (                       -> LEFT_PAREN                                    
+j                                              -> j                       -> IDENTIFIER                                    
+Delimiter{Span(21, 49, 50), 15}                -> .                       -> DOT                                           
+Mult                                           -> Mult                    -> IDENTIFIER                                    
+Delimiter{Span(21, 54, 55), 18}                -> (                       -> LEFT_PAREN                                    
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(21, 56, 57), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(21, 57, 58), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(21, 58, 59), 19}                -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(22, 17, 22), 8}                   -> while                   -> WHILE                                         
 k                                              -> k                       -> IDENTIFIER                                    
 Delimiter{Span(22, 24, 25), 15}                -> .                       -> DOT                                           
