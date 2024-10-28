@@ -119,10 +119,10 @@ void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::str
 
 void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
 {
-    if (scopes.size() >= 2)
+    if (!scopes.empty())
     {
         // Use a reference to modify the actual scope on the stack
-        auto& current_scope = scopes[scopes.size() - 2];
+        auto& current_scope = scopes.back();
         if (current_scope.classEntries.find(name) != current_scope.classEntries.end())
         {
             throw std::runtime_error(
