@@ -30,6 +30,8 @@ public:
 
     void consumeToken();
 
+    void toFile(const std::string&, const std::unique_ptr<Program>&) const;
+
     std::unique_ptr<Program> parseProgram();
 
     std::unique_ptr<ProgramDeclaration> parseProgramDeclaration();

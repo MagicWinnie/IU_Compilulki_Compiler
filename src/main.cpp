@@ -37,8 +37,6 @@ int main(const int argc, char* argv[])
     OptimizeVisitor optimizeVisitor(symbolTableVisitor.symbolTable);
     program->accept(optimizeVisitor);
 
-
-
     // TODO: code generation
 
     return EXIT_SUCCESS;

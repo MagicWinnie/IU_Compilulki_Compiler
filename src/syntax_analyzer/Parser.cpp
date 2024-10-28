@@ -24,19 +24,7 @@ std::unique_ptr<Program> Parser::parse()
     {
         auto program = parseProgram();
         if (this->debug)
-        {
-            std::filesystem::path path(this->infile_path);
-            path.replace_extension(".syntax");
-            std::cout << "Syntax analyzer writing to " << path << std::endl;
-
-            std::ofstream output_file;
-            output_file.open(path);
-
-            PrintVisitor printer(output_file);
-            program->accept(printer);
-
-            output_file.close();
-        }
+            toFile(".syntax", program);
         return program;
     }
     catch (std::runtime_error& e)
@@ -89,6 +77,22 @@ std::unique_ptr<Token> Parser::getNextToken()
 void Parser::consumeToken()
 {
     current_token++;
+}
+
+void Parser::toFile(const std::string& extension, const std::unique_ptr<Program>& program) const
+{
+    std::filesystem::path path(this->infile_path);
+    path.replace_extension(extension);
+
+    std::cout << "Writing to " << path << std::endl;
+
+    std::ofstream output_file;
+    output_file.open(path);
+
+    PrintVisitor printer(output_file);
+    program->accept(printer);
+
+    output_file.close();
 }
 
 std::unique_ptr<Program> Parser::parseProgram()
@@ -238,25 +242,29 @@ std::unique_ptr<Primary> Parser::parsePrimary()
     const auto token = getNextToken();
     switch (token->get_code())
     {
-    case TokenCode::INTEGER: {
+    case TokenCode::INTEGER:
+        {
             auto integer = dynamic_cast<Integer*>(token.get());
             std::unique_ptr<Literal> literal = std::make_unique<IntLiteral>(integer->value);
             return std::make_unique<Primary>(literal);
-    }
-    case TokenCode::REAL: {
+        }
+    case TokenCode::REAL:
+        {
             auto real = dynamic_cast<Real*>(token.get());
-             std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
+            std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
             return std::make_unique<Primary>(literal);
-    }
-    case TokenCode::BOOLEAN: {
+        }
+    case TokenCode::BOOLEAN:
+        {
             auto boolean = dynamic_cast<Boolean*>(token.get());
-             std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
+            std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
             return std::make_unique<Primary>(literal);
-    }
-    case TokenCode::THIS: {
+        }
+    case TokenCode::THIS:
+        {
             auto className = std::make_unique<ClassName>(ClassName(token->to_string(), token->get_span()));
             return std::make_unique<Primary>(className);
-    }
+        }
     default:
         throw std::runtime_error("Unexpected token: " + token->to_string());
     }
@@ -418,17 +426,18 @@ std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
     do
     {
         auto bodyDeclaration = parseBodyDeclaration();
-        if(bodyDeclaration && bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
-        if(bodyDeclaration && bodyDeclaration->statement) bodyDeclaration->statement->parent = bodyDeclaration.get();
+        if (bodyDeclaration && bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent =
+            bodyDeclaration.get();
+        if (bodyDeclaration && bodyDeclaration->statement) bodyDeclaration->statement->parent = bodyDeclaration.get();
         bodyDeclarationsVector.push_back(std::move(bodyDeclaration));
     }
     while (peekNextToken() == VAR || peekNextToken() == IF || peekNextToken() == WHILE || peekNextToken() == RETURN ||
         peekNextToken() == IDENTIFIER ||
         peekNextToken() == THIS);
-    auto bodyDeclarations =  std::make_unique<BodyDeclarations>(std::move(bodyDeclarationsVector));
-    for(auto &bodyDeclaration : bodyDeclarations->bodyDeclarations)
+    auto bodyDeclarations = std::make_unique<BodyDeclarations>(std::move(bodyDeclarationsVector));
+    for (auto& bodyDeclaration : bodyDeclarations->bodyDeclarations)
     {
-        if(bodyDeclaration)  bodyDeclaration->parent = bodyDeclarations.get();
+        if (bodyDeclaration) bodyDeclaration->parent = bodyDeclarations.get();
     }
     return bodyDeclarations;
 }
@@ -462,18 +471,18 @@ std::unique_ptr<Statement> Parser::parseStatement()
     }
     if (peekNextToken() == WHILE)
     {
-         std::unique_ptr<Statement> statement = parseWhileLoop();
+        std::unique_ptr<Statement> statement = parseWhileLoop();
         return statement;
     }
     if (peekNextToken() == IDENTIFIER)
     {
-         std::unique_ptr<Statement> statement = parseExpression();
+        std::unique_ptr<Statement> statement = parseExpression();
         return statement;
     }
     if (peekNextToken() == RETURN)
     {
         //TODO add return
-        std::unique_ptr<Statement> statement =  parseReturnStatement();
+        std::unique_ptr<Statement> statement = parseReturnStatement();
 
         return statement;
     }
