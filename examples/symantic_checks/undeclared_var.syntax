@@ -24,15 +24,6 @@ Program
                                 Primary: 5
                       VariableName: a
                   BodyDeclaration
-                    VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 10
-                      VariableName: b
-                  BodyDeclaration
                     Assignment
                       Expression
                         CompoundExpression: a
@@ -41,8 +32,4 @@ Program
                               Expressions
                                 Expression
                                   CompoundExpression: b
-                      VariableName: a
-                  BodyDeclaration
-                    Expression
-                      CompoundExpression: b
-                        CompoundExpression: print
+                      VariableName: c

@@ -1,0 +1,16 @@
+Program: Main()
+
+class Main is
+    this() is
+       var a : Integer
+       a := Integer(10)
+    end
+end
+
+
+class Main is
+    this() is
+       var a : Integer
+       a := Integer(10)
+    end
+end

@@ -33,15 +33,25 @@ Program
                                 Primary: 10
                       VariableName: b
                   BodyDeclaration
-                    Assignment
+                    VariableDeclaration
                       Expression
                         CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
-                                Primary: 1
+                                Primary: 15
+                      VariableName: c
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: a
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  CompoundExpression: b
                       VariableName: a
                   BodyDeclaration
                     Expression
-                      CompoundExpression: a
+                      CompoundExpression: b
                         CompoundExpression: print

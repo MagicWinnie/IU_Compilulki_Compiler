@@ -1,0 +1,10 @@
+
+Program: Main(1.1, 1.2)
+
+class Main is
+    this() is
+        var a : Integer
+        a := Integer(5)
+        c := a.Plus(b)
+    end
+end
