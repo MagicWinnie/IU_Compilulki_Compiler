@@ -1,17 +1,14 @@
 #include <iostream>
-#include <stdexcept>
 #include "OptimizeVisitor.h"
 
 
-OptimizeVisitor::~OptimizeVisitor()
-{}
+OptimizeVisitor::~OptimizeVisitor() = default;
 
 
 void OptimizeVisitor::visitProgram(const Program& node)
 {
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
-
 }
 
 void OptimizeVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
@@ -86,11 +83,9 @@ void OptimizeVisitor::visitClassDeclarations(const ClassDeclarations& node)
 
 void OptimizeVisitor::visitClassDeclaration(const ClassDeclaration& node)
 {
-
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);
-
 }
 
 void OptimizeVisitor::visitClassBody(const ClassBody& node)
@@ -140,30 +135,22 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
 
 void OptimizeVisitor::visitIfBranch(const IfBranch& node)
 {
-
     if (node.body) node.body->accept(*this);
-
 }
 
 void OptimizeVisitor::visitElseBranch(const ElseBranch& node)
 {
-
     if (node.body) node.body->accept(*this);
-
 }
 
 void OptimizeVisitor::visitWhileLoop(const WhileLoop& node)
 {
-
     if (node.body) node.body->accept(*this);
     if (node.expression) node.expression->accept(*this);
-
 }
 
 void OptimizeVisitor::visitAssignment(const Assignment& node)
 {
-
-
     if (node.expression) node.expression->accept(*this);
     if (node.variableName) node.variableName->accept(*this);
 }
@@ -185,11 +172,9 @@ void OptimizeVisitor::visitMemberDeclaration(const MemberDeclaration& node)
 
 void OptimizeVisitor::visitConstructorDeclaration(const ConstructorDeclaration& node)
 {
-
     if (node.parameters) node.parameters->accept(*this);
 
     if (node.body) node.body->accept(*this);
-
 }
 
 void OptimizeVisitor::visitReturnStatement(const ReturnStatement& node)
@@ -199,19 +184,18 @@ void OptimizeVisitor::visitReturnStatement(const ReturnStatement& node)
 
 void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
 {
-
-    if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end()){
+    if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end())
+    {
         // TODO remove variable from ast
         std::cout << "Unused variable: " << node.variable->name << std::endl;
-        if(node.bodyParent)
+        if (node.bodyParent)
         {
             node.bodyParent->variableDeclaration = nullptr;
         }
-        if(node.memberParent)
+        if (node.memberParent)
         {
             node.memberParent->variableDeclaration = nullptr;
         }
-
     }
 
     if (node.expression) node.expression->accept(*this);
@@ -220,13 +204,11 @@ void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
 
 void OptimizeVisitor::visitMethodDeclaration(const MethodDeclaration& node)
 {
-
     if (node.body) node.body->accept(*this);
     if (node.parameters) node.parameters->accept(*this);
 
     if (node.returnType) node.returnType->accept(*this);
     if (node.methodName) node.methodName->accept(*this);
-
 }
 
 void OptimizeVisitor::visitMethodName(const MethodName& node)
