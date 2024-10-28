@@ -60,7 +60,7 @@ class ScopedSymbolTable
 
 public:
     std::vector<SymbolTable> scopes;
-    std::pmr::unordered_set<std::string> unusedVariables;
+    std::unordered_set<std::string> unusedVariables;
     // Enter a new scope (push a new symbol table onto the stack)
     void enterScope();
 
