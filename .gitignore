@@ -56,3 +56,6 @@ cmake-build-debug
 build.ninja
 
 .idea
+
+tree.dot
+tree.png
