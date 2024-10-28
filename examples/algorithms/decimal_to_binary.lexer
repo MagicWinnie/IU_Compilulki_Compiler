@@ -29,7 +29,7 @@ Delimiter{Span(8, 24, 25), 18}                 -> (                       -> LEF
 Integer{Span(8, 25, 26), 23, 0}                -> 0                       -> INTEGER                                       
 Delimiter{Span(8, 26, 27), 19}                 -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(8, 28, 32), 9}                    -> loop                    -> LOOP                                          
-k                                              -> k                       -> IDENTIFIER                                    
+b                                              -> b                       -> IDENTIFIER                                    
 Delimiter{Span(9, 14, 15), 15}                 -> .                       -> DOT                                           
 append                                         -> append                  -> IDENTIFIER                                    
 Delimiter{Span(9, 21, 22), 18}                 -> (                       -> LEFT_PAREN                                    

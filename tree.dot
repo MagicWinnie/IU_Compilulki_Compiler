@@ -1,0 +1,142 @@
+digraph tree {
+	"0" [label="Program", shape=box]
+	"1" [label="ProgramDeclaration", shape=box]
+	"3" [label="ClassDeclarations", shape=box]
+	"2" [label="ClassName: Main", shape=box]
+	"4" [label="ClassDeclaration", shape=box]
+	"5" [label="ClassName: Main", shape=box]
+	"6" [label="ClassBody", shape=box]
+	"7" [label="MemberDeclarations", shape=box]
+	"8" [label="MemberDeclaration", shape=box]
+	"9" [label="ConstructorDeclaration", shape=box]
+	"10" [label="Body", shape=box]
+	"11" [label="BodyDeclarations", shape=box]
+	"12" [label="BodyDeclaration", shape=box]
+	"21" [label="BodyDeclaration", shape=box]
+	"30" [label="BodyDeclaration", shape=box]
+	"35" [label="BodyDeclaration", shape=box]
+	"46" [label="BodyDeclaration", shape=box]
+	"51" [label="BodyDeclaration", shape=box]
+	"13" [label="VariableDeclaration", shape=box]
+	"22" [label="VariableDeclaration", shape=box]
+	"31" [label="VariableDeclaration", shape=box]
+	"36" [label="Statement", shape=box]
+	"47" [label="VariableDeclaration", shape=box]
+	"52" [label="Statement", shape=box]
+	"20" [label="VariableName: a", shape=box]
+	"14" [label="Expression", shape=box]
+	"29" [label="VariableName: b", shape=box]
+	"23" [label="Expression", shape=box]
+	"34" [label="VariableName: c", shape=box]
+	"32" [label="Expression", shape=box]
+	"37" [label="Assignment", shape=box]
+	"50" [label="VariableName: d", shape=box]
+	"48" [label="Expression", shape=box]
+	"53" [label="Assignment", shape=box]
+	"15" [label="CompoundExpression: Identifier{Span(8, 17, 24), 22, Integer}", shape=box]
+	"24" [label="CompoundExpression: Identifier{Span(9, 17, 24), 22, Integer}", shape=box]
+	"33" [label="CompoundExpression: Identifier{Span(10, 17, 24), 22, Integer}", shape=box]
+	"45" [label="VariableName: c", shape=box]
+	"38" [label="Expression", shape=box]
+	"49" [label="CompoundExpression: Identifier{Span(13, 17, 24), 22, Integer}", shape=box]
+	"69" [label="VariableName: d", shape=box]
+	"54" [label="Expression", shape=box]
+	"16" [label="Arguments", shape=box]
+	"25" [label="Arguments", shape=box]
+	"39" [label="CompoundExpression: Identifier{Span(11, 14, 15), 22, a}", shape=box]
+	"55" [label="CompoundExpression: Identifier{Span(14, 14, 21), 22, Integer}", shape=box]
+	"17" [label="Expressions", shape=box]
+	"26" [label="Expressions", shape=box]
+	"40" [label="CompoundExpression: Identifier{Span(11, 16, 20), 22, Plus}", shape=box]
+	"60" [label="CompoundExpression: Identifier{Span(14, 25, 29), 22, Plus}", shape=box]
+	"56" [label="Arguments", shape=box]
+	"18" [label="Expression", shape=box]
+	"27" [label="Expression", shape=box]
+	"41" [label="Arguments", shape=box]
+	"61" [label="Arguments", shape=box]
+	"57" [label="Expressions", shape=box]
+	"19" [label="Primary: Integer{Span(8, 25, 26), 23, 1}", shape=box]
+	"28" [label="Primary: Integer{Span(9, 25, 26), 23, 2}", shape=box]
+	"42" [label="Expressions", shape=box]
+	"62" [label="Expressions", shape=box]
+	"58" [label="Expression", shape=box]
+	"43" [label="Expression", shape=box]
+	"63" [label="Expression", shape=box]
+	"59" [label="Primary: Integer{Span(14, 22, 23), 23, 3}", shape=box]
+	"44" [label="CompoundExpression: Identifier{Span(11, 21, 22), 22, b}", shape=box]
+	"64" [label="CompoundExpression: Identifier{Span(14, 30, 37), 22, Integer}", shape=box]
+	"65" [label="Arguments", shape=box]
+	"66" [label="Expressions", shape=box]
+	"67" [label="Expression", shape=box]
+	"68" [label="Primary: Integer{Span(14, 38, 39), 23, 4}", shape=box]
+
+	"0" -> "1"
+	"0" -> "3"
+	"1" -> "2"
+	"3" -> "4"
+	"4" -> "5"
+	"4" -> "6"
+	"6" -> "7"
+	"7" -> "8"
+	"8" -> "9"
+	"9" -> "10"
+	"10" -> "11"
+	"11" -> "12"
+	"11" -> "21"
+	"11" -> "30"
+	"11" -> "35"
+	"11" -> "46"
+	"11" -> "51"
+	"12" -> "13"
+	"21" -> "22"
+	"30" -> "31"
+	"35" -> "36"
+	"46" -> "47"
+	"51" -> "52"
+	"13" -> "14"
+	"13" -> "20"
+	"22" -> "23"
+	"22" -> "29"
+	"31" -> "32"
+	"31" -> "34"
+	"36" -> "37"
+	"47" -> "48"
+	"47" -> "50"
+	"52" -> "53"
+	"14" -> "15"
+	"23" -> "24"
+	"32" -> "33"
+	"37" -> "38"
+	"37" -> "45"
+	"48" -> "49"
+	"53" -> "54"
+	"53" -> "69"
+	"15" -> "16"
+	"24" -> "25"
+	"38" -> "39"
+	"54" -> "55"
+	"16" -> "17"
+	"25" -> "26"
+	"39" -> "40"
+	"55" -> "56"
+	"55" -> "60"
+	"17" -> "18"
+	"26" -> "27"
+	"40" -> "41"
+	"60" -> "61"
+	"56" -> "57"
+	"18" -> "19"
+	"27" -> "28"
+	"41" -> "42"
+	"61" -> "62"
+	"57" -> "58"
+	"42" -> "43"
+	"62" -> "63"
+	"58" -> "59"
+	"43" -> "44"
+	"63" -> "64"
+	"64" -> "65"
+	"65" -> "66"
+	"66" -> "67"
+	"67" -> "68"
+}

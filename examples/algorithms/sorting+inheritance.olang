@@ -83,23 +83,21 @@ class MergeSorter extends BaseSorter is
             var mid : left.Plus(right.Minus(left).Div(2))
             
             // Sort first and second halves
-            this.mergeSort(arr, left, mid)
-            this.mergeSort(arr, mid.Plus(1), right)
+            mergeSort(arr, left, mid)
+            mergeSort(arr, mid.Plus(1), right)
 
             // Merge the sorted halves
-            this.merge(arr, left, mid, right)
+            merge(arr, left, mid, right)
         end
     end
 
     method sort(arr: Array[Integer]) is
-        this.mergeSort(arr, 0, arr.Length.Minus(1))
+        mergeSort(arr, 0, arr.Length.Minus(1))
     end
 end
  
 class Main is
-    this() is
-        this.test()
-    end
+
     
     method createArray(size: Integer) : Array[Integer] is
         var arr : Array[Integer](size)
@@ -122,18 +120,25 @@ class Main is
     
     method test() is
         // sorter 1 (does nothing)
-        var arr1 : this.createArray(8)
+        var arr1 : Array[Integer]
+        arr1 := createArray(8)
         BaseSorter().sort(arr1)
-        this.printArray(arr1)
+        printArray(arr1)
         
         // sorter 2 (uses bubble sort)
-        var arr2 : this.createArray(5)
+        var arr2 : Array[Integer]
+        arr2 := createArray(8)
         BubbleSorter().sort(arr2)
-        this.printArray(arr2)
+        printArray(arr2)
         
         // sorter 3 (uses merge sort)
-        var arr3 : this.createArray(11)
+        var arr3 : Array[Integer]
+        arr3 := createArray(11)
         MergeSorter().sort(arr3)
-        this.printArray(arr3)
+        printArray(arr3)
     end
+
+    this() is
+            test()
+        end
 end

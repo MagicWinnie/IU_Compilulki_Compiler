@@ -141,8 +141,12 @@ void PrintVisitor::visitBodyDeclarations(BodyDeclarations& node)
 
 void PrintVisitor::visitBodyDeclaration(BodyDeclaration& node)
 {
-    printIndentation();
-    out << "BodyDeclaration" << std::endl;
+
+    if(! (node.variableDeclaration== nullptr && node.statement== nullptr))
+    {
+        printIndentation();
+        out << "BodyDeclaration" << std::endl;
+    }
     indentationLevel++;
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
     if (node.statement) node.statement->accept(*this);

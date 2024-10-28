@@ -22,7 +22,7 @@ Program
                   BodyDeclaration
                     Assignment
                       Expression
-                        CompoundExpression: c
+                        CompoundExpression: count
                           CompoundExpression: Plus
                             Arguments
                               Expressions
@@ -50,17 +50,21 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Counter
+                      VariableName: counter
                   BodyDeclaration
                     Expression
-                      CompoundExpression: myCounter
+                      CompoundExpression: counter
                         CompoundExpression: inc
                   BodyDeclaration
                     Expression
-                      CompoundExpression: myCounter
+                      CompoundExpression: counter
                         CompoundExpression: inc
                   BodyDeclaration
                     Expression
-                      CompoundExpression: myCounter
+                      CompoundExpression: counter
                         CompoundExpression: inc
                   BodyDeclaration
                     VariableDeclaration
@@ -70,7 +74,7 @@ Program
                   BodyDeclaration
                     Assignment
                       Expression
-                        CompoundExpression: myCounter
+                        CompoundExpression: counter
                           CompoundExpression: getCounter
                       VariableName: currentValue
                   BodyDeclaration

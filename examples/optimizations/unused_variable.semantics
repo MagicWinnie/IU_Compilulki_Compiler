@@ -24,7 +24,6 @@ Program
                                 Primary: 5
                       VariableName: a
                   BodyDeclaration
-                  BodyDeclaration
                     Assignment
                       Expression
                         CompoundExpression: Integer
@@ -33,3 +32,7 @@ Program
                               Expression
                                 Primary: 1
                       VariableName: a
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: print

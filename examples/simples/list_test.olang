@@ -7,13 +7,12 @@ class Main is
     this() is
 
         var l : List[Integer](5)
+        var i : Integer().scan()
 
         var i1 : Integer(0)
         while i1.LessEqual(4) loop
             l.append(i1.Mult(i).Mult(i1))
         end
-
-        var i : Integer().scan()
 
         var i2 : Integer(0)
         while i2.Less(i) loop

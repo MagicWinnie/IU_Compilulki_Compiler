@@ -41,3 +41,7 @@ Program
                               Expression
                                 Primary: 1
                       VariableName: a
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: a
+                        CompoundExpression: print

@@ -627,47 +627,44 @@ Program
                                 VariableName: mid
                             BodyDeclaration
                               Expression
-                                CompoundExpression: this
-                                  CompoundExpression: mergeSort
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          CompoundExpression: arr
-                                        Expression
-                                          CompoundExpression: left
-                                        Expression
-                                          CompoundExpression: mid
+                                CompoundExpression: mergeSort
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: arr
+                                      Expression
+                                        CompoundExpression: left
+                                      Expression
+                                        CompoundExpression: mid
                             BodyDeclaration
                               Expression
-                                CompoundExpression: this
-                                  CompoundExpression: mergeSort
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          CompoundExpression: arr
-                                        Expression
-                                          CompoundExpression: mid
-                                            CompoundExpression: Plus
-                                              Arguments
-                                                Expressions
-                                                  Expression
-                                                    Primary: 1
-                                        Expression
-                                          CompoundExpression: right
+                                CompoundExpression: mergeSort
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: arr
+                                      Expression
+                                        CompoundExpression: mid
+                                          CompoundExpression: Plus
+                                            Arguments
+                                              Expressions
+                                                Expression
+                                                  Primary: 1
+                                      Expression
+                                        CompoundExpression: right
                             BodyDeclaration
                               Expression
-                                CompoundExpression: this
-                                  CompoundExpression: merge
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          CompoundExpression: arr
-                                        Expression
-                                          CompoundExpression: left
-                                        Expression
-                                          CompoundExpression: mid
-                                        Expression
-                                          CompoundExpression: right
+                                CompoundExpression: merge
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: arr
+                                      Expression
+                                        CompoundExpression: left
+                                      Expression
+                                        CompoundExpression: mid
+                                      Expression
+                                        CompoundExpression: right
               Parameters
                 Parameter: arr
                   ClassName: Array
@@ -682,22 +679,21 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     Expression
-                      CompoundExpression: this
-                        CompoundExpression: mergeSort
-                          Arguments
-                            Expressions
-                              Expression
-                                CompoundExpression: arr
-                              Expression
-                                Primary: 0
-                              Expression
-                                CompoundExpression: arr
-                                  CompoundExpression: Length
-                                    CompoundExpression: Minus
-                                      Arguments
-                                        Expressions
-                                          Expression
-                                            Primary: 1
+                      CompoundExpression: mergeSort
+                        Arguments
+                          Expressions
+                            Expression
+                              CompoundExpression: arr
+                            Expression
+                              Primary: 0
+                            Expression
+                              CompoundExpression: arr
+                                CompoundExpression: Length
+                                  CompoundExpression: Minus
+                                    Arguments
+                                      Expressions
+                                        Expression
+                                          Primary: 1
               Parameters
                 Parameter: arr
                   ClassName: Array
@@ -706,14 +702,6 @@ Program
       ClassName: Main
       ClassBody
         MemberDeclarations
-          MemberDeclaration
-            ConstructorDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    Expression
-                      CompoundExpression: this
-                        CompoundExpression: test
           MemberDeclaration
             MethodDeclaration
               Body
@@ -839,12 +827,17 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: this
-                          CompoundExpression: createArray
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 8
+                        CompoundExpression: Array
+                          CompoundExpression: Integer
+                      VariableName: arr1
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: createArray
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 8
                       VariableName: arr1
                   BodyDeclaration
                     Expression
@@ -856,21 +849,25 @@ Program
                                 CompoundExpression: arr1
                   BodyDeclaration
                     Expression
-                      CompoundExpression: this
-                        CompoundExpression: printArray
-                          Arguments
-                            Expressions
-                              Expression
-                                CompoundExpression: arr1
+                      CompoundExpression: printArray
+                        Arguments
+                          Expressions
+                            Expression
+                              CompoundExpression: arr1
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: this
-                          CompoundExpression: createArray
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 5
+                        CompoundExpression: Array
+                          CompoundExpression: Integer
+                      VariableName: arr2
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: createArray
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 8
                       VariableName: arr2
                   BodyDeclaration
                     Expression
@@ -882,21 +879,25 @@ Program
                                 CompoundExpression: arr2
                   BodyDeclaration
                     Expression
-                      CompoundExpression: this
-                        CompoundExpression: printArray
-                          Arguments
-                            Expressions
-                              Expression
-                                CompoundExpression: arr2
+                      CompoundExpression: printArray
+                        Arguments
+                          Expressions
+                            Expression
+                              CompoundExpression: arr2
                   BodyDeclaration
                     VariableDeclaration
                       Expression
-                        CompoundExpression: this
-                          CompoundExpression: createArray
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 11
+                        CompoundExpression: Array
+                          CompoundExpression: Integer
+                      VariableName: arr3
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: createArray
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 11
                       VariableName: arr3
                   BodyDeclaration
                     Expression
@@ -908,10 +909,16 @@ Program
                                 CompoundExpression: arr3
                   BodyDeclaration
                     Expression
-                      CompoundExpression: this
-                        CompoundExpression: printArray
-                          Arguments
-                            Expressions
-                              Expression
-                                CompoundExpression: arr3
+                      CompoundExpression: printArray
+                        Arguments
+                          Expressions
+                            Expression
+                              CompoundExpression: arr3
               MethodName: test
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Expression
+                      CompoundExpression: test

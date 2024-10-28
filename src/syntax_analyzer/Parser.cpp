@@ -155,7 +155,6 @@ std::unique_ptr<Literal> Parser::parseLiteral()
     const auto next_token = getNextToken();
     switch (next_token->get_code())
     {
-    // TODO fix
     case INTEGER:
         {
             const auto integer = dynamic_cast<Integer*>(next_token.get());
@@ -479,9 +478,7 @@ std::unique_ptr<Statement> Parser::parseStatement()
     }
     if (peekNextToken() == RETURN)
     {
-        //TODO add return
         std::unique_ptr<Statement> statement = parseReturnStatement();
-
         return statement;
     }
     if (peekNextToken() == THIS)
@@ -553,7 +550,6 @@ std::unique_ptr<MemberDeclarations> Parser::parseMemberDeclarations()
     auto memberDeclarations = std::make_unique<MemberDeclarations>();
     auto memberDeclaration = parseMemberDeclaration();
     memberDeclarations->member_declarations.push_back(std::move(memberDeclaration));
-    // TODO add constructor declaration parsing
     while (peekNextToken() == VAR || peekNextToken() == METHOD || peekNextToken() == THIS)
     {
         memberDeclarations->member_declarations.push_back(parseMemberDeclaration());

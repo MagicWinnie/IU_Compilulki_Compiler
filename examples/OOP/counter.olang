@@ -7,7 +7,7 @@ class Counter is
     var count : Integer(0)
 
     method inc() is
-        count := c.Plus(1)
+        count := count.Plus(1)
     end
 
     method getCounter() : Integer is
@@ -20,12 +20,12 @@ class Main is
     this() is
         var counter : Counter()
 
-        myCounter.inc()
-        myCounter.inc()
-        myCounter.inc()
+        counter.inc()
+        counter.inc()
+        counter.inc()
 
         var currentValue : Integer
-        currentValue := myCounter.getCounter()
+        currentValue := counter.getCounter()
 
         currentValue.print() // -> 3
     end

@@ -108,7 +108,7 @@ void OptimizeVisitor::visitBodyDeclarations(BodyDeclarations& node)
         if (bodyDeclaration)
         {
             bodyDeclaration->accept(*this);
-            if (bodyDeclaration->statement && bodyDeclaration->statement->type == RETURN_STATEMENT)
+            if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == RETURN_STATEMENT)
             {
                 node.bodyDeclarations.erase(node.bodyDeclarations.begin() + i + 1, node.bodyDeclarations.end());
                 break;
@@ -116,6 +116,7 @@ void OptimizeVisitor::visitBodyDeclarations(BodyDeclarations& node)
         }
     }
 }
+// TODO compound expression check
 
 void OptimizeVisitor::visitBodyDeclaration(BodyDeclaration& node)
 {
@@ -149,7 +150,7 @@ void OptimizeVisitor::visitIfStatement(IfStatement& node)
             }
             if (boolLiteral->value == true)
             {
-                const auto bodyDeclarations = std::move(node.ifBranch->body->bodyDeclarations);
+                const auto bodyDeclarations = node.ifBranch->body->bodyDeclarations.get();
                 // parentBodyDeclarations->bodyDeclarations
 
                 //
@@ -168,7 +169,7 @@ void OptimizeVisitor::visitIfStatement(IfStatement& node)
                     indexOfCurrentBodyDeclaration +
                     bodyDeclarations->bodyDeclarations.size()
                 );
-                bodyDeclaration->statement = nullptr;
+                if(bodyDeclaration->statement) bodyDeclaration->statement = nullptr;
             }
             else
             {

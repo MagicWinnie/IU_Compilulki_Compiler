@@ -6,7 +6,7 @@ class Main is
     this(n: Integer) is
         var b : List[Integer]
         while n.Greater(0) loop
-            k.append(n.Rem(2))
+            b.append(n.Rem(2))
             n := n.Div(2)
         end
         

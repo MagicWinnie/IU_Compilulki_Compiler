@@ -24,6 +24,12 @@ Program
                     VariableDeclaration
                       Expression
                         CompoundExpression: Integer
+                          CompoundExpression: scan
+                      VariableName: i
+                  BodyDeclaration
+                    VariableDeclaration
+                      Expression
+                        CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
@@ -58,12 +64,6 @@ Program
                               Expressions
                                 Expression
                                   Primary: 4
-                  BodyDeclaration
-                    VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          CompoundExpression: scan
-                      VariableName: i
                   BodyDeclaration
                     VariableDeclaration
                       Expression

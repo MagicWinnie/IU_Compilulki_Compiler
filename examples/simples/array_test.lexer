@@ -43,14 +43,14 @@ i1                                             -> i1                      -> IDE
 Delimiter{Span(13, 25, 26), 15}                -> .                       -> DOT                                           
 Mult                                           -> Mult                    -> IDENTIFIER                                    
 Delimiter{Span(13, 30, 31), 18}                -> (                       -> LEFT_PAREN                                    
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(13, 32, 33), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(13, 33, 34), 15}                -> .                       -> DOT                                           
-Mult                                           -> Mult                    -> IDENTIFIER                                    
-Delimiter{Span(13, 38, 39), 18}                -> (                       -> LEFT_PAREN                                    
 i1                                             -> i1                      -> IDENTIFIER                                    
-Delimiter{Span(13, 41, 42), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(13, 33, 34), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(13, 34, 35), 15}                -> .                       -> DOT                                           
+Mult                                           -> Mult                    -> IDENTIFIER                                    
+Delimiter{Span(13, 39, 40), 18}                -> (                       -> LEFT_PAREN                                    
+i1                                             -> i1                      -> IDENTIFIER                                    
 Delimiter{Span(13, 42, 43), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(13, 43, 44), 19}                -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(14, 9, 12), 4}                    -> end                     -> END                                           
 Keyword{Span(16, 9, 12), 5}                    -> var                     -> VAR                                           
 i2                                             -> i2                      -> IDENTIFIER                                    

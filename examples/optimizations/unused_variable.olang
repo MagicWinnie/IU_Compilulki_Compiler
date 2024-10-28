@@ -7,5 +7,7 @@ class Main is
         var b : Integer(10)
 
         a := Integer(1)
+
+        a.print()
     end
 end

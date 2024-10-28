@@ -10,7 +10,7 @@ class Main is
 
         var i1 : Integer(0)
         while i1.LessEqual(4) loop
-            a.set(i1, i1.Mult(i).Mult(i1))
+            a.set(i1, i1.Mult(i1).Mult(i1))
         end
 
         var i2 : Integer(4)

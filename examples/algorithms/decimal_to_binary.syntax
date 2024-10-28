@@ -25,7 +25,7 @@ Program
                         BodyDeclarations
                           BodyDeclaration
                             Expression
-                              CompoundExpression: k
+                              CompoundExpression: b
                                 CompoundExpression: append
                                   Arguments
                                     Expressions
