@@ -2,7 +2,15 @@
 #include <stdexcept>
 #include "SymbolTableVisitor.h"
 
-SymbolTableVisitor::SymbolTableVisitor() = default;
+SymbolTableVisitor::SymbolTableVisitor()
+{
+    symbolTable.enterScope();
+    // TODO: temporary not correct fix for current state
+    symbolTable.addClassEntry("Integer", Span(0, 0, 0));
+    symbolTable.addClassEntry("Real", Span(0, 0, 0));
+    symbolTable.addClassEntry("Array", Span(0, 0, 0));
+    symbolTable.addClassEntry("List", Span(0, 0, 0));
+}
 
 SymbolTableVisitor::~SymbolTableVisitor()
 {
@@ -16,17 +24,13 @@ ScopedSymbolTable SymbolTableVisitor::getSymbolTable() const
 
 void SymbolTableVisitor::visitProgram(const Program& node)
 {
-    symbolTable.enterScope();
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
-    symbolTable.leaveScope();
 }
 
 void SymbolTableVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
 {
-    // TODO handle classes
-    // symbolTable.addClassEntry(node.className->name, "ProgramType");
-    if (node.className) node.className->accept(*this);
+    // if (node.className) node.className->accept(*this);
     if (node.arguments) node.arguments->accept(*this);
 }
 
@@ -95,6 +99,7 @@ void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
 {
     for (auto& classDeclaration : node.classDeclarations)
     {
+        symbolTable.addClassEntry(classDeclaration->className->name, classDeclaration->className->span);
         classDeclaration->accept(*this);
     }
 }
@@ -102,12 +107,10 @@ void SymbolTableVisitor::visitClassDeclarations(const ClassDeclarations& node)
 void SymbolTableVisitor::visitClassDeclaration(const ClassDeclaration& node)
 {
     symbolTable.enterScope();
-    symbolTable.addClassEntry(node.className->name, node.className->span);
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);
     symbolTable.leaveScope();
-    // TODO add leaveScope in other places
 }
 
 void SymbolTableVisitor::visitClassBody(const ClassBody& node)
@@ -271,6 +274,8 @@ void SymbolTableVisitor::visitVariableDeclaration(const VariableDeclaration& nod
     }
     else if (node.expression->compoundExpression)
     {
+        // symbolTable.lookupClass(node.expression->compoundExpression->identifier,
+        //                         node.expression->compoundExpression->span);
         symbolTable.addVariableEntry(node.variable->name, node.expression->compoundExpression->identifier,
                                      node.variable->span);
     }
