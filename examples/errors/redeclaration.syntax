@@ -22,18 +22,17 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(10, 25, 27), 23, 10}
+                                Primary: 10
                       VariableName: b
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: Integer
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: Integer{Span(11, 22, 24), 23, 10}
-                        VariableName: a
+                    Assignment
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 10
+                      VariableName: a
                   BodyDeclaration
                     VariableDeclaration
                       Expression
@@ -45,10 +44,9 @@ Program
                                   CompoundExpression: b
                       VariableName: sum
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: c
-                          CompoundExpression: print
+                    Expression
+                      CompoundExpression: c
+                        CompoundExpression: print
           MemberDeclaration
             MethodDeclaration
               Body
@@ -59,15 +57,14 @@ Program
                         CompoundExpression: String
                       VariableName: a
                   BodyDeclaration
-                    Statement
-                      ReturnStatement
-                        Expression
-                          CompoundExpression: a
-                            CompoundExpression: sum
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(18, 24, 25), 23, 5}
+                    ReturnStatement
+                      Expression
+                        CompoundExpression: a
+                          CompoundExpression: sum
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 5
               MethodName: getCounter
     ClassDeclaration
       ClassName: Second
@@ -84,7 +81,7 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(27, 25, 27), 23, 10}
+                                Primary: 10
                       VariableName: b
                   BodyDeclaration
                     VariableDeclaration
@@ -97,7 +94,6 @@ Program
                                   CompoundExpression: b
                       VariableName: sum
                   BodyDeclaration
-                    Statement
-                      Expression
-                        CompoundExpression: sum
-                          CompoundExpression: print
+                    Expression
+                      CompoundExpression: sum
+                        CompoundExpression: print

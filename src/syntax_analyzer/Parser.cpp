@@ -153,11 +153,26 @@ std::unique_ptr<Literal> Parser::parseLiteral()
     {
     // TODO fix
     case INTEGER:
-        return std::make_unique<Literal>(next_token->to_string());
+        {
+            auto integer = dynamic_cast<Integer*>(next_token.get());
+            std::unique_ptr<Literal> literal = std::make_unique<IntLiteral>(integer->value);
+            return literal;
+        }
+
     case REAL:
-        return std::make_unique<Literal>(next_token->to_string());
+        {
+            auto real = dynamic_cast<Real*>(next_token.get());
+            std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
+            return literal;
+        }
+
     case BOOLEAN:
-        return std::make_unique<Literal>(next_token->to_string());
+        {
+            auto boolean = dynamic_cast<Boolean*>(next_token.get());
+            std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
+            return literal;
+        }
+
     default:
         const auto span = tokens[current_token]->get_span();
         throwError("literal", getEnumName(tokens[current_token]->get_code()),
@@ -223,14 +238,25 @@ std::unique_ptr<Primary> Parser::parsePrimary()
     const auto token = getNextToken();
     switch (token->get_code())
     {
-    case INTEGER:
-        return std::make_unique<Primary>(token->to_string());
-    case REAL:
-        return std::make_unique<Primary>(token->to_string());
-    case BOOLEAN:
-        return std::make_unique<Primary>(token->to_string());
-    case THIS:
-        return std::make_unique<Primary>(token->to_string());
+    case TokenCode::INTEGER: {
+            auto integer = dynamic_cast<Integer*>(token.get());
+            std::unique_ptr<Literal> literal = std::make_unique<IntLiteral>(integer->value);
+            return std::make_unique<Primary>(literal);
+    }
+    case TokenCode::REAL: {
+            auto real = dynamic_cast<Real*>(token.get());
+             std::unique_ptr<Literal> literal = std::make_unique<RealLiteral>(real->value);
+            return std::make_unique<Primary>(literal);
+    }
+    case TokenCode::BOOLEAN: {
+            auto boolean = dynamic_cast<Boolean*>(token.get());
+             std::unique_ptr<Literal> literal = std::make_unique<BoolLiteral>(boolean->value);
+            return std::make_unique<Primary>(literal);
+    }
+    case TokenCode::THIS: {
+            auto className = std::make_unique<ClassName>(ClassName(token->to_string(), token->get_span()));
+            return std::make_unique<Primary>(className);
+    }
     default:
         throw std::runtime_error("Unexpected token: " + token->to_string());
     }
@@ -388,19 +414,23 @@ std::unique_ptr<Body> Parser::parseBody()
 
 std::unique_ptr<BodyDeclarations> Parser::parseBodyDeclarations()
 {
-    std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarations;
+    std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarationsVector;
     do
     {
         auto bodyDeclaration = parseBodyDeclaration();
-        if (bodyDeclaration && bodyDeclaration->variableDeclaration)
-            bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
-        bodyDeclarations.push_back(std::move(bodyDeclaration));
-        // TODO add statement parsing
+        if(bodyDeclaration && bodyDeclaration->variableDeclaration) bodyDeclaration->variableDeclaration->bodyParent = bodyDeclaration.get();
+        if(bodyDeclaration && bodyDeclaration->statement) bodyDeclaration->statement->parent = bodyDeclaration.get();
+        bodyDeclarationsVector.push_back(std::move(bodyDeclaration));
     }
     while (peekNextToken() == VAR || peekNextToken() == IF || peekNextToken() == WHILE || peekNextToken() == RETURN ||
         peekNextToken() == IDENTIFIER ||
         peekNextToken() == THIS);
-    return std::make_unique<BodyDeclarations>(std::move(bodyDeclarations));
+    auto bodyDeclarations =  std::make_unique<BodyDeclarations>(std::move(bodyDeclarationsVector));
+    for(auto &bodyDeclaration : bodyDeclarations->bodyDeclarations)
+    {
+        if(bodyDeclaration)  bodyDeclaration->parent = bodyDeclarations.get();
+    }
+    return bodyDeclarations;
 }
 
 std::unique_ptr<BodyDeclaration> Parser::parseBodyDeclaration()
@@ -422,39 +452,34 @@ std::unique_ptr<Statement> Parser::parseStatement()
     // Implement the logic to parse the statement
     if (peekNextToken(1) == COLON_EQUAL)
     {
-        auto statement = std::make_unique<Statement>();
-        statement->assignment = parseAssignment();
+        std::unique_ptr<Statement> statement = parseAssignment();
         return statement;
     }
     if (peekNextToken() == IF)
     {
-        auto statement = std::make_unique<Statement>();
-        statement->ifStatement = parseIfStatement();
+        std::unique_ptr<Statement> statement = parseIfStatement();
         return statement;
     }
     if (peekNextToken() == WHILE)
     {
-        auto statement = std::make_unique<Statement>();
-        statement->whileLoop = parseWhileLoop();
+         std::unique_ptr<Statement> statement = parseWhileLoop();
         return statement;
     }
     if (peekNextToken() == IDENTIFIER)
     {
-        auto statement = std::make_unique<Statement>();
-        statement->expression = parseExpression();
+         std::unique_ptr<Statement> statement = parseExpression();
         return statement;
     }
     if (peekNextToken() == RETURN)
     {
         //TODO add return
-        auto statement = std::make_unique<Statement>();
-        statement->returnStatement = parseReturnStatement();
+        std::unique_ptr<Statement> statement =  parseReturnStatement();
+
         return statement;
     }
     if (peekNextToken() == THIS)
     {
-        auto statement = std::make_unique<Statement>();
-        statement->expression = parseExpression();
+        std::unique_ptr<Statement> statement = parseExpression();
         return statement;
     }
     const auto span = tokens[current_token]->get_span();

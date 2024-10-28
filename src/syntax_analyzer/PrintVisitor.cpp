@@ -33,7 +33,7 @@ void PrintVisitor::visitLiterals(const Literals& node)
 void PrintVisitor::visitLiteral(const Literal& node)
 {
     printIndentation();
-    out << "Literal: " << node.value << std::endl;
+    out << "Literal: " << node.to_string() << std::endl;
 }
 
 void PrintVisitor::visitArguments(const Arguments& node)
@@ -70,7 +70,7 @@ void PrintVisitor::visitExpression(const Expression& node)
 void PrintVisitor::visitPrimary(const Primary& node)
 {
     printIndentation();
-    out << "Primary: " << node.value << std::endl;
+    out << "Primary: " << node.to_string() << std::endl;
     indentationLevel++;
     if (node.class_name) node.class_name->accept(*this);
     indentationLevel--;
@@ -154,11 +154,7 @@ void PrintVisitor::visitStatement(const Statement& node)
     printIndentation();
     out << "Statement" << std::endl;
     indentationLevel++;
-    if (node.assignment) node.assignment->accept(*this);
-    if (node.expression) node.expression->accept(*this);
-    if (node.ifStatement) node.ifStatement->accept(*this);
-    if (node.whileLoop) node.whileLoop->accept(*this);
-    if (node.returnStatement) node.returnStatement->accept(*this);
+    node.accept(*this);
     indentationLevel--;
 }
 

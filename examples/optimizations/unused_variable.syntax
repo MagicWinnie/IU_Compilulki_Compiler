@@ -3,8 +3,8 @@ Program
     ClassName: Main
     ProgramArguments
       Literals
-        Literal: Real{Span(2, 15, 18), 24, 1.100000}
-        Literal: Real{Span(2, 20, 23), 24, 1.200000}
+        Literal: 1.100000
+        Literal: 1.200000
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -21,7 +21,7 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(6, 25, 26), 23, 5}
+                                Primary: 5
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
@@ -30,15 +30,14 @@ Program
                           Arguments
                             Expressions
                               Expression
-                                Primary: Integer{Span(7, 25, 27), 23, 10}
+                                Primary: 10
                       VariableName: b
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: Integer
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: Integer{Span(9, 22, 23), 23, 1}
-                        VariableName: a
+                    Assignment
+                      Expression
+                        CompoundExpression: Integer
+                          Arguments
+                            Expressions
+                              Expression
+                                Primary: 1
+                      VariableName: a

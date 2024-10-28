@@ -3,7 +3,7 @@ Program
     ClassName: Main
     ProgramArguments
       Literals
-        Literal: Integer{Span(3, 15, 17), 23, 42}
+        Literal: 42
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -20,42 +20,39 @@ Program
                           CompoundExpression: Integer
                       VariableName: b
                   BodyDeclaration
-                    Statement
-                      WhileLoop
-                        Body
-                          BodyDeclarations
-                            BodyDeclaration
-                              Statement
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Expression
+                              CompoundExpression: k
+                                CompoundExpression: append
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: n
+                                          CompoundExpression: Rem
+                                            Arguments
+                                              Expressions
+                                                Expression
+                                                  Primary: 2
+                          BodyDeclaration
+                            Assignment
+                              Expression
+                                CompoundExpression: n
+                                  CompoundExpression: Div
+                                    Arguments
+                                      Expressions
+                                        Expression
+                                          Primary: 2
+                              VariableName: n
+                      Expression
+                        CompoundExpression: n
+                          CompoundExpression: Greater
+                            Arguments
+                              Expressions
                                 Expression
-                                  CompoundExpression: k
-                                    CompoundExpression: append
-                                      Arguments
-                                        Expressions
-                                          Expression
-                                            CompoundExpression: n
-                                              CompoundExpression: Rem
-                                                Arguments
-                                                  Expressions
-                                                    Expression
-                                                      Primary: Integer{Span(9, 28, 29), 23, 2}
-                            BodyDeclaration
-                              Statement
-                                Assignment
-                                  Expression
-                                    CompoundExpression: n
-                                      CompoundExpression: Div
-                                        Arguments
-                                          Expressions
-                                            Expression
-                                              Primary: Integer{Span(10, 24, 25), 23, 2}
-                                  VariableName: n
-                        Expression
-                          CompoundExpression: n
-                            CompoundExpression: Greater
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(8, 25, 26), 23, 0}
+                                  Primary: 0
                   BodyDeclaration
                     VariableDeclaration
                       Expression
@@ -64,41 +61,38 @@ Program
                             Arguments
                               Expressions
                                 Expression
-                                  Primary: Integer{Span(13, 25, 26), 23, 1}
+                                  Primary: 1
                       VariableName: i
                   BodyDeclaration
-                    Statement
-                      WhileLoop
-                        Body
-                          BodyDeclarations
-                            BodyDeclaration
-                              Statement
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            Expression
+                              CompoundExpression: b
+                                CompoundExpression: get
+                                  Arguments
+                                    Expressions
+                                      Expression
+                                        CompoundExpression: i
+                                  CompoundExpression: print
+                          BodyDeclaration
+                            Assignment
+                              Expression
+                                CompoundExpression: i
+                                  CompoundExpression: Minus
+                                    Arguments
+                                      Expressions
+                                        Expression
+                                          Primary: 1
+                              VariableName: i
+                      Expression
+                        CompoundExpression: i
+                          CompoundExpression: GreaterEqual
+                            Arguments
+                              Expressions
                                 Expression
-                                  CompoundExpression: b
-                                    CompoundExpression: get
-                                      Arguments
-                                        Expressions
-                                          Expression
-                                            CompoundExpression: i
-                                      CompoundExpression: print
-                            BodyDeclaration
-                              Statement
-                                Assignment
-                                  Expression
-                                    CompoundExpression: i
-                                      CompoundExpression: Minus
-                                        Arguments
-                                          Expressions
-                                            Expression
-                                              Primary: Integer{Span(16, 26, 27), 23, 1}
-                                  VariableName: i
-                        Expression
-                          CompoundExpression: i
-                            CompoundExpression: GreaterEqual
-                              Arguments
-                                Expressions
-                                  Expression
-                                    Primary: Integer{Span(14, 30, 31), 23, 0}
+                                  Primary: 0
               Parameters
                 Parameter: n
                   ClassName: Integer

@@ -136,7 +136,8 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
     }
 }
 
-std::string ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span) const
+const VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
+                                                       const bool throw_error) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
@@ -144,14 +145,18 @@ std::string ScopedSymbolTable::lookupVariable(const std::string& name, const Spa
         auto found = varEntries.find(name);
         if (found != varEntries.end())
         {
-            return found->second.type;
+            return &found->second;
         }
     }
-    throw std::runtime_error(
-        "Variable '" + name + "' used before declaration " +
-        "at line: " + std::to_string(span.get_line_num()) +
-        " column: " + std::to_string(span.get_pos_begin())
-    );
+    if (throw_error)
+    {
+        throw std::runtime_error(
+            "Variable '" + name + "' used before declaration " +
+            "at line: " + std::to_string(span.get_line_num()) +
+            " column: " + std::to_string(span.get_pos_begin())
+        );
+    }
+    else return nullptr;
 }
 
 void ScopedSymbolTable::makeVariableUsed(const std::string& name)
@@ -168,7 +173,8 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
     }
 }
 
-FunctionEntry ScopedSymbolTable::lookupFunction(const std::string& name, const Span& span) const
+const FunctionEntry* ScopedSymbolTable::lookupFunction(const std::string& name, const Span& span,
+                                                       bool throw_error) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
@@ -176,17 +182,25 @@ FunctionEntry ScopedSymbolTable::lookupFunction(const std::string& name, const S
         auto found = funcEntries.find(name);
         if (found != funcEntries.end())
         {
-            return found->second;
+            return &found->second;
         }
     }
-    throw std::runtime_error(
-        "Function '" + name + "' used before declaration " +
-        "at line: " + std::to_string(span.get_line_num()) +
-        " column: " + std::to_string(span.get_pos_begin())
-    );
+    if (throw_error)
+    {
+        throw std::runtime_error(
+            "Function '" + name + "' used before declaration " +
+            "at line: " + std::to_string(span.get_line_num()) +
+            " column: " + std::to_string(span.get_pos_begin())
+        );
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
-ClassEntry ScopedSymbolTable::lookupClass(const std::string& name, const Span& span) const
+const ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& span,
+                                                 bool throw_error ) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
@@ -194,12 +208,19 @@ ClassEntry ScopedSymbolTable::lookupClass(const std::string& name, const Span& s
         auto found = classEntries.find(name);
         if (found != classEntries.end())
         {
-            return found->second;
+            return &found->second;
         }
     }
-    throw std::runtime_error(
-        "Class '" + name + "' used before declaration " +
-        "at line: " + std::to_string(span.get_line_num()) +
-        " column: " + std::to_string(span.get_pos_begin())
-    );
+    if (throw_error)
+    {
+        throw std::runtime_error(
+            "Class '" + name + "' used before declaration " +
+            "at line: " + std::to_string(span.get_line_num()) +
+            " column: " + std::to_string(span.get_pos_begin())
+        );
+    }
+    else
+    {
+        return nullptr;
+    }
 }

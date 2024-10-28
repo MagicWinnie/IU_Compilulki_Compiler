@@ -1,6 +1,10 @@
 Program
   ProgramDeclaration
     ClassName: Main
+    ProgramArguments
+      Literals
+        Literal: 1.100000
+        Literal: 1.200000
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -20,25 +24,29 @@ Program
                                 Primary: 5
                       VariableName: a
                   BodyDeclaration
+                    IfStatement
+                      Expression
+                        Primary: false
+                      IfBranch
+                        Body
+                          BodyDeclarations
+                            BodyDeclaration
+                              Expression
+                                CompoundExpression: dif
+                                  CompoundExpression: print
+                      ElseBranch
+                        Body
+                          BodyDeclarations
+                            BodyDeclaration
+                              Expression
+                                CompoundExpression: eq
+                                  CompoundExpression: print
+                  BodyDeclaration
                     VariableDeclaration
                       Expression
                         CompoundExpression: Integer
                           Arguments
                             Expressions
                               Expression
-                                Primary: 10
+                                Primary: 5
                       VariableName: b
-                  BodyDeclaration
-                    VariableDeclaration
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: Plus
-                            Arguments
-                              Expressions
-                                Expression
-                                  CompoundExpression: b
-                      VariableName: sum
-                  BodyDeclaration
-                    Expression
-                      CompoundExpression: sum
-                        CompoundExpression: print
