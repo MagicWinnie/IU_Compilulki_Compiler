@@ -1,0 +1,8 @@
+Program: Main
+
+class Main is
+    this() is
+        var a : A
+        a := A()
+    end
+end
