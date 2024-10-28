@@ -156,7 +156,7 @@ const VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, 
             " column: " + std::to_string(span.get_pos_begin())
         );
     }
-    else return nullptr;
+    return nullptr;
 }
 
 void ScopedSymbolTable::makeVariableUsed(const std::string& name)
@@ -193,10 +193,7 @@ const FunctionEntry* ScopedSymbolTable::lookupFunction(const std::string& name, 
             " column: " + std::to_string(span.get_pos_begin())
         );
     }
-    else
-    {
-        return nullptr;
-    }
+    return nullptr;
 }
 
 const ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& span,
@@ -219,8 +216,5 @@ const ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const 
             " column: " + std::to_string(span.get_pos_begin())
         );
     }
-    else
-    {
-        return nullptr;
-    }
+    return nullptr;
 }

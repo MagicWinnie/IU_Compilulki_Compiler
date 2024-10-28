@@ -112,7 +112,7 @@ std::unique_ptr<ProgramDeclaration> Parser::parseProgramDeclaration()
 
     expect(IDENTIFIER);
 
-    node->className = std::make_unique<ClassName>((dynamic_cast<Identifier*>(getNextToken().get()))->get_identifier(),
+    node->className = std::make_unique<ClassName>(dynamic_cast<Identifier*>(getNextToken().get())->get_identifier(),
                                                   tokens[current_token]->get_span());
     node->arguments = parseProgramArguments();
 
@@ -229,12 +229,9 @@ std::unique_ptr<Expression> Parser::parseExpression()
         expression->primary = parsePrimary();
         return expression;
     }
-    else
-    {
-        auto expression = std::make_unique<Expression>();
-        expression->compoundExpression = parseCompoundExpression();
-        return expression;
-    }
+    auto expression = std::make_unique<Expression>();
+    expression->compoundExpression = parseCompoundExpression();
+    return expression;
 }
 
 std::unique_ptr<Primary> Parser::parsePrimary()
@@ -399,7 +396,7 @@ std::unique_ptr<ClassName> Parser::parseClassName()
         expectAndConsume(RIGHT_SQUARE_BRACKET);
     }
 
-    return std::make_unique<ClassName>((dynamic_cast<Identifier*>(next_token.get()))->get_identifier(), span,
+    return std::make_unique<ClassName>(dynamic_cast<Identifier*>(next_token.get())->get_identifier(), span,
                                        std::move(subClassName));
 }
 

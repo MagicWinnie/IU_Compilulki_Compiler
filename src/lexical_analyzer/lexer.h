@@ -10,7 +10,7 @@
 
 #include "token.h"
 
-inline std::unordered_set<char> validTokens = {'.', ':', ',', '(', ')', '[', ']'};
+inline std::unordered_set validTokens = {'.', ':', ',', '(', ')', '[', ']'};
 
 inline std::unordered_map<char, TokenCode> tokenMap = {
     {'.', DOT},
