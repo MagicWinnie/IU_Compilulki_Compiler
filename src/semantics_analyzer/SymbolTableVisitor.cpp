@@ -27,8 +27,8 @@ void SymbolTableVisitor::visitProgram(const Program& node)
 {
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
-    if (node.programDeclaration && node.programDeclaration->className) node.programDeclaration->className->
-                                                                            accept(*this);
+    if (node.programDeclaration && node.programDeclaration->className)
+        node.programDeclaration->className->accept(*this);
 }
 
 void SymbolTableVisitor::visitProgramDeclaration(const ProgramDeclaration& node)
@@ -245,7 +245,8 @@ void SymbolTableVisitor::visitConstructorDeclaration(const ConstructorDeclaratio
     ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == StatementType::RETURN_STATEMENT)
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type ==
+            StatementType::RETURN_STATEMENT)
         {
             // dynamic cast statement to ReturnStatement
             returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
@@ -318,7 +319,8 @@ void SymbolTableVisitor::visitMethodDeclaration(const MethodDeclaration& node)
     ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == StatementType::RETURN_STATEMENT)
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type ==
+            StatementType::RETURN_STATEMENT)
         {
             returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
         }

@@ -119,50 +119,51 @@ void OptimizeVisitor::visitBodyDeclaration(const BodyDeclaration& node)
 
 void OptimizeVisitor::visitStatement(const Statement& node)
 {
-   node.accept(*this);
+    node.accept(*this);
 }
 
 void OptimizeVisitor::visitIfStatement(const IfStatement& node)
 {
-    if(node.expression && node.expression->primary && node.expression->primary->literal)
+    if (node.expression && node.expression->primary && node.expression->primary->literal)
     {
         auto literal = std::move(node.expression->primary->literal);
-        if(literal->type==LiteralType::BOOL_LITERAL)
+        if (literal->type == LiteralType::BOOL_LITERAL)
         {
             BoolLiteral* boolLiteral = dynamic_cast<BoolLiteral*>(literal.get());
             BodyDeclaration* bodyDeclaration = node.parent;
             BodyDeclarations* parentBodyDeclarations = bodyDeclaration->parent;
-             int indexOfCurrentBodyDeclaration = -1;
-            for(int i = 0; i<parentBodyDeclarations->bodyDeclarations.size(); i++)
+            int indexOfCurrentBodyDeclaration = -1;
+            for (int i = 0; i < parentBodyDeclarations->bodyDeclarations.size(); i++)
             {
-                if(parentBodyDeclarations->bodyDeclarations[i].get() == bodyDeclaration)
+                if (parentBodyDeclarations->bodyDeclarations[i].get() == bodyDeclaration)
                 {
                     indexOfCurrentBodyDeclaration = i;
                     break;
                 }
             }
-            if(boolLiteral->value== true)
+            if (boolLiteral->value == true)
             {
-
                 auto bodyDeclarations = std::move(node.ifBranch->body->bodyDeclarations);
-               // parentBodyDeclarations->bodyDeclarations
+                // parentBodyDeclarations->bodyDeclarations
 
                 //
                 // Remove bodyDeclaration with index indexOfCurrentBodyDeclaration
                 // Add bodyDeclarations to parentBodyDeclarations at index indexOfCurrentBodyDeclaration
 
-                for(int i = 0; i<bodyDeclarations->bodyDeclarations.size(); i++)
+                for (int i = 0; i < bodyDeclarations->bodyDeclarations.size(); i++)
                 {
-                    parentBodyDeclarations->bodyDeclarations.insert(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+i, std::move(bodyDeclarations->bodyDeclarations[i]));
+                    parentBodyDeclarations->bodyDeclarations.insert(
+                        parentBodyDeclarations->bodyDeclarations.begin() + indexOfCurrentBodyDeclaration + i,
+                        std::move(bodyDeclarations->bodyDeclarations[i]));
                 }
 
-                parentBodyDeclarations->bodyDeclarations.erase(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+bodyDeclarations->bodyDeclarations.size());
+                parentBodyDeclarations->bodyDeclarations.erase(
+                    parentBodyDeclarations->bodyDeclarations.begin() + indexOfCurrentBodyDeclaration + bodyDeclarations
+                    ->bodyDeclarations.size());
                 bodyDeclaration->statement = nullptr;
-
             }
             else
             {
-
                 // Remove if branch
                 auto bodyDeclarations = std::move(node.elseBranch->body->bodyDeclarations);
                 // parentBodyDeclarations->bodyDeclarations
@@ -171,18 +172,20 @@ void OptimizeVisitor::visitIfStatement(const IfStatement& node)
                 // Remove bodyDeclaration with index indexOfCurrentBodyDeclaration
                 // Add bodyDeclarations to parentBodyDeclarations at index indexOfCurrentBodyDeclaration
 
-                for(int i = 0; i<bodyDeclarations->bodyDeclarations.size(); i++)
+                for (int i = 0; i < bodyDeclarations->bodyDeclarations.size(); i++)
                 {
-                    parentBodyDeclarations->bodyDeclarations.insert(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+i, std::move(bodyDeclarations->bodyDeclarations[i]));
+                    parentBodyDeclarations->bodyDeclarations.insert(
+                        parentBodyDeclarations->bodyDeclarations.begin() + indexOfCurrentBodyDeclaration + i,
+                        std::move(bodyDeclarations->bodyDeclarations[i]));
                 }
 
-                parentBodyDeclarations->bodyDeclarations.erase(parentBodyDeclarations->bodyDeclarations.begin()+indexOfCurrentBodyDeclaration+bodyDeclarations->bodyDeclarations.size());
+                parentBodyDeclarations->bodyDeclarations.erase(
+                    parentBodyDeclarations->bodyDeclarations.begin() + indexOfCurrentBodyDeclaration + bodyDeclarations
+                    ->bodyDeclarations.size());
                 bodyDeclaration->statement = nullptr;
             }
         }
         // Check if literal type is BoolLiteral
-
-
     }
     if (node.expression) node.expression->accept(*this);
     if (node.ifBranch) node.ifBranch->accept(*this);
@@ -240,7 +243,8 @@ void OptimizeVisitor::visitReturnStatement(const ReturnStatement& node)
 
 void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
 {
-    if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end()){
+    if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end())
+    {
         // TODO remove variable from ast
         std::cout << "Unused variable: " << node.variable->name << std::endl;
         if (node.bodyParent)
@@ -259,13 +263,11 @@ void OptimizeVisitor::visitVariableDeclaration(const VariableDeclaration& node)
 
 void OptimizeVisitor::visitMethodDeclaration(const MethodDeclaration& node)
 {
-
     if (node.body) node.body->accept(*this);
     if (node.parameters) node.parameters->accept(*this);
 
     if (node.returnType) node.returnType->accept(*this);
     if (node.methodName) node.methodName->accept(*this);
-
 }
 
 void OptimizeVisitor::visitMethodName(const MethodName& node)

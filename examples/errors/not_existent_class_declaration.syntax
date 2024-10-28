@@ -16,8 +16,7 @@ Program
                         CompoundExpression: A
                       VariableName: a
                   BodyDeclaration
-                    Statement
-                      Assignment
-                        Expression
-                          CompoundExpression: A
-                        VariableName: a
+                    Assignment
+                      Expression
+                        CompoundExpression: A
+                      VariableName: a

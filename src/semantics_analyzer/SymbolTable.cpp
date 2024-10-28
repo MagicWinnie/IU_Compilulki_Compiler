@@ -200,7 +200,7 @@ const FunctionEntry* ScopedSymbolTable::lookupFunction(const std::string& name, 
 }
 
 const ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& span,
-                                                 bool throw_error ) const
+                                                 bool throw_error) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {

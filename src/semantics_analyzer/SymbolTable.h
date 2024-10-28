@@ -38,7 +38,6 @@ public:
     std::unordered_map<std::string, ClassEntry> classEntries;
 
 
-
     // Add an entry
     void addVariableEntry(const std::string&, const std::string&, bool is_constant = false);
 
@@ -56,8 +55,6 @@ public:
 
 class ScopedSymbolTable
 {
-
-
 public:
     std::vector<SymbolTable> scopes;
     std::unordered_set<std::string> unusedVariables;

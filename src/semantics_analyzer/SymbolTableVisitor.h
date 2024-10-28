@@ -8,8 +8,6 @@
 
 class SymbolTableVisitor final : public Visitor
 {
-
-
 public:
     ScopedSymbolTable symbolTable;
     SymbolTableVisitor();
