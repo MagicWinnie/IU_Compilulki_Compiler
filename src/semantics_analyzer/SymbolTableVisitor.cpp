@@ -405,9 +405,9 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
     if (node.parameters) node.parameters->accept(*this);
 
     // [CHECK] if return type is correct
-    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, paramNames, node.methodName->span)
-                                               ->
-                                               returnType;
+    const auto expectedReturnType = symbolTable.lookupFunction(
+        node.methodName->name, paramNames, node.methodName->span
+    )->returnType;
     const ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
