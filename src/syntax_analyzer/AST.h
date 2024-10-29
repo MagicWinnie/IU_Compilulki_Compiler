@@ -2,7 +2,6 @@
 // Created by Nail Minnemullin on 08.10.2024.
 //
 #pragma once
-#include <iostream>
 #include <memory>
 #include <vector>
 #include <string>
@@ -471,7 +470,6 @@ public:
     BodyDeclarations* parent = nullptr;
     std::unique_ptr<VariableDeclaration> variableDeclaration = nullptr;
     std::unique_ptr<Statement> statement = nullptr;
-    ~BodyDeclaration() = default;
 
     explicit BodyDeclaration(std::unique_ptr<VariableDeclaration>);
 
