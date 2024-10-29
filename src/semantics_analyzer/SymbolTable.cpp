@@ -82,7 +82,7 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
 void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& returnType, const Span& span,
                                          const std::vector<std::string>& paramTypes)
 {
-    MethodSignature signature(name, paramTypes);
+    MethodSignature signature(currClassName, name, paramTypes);
 
     const auto foundFunc = funcEntries.find(signature);
     if (foundFunc != funcEntries.end())
@@ -117,6 +117,7 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
         }
         // Add the new entry to the current scope
         current_scope.addClassEntry(name);
+        currClassName = name;
     }
 }
 
@@ -164,7 +165,7 @@ const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& name, co
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
         const auto& [varEntries, classEntries] = *it;
-        MethodSignature signature(name, params);
+        MethodSignature signature(currClassName, name, params);
         auto found = funcEntries.find(signature);
         if (found != funcEntries.end())
         {

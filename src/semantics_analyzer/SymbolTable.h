@@ -20,19 +20,20 @@ struct VariableEntry
 
 struct MethodSignature
 {
-    std::string name;
+    std::string className;
+    std::string methodName;
     std::vector<std::string> parameterTypes; // Vector of parameter types, e.g., {"Integer", "Integer"}
 
     // Constructor
-    MethodSignature(std::string name, std::vector<std::string> parameterTypes)
-        : name(std::move(name)), parameterTypes(std::move(parameterTypes))
+    MethodSignature(std::string className, std::string methodName, std::vector<std::string> parameterTypes)
+        : className(std::move(className)), methodName(std::move(methodName)), parameterTypes(std::move(parameterTypes))
     {
     }
 
     // Define equality operator to use MethodSignature in a map or set
     bool operator==(const MethodSignature& other) const
     {
-        return name == other.name && parameterTypes == other.parameterTypes;
+        return className == other.className && methodName == other.methodName && parameterTypes == other.parameterTypes;
     }
 };
 
@@ -53,7 +54,7 @@ struct std::hash<MethodSignature>
 {
     std::size_t operator()(const MethodSignature& signature) const noexcept
     {
-        std::size_t hashValue = std::hash<std::string>()(signature.name);
+        std::size_t hashValue = std::hash<std::string>()(signature.methodName);
         for (const auto& param : signature.parameterTypes)
         {
             hashValue ^= std::hash<std::string>()(param);
@@ -69,10 +70,8 @@ public:
 
     std::unordered_map<std::string, ClassEntry> classEntries;
 
-
     // Add an entry
     void addVariableEntry(const std::string&, const std::string&, bool is_constant = false);
-
 
     void addClassEntry(const std::string&);
 
@@ -89,6 +88,8 @@ public:
     std::unordered_map<MethodSignature, MethodEntry> funcEntries;
     std::unordered_set<std::string> funcNames;
     std::unordered_set<std::string> unusedVariables;
+    std::string currClassName = "";
+
     // Enter a new scope (push a new symbol table onto the stack)
     void enterScope();
 
@@ -96,7 +97,6 @@ public:
     void leaveScope();
 
     // Add an entry in the current scope
-
     void addVariableEntry(const std::string&, const std::string&, const Span&, bool is_constant = false);
 
     void addFunctionEntry(const std::string&, const std::string&, const Span&, const std::vector<std::string>&);
