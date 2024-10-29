@@ -1,0 +1,44 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: a
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 1
+                      VariableName: a
+              Parameters
+                Parameter: a
+                  ClassName: Integer
+              MethodName: foo
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Assignment
+                      Expression
+                        CompoundExpression: a
+                          CompoundExpression: Plus
+                            Arguments
+                              Expressions
+                                Expression
+                                  Primary: 2
+                      VariableName: a
+              Parameters
+                Parameter: a
+                  ClassName: Integer
+              MethodName: foo

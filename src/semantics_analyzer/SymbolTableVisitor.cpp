@@ -18,14 +18,10 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addFunctionEntry("toBoolean", "Boolean", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Plus", "Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Plus", "Real", Span(0, 0, 0), {"Real"});
 
     symbolTable.addFunctionEntry("Minus", "Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Minus", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Mult", "Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Mult", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Div", "Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Div", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Rem", "Integer", Span(0, 0, 0), {"Integer"});
 
     //    symbolTable.addFunctionEntry("Less","Boolean", Span(0, 0, 0), {"Integer"});

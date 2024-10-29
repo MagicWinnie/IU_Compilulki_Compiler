@@ -1,0 +1,43 @@
+Keyword{Span(1, 0, 7), 0}                      -> Program                 -> PROGRAM                                       
+Delimiter{Span(1, 7, 8), 14}                   -> :                       -> COLON                                         
+Main                                           -> Main                    -> IDENTIFIER                                    
+Delimiter{Span(1, 13, 14), 18}                 -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(1, 14, 15), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(3, 1, 6), 1}                      -> class                   -> CLASS                                         
+Main                                           -> Main                    -> IDENTIFIER                                    
+Keyword{Span(3, 12, 14), 3}                    -> is                      -> IS                                            
+Keyword{Span(4, 5, 11), 6}                     -> method                  -> METHOD                                        
+foo                                            -> foo                     -> IDENTIFIER                                    
+Delimiter{Span(4, 15, 16), 18}                 -> (                       -> LEFT_PAREN                                    
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(4, 17, 18), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(4, 26, 27), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(4, 28, 30), 3}                    -> is                      -> IS                                            
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(5, 11, 13), 17}                 -> :=                      -> COLON_EQUAL                                   
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(5, 15, 16), 15}                 -> .                       -> DOT                                           
+Plus                                           -> Plus                    -> IDENTIFIER                                    
+Delimiter{Span(5, 20, 21), 18}                 -> (                       -> LEFT_PAREN                                    
+Integer{Span(5, 21, 22), 23, 1}                -> 1                       -> INTEGER                                       
+Delimiter{Span(5, 22, 23), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(6, 5, 8), 4}                      -> end                     -> END                                           
+Keyword{Span(8, 5, 11), 6}                     -> method                  -> METHOD                                        
+foo                                            -> foo                     -> IDENTIFIER                                    
+Delimiter{Span(8, 15, 16), 18}                 -> (                       -> LEFT_PAREN                                    
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(8, 17, 18), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(8, 26, 27), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(8, 28, 30), 3}                    -> is                      -> IS                                            
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(9, 11, 13), 17}                 -> :=                      -> COLON_EQUAL                                   
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(9, 15, 16), 15}                 -> .                       -> DOT                                           
+Plus                                           -> Plus                    -> IDENTIFIER                                    
+Delimiter{Span(9, 20, 21), 18}                 -> (                       -> LEFT_PAREN                                    
+Integer{Span(9, 21, 22), 23, 2}                -> 2                       -> INTEGER                                       
+Delimiter{Span(9, 22, 23), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(10, 5, 8), 4}                     -> end                     -> END                                           
+Keyword{Span(11, 1, 4), 4}                     -> end                     -> END                                           

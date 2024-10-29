@@ -1,0 +1,11 @@
+Program: Main()
+
+class Main is
+    method foo(a: Integer) is
+        a := a.Plus(1)
+    end
+
+    method foo(a: Integer) is
+        a := a.Plus(2)
+    end
+end
