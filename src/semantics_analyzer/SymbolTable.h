@@ -48,22 +48,19 @@ struct ClassEntry
 };
 
 
-namespace std
+template <>
+struct std::hash<MethodSignature>
 {
-    template <>
-    struct hash<MethodSignature>
+    std::size_t operator()(const MethodSignature& signature) const noexcept
     {
-        std::size_t operator()(const MethodSignature& signature) const
+        std::size_t hashValue = std::hash<std::string>()(signature.name);
+        for (const auto& param : signature.parameterTypes)
         {
-            std::size_t hashValue = std::hash<std::string>()(signature.name);
-            for (const auto& param : signature.parameterTypes)
-            {
-                hashValue ^= std::hash<std::string>()(param);
-            }
-            return hashValue;
+            hashValue ^= std::hash<std::string>()(param);
         }
-    };
-}
+        return hashValue;
+    }
+};
 
 class SymbolTable
 {
@@ -112,7 +109,7 @@ public:
     const VariableEntry* lookupVariable(const std::string&, const Span&, bool throw_error = true) const;
     void makeVariableUsed(const std::string& name);
 
-    const MethodEntry* lookupFunction(const std::string&, const std::vector<std::string>, const Span&,
+    const MethodEntry* lookupFunction(const std::string&, const std::vector<std::string>&, const Span&,
                                       bool throw_error = true) const;
 
     const ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true) const;

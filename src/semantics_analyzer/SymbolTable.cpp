@@ -157,7 +157,7 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
     }
 }
 
-const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& name, const std::vector<std::string> params,
+const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& name, const std::vector<std::string>& params,
                                                      const Span& span,
                                                      const bool throw_error) const
 {
