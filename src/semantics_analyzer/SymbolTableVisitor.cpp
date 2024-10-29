@@ -14,30 +14,30 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addClassEntry("String", Span(0, 0, 0));
 
     // Integer
-    symbolTable.addFunctionEntry("toReal","Real", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("toBoolean","Boolean", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("UnaryMinus","Integer", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Plus","Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Plus","Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("toReal", "Real", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("toBoolean", "Boolean", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("UnaryMinus", "Integer", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Plus", "Integer", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Plus", "Real", Span(0, 0, 0), {"Real"});
 
-    symbolTable.addFunctionEntry("Minus","Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Minus","Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Mult","Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Mult","Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Div","Integer", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Div","Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Rem","Integer", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Minus", "Integer", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Minus", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Mult", "Integer", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Mult", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Div", "Integer", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Div", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Rem", "Integer", Span(0, 0, 0), {"Integer"});
 
-//    symbolTable.addFunctionEntry("Less","Boolean", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Less","Boolean", Span(0, 0, 0), {"Real"});
-//    symbolTable.addFunctionEntry("LessEqual","Boolean", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("LessEqual","Boolean", Span(0, 0, 0), {"Real"});
-//    symbolTable.addFunctionEntry("Greater","Boolean", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Greater","Boolean", Span(0, 0, 0), {"Real"});
-//    symbolTable.addFunctionEntry("GreaterEqual","Boolean", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("GreaterEqual","Boolean", Span(0, 0, 0), {"Real"});
-//    symbolTable.addFunctionEntry("Equal","Boolean", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Equal","Boolean", Span(0, 0, 0), {"Real"});
+    //    symbolTable.addFunctionEntry("Less","Boolean", Span(0, 0, 0), {"Integer"});
+    //    symbolTable.addFunctionEntry("Less","Boolean", Span(0, 0, 0), {"Real"});
+    //    symbolTable.addFunctionEntry("LessEqual","Boolean", Span(0, 0, 0), {"Integer"});
+    //    symbolTable.addFunctionEntry("LessEqual","Boolean", Span(0, 0, 0), {"Real"});
+    //    symbolTable.addFunctionEntry("Greater","Boolean", Span(0, 0, 0), {"Integer"});
+    //    symbolTable.addFunctionEntry("Greater","Boolean", Span(0, 0, 0), {"Real"});
+    //    symbolTable.addFunctionEntry("GreaterEqual","Boolean", Span(0, 0, 0), {"Integer"});
+    //    symbolTable.addFunctionEntry("GreaterEqual","Boolean", Span(0, 0, 0), {"Real"});
+    //    symbolTable.addFunctionEntry("Equal","Boolean", Span(0, 0, 0), {"Integer"});
+    //    symbolTable.addFunctionEntry("Equal","Boolean", Span(0, 0, 0), {"Real"});
 
 
     // Real
@@ -81,7 +81,6 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addFunctionEntry("append", "List", Span(0, 0, 0), {"T"});
     symbolTable.addFunctionEntry("head", "T", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("tail", "List", Span(0, 0, 0), {});
-
 }
 
 SymbolTableVisitor::~SymbolTableVisitor()
@@ -158,7 +157,8 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression& node)
 {
     // TODO check if identifier is a variable or a class or a method
 
-    if(symbolTable.doesMethodExists(node.identifier)){
+    if (symbolTable.doesMethodExists(node.identifier))
+    {
         // node.identifier is a function
     }
     else if (symbolTable.lookupClass(node.identifier, node.span, false))
@@ -174,8 +174,6 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression& node)
     {
         throw std::runtime_error("Identifier " + node.identifier + " is not declared");
     }
-
-
 
 
     if (node.arguments) node.arguments->accept(*this);
@@ -356,19 +354,20 @@ void SymbolTableVisitor::visitReturnStatement(ReturnStatement& node)
 
 void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration& node)
 {
-    if (node.expression->primary && node.expression->primary->literal )
+    if (node.expression->primary && node.expression->primary->literal)
     {
-        if(node.expression->primary->literal->type == LiteralType::BOOL_LITERAL){
+        if (node.expression->primary->literal->type == LiteralType::BOOL_LITERAL)
+        {
             symbolTable.addVariableEntry(node.variable->name, "Boolean", node.variable->span);
         }
-        else if (node.expression->primary->literal->type == LiteralType::INT_LITERAL){
+        else if (node.expression->primary->literal->type == LiteralType::INT_LITERAL)
+        {
             symbolTable.addVariableEntry(node.variable->name, "Integer", node.variable->span);
         }
-        else if (node.expression->primary->literal->type == LiteralType::REAL_LITERAL){
+        else if (node.expression->primary->literal->type == LiteralType::REAL_LITERAL)
+        {
             symbolTable.addVariableEntry(node.variable->name, "Real", node.variable->span);
         }
-
-
     }
     else if (node.expression->compoundExpression)
     {
@@ -410,8 +409,9 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
     if (node.parameters) node.parameters->accept(*this);
 
     // [CHECK] if return type is correct
-    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, paramNames, node.methodName->span)->
-                                                returnType;
+    const auto expectedReturnType = symbolTable.lookupFunction(node.methodName->name, paramNames, node.methodName->span)
+                                               ->
+                                               returnType;
     const ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
     {
