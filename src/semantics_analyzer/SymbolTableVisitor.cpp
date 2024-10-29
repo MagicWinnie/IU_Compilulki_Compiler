@@ -273,16 +273,96 @@ void SymbolTableVisitor::visitAssignment(Assignment& node)
         std::cerr << e.what() << std::endl;
     }
 
+    const auto span = node.variableName->span;
+
     // [CHECK] if variable is assigned to the correct type
-    auto variableType = symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
-    // TODO firstly check if we assign a variable or a class or a method
-    // auto expressionType = node.expression->compoundExpression->identifier;
-    // if (variableType != expressionType)
-    // {
-    //     throw std::runtime_error(
-    //         "Variable " + node.variableName->name + " is of type " + variableType +
-    //         " but is being assigned to type " + expressionType);
-    // }
+    const auto variableType = symbolTable.lookupVariable(node.variableName->name, span)->type;
+
+    std::string expressionType;
+    if (node.expression->compoundExpression)
+    {
+        // auto compoundExpression = std::move(node.expression->compoundExpression);
+        // std::string compoundClass = compoundExpression->identifier;
+        // while (true)
+        // {
+        //     std::cout << compoundExpression->compoundExpressions.size() << std::endl;
+        //     if (compoundExpression->compoundExpressions.size() > 1)
+        //         throw std::runtime_error("AAAAA");
+        //     if (compoundExpression->compoundExpressions.empty())
+        //         break;
+        //     if (compoundExpression->compoundExpressions.front() == nullptr)
+        //         break;
+        //     compoundExpression = std::move(compoundExpression->compoundExpressions.front());
+        // }
+
+        // const auto expressionClass = symbolTable.lookupClass(compoundExpression->identifier,
+        //                                                      compoundExpression->span, false);
+        // if (expressionClass == nullptr)
+        // {
+        //     // compoundExpression->arguments->expressions->expressions
+        //     // const auto expressionFunction = symbolTable.lookupFunction(compoundExpression->identifier,
+        //     //                                                            compoundExpression->span, false);
+        //     const MethodEntry* expressionFunction = nullptr;
+        //     if (expressionFunction == nullptr)
+        //     {
+        //         const auto expressionVariable = symbolTable.lookupVariable(compoundExpression->identifier,
+        //                                                                    compoundExpression->span, false);
+        //         if (expressionVariable == nullptr)
+        //         {
+        //             expressionType = variableType;
+        //             // throw std::runtime_error(
+        //             //     "Variable " + node.variableName->name + " not found" +
+        //             //     " at line: " + std::to_string(span.get_line_num()) +
+        //             //     " column: " + std::to_string(span.get_pos_begin())
+        //             // );
+        //         }
+        //         else
+        //         {
+        //             expressionType = expressionVariable->type;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         expressionType = expressionFunction->returnType;
+        //     }
+        // }
+        // else
+        // {
+        //     expressionType = expressionClass->name;
+        // }
+        expressionType = variableType;
+    }
+    else if (node.expression->primary->literal)
+    {
+        switch (node.expression->primary->literal->type)
+        {
+        case BOOL_LITERAL:
+            expressionType = "Boolean";
+            break;
+        case INT_LITERAL:
+            expressionType = "Integer";
+            break;
+        case REAL_LITERAL:
+            expressionType = "Real";
+            break;
+        default:
+            expressionType = variableType;
+            break;
+        }
+    } else if (node.expression->primary->class_name)
+    {
+        expressionType = node.expression->primary->class_name->name;
+    }
+
+    if (variableType != expressionType)
+    {
+        throw std::runtime_error(
+            "Variable " + node.variableName->name + " is of type " + variableType +
+            " but is being assigned to type " + expressionType +
+            " at line: " + std::to_string(span.get_line_num()) +
+            " column: " + std::to_string(span.get_pos_begin())
+        );
+    }
 
     if (node.expression) node.expression->accept(*this);
     if (node.variableName) node.variableName->accept(*this);
@@ -406,7 +486,7 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
 
     // [CHECK] if return type is correct
     const auto expectedReturnType = symbolTable.lookupFunction(
-        node.methodName->name, paramNames, node.methodName->span
+        symbolTable.currClassName, node.methodName->name, paramNames, node.methodName->span
     )->returnType;
     const ReturnStatement* returnStatement = nullptr;
     for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)

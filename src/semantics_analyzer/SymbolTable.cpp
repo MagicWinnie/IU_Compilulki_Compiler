@@ -158,14 +158,14 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
     }
 }
 
-const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& name, const std::vector<std::string>& params,
-                                                     const Span& span,
-                                                     const bool throw_error) const
+const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, const std::string& methodName,
+                                                     const std::vector<std::string>& params,
+                                                     const Span& span, const bool throw_error) const
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
         const auto& [varEntries, classEntries] = *it;
-        MethodSignature signature(currClassName, name, params);
+        MethodSignature signature(className, methodName, params);
         auto found = funcEntries.find(signature);
         if (found != funcEntries.end())
         {
@@ -175,7 +175,7 @@ const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& name, co
     if (throw_error)
     {
         throw std::runtime_error(
-            "Method '" + name + "' used before declaration " +
+            "Method '" + methodName + "' used before declaration " +
             "at line: " + std::to_string(span.get_line_num()) +
             " column: " + std::to_string(span.get_pos_begin())
         );

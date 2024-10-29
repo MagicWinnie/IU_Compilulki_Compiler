@@ -88,7 +88,7 @@ public:
     std::unordered_map<MethodSignature, MethodEntry> funcEntries;
     std::unordered_set<std::string> funcNames;
     std::unordered_set<std::string> unusedVariables;
-    std::string currClassName = "";
+    std::string currClassName;
 
     // Enter a new scope (push a new symbol table onto the stack)
     void enterScope();
@@ -109,8 +109,8 @@ public:
     const VariableEntry* lookupVariable(const std::string&, const Span&, bool throw_error = true) const;
     void makeVariableUsed(const std::string& name);
 
-    const MethodEntry* lookupFunction(const std::string&, const std::vector<std::string>&, const Span&,
-                                      bool throw_error = true) const;
+    const MethodEntry* lookupFunction(const std::string&, const std::string&, const std::vector<std::string>&,
+                                      const Span&, bool throw_error = true) const;
 
     const ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true) const;
 };
