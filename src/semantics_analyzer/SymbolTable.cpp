@@ -174,7 +174,7 @@ const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& name, co
     if (throw_error)
     {
         throw std::runtime_error(
-            "Function '" + name + "' used before declaration " +
+            "Method '" + name + "' used before declaration " +
             "at line: " + std::to_string(span.get_line_num()) +
             " column: " + std::to_string(span.get_pos_begin())
         );
