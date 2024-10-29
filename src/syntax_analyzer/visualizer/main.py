@@ -2,7 +2,6 @@ import sys
 import pygraphviz as pgv
 from treelib import Tree
 
-
 IDENTATION = "  "  # 2 spaces
 
 

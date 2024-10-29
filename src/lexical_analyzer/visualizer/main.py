@@ -122,7 +122,7 @@ def main(page: ft.Page):
                         )
                     )
                 if line_indices[i][-1][1] != len(line):
-                    row.append(ft.Text(value=line[line_indices[i][-1][1] :], size=CODE_TEXT_SIZE))
+                    row.append(ft.Text(value=line[line_indices[i][-1][1]:], size=CODE_TEXT_SIZE))
                 rows.append(ft.Row(row, alignment=ft.MainAxisAlignment.START, height=CODE_ROW_HEIGHT, spacing=0))
 
             page.add(

@@ -18,16 +18,20 @@ struct VariableEntry
     bool is_used = false; // Is it used?
 };
 
-struct MethodSignature {
+struct MethodSignature
+{
     std::string name;
     std::vector<std::string> parameterTypes; // Vector of parameter types, e.g., {"Integer", "Integer"}
 
     // Constructor
     MethodSignature(std::string name, std::vector<std::string> parameterTypes)
-            : name(std::move(name)), parameterTypes(std::move(parameterTypes)) {}
+        : name(std::move(name)), parameterTypes(std::move(parameterTypes))
+    {
+    }
 
     // Define equality operator to use MethodSignature in a map or set
-    bool operator==(const MethodSignature& other) const {
+    bool operator==(const MethodSignature& other) const
+    {
         return name == other.name && parameterTypes == other.parameterTypes;
     }
 };
@@ -36,7 +40,6 @@ struct MethodEntry
 {
     MethodSignature signature; // Signature
     std::string returnType; // Return type
-
 };
 
 struct ClassEntry
@@ -45,12 +48,16 @@ struct ClassEntry
 };
 
 
-namespace std {
-    template<>
-    struct hash<MethodSignature> {
-        std::size_t operator()(const MethodSignature& signature) const {
+namespace std
+{
+    template <>
+    struct hash<MethodSignature>
+    {
+        std::size_t operator()(const MethodSignature& signature) const
+        {
             std::size_t hashValue = std::hash<std::string>()(signature.name);
-            for (const auto& param : signature.parameterTypes) {
+            for (const auto& param : signature.parameterTypes)
+            {
                 hashValue ^= std::hash<std::string>()(param);
             }
             return hashValue;
@@ -68,7 +75,6 @@ public:
 
     // Add an entry
     void addVariableEntry(const std::string&, const std::string&, bool is_constant = false);
-
 
 
     void addClassEntry(const std::string&);
@@ -106,7 +112,8 @@ public:
     const VariableEntry* lookupVariable(const std::string&, const Span&, bool throw_error = true) const;
     void makeVariableUsed(const std::string& name);
 
-    const MethodEntry* lookupFunction(const std::string&, const std::vector<std::string>, const Span&, bool throw_error = true) const;
+    const MethodEntry* lookupFunction(const std::string&, const std::vector<std::string>, const Span&,
+                                      bool throw_error = true) const;
 
     const ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true) const;
 };

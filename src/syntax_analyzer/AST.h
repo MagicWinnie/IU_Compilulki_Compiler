@@ -119,8 +119,8 @@ enum LiteralType
 class Literal : public Entity
 {
 public:
-
     LiteralType type;
+
     virtual std::string to_string() const
     {
         return "";
@@ -133,6 +133,7 @@ class BoolLiteral final : public Literal
 {
 public:
     bool value;
+
     std::string to_string() const override
     {
         return value ? "true" : "false";
@@ -149,6 +150,7 @@ class IntLiteral final : public Literal
 {
 public:
     int value;
+
     std::string to_string() const override
     {
         return std::to_string(value);
@@ -165,6 +167,7 @@ class RealLiteral final : public Literal
 {
 public:
     long double value;
+
     std::string to_string() const override
     {
         return std::to_string(value);
@@ -254,6 +257,7 @@ enum StatementType
     RETURN_STATEMENT,
     COMPOUND_STATEMENT,
 };
+
 class Statement : public Entity
 {
 public:
@@ -305,10 +309,13 @@ class Primary final : public Entity
 {
 public:
     explicit Primary(std::unique_ptr<Literal>& literal)
-    : literal(std::move(literal)){}
+        : literal(std::move(literal))
+    {
+    }
 
     explicit Primary(std::unique_ptr<ClassName>& class_name)
-        : class_name(std::move(class_name))    {
+        : class_name(std::move(class_name))
+    {
     }
 
     std::unique_ptr<Literal> literal = nullptr;
@@ -327,8 +334,6 @@ public:
         }
         return "";
     }
-
-
 
 
     void accept(Visitor&) override;
