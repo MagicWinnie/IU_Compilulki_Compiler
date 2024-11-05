@@ -36,11 +36,6 @@ Program
             ConstructorDeclaration
               Body
                 BodyDeclarations
-                  BodyDeclaration
-                    VariableDeclaration
-                      Expression
-                        CompoundExpression: Real
-                      VariableName: b
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -57,4 +52,4 @@ Program
                   BodyDeclaration
                     Expression
                       CompoundExpression: a
-                        CompoundExpression: cddsf
+                        CompoundExpression: abc

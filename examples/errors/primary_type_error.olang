@@ -1,0 +1,9 @@
+
+Program: Main(1.1, 1.2)
+
+class Main is
+    method returnInteger() : Integer is
+        var a : Real
+        return a
+    end
+end
