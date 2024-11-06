@@ -142,11 +142,17 @@ Delimiter{Span(34, 39, 40), 19}                -> )                       -> RIG
 res1                                           -> res1                    -> IDENTIFIER                                    
 Delimiter{Span(36, 13, 14), 15}                -> .                       -> DOT                                           
 print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(36, 19, 20), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(36, 20, 21), 19}                -> )                       -> RIGHT_PAREN                                   
 res2                                           -> res2                    -> IDENTIFIER                                    
 Delimiter{Span(37, 13, 14), 15}                -> .                       -> DOT                                           
 print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(37, 19, 20), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(37, 20, 21), 19}                -> )                       -> RIGHT_PAREN                                   
 res3                                           -> res3                    -> IDENTIFIER                                    
 Delimiter{Span(38, 13, 14), 15}                -> .                       -> DOT                                           
 print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(38, 19, 20), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(38, 20, 21), 19}                -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(39, 5, 8), 4}                     -> end                     -> END                                           
 Keyword{Span(40, 1, 4), 4}                     -> end                     -> END                                           
