@@ -162,15 +162,11 @@ const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& classNam
                                                      const std::vector<std::string>& params,
                                                      const Span& span, const bool throw_error) const
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    const MethodSignature signature(className, methodName, params);
+    const auto found = funcEntries.find(signature);
+    if (found != funcEntries.end())
     {
-        const auto& [varEntries, classEntries] = *it;
-        MethodSignature signature(className, methodName, params);
-        auto found = funcEntries.find(signature);
-        if (found != funcEntries.end())
-        {
-            return &found->second;
-        }
+        return &found->second;
     }
     if (throw_error)
     {
