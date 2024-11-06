@@ -2,8 +2,7 @@
 #include <stdexcept>
 #include "SymbolTableVisitor.h"
 
-SymbolTableVisitor::SymbolTableVisitor()
-{
+SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.enterScope();
     // TODO: temporary not correct fix for current state
     symbolTable.addClassEntry("Integer", Span(0, 0, 0));
@@ -79,117 +78,90 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addFunctionEntry("tail", "List", Span(0, 0, 0), {});
 }
 
-SymbolTableVisitor::~SymbolTableVisitor()
-{
+SymbolTableVisitor::~SymbolTableVisitor() {
     symbolTable.leaveScope();
 }
 
-ScopedSymbolTable SymbolTableVisitor::getSymbolTable() const
-{
+ScopedSymbolTable SymbolTableVisitor::getSymbolTable() const {
     return symbolTable;
 }
 
-void SymbolTableVisitor::visitProgram(Program& node)
-{
+void SymbolTableVisitor::visitProgram(Program &node) {
     if (node.programDeclaration) node.programDeclaration->accept(*this);
     if (node.classDeclarations) node.classDeclarations->accept(*this);
     if (node.programDeclaration && node.programDeclaration->className)
         node.programDeclaration->className->accept(*this);
 }
 
-void SymbolTableVisitor::visitProgramDeclaration(ProgramDeclaration& node)
-{
+void SymbolTableVisitor::visitProgramDeclaration(ProgramDeclaration &node) {
     // if (node.className) node.className->accept(*this);
     if (node.arguments) node.arguments->accept(*this);
 }
 
-void SymbolTableVisitor::visitClassName(ClassName& node)
-{
+void SymbolTableVisitor::visitClassName(ClassName &node) {
     symbolTable.lookupClass(node.name, node.span);
 }
 
-void SymbolTableVisitor::visitProgramArguments(ProgramArguments& node)
-{
+void SymbolTableVisitor::visitProgramArguments(ProgramArguments &node) {
     if (node.literals) node.literals->accept(*this);
 }
 
-void SymbolTableVisitor::visitLiterals(Literals& node)
-{
-    for (const auto& literal : node.literals)
-    {
+void SymbolTableVisitor::visitLiterals(Literals &node) {
+    for (const auto &literal: node.literals) {
         literal->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitLiteral(Literal& node)
-{
+void SymbolTableVisitor::visitLiteral(Literal &node) {
 }
 
-void SymbolTableVisitor::visitArguments(Arguments& node)
-{
+void SymbolTableVisitor::visitArguments(Arguments &node) {
     if (node.expressions) node.expressions->accept(*this);
 }
 
-void SymbolTableVisitor::visitExpressions(Expressions& node)
-{
-    for (const auto& expression : node.expressions)
-    {
+void SymbolTableVisitor::visitExpressions(Expressions &node) {
+    for (const auto &expression: node.expressions) {
         expression->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitExpression(Expression& node)
-{
-    if (node.primary) node.primary->accept(*this);
-    if (node.compoundExpression) node.compoundExpression->accept(*this);
+void SymbolTableVisitor::visitExpression(Expression &node) {
+    node.accept(*this);
 }
 
-void SymbolTableVisitor::visitPrimary(Primary& node)
-{
+void SymbolTableVisitor::visitPrimary(Primary &node) {
     if (node.class_name) node.class_name->accept(*this);
 }
 
-void SymbolTableVisitor::visitCompoundExpression(CompoundExpression& node)
-{
+void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
     // TODO check if identifier is a variable or a class or a method
 
-    if (symbolTable.doesMethodExists(node.identifier))
-    {
+    if (symbolTable.doesMethodExists(node.identifier)) {
         // node.identifier is a function
-    }
-    else if (symbolTable.lookupClass(node.identifier, node.span, false))
-    {
+    } else if (symbolTable.lookupClass(node.identifier, node.span, false)) {
         // node.identifier is a class
-    }
-    else if (symbolTable.lookupVariable(node.identifier, node.span, false) != nullptr)
-    {
+    } else if (symbolTable.lookupVariable(node.identifier, node.span, false) != nullptr) {
         // node.identifier is a variable
         symbolTable.makeVariableUsed(node.identifier);
-    }
-    else
-    {
+    } else {
         throw std::runtime_error("Identifier " + node.identifier + " is not declared");
     }
 
 
     if (node.arguments) node.arguments->accept(*this);
-    for (const auto& compoundExpression : node.compoundExpressions)
-    {
+    for (const auto &compoundExpression: node.compoundExpressions) {
         compoundExpression->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations& node)
-{
-    for (const auto& classDeclaration : node.classDeclarations)
-    {
+void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations &node) {
+    for (const auto &classDeclaration: node.classDeclarations) {
         symbolTable.addClassEntry(classDeclaration->className->name, classDeclaration->className->span);
         classDeclaration->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration& node)
-{
+void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration &node) {
     symbolTable.enterScope();
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
@@ -197,90 +169,77 @@ void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration& node)
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitClassBody(ClassBody& node)
-{
+void SymbolTableVisitor::visitClassBody(ClassBody &node) {
     if (node.memberDeclarations) node.memberDeclarations->accept(*this);
 }
 
-void SymbolTableVisitor::visitExtension(Extension& node)
-{
+void SymbolTableVisitor::visitExtension(Extension &node) {
     if (node.className) node.className->accept(*this);
 }
 
-void SymbolTableVisitor::visitBody(Body& node)
-{
+void SymbolTableVisitor::visitBody(Body &node) {
     if (node.bodyDeclarations) node.bodyDeclarations->accept(*this);
 }
 
-void SymbolTableVisitor::visitBodyDeclarations(BodyDeclarations& node)
-{
-    for (auto& bodyDeclaration : node.bodyDeclarations)
-    {
+void SymbolTableVisitor::visitBodyDeclarations(BodyDeclarations &node) {
+    for (auto &bodyDeclaration: node.bodyDeclarations) {
         if (bodyDeclaration) bodyDeclaration->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitBodyDeclaration(BodyDeclaration& node)
-{
+void SymbolTableVisitor::visitBodyDeclaration(BodyDeclaration &node) {
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
     if (node.statement) node.statement->accept(*this);
 }
 
-void SymbolTableVisitor::visitStatement(Statement& node)
-{
+void SymbolTableVisitor::visitStatement(Statement &node) {
     node.accept(*this);
 }
 
-void SymbolTableVisitor::visitIfStatement(IfStatement& node)
-{
+void SymbolTableVisitor::visitIfStatement(IfStatement &node) {
     if (node.expression) node.expression->accept(*this);
     if (node.ifBranch) node.ifBranch->accept(*this);
     if (node.elseBranch) node.elseBranch->accept(*this);
 }
 
-void SymbolTableVisitor::visitIfBranch(IfBranch& node)
-{
+void SymbolTableVisitor::visitIfBranch(IfBranch &node) {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitElseBranch(ElseBranch& node)
-{
+void SymbolTableVisitor::visitElseBranch(ElseBranch &node) {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitWhileLoop(WhileLoop& node)
-{
+void SymbolTableVisitor::visitWhileLoop(WhileLoop &node) {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
     if (node.expression) node.expression->accept(*this);
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitAssignment(Assignment& node)
-{
+void SymbolTableVisitor::visitAssignment(Assignment &node) {
     // [CHECK] if variable is declared
-    try
-    {
+    try {
         symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
         symbolTable.makeVariableUsed(node.variableName->name);
     }
-    catch (const std::runtime_error& e)
-    {
+    catch (const std::runtime_error &e) {
         std::cerr << e.what() << std::endl;
     }
 
     const auto span = node.variableName->span;
 
-    // [CHECK] if variable is assigned to the correct type
+    // [CHECK] if variable is assigned to the correct statementType
     const auto variableType = symbolTable.lookupVariable(node.variableName->name, span)->type;
 
     std::string expressionType;
-    if (node.expression->compoundExpression)
-    {
+
+    if (node.expression->isCompound) {
+        CompoundExpression *expression = dynamic_cast<CompoundExpression *>(node.expression.get());
         // auto compoundExpression = std::move(node.expression->compoundExpression);
         // std::string compoundClass = compoundExpression->identifier;
         // while (true)
@@ -318,7 +277,7 @@ void SymbolTableVisitor::visitAssignment(Assignment& node)
         //         }
         //         else
         //         {
-        //             expressionType = expressionVariable->type;
+        //             expressionType = expressionVariable->statementType;
         //         }
         //     }
         //     else
@@ -331,36 +290,35 @@ void SymbolTableVisitor::visitAssignment(Assignment& node)
         //     expressionType = expressionClass->name;
         // }
         expressionType = variableType;
-    }
-    else if (node.expression->primary->literal)
-    {
-        switch (node.expression->primary->literal->type)
-        {
-        case BOOL_LITERAL:
-            expressionType = "Boolean";
-            break;
-        case INT_LITERAL:
-            expressionType = "Integer";
-            break;
-        case REAL_LITERAL:
-            expressionType = "Real";
-            break;
-        default:
-            expressionType = variableType;
-            break;
+    } else {
+        Primary *expression = dynamic_cast<Primary *>(node.expression.get());
+        if (expression->literal) {
+            switch (expression->literal->type) {
+                case BOOL_LITERAL:
+                    expressionType = "Boolean";
+                    break;
+                case INT_LITERAL:
+                    expressionType = "Integer";
+                    break;
+                case REAL_LITERAL:
+                    expressionType = "Real";
+                    break;
+                default:
+                    expressionType = variableType;
+                    break;
+            }
+        } else if (expression->class_name) {
+            expressionType = expression->class_name->name;
         }
-    } else if (node.expression->primary->class_name)
-    {
-        expressionType = node.expression->primary->class_name->name;
     }
 
-    if (variableType != expressionType)
-    {
+
+    if (variableType != expressionType) {
         throw std::runtime_error(
-            "Variable " + node.variableName->name + " is of type " + variableType +
-            " but is being assigned to type " + expressionType +
-            " at line: " + std::to_string(span.get_line_num()) +
-            " column: " + std::to_string(span.get_pos_begin())
+                "Variable " + node.variableName->name + " is of statementType " + variableType +
+                " but is being assigned to statementType " + expressionType +
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
         );
     }
 
@@ -368,32 +326,26 @@ void SymbolTableVisitor::visitAssignment(Assignment& node)
     if (node.variableName) node.variableName->accept(*this);
 }
 
-void SymbolTableVisitor::visitMemberDeclarations(MemberDeclarations& node)
-{
-    for (const auto& memberDeclaration : node.member_declarations)
-    {
+void SymbolTableVisitor::visitMemberDeclarations(MemberDeclarations &node) {
+    for (const auto &memberDeclaration: node.member_declarations) {
         memberDeclaration->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitMemberDeclaration(MemberDeclaration& node)
-{
+void SymbolTableVisitor::visitMemberDeclaration(MemberDeclaration &node) {
     if (node.constructorDeclaration) node.constructorDeclaration->accept(*this);
     if (node.methodDeclaration) node.methodDeclaration->accept(*this);
     if (node.variableDeclaration) node.variableDeclaration->accept(*this);
 }
 
-void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration& node)
-{
+void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration &node) {
     symbolTable.enterScope();
     if (node.parameters) node.parameters->accept(*this);
     auto paramNames = std::vector<std::string>();
 
     // Add parameters to the symbol table
-    if (node.parameters)
-    {
-        for (const auto& parameter : node.parameters->parameters)
-        {
+    if (node.parameters) {
+        for (const auto &parameter: node.parameters->parameters) {
             paramNames.push_back(parameter->className->name);
             symbolTable.addVariableEntry(parameter->name, parameter->className->name, parameter->span);
         }
@@ -402,128 +354,114 @@ void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration& nod
     symbolTable.addFunctionEntry("this", "void", node.span, paramNames);
     if (node.body) node.body->accept(*this);
 
-    const ReturnStatement* returnStatement = nullptr;
-    for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
-    {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type ==
-            RETURN_STATEMENT)
-        {
+    const ReturnStatement *returnStatement = nullptr;
+    for (const auto &bodyDeclaration: node.body->bodyDeclarations->bodyDeclarations) {
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->statementType ==
+                                                             RETURN_STATEMENT) {
             // dynamic cast statement to ReturnStatement
-            returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
+            returnStatement = dynamic_cast<ReturnStatement *>(bodyDeclaration->statement.get());
         }
     }
 
 
     // [CHECK] if constructor has return statement
-    if (returnStatement != nullptr)
-    {
+    if (returnStatement != nullptr) {
         throw std::runtime_error("Constructor cannot have return statement");
     }
 
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitReturnStatement(ReturnStatement& node)
-{
+void SymbolTableVisitor::visitReturnStatement(ReturnStatement &node) {
     if (node.expression) node.expression->accept(*this);
 }
 
-void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration& node)
-{
-    if (node.expression->primary && node.expression->primary->literal)
-    {
-        if (node.expression->primary->literal->type == LiteralType::BOOL_LITERAL)
-        {
+void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration &node) {
+    if (node.expression->isCompound) {
+        CompoundExpression *expression = dynamic_cast<CompoundExpression *>(node.expression.get());
+        if (expression->compoundExpressions.empty()) {
+            symbolTable.lookupClass(expression->identifier,
+                                    expression->span);
+        }
+        symbolTable.addVariableEntry(node.variable->name, expression->identifier,
+                                     node.variable->span);
+    } else {
+        Primary *expression = dynamic_cast<Primary *>(node.expression.get());
+        if (expression->literal->type == LiteralType::BOOL_LITERAL) {
             symbolTable.addVariableEntry(node.variable->name, "Boolean", node.variable->span);
-        }
-        else if (node.expression->primary->literal->type == LiteralType::INT_LITERAL)
-        {
+        } else if (expression->literal->type == LiteralType::INT_LITERAL) {
             symbolTable.addVariableEntry(node.variable->name, "Integer", node.variable->span);
-        }
-        else if (node.expression->primary->literal->type == LiteralType::REAL_LITERAL)
-        {
+        } else if (expression->literal->type == LiteralType::REAL_LITERAL) {
             symbolTable.addVariableEntry(node.variable->name, "Real", node.variable->span);
         }
     }
-    else if (node.expression->compoundExpression)
-    {
-        if (node.expression->compoundExpression->compoundExpressions.empty())
-        {
-            symbolTable.lookupClass(node.expression->compoundExpression->identifier,
-                                    node.expression->compoundExpression->span);
-        }
-        symbolTable.addVariableEntry(node.variable->name, node.expression->compoundExpression->identifier,
-                                     node.variable->span);
-    }
+
 
     if (node.expression) node.expression->accept(*this);
     if (node.variable) node.variable->accept(*this);
 }
 
-void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
-{
+void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration &node) {
     symbolTable.enterScope();
     auto paramNames = std::vector<std::string>();
 
-    if (node.parameters)
-    {
-        for (const auto& parameter : node.parameters->parameters)
-        {
+    if (node.parameters) {
+        for (const auto &parameter: node.parameters->parameters) {
             paramNames.push_back(parameter->className->name);
             symbolTable.addVariableEntry(parameter->name, parameter->className->name, parameter->span);
         }
     }
 
     symbolTable.addFunctionEntry(
-        node.methodName->name,
-        node.returnType ? node.returnType->className->name : "void",
-        node.methodName->span,
-        paramNames
+            node.methodName->name,
+            node.returnType ? node.returnType->className->name : "void",
+            node.methodName->span,
+            paramNames
     );
 
     if (node.body) node.body->accept(*this);
     if (node.parameters) node.parameters->accept(*this);
 
-    // [CHECK] if return type is correct
+    // [CHECK] if return statementType is correct
     const auto expectedReturnType = symbolTable.lookupFunction(
-        symbolTable.currClassName, node.methodName->name, paramNames, node.methodName->span
+            symbolTable.currClassName, node.methodName->name, paramNames, node.methodName->span
     )->returnType;
-    const ReturnStatement* returnStatement = nullptr;
-    for (const auto& bodyDeclaration : node.body->bodyDeclarations->bodyDeclarations)
-    {
-        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->type == RETURN_STATEMENT)
-        {
-            returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
+    const ReturnStatement *returnStatement = nullptr;
+    for (const auto &bodyDeclaration: node.body->bodyDeclarations->bodyDeclarations) {
+        if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->statementType == RETURN_STATEMENT) {
+            returnStatement = dynamic_cast<ReturnStatement *>(bodyDeclaration->statement.get());
         }
     }
 
 
-    if (returnStatement == nullptr)
-    {
-        if (expectedReturnType != "void")
-        {
+    if (returnStatement == nullptr) {
+        if (expectedReturnType != "void") {
             throw std::runtime_error(
-                "Method " + node.methodName->name + " is of type " + expectedReturnType +
-                " but is being assigned to type void");
+                    "Method " + node.methodName->name + " is of statementType " + expectedReturnType +
+                    " but is being assigned to statementType void");
         }
-    }
-    else
-    {
-        // TODO check type of the last element in the compound expression
-        const auto span = returnStatement->expression->compoundExpression->span;
-        const auto returnVariable = symbolTable.lookupVariable(
-            returnStatement->expression->compoundExpression->identifier,
-            span
-        );
-        if (expectedReturnType != returnVariable->type)
-        {
-            throw std::runtime_error(
-                "Method " + node.methodName->name + " is of type " + expectedReturnType +
-                " but is being assigned to type " + returnVariable->type +
-                " at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
+    } else {
+        // TODO check statementType of the last element in the compound expression
+        if(returnStatement->expression->isCompound){
+            CompoundExpression *expression = dynamic_cast<CompoundExpression *>(returnStatement->expression.get());
+            const auto span = returnStatement->expression->span;
+            const auto returnVariable = symbolTable.lookupVariable(
+                    expression->identifier,
+                    span
             );
+            if (expectedReturnType != returnVariable->type) {
+                throw std::runtime_error(
+                        "Method " + node.methodName->name + " is of statementType " + expectedReturnType +
+                        " but is being assigned to statementType " + returnVariable->type +
+                        " at line: " + std::to_string(span.get_line_num()) +
+                        " column: " + std::to_string(span.get_pos_begin())
+                );
+            }
         }
+
+        // TODO check for primary expression
+
+
     }
 
     if (node.returnType) node.returnType->accept(*this);
@@ -531,27 +469,21 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
     symbolTable.leaveScope();
 }
 
-void SymbolTableVisitor::visitMethodName(MethodName& node)
-{
+void SymbolTableVisitor::visitMethodName(MethodName &node) {
 }
 
-void SymbolTableVisitor::visitParameters(Parameters& node)
-{
-    for (const auto& parameter : node.parameters)
-    {
+void SymbolTableVisitor::visitParameters(Parameters &node) {
+    for (const auto &parameter: node.parameters) {
         parameter->accept(*this);
     }
 }
 
-void SymbolTableVisitor::visitParameter(Parameter& node)
-{
+void SymbolTableVisitor::visitParameter(Parameter &node) {
     if (node.className) node.className->accept(*this);
 }
 
-void SymbolTableVisitor::visitReturnType(ReturnType& node)
-{
+void SymbolTableVisitor::visitReturnType(ReturnType &node) {
 }
 
-void SymbolTableVisitor::visitVariableName(VariableName& node)
-{
+void SymbolTableVisitor::visitVariableName(VariableName &node) {
 }

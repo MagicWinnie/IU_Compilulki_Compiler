@@ -27,13 +27,7 @@ Program
                   BodyDeclaration
                     IfStatement
                       Expression
-                        CompoundExpression: a
-                          CompoundExpression: Equal
-                            Arguments
-                              Expressions
-                                Expression
-                                  CompoundExpression: b
-                            CompoundExpression: Not
+                        CompoundExpression: eq
                       IfBranch
                         Body
                           BodyDeclarations

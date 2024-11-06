@@ -5,308 +5,533 @@
 #include <iostream>
 #include <utility>
 #include "AST.h"
+#include "../code_generator/LLVMSymbolTable.h"
 
 Entity::~Entity() = default;
 
-void Entity::printIndent(const int indent)
-{
+LLVMScopedSymbolTable symbolTable;
+
+void Entity::printIndent(const int indent) {
     for (int i = 0; i < indent; ++i) std::cout << "  ";
 }
-
-Literals::Literals(std::vector<std::unique_ptr<Literal>> literals): literals(std::move(literals))
-{
+llvm::StructType *getClassTypeByName(const std::string &className, llvm::LLVMContext &context) {
+    llvm::StructType *classType = llvm::dyn_cast<llvm::StructType>(llvm::StructType::getTypeByName(context, className));
+    return classType;
 }
 
-void Literals::accept(Visitor& visitor)
-{
+Literals::Literals(std::vector<std::unique_ptr<Literal>> literals) : literals(std::move(literals)) {
+}
+
+void Literals::accept(Visitor &visitor) {
     visitor.visitLiterals(*this);
 }
 
 
-
-void Literal::accept(Visitor& visitor)
-{
+void Literal::accept(Visitor &visitor) {
     visitor.visitLiteral(*this);
 }
 
-Arguments::Arguments(std::unique_ptr<Expressions> expressions): expressions(std::move(expressions))
-{
+Arguments::Arguments(std::unique_ptr<Expressions> expressions) : expressions(std::move(expressions)) {
 }
 
-void Arguments::accept(Visitor& visitor)
-{
+void Arguments::accept(Visitor &visitor) {
     visitor.visitArguments(*this);
 }
 
-ClassName::ClassName(std::string name, const Span& span, std::unique_ptr<ClassName> className):
-    name(std::move(name)), span(span), className(std::move(className))
-{
+ClassName::ClassName(std::string name, const Span &span, std::unique_ptr<ClassName> className) :
+        name(std::move(name)), span(span), className(std::move(className)) {
 }
 
-void ClassName::accept(Visitor& visitor)
-{
+void ClassName::accept(Visitor &visitor) {
     visitor.visitClassName(*this);
 }
 
-void ProgramDeclaration::accept(Visitor& visitor)
-{
+void ProgramDeclaration::accept(Visitor &visitor) {
     visitor.visitProgramDeclaration(*this);
 }
 
-void Program::accept(Visitor& visitor)
-{
+llvm::Value *ProgramDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    // Step 1: Create or get the 'main' function.
+    llvm::FunctionType *mainFuncType = llvm::FunctionType::get(llvm::Type::getInt32Ty(context), false);  // main returns an int32 (exit code)
+    llvm::Function *mainFunc = llvm::Function::Create(mainFuncType, llvm::Function::ExternalLinkage, "main", module);
+
+    // Step 2: Create the entry block for the main function
+    llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", mainFunc);
+    builder.SetInsertPoint(entry);  // Set the insertion point to the entry block of the main function
+
+    // Step 3: Get the struct type for the class (e.g., 'Main') using className
+    llvm::StructType *mainType = getClassTypeByName(className->name, context);
+
+    // Step 4: Allocate memory for the 'Main' object
+    llvm::AllocaInst *mainAlloc = builder.CreateAlloca(mainType, nullptr, "main_object");
+
+    // Step 5: Retrieve the constructor function for Main (e.g., '@Main_Create_Default')
+    std::string constructor_name = className->name + "_Create_Default";
+    llvm::Function *constructorFunc = module.getFunction(constructor_name);
+    if (!constructorFunc) {
+        llvm::errs() << "Error: Constructor function not found for " << constructor_name << "\n";
+        return nullptr;
+    }
+
+    // Step 6: Call the constructor function to initialize the 'Main' object
+    builder.CreateCall(constructorFunc, {mainAlloc});
+
+    // Step 7: Optionally, return the object or return an exit code from main
+    builder.CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 0));  // Return 0 for a successful execution
+
+    return mainAlloc;
+}
+
+void Program::accept(Visitor &visitor) {
     visitor.visitProgram(*this);
 }
 
-void ClassDeclarations::accept(Visitor& visitor)
-{
+llvm::Value *Program::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+
+    if (classDeclarations) {
+        classDeclarations->codegen(context, builder, module);
+    }
+    if (programDeclaration) {
+        programDeclaration->codegen(context, builder, module);
+    }
+
+    return nullptr;
+}
+
+void ClassDeclarations::accept(Visitor &visitor) {
     visitor.visitClassDeclarations(*this);
 }
 
-void ClassDeclaration::accept(Visitor& visitor)
-{
+llvm::Value *ClassDeclarations::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    for (const auto &classDeclaration: classDeclarations) {
+        classDeclaration->codegen(context, builder, module);
+    }
+    return nullptr;
+}
+
+void ClassDeclaration::accept(Visitor &visitor) {
     visitor.visitClassDeclaration(*this);
 }
 
-void MemberDeclarations::accept(Visitor& visitor)
-{
+llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    symbolTable.enterScope();
+    // TODO fix if class name has elements
+    llvm::StructType *classType = llvm::StructType::create(context,{},className->name);
+
+    if (classBody) classBody->codegen(context, builder, module);
+    symbolTable.leaveScope();
+    return nullptr;
+
+
+}
+
+void MemberDeclarations::accept(Visitor &visitor) {
     visitor.visitMemberDeclarations(*this);
 }
 
-Extension::Extension(std::unique_ptr<ClassName> class_name): className(std::move(class_name))
-{
+llvm::Value *MemberDeclarations::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    for (const auto &memberDeclaration: member_declarations) {
+        memberDeclaration->codegen(context, builder, module);
+    }
+    return nullptr;
 }
 
-void Extension::accept(Visitor& visitor)
-{
+Extension::Extension(std::unique_ptr<ClassName> class_name) : className(std::move(class_name)) {
+}
+
+void Extension::accept(Visitor &visitor) {
     visitor.visitExtension(*this);
 }
 
-ClassBody::ClassBody(std::unique_ptr<MemberDeclarations> member_declarations): memberDeclarations(
-    std::move(member_declarations))
-{
+llvm::Value *Extension::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (className) {
+        className->codegen(context, builder, module);
+    }
+    return nullptr;
 }
 
-void ClassBody::accept(Visitor& visitor)
-{
+ClassBody::ClassBody(std::unique_ptr<MemberDeclarations> member_declarations) : memberDeclarations(
+        std::move(member_declarations)) {
+}
+
+void ClassBody::accept(Visitor &visitor) {
     visitor.visitClassBody(*this);
 }
 
-void Expressions::accept(Visitor& visitor)
-{
+llvm::Value *ClassBody::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (memberDeclarations) {
+        memberDeclarations->codegen(context, builder, module);
+    }
+    return nullptr;
+}
+
+void Expressions::accept(Visitor &visitor) {
     visitor.visitExpressions(*this);
 }
 
-void Expression::accept(Visitor& visitor)
-{
-    visitor.visitExpression(*this);
-}
 
 
-
-void Primary::accept(Visitor& visitor)
-{
+void Primary::accept(Visitor &visitor) {
     visitor.visitPrimary(*this);
 }
 
-CompoundExpression::CompoundExpression(std::string id, const Span& span, std::unique_ptr<Arguments> args,
-                                       std::vector<std::unique_ptr<CompoundExpression>> compExpr):
-    identifier(std::move(id)), span(span), arguments(std::move(args)), compoundExpressions(std::move(compExpr))
-{
-    type = COMPOUND_STATEMENT;
+llvm::Value *Primary::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (literal) {
+        return literal->codegen(context, builder, module);
+    }
+    //TODO class name
+    return nullptr;
+
 }
 
-void CompoundExpression::accept(Visitor& visitor)
-{
+Primary::Primary(std::unique_ptr<ClassName> &class_name, const std::string& type, const Span& span) : class_name(std::move(class_name)) {
+    isCompound = false;
+    this->span = span;
+    this->type = type;
+}
+
+Primary::Primary(std::unique_ptr<Literal> &literal,  const std::string& type,const Span &) {
+    this->literal = std::move(literal);
+    isCompound = false;
+    this->span = span;
+    this->type = type;
+
+}
+
+CompoundExpression::CompoundExpression(std::string id, const Span &span, std::unique_ptr<Arguments> args,
+                                       std::vector<std::unique_ptr<CompoundExpression>> compExpr ) :
+        identifier(std::move(id)), arguments(std::move(args)), compoundExpressions(std::move(compExpr)) {
+    statementType = COMPOUND_STATEMENT;
+    isCompound = true;
+    this->span = span;
+}
+
+void CompoundExpression::accept(Visitor &visitor) {
     visitor.visitCompoundExpression(*this);
 }
 
-ProgramArguments::ProgramArguments(std::unique_ptr<Literals> literals): literals(std::move(literals))
-{
+llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    llvm::Value *value = nullptr;
+    if (compoundExpressions.empty()) {
+        // Get local value
+        llvm::Value *ptr = symbolTable.getLocalVariable(identifier);
+
+        if (ptr) {
+            value = builder.CreateLoad(ptr->getType(), ptr, "load_" + identifier);
+        } else {
+            llvm::errs() << "Error: Undefined local variable " << identifier << "\n";
+            return nullptr;
+        }
+    } else {
+        llvm::Value *currentValue = symbolTable.getLocalVariable(identifier);
+
+        if (arguments) {
+            std::vector<llvm::Value *> args;
+            // Generate arguments for method call
+            for (auto &arg: arguments->expressions->expressions) {
+                llvm::Value *argValue = arg->codegen(context, builder, module);
+                if (!argValue) {
+                    return nullptr;
+                }
+                args.push_back(argValue);
+            }
+
+            llvm::Function *function = module.getFunction(compoundExpressions[0]->identifier);
+            if (!function) {
+                return nullptr; // Function not found
+            }
+            value = builder.CreateCall(function, {}, "call_" + identifier);
+        }
+        auto varType = symbolTable.getLocalVariableType(identifier);
+        auto funcName = varType+"_"+compoundExpressions[0]->identifier;
+        llvm::Function *function = module.getFunction(funcName);
+
+        if (!function) {
+            return nullptr;
+        }
+        if(function->getReturnType()->isVoidTy()){
+            // TODO add other arguments
+            value = builder.CreateCall(function, {currentValue});
+        }
+        else{
+            // TODO add other arguments
+            value = builder.CreateCall(function, {currentValue}, "call_" + funcName);
+        }
+
+    }
+    return nullptr;
 }
 
-void ProgramArguments::accept(Visitor& visitor)
-{
+ProgramArguments::ProgramArguments(std::unique_ptr<Literals> literals) : literals(std::move(literals)) {
+}
+
+void ProgramArguments::accept(Visitor &visitor) {
     visitor.visitProgramArguments(*this);
 }
 
-void MemberDeclaration::accept(Visitor& visitor)
-{
+void MemberDeclaration::accept(Visitor &visitor) {
     visitor.visitMemberDeclaration(*this);
 }
 
-ConstructorDeclaration::ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body,
-                                               const Span& span):
-    parameters(std::move(parameters)),
-    body(std::move(body)),
-    span(span)
-{
+llvm::Value *MemberDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (variableDeclaration) {
+        variableDeclaration->codegen(context, builder, module);
+    }
+    if (methodDeclaration) {
+        methodDeclaration->codegen(context, builder, module);
+    }
+    if (constructorDeclaration) {
+        constructorDeclaration->codegen(context, builder, module);
+    }
+    return nullptr;
 }
 
-void ConstructorDeclaration::accept(Visitor& visitor)
-{
+ConstructorDeclaration::ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body,
+                                               const Span &span, std::string className) :
+        className(std::move(className)),
+        parameters(std::move(parameters)),
+        body(std::move(body)),
+        span(span) {
+}
+
+void ConstructorDeclaration::accept(Visitor &visitor) {
     visitor.visitConstructorDeclaration(*this);
 }
 
-VariableDeclaration::VariableDeclaration(std::unique_ptr<VariableName> variable,
-                                         std::unique_ptr<Expression> expression): variable(std::move(variable)),
-    expression(std::move(expression))
-{
+llvm::Value *
+ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    symbolTable.enterScope();
+    llvm::StructType *classType = getClassTypeByName(className, context);
+    llvm::FunctionType *constructorType = llvm::FunctionType::get(llvm::Type::getVoidTy(context),
+                                                                  {classType->getPointerTo()}, false);
+
+    // Generate the constructor function (name it based on the class it's constructing).
+
+    // TODO class may have two or more constructors
+    // TODO class may have arguments
+    llvm::Function *constructor = llvm::Function::Create(constructorType, llvm::Function::ExternalLinkage,
+                                                         className + "_Create_Default", module);
+
+    // Create the entry basic block for the constructor.
+    llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", constructor);
+    builder.SetInsertPoint(entry);
+
+    // Get the 'this' pointer (the first argument of the constructor).
+    llvm::Value *thisPtr = constructor->getArg(0);
+
+    if (body) {
+        body->codegen(context, builder, module);
+    }
+
+    // Finally, return void from the constructor function.
+    builder.CreateRetVoid();
+
+
+    symbolTable.leaveScope();
+
+    return nullptr;
 }
 
-void VariableDeclaration::accept(Visitor& visitor)
-{
+VariableDeclaration::VariableDeclaration(std::unique_ptr<VariableName> variable,
+                                         std::unique_ptr<Expression> expression) : variable(std::move(variable)),
+                                                                                   expression(std::move(expression)) {
+}
+
+void VariableDeclaration::accept(Visitor &visitor) {
     visitor.visitVariableDeclaration(*this);
 }
 
-MethodDeclaration::MethodDeclaration(std::unique_ptr<MethodName>& method_name, std::unique_ptr<Parameters>& parameters,
-                                     std::unique_ptr<ReturnType>& return_type,
-                                     std::unique_ptr<Body>& body): methodName(std::move(method_name)),
-                                                                   parameters(std::move(parameters)),
-                                                                   returnType(std::move(return_type)),
-                                                                   body(std::move(body))
-{
+llvm::Value *
+VariableDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    llvm::AllocaInst *var = builder.CreateAlloca(llvm::Type::getInt32Ty(context), nullptr, variable->name);
+    auto val = expression->codegen(context, builder, module);
+    builder.CreateStore(val, var);
+    symbolTable.addLocalVariable(variable->name, var, expression->get_type());
+    return var;
 }
 
-void MethodDeclaration::accept(Visitor& visitor)
-{
+MethodDeclaration::MethodDeclaration(std::unique_ptr<MethodName> &method_name, std::unique_ptr<Parameters> &parameters,
+                                     std::unique_ptr<ReturnType> &return_type,
+                                     std::unique_ptr<Body> &body) : methodName(std::move(method_name)),
+                                                                    parameters(std::move(parameters)),
+                                                                    returnType(std::move(return_type)),
+                                                                    body(std::move(body)) {
+}
+
+void MethodDeclaration::accept(Visitor &visitor) {
     visitor.visitMethodDeclaration(*this);
 }
 
-void Parameters::accept(Visitor& visitor)
-{
+void Parameters::accept(Visitor &visitor) {
     visitor.visitParameters(*this);
 }
 
-MethodName::MethodName(std::string name, const Span& span): name(std::move(name)), span(span)
-{
+MethodName::MethodName(std::string name, const Span &span) : name(std::move(name)), span(span) {
 }
 
-void MethodName::accept(Visitor& visitor)
-{
+void MethodName::accept(Visitor &visitor) {
     visitor.visitMethodName(*this);
 }
 
-Parameter::Parameter(std::string name, const Span& span, std::unique_ptr<ClassName> class_name):
-    name(std::move(name)), span(span), className(std::move(class_name))
-{
+Parameter::Parameter(std::string name, const Span &span, std::unique_ptr<ClassName> class_name) :
+        name(std::move(name)), span(span), className(std::move(class_name)) {
 }
 
-void Parameter::accept(Visitor& visitor)
-{
+void Parameter::accept(Visitor &visitor) {
     visitor.visitParameter(*this);
 }
 
-VariableName::VariableName(std::string name, const Span& span): name(std::move(name)), span(span)
-{
+VariableName::VariableName(std::string name, const Span &span) : name(std::move(name)), span(span) {
 }
 
-void VariableName::accept(Visitor& visitor)
-{
+void VariableName::accept(Visitor &visitor) {
     visitor.visitVariableName(*this);
 }
 
-ReturnType::ReturnType(std::unique_ptr<ClassName> class_name): className(std::move(class_name))
-{
+ReturnType::ReturnType(std::unique_ptr<ClassName> class_name) : className(std::move(class_name)) {
 }
 
-void ReturnType::accept(Visitor& visitor)
-{
+void ReturnType::accept(Visitor &visitor) {
     visitor.visitReturnType(*this);
 }
 
-BodyDeclaration::BodyDeclaration(std::unique_ptr<VariableDeclaration> variable_declaration): variableDeclaration(
-    std::move(variable_declaration))
-{
+BodyDeclaration::BodyDeclaration(std::unique_ptr<VariableDeclaration> variable_declaration) : variableDeclaration(
+        std::move(variable_declaration)) {
 }
 
-BodyDeclaration::BodyDeclaration(std::unique_ptr<Statement> statement): statement(std::move(statement))
-{
+BodyDeclaration::BodyDeclaration(std::unique_ptr<Statement> statement) : statement(std::move(statement)) {
 }
 
-void BodyDeclaration::accept(Visitor& visitor)
-{
+void BodyDeclaration::accept(Visitor &visitor) {
     visitor.visitBodyDeclaration(*this);
 }
 
-void Statement::accept(Visitor& visitor)
-{
+llvm::Value *BodyDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (variableDeclaration) {
+        variableDeclaration->codegen(context, builder, module);
+    }
+    if (statement) {
+        statement->codegen(context, builder, module);
+    }
+    return nullptr;
+}
+
+void Statement::accept(Visitor &visitor) {
     visitor.visitStatement(*this);
 }
 
-void Assignment::accept(Visitor& visitor)
-{
+
+void Assignment::accept(Visitor &visitor) {
     visitor.visitAssignment(*this);
 }
 
-WhileLoop::WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Body> body):
-    expression(std::move(expression)),
-    body(std::move(body))
-{
-    type = WHILE_LOOP;
+llvm::Value *IfStatement::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    llvm::Value *CondV = expression->codegen(context, builder, module);
+    if (!CondV)
+        return nullptr;
+
+    CondV = builder.CreateICmpNE(CondV, llvm::ConstantInt::get(CondV->getType(), 0), "ifcond");
+    llvm::Function *TheFunction = builder.GetInsertBlock()->getParent();
+    llvm::BasicBlock *ThenBB = llvm::BasicBlock::Create(context, "then", TheFunction);
+    llvm::BasicBlock *ElseBB = llvm::BasicBlock::Create(context, "else");
+    llvm::BasicBlock *MergeBB = llvm::BasicBlock::Create(context, "ifcont");
+    builder.CreateCondBr(CondV, ThenBB, ElseBB);
+    builder.SetInsertPoint(ThenBB);
+    llvm::Value *ThenV = this->ifBranch->codegen(context, builder, module);
+    if (!ThenV) return nullptr;
+    builder.CreateBr(MergeBB);
+
+    ThenBB = builder.GetInsertBlock();
+
+    return nullptr;
+
 }
 
-void WhileLoop::accept(Visitor& visitor)
-{
+WhileLoop::WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Body> body) :
+        expression(std::move(expression)),
+        body(std::move(body)) {
+    statementType = WHILE_LOOP;
+}
+
+void WhileLoop::accept(Visitor &visitor) {
     visitor.visitWhileLoop(*this);
 }
 
 IfStatement::IfStatement(std::unique_ptr<Expression> expression, std::unique_ptr<IfBranch> if_branch,
-                         std::unique_ptr<ElseBranch> else_branch): expression(std::move(expression)),
-                                                                   ifBranch(std::move(if_branch)),
-                                                                   elseBranch(std::move(else_branch))
-{
-    type = IF_STATEMENT;
+                         std::unique_ptr<ElseBranch> else_branch) : expression(std::move(expression)),
+                                                                    ifBranch(std::move(if_branch)),
+                                                                    elseBranch(std::move(else_branch)) {
+    statementType = IF_STATEMENT;
 }
 
-void IfStatement::accept(Visitor& visitor)
-{
+void IfStatement::accept(Visitor &visitor) {
     visitor.visitIfStatement(*this);
 }
 
-IfBranch::IfBranch(std::unique_ptr<Body> body): body(std::move(body))
-{
+IfBranch::IfBranch(std::unique_ptr<Body> body) : body(std::move(body)) {
 }
 
-void IfBranch::accept(Visitor& visitor)
-{
+void IfBranch::accept(Visitor &visitor) {
     visitor.visitIfBranch(*this);
 }
 
-ElseBranch::ElseBranch(std::unique_ptr<Body> body): body(std::move(body))
-{
+ElseBranch::ElseBranch(std::unique_ptr<Body> body) : body(std::move(body)) {
 }
 
-void ElseBranch::accept(Visitor& visitor)
-{
+void ElseBranch::accept(Visitor &visitor) {
     visitor.visitElseBranch(*this);
 }
 
-ReturnStatement::ReturnStatement(std::unique_ptr<Expression> expression): expression(std::move(expression))
-{
-    type = RETURN_STATEMENT;
+ReturnStatement::ReturnStatement(std::unique_ptr<Expression> expression) : expression(std::move(expression)) {
+    statementType = RETURN_STATEMENT;
 }
 
-void ReturnStatement::accept(Visitor& visitor)
-{
+void ReturnStatement::accept(Visitor &visitor) {
     visitor.visitReturnStatement(*this);
 }
 
-Body::Body(std::unique_ptr<BodyDeclarations> body_declarations): bodyDeclarations(std::move(body_declarations))
-{
+Body::Body(std::unique_ptr<BodyDeclarations> body_declarations) : bodyDeclarations(std::move(body_declarations)) {
 }
 
-void Body::accept(Visitor& visitor)
-{
+void Body::accept(Visitor &visitor) {
     visitor.visitBody(*this);
 }
 
-BodyDeclarations::BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>> body_declarations): bodyDeclarations(
-    std::move(body_declarations))
-{
+llvm::Value *Body::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (bodyDeclarations) {
+        bodyDeclarations->codegen(context, builder, module);
+    }
+    return nullptr;
 }
 
-void BodyDeclarations::accept(Visitor& visitor)
-{
+BodyDeclarations::BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>> body_declarations) : bodyDeclarations(
+        std::move(body_declarations)) {
+}
+
+void BodyDeclarations::accept(Visitor &visitor) {
     visitor.visitBodyDeclarations(*this);
+}
+
+llvm::Value *BodyDeclarations::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    for (const auto &bodyDeclaration: bodyDeclarations) {
+        bodyDeclaration->codegen(context, builder, module);
+    }
+    return nullptr;
+}
+
+
+
+llvm::Value *BoolLiteral::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    return llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), value);
+
+}
+
+std::string Expression::get_type() {
+    if(isCompound){
+        // TODO fix compound expression type
+        return "WTF??";
+    }
+    else{
+        return type;
+    }
 }

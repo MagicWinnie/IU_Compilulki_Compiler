@@ -1,0 +1,28 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+    ProgramArguments
+      Literals
+        Literal: 1.100000
+        Literal: 1.200000
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      Primary: false
+                      VariableName: eq
+                  BodyDeclaration
+                    CompoundExpression: eq
+                      CompoundExpression: print
+              Parameters
+                Parameter: a
+                  ClassName: Real
+                Parameter: b
+                  ClassName: Real

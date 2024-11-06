@@ -5,39 +5,32 @@
 #include <iostream>
 #include "PrintVisitor.h"
 
-void PrintVisitor::printIndentation() const
-{
-    for (int i = 0; i < indentationLevel; ++i)
-    {
+void PrintVisitor::printIndentation() const {
+    for (int i = 0; i < indentationLevel; ++i) {
         out << "  "; // Two spaces for each indentation level
     }
 }
 
-PrintVisitor::PrintVisitor(std::ostream& out): out(out)
-{
+PrintVisitor::PrintVisitor(std::ostream &out) : out(out) {
 }
 
 
-void PrintVisitor::visitLiterals(Literals& node)
-{
+void PrintVisitor::visitLiterals(Literals &node) {
     printIndentation();
     out << "Literals" << std::endl;
     indentationLevel++;
-    for (const auto& literal : node.literals)
-    {
+    for (const auto &literal: node.literals) {
         literal->accept(*this);
     }
     indentationLevel--;
 }
 
-void PrintVisitor::visitLiteral(Literal& node)
-{
+void PrintVisitor::visitLiteral(Literal &node) {
     printIndentation();
     out << "Literal: " << node.to_string() << std::endl;
 }
 
-void PrintVisitor::visitArguments(Arguments& node)
-{
+void PrintVisitor::visitArguments(Arguments &node) {
     printIndentation();
     out << "Arguments" << std::endl;
     indentationLevel++;
@@ -45,30 +38,25 @@ void PrintVisitor::visitArguments(Arguments& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitExpressions(Expressions& node)
-{
+void PrintVisitor::visitExpressions(Expressions &node) {
     printIndentation();
     out << "Expressions" << std::endl;
     indentationLevel++;
-    for (const auto& expression : node.expressions)
-    {
+    for (const auto &expression: node.expressions) {
         expression->accept(*this);
     }
     indentationLevel--;
 }
 
-void PrintVisitor::visitExpression(Expression& node)
-{
+void PrintVisitor::visitExpression(Expression &node) {
     printIndentation();
     out << "Expression" << std::endl;
     indentationLevel++;
-    if (node.primary) node.primary->accept(*this);
-    if (node.compoundExpression) node.compoundExpression->accept(*this);
+    node.accept(*this);
     indentationLevel--;
 }
 
-void PrintVisitor::visitPrimary(Primary& node)
-{
+void PrintVisitor::visitPrimary(Primary &node) {
     printIndentation();
     out << "Primary: " << node.to_string() << std::endl;
     indentationLevel++;
@@ -76,21 +64,18 @@ void PrintVisitor::visitPrimary(Primary& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitCompoundExpression(CompoundExpression& node)
-{
+void PrintVisitor::visitCompoundExpression(CompoundExpression &node) {
     printIndentation();
     out << "CompoundExpression: " << node.identifier << std::endl;
     indentationLevel++;
     if (node.arguments) node.arguments->accept(*this);
-    for (const auto& compoundExpression : node.compoundExpressions)
-    {
+    for (const auto &compoundExpression: node.compoundExpressions) {
         compoundExpression->accept(*this);
     }
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassDeclaration(ClassDeclaration& node)
-{
+void PrintVisitor::visitClassDeclaration(ClassDeclaration &node) {
     printIndentation();
     out << "ClassDeclaration" << std::endl;
     indentationLevel++;
@@ -100,8 +85,7 @@ void PrintVisitor::visitClassDeclaration(ClassDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassBody(ClassBody& node)
-{
+void PrintVisitor::visitClassBody(ClassBody &node) {
     printIndentation();
     out << "ClassBody" << std::endl;
     indentationLevel++;
@@ -109,8 +93,7 @@ void PrintVisitor::visitClassBody(ClassBody& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitExtension(Extension& node)
-{
+void PrintVisitor::visitExtension(Extension &node) {
     printIndentation();
     out << "Extension" << std::endl;
     indentationLevel++;
@@ -118,8 +101,7 @@ void PrintVisitor::visitExtension(Extension& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitBody(Body& node)
-{
+void PrintVisitor::visitBody(Body &node) {
     printIndentation();
     out << "Body" << std::endl;
     indentationLevel++;
@@ -127,23 +109,19 @@ void PrintVisitor::visitBody(Body& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitBodyDeclarations(BodyDeclarations& node)
-{
+void PrintVisitor::visitBodyDeclarations(BodyDeclarations &node) {
     printIndentation();
     out << "BodyDeclarations" << std::endl;
     indentationLevel++;
-    for (auto& bodyDeclaration : node.bodyDeclarations)
-    {
+    for (auto &bodyDeclaration: node.bodyDeclarations) {
         if (bodyDeclaration) bodyDeclaration->accept(*this);
     }
     indentationLevel--;
 }
 
-void PrintVisitor::visitBodyDeclaration(BodyDeclaration& node)
-{
+void PrintVisitor::visitBodyDeclaration(BodyDeclaration &node) {
 
-    if(! (node.variableDeclaration== nullptr && node.statement== nullptr))
-    {
+    if (!(node.variableDeclaration == nullptr && node.statement == nullptr)) {
         printIndentation();
         out << "BodyDeclaration" << std::endl;
     }
@@ -153,8 +131,7 @@ void PrintVisitor::visitBodyDeclaration(BodyDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitStatement(Statement& node)
-{
+void PrintVisitor::visitStatement(Statement &node) {
     printIndentation();
     out << "Statement" << std::endl;
     indentationLevel++;
@@ -162,8 +139,7 @@ void PrintVisitor::visitStatement(Statement& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitIfStatement(IfStatement& node)
-{
+void PrintVisitor::visitIfStatement(IfStatement &node) {
     printIndentation();
     out << "IfStatement" << std::endl;
     indentationLevel++;
@@ -173,8 +149,7 @@ void PrintVisitor::visitIfStatement(IfStatement& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitIfBranch(IfBranch& node)
-{
+void PrintVisitor::visitIfBranch(IfBranch &node) {
     printIndentation();
     out << "IfBranch" << std::endl;
     indentationLevel++;
@@ -182,8 +157,7 @@ void PrintVisitor::visitIfBranch(IfBranch& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitElseBranch(ElseBranch& node)
-{
+void PrintVisitor::visitElseBranch(ElseBranch &node) {
     printIndentation();
     out << "ElseBranch" << std::endl;
     indentationLevel++;
@@ -191,8 +165,7 @@ void PrintVisitor::visitElseBranch(ElseBranch& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitWhileLoop(WhileLoop& node)
-{
+void PrintVisitor::visitWhileLoop(WhileLoop &node) {
     printIndentation();
     out << "WhileLoop" << std::endl;
     indentationLevel++;
@@ -201,8 +174,7 @@ void PrintVisitor::visitWhileLoop(WhileLoop& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitAssignment(Assignment& node)
-{
+void PrintVisitor::visitAssignment(Assignment &node) {
     printIndentation();
     out << "Assignment" << std::endl;
     indentationLevel++;
@@ -211,20 +183,17 @@ void PrintVisitor::visitAssignment(Assignment& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMemberDeclarations(MemberDeclarations& node)
-{
+void PrintVisitor::visitMemberDeclarations(MemberDeclarations &node) {
     printIndentation();
     out << "MemberDeclarations" << std::endl;
     indentationLevel++;
-    for (const auto& memberDeclaration : node.member_declarations)
-    {
+    for (const auto &memberDeclaration: node.member_declarations) {
         memberDeclaration->accept(*this);
     }
     indentationLevel--;
 }
 
-void PrintVisitor::visitMemberDeclaration(MemberDeclaration& node)
-{
+void PrintVisitor::visitMemberDeclaration(MemberDeclaration &node) {
     printIndentation();
     out << "MemberDeclaration" << std::endl;
     indentationLevel++;
@@ -234,8 +203,7 @@ void PrintVisitor::visitMemberDeclaration(MemberDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitConstructorDeclaration(ConstructorDeclaration& node)
-{
+void PrintVisitor::visitConstructorDeclaration(ConstructorDeclaration &node) {
     printIndentation();
     out << "ConstructorDeclaration" << std::endl;
     indentationLevel++;
@@ -244,8 +212,7 @@ void PrintVisitor::visitConstructorDeclaration(ConstructorDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitReturnStatement(ReturnStatement& node)
-{
+void PrintVisitor::visitReturnStatement(ReturnStatement &node) {
     printIndentation();
     out << "ReturnStatement" << std::endl;
     indentationLevel++;
@@ -253,8 +220,7 @@ void PrintVisitor::visitReturnStatement(ReturnStatement& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitVariableDeclaration(VariableDeclaration& node)
-{
+void PrintVisitor::visitVariableDeclaration(VariableDeclaration &node) {
     printIndentation();
     out << "VariableDeclaration" << std::endl;
     indentationLevel++;
@@ -263,8 +229,7 @@ void PrintVisitor::visitVariableDeclaration(VariableDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMethodDeclaration(MethodDeclaration& node)
-{
+void PrintVisitor::visitMethodDeclaration(MethodDeclaration &node) {
     printIndentation();
     out << "MethodDeclaration" << std::endl;
     indentationLevel++;
@@ -275,26 +240,22 @@ void PrintVisitor::visitMethodDeclaration(MethodDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitMethodName(MethodName& node)
-{
+void PrintVisitor::visitMethodName(MethodName &node) {
     printIndentation();
     out << "MethodName: " << node.name << std::endl;
 }
 
-void PrintVisitor::visitParameters(Parameters& node)
-{
+void PrintVisitor::visitParameters(Parameters &node) {
     printIndentation();
     out << "Parameters" << std::endl;
     indentationLevel++;
-    for (const auto& parameter : node.parameters)
-    {
+    for (const auto &parameter: node.parameters) {
         parameter->accept(*this);
     }
     indentationLevel--;
 }
 
-void PrintVisitor::visitParameter(Parameter& node)
-{
+void PrintVisitor::visitParameter(Parameter &node) {
     printIndentation();
     out << "Parameter: " << node.name << std::endl;
     indentationLevel++;
@@ -302,8 +263,7 @@ void PrintVisitor::visitParameter(Parameter& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitReturnType(ReturnType& node)
-{
+void PrintVisitor::visitReturnType(ReturnType &node) {
     printIndentation();
     out << "ReturnType" << std::endl;
     indentationLevel++;
@@ -311,14 +271,12 @@ void PrintVisitor::visitReturnType(ReturnType& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitVariableName(VariableName& node)
-{
+void PrintVisitor::visitVariableName(VariableName &node) {
     printIndentation();
     out << "VariableName: " << node.name << std::endl;
 }
 
-void PrintVisitor::visitProgram(Program& node)
-{
+void PrintVisitor::visitProgram(Program &node) {
     printIndentation();
     out << "Program" << std::endl;
     indentationLevel++;
@@ -327,8 +285,7 @@ void PrintVisitor::visitProgram(Program& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitProgramDeclaration(ProgramDeclaration& node)
-{
+void PrintVisitor::visitProgramDeclaration(ProgramDeclaration &node) {
     printIndentation();
     out << "ProgramDeclaration" << std::endl;
     indentationLevel++;
@@ -337,14 +294,12 @@ void PrintVisitor::visitProgramDeclaration(ProgramDeclaration& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassName(ClassName& node)
-{
+void PrintVisitor::visitClassName(ClassName &node) {
     printIndentation();
     out << "ClassName: " << node.name << std::endl;
 }
 
-void PrintVisitor::visitProgramArguments(ProgramArguments& node)
-{
+void PrintVisitor::visitProgramArguments(ProgramArguments &node) {
     printIndentation();
     out << "ProgramArguments" << std::endl;
     indentationLevel++;
@@ -352,13 +307,11 @@ void PrintVisitor::visitProgramArguments(ProgramArguments& node)
     indentationLevel--;
 }
 
-void PrintVisitor::visitClassDeclarations(ClassDeclarations& node)
-{
+void PrintVisitor::visitClassDeclarations(ClassDeclarations &node) {
     printIndentation();
     out << "ClassDeclarations" << std::endl;
     indentationLevel++;
-    for (const auto& classDeclaration : node.classDeclarations)
-    {
+    for (const auto &classDeclaration: node.classDeclarations) {
         classDeclaration->accept(*this);
     }
     indentationLevel--;

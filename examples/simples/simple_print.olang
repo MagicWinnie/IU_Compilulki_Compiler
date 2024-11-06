@@ -5,15 +5,8 @@ Program: Main(1.1, 1.2)
 
 class Main is
     this(a: Real, b: Real) is
-        var eq : true
-        var dif : false
-
-        if eq then
-            dif.print()
-        else
-            eq.print()
-        end
-
+        var eq : false
+        eq.print()
     end
 
 end

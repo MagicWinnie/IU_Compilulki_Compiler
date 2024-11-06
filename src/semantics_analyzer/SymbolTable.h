@@ -7,13 +7,14 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <llvm/IR/Value.h>
 
 #include "../lexical_analyzer/span.h"
 
 struct VariableEntry
 {
     std::string name; // Variable name
-    std::string type; // Variable type
+    std::string type; // Variable statementType
     bool is_constant{}; // Is it a constant?
     bool is_used = false; // Is it used?
 };
@@ -40,7 +41,7 @@ struct MethodSignature
 struct MethodEntry
 {
     MethodSignature signature; // Signature
-    std::string returnType; // Return type
+    std::string returnType; // Return statementType
 };
 
 struct ClassEntry
@@ -113,4 +114,6 @@ public:
                                       const Span&, bool throw_error = true) const;
 
     const ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true) const;
+
+
 };
