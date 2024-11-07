@@ -12,80 +12,63 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Array
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 5
-                          CompoundExpression: Integer
+                      CompoundExpression: Array
+                        Arguments
+                          Expressions
+                            Primary: 5
+                        CompoundExpression: Integer
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 0
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 0
                       VariableName: i1
                   BodyDeclaration
                     WhileLoop
                       Body
                         BodyDeclarations
                           BodyDeclaration
-                            Expression
-                              CompoundExpression: a
-                                CompoundExpression: set
-                                  Arguments
-                                    Expressions
-                                      Expression
-                                        CompoundExpression: i1
-                                      Expression
-                                        CompoundExpression: i1
-                                          CompoundExpression: Mult
-                                            Arguments
-                                              Expressions
-                                                Expression
-                                                  CompoundExpression: i1
-                                            CompoundExpression: Mult
-                                              Arguments
-                                                Expressions
-                                                  Expression
-                                                    CompoundExpression: i1
-                      Expression
-                        CompoundExpression: i1
-                          CompoundExpression: LessEqual
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 4
-                  BodyDeclaration
-                    VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
+                            CompoundExpression: a
+                              CompoundExpression: set
+                                Arguments
+                                  Expressions
+                                    CompoundExpression: i1
+                                    CompoundExpression: i1
+                                      CompoundExpression: Mult
+                                        Arguments
+                                          Expressions
+                                            CompoundExpression: i1
+                                        CompoundExpression: Mult
+                                          Arguments
+                                            Expressions
+                                              CompoundExpression: i1
+                      CompoundExpression: i1
+                        CompoundExpression: LessEqual
                           Arguments
                             Expressions
-                              Expression
-                                Primary: 4
+                              Primary: 4
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 4
                       VariableName: i2
                   BodyDeclaration
                     WhileLoop
                       Body
                         BodyDeclarations
                           BodyDeclaration
-                            Expression
-                              CompoundExpression: a
-                                CompoundExpression: get
-                                  Arguments
-                                    Expressions
-                                      Expression
-                                        CompoundExpression: i2
-                                  CompoundExpression: print
-                      Expression
-                        CompoundExpression: i2
-                          CompoundExpression: GreaterEqual
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 0
+                            CompoundExpression: a
+                              CompoundExpression: get
+                                Arguments
+                                  Expressions
+                                    CompoundExpression: i2
+                                CompoundExpression: print
+                      CompoundExpression: i2
+                        CompoundExpression: GreaterEqual
+                          Arguments
+                            Expressions
+                              Primary: 0

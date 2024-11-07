@@ -8,21 +8,17 @@ Program
         MemberDeclarations
           MemberDeclaration
             VariableDeclaration
-              Expression
-                CompoundExpression: Integer
-                  Arguments
-                    Expressions
-                      Expression
-                        Primary: 0
+              CompoundExpression: Integer
+                Arguments
+                  Expressions
+                    Primary: 0
               VariableName: a
           MemberDeclaration
             VariableDeclaration
-              Expression
-                CompoundExpression: Integer
-                  Arguments
-                    Expressions
-                      Expression
-                        Primary: 0
+              CompoundExpression: Integer
+                Arguments
+                  Expressions
+                    Primary: 0
               VariableName: b
           MemberDeclaration
             ConstructorDeclaration
@@ -30,13 +26,11 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: x
+                      CompoundExpression: x
                       VariableName: a
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: y
+                      CompoundExpression: y
                       VariableName: b
               Parameters
                 Parameter: x
@@ -49,8 +43,7 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: x
+                      CompoundExpression: x
                       VariableName: a
               Parameters
                 Parameter: x
@@ -60,13 +53,11 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: a
-                        CompoundExpression: print
+                    CompoundExpression: a
+                      CompoundExpression: print
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: b
-                        CompoundExpression: print
+                    CompoundExpression: b
+                      CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Main
@@ -78,29 +69,22 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: A
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 1
-                              Expression
-                                Primary: 2
+                      CompoundExpression: A
+                        Arguments
+                          Expressions
+                            Primary: 1
+                            Primary: 2
                       VariableName: a1
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: A
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 1
+                      CompoundExpression: A
+                        Arguments
+                          Expressions
+                            Primary: 1
                       VariableName: a2
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: a1
-                        CompoundExpression: show
+                    CompoundExpression: a1
+                      CompoundExpression: show
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: a2
-                        CompoundExpression: show
+                    CompoundExpression: a2
+                      CompoundExpression: show

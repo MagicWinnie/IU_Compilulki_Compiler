@@ -16,37 +16,30 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 5
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 5
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 5
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 5
                       VariableName: b
                   BodyDeclaration
                     IfStatement
-                      Expression
-                        Primary: true
+                      Primary: true
                       IfBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              Expression
-                                CompoundExpression: a
-                                  CompoundExpression: print
+                              CompoundExpression: a
+                                CompoundExpression: print
                       ElseBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              Expression
-                                CompoundExpression: b
-                                  CompoundExpression: print
+                              CompoundExpression: b
+                                CompoundExpression: print

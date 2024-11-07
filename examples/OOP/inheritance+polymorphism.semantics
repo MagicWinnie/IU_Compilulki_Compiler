@@ -11,13 +11,11 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Expression
-                              Primary: 1
-                        CompoundExpression: print
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 1
+                      CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Derived
@@ -30,13 +28,11 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Expression
-                              Primary: 2
-                        CompoundExpression: print
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 2
+                      CompoundExpression: print
               MethodName: show
     ClassDeclaration
       ClassName: Main
@@ -48,29 +44,23 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Base
+                      CompoundExpression: Base
                       VariableName: b
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: Base
+                      CompoundExpression: Base
                       VariableName: b
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Base
+                      CompoundExpression: Base
                       VariableName: d
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: Derived
+                      CompoundExpression: Derived
                       VariableName: d
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: b
-                        CompoundExpression: show
+                    CompoundExpression: b
+                      CompoundExpression: show
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: d
-                        CompoundExpression: show
+                    CompoundExpression: d
+                      CompoundExpression: show

@@ -12,6 +12,8 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/Module.h>
+#include "llvm/IR/DataLayout.h"
+#include "llvm/IR/Intrinsics.h"
 
 #include "../lexical_analyzer/span.h"
 #include "../semantics_analyzer/SymbolTable.h"
@@ -609,9 +611,7 @@ public:
     std::unique_ptr<VariableName> variableName;
     std::unique_ptr<Expression> expression;
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override {
-        return nullptr;
-    }
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override;
 
     Assignment() {
         statementType = ASSIGNMENT;
@@ -627,9 +627,7 @@ public:
 
     WhileLoop(std::unique_ptr<Expression>, std::unique_ptr<Body>);
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override {
-        return nullptr;
-    }
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override;
 
     void accept(Visitor &) override;
 
@@ -657,9 +655,7 @@ public:
 
     explicit IfBranch(std::unique_ptr<Body>);
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override {
-        return nullptr;
-    }
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override;
 
     void accept(Visitor &) override;
 };
@@ -670,9 +666,7 @@ public:
 
     explicit ElseBranch(std::unique_ptr<Body>);
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override {
-        return nullptr;
-    }
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override;
 
     void accept(Visitor &) override;
 };

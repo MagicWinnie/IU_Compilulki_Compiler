@@ -4,7 +4,6 @@
 
 #include "LLVMSymbolTable.h"
 
-
 void LLVMScopedSymbolTable::enterScope() {
     scopes.emplace_back();
 }
@@ -36,6 +35,22 @@ std::string LLVMScopedSymbolTable::getLocalVariableType(std::string basicString)
     }
     return "";
 }
+
+void LLVMScopedSymbolTable::addIdentifier(const std::string &identifier, IdentifierType type) {
+    scopes.back().identifierTypes[identifier] = type;
+}
+
+IdentifierType LLVMScopedSymbolTable::getIdentifierType(const std::string &identifier) {
+    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it) {
+        auto value = it->identifierTypes.find(identifier);
+        if (value != it->identifierTypes.end()) {
+            return value->second;
+        }
+    }
+    return VARIABLE;
+}
+
+
 
 
 llvm::Value *LLVMSymbolTable::getVariableValue(const std::string &name) {

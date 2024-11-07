@@ -1,10 +1,6 @@
 Program
   ProgramDeclaration
     ClassName: Main
-    ProgramArguments
-      Literals
-        Literal: 1.100000
-        Literal: 1.200000
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -16,13 +12,8 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: false
-                      VariableName: eq
+                      Primary: 123.500000
+                      VariableName: c
                   BodyDeclaration
-                    CompoundExpression: eq
+                    CompoundExpression: c
                       CompoundExpression: print
-              Parameters
-                Parameter: a
-                  ClassName: Real
-                Parameter: b
-                  ClassName: Real

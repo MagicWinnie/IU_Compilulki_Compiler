@@ -11,13 +11,16 @@ Program
       ClassBody
         MemberDeclarations
           MemberDeclaration
-            ConstructorDeclaration
+            MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Error
-                        Arguments
-                          Expressions
-                            Primary: 5
+                      CompoundExpression: Real
                       VariableName: a
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: a
+              ReturnType
+                ClassName: Integer
+              MethodName: returnInteger

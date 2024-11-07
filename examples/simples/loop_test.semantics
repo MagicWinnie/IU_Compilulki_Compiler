@@ -12,15 +12,13 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          CompoundExpression: scan
+                      CompoundExpression: Integer
+                        CompoundExpression: scan
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          CompoundExpression: scan
+                      CompoundExpression: Integer
+                        CompoundExpression: scan
                       VariableName: b
                   BodyDeclaration
                     WhileLoop
@@ -28,32 +26,25 @@ Program
                         BodyDeclarations
                           BodyDeclaration
                             Assignment
-                              Expression
-                                CompoundExpression: b
-                                  CompoundExpression: Plus
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          Primary: 1
+                              CompoundExpression: b
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
                               VariableName: b
                           BodyDeclaration
                             Assignment
-                              Expression
-                                CompoundExpression: a
-                                  CompoundExpression: Minus
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          Primary: 1
+                              CompoundExpression: a
+                                CompoundExpression: Minus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
                               VariableName: a
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: Greater
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 0
+                      CompoundExpression: a
+                        CompoundExpression: Greater
+                          Arguments
+                            Expressions
+                              Primary: 0
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: b
-                        CompoundExpression: print
+                    CompoundExpression: b
+                      CompoundExpression: print

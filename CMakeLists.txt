@@ -36,5 +36,5 @@ add_executable(compilulki src/main.cpp
         src/code_generator/LLVMSymbolTable.cpp
 )
 
-llvm_map_components_to_libnames(llvm_libs support core irreader)
+llvm_map_components_to_libnames(llvm_libs support core irreader linker)
 target_link_libraries(compilulki ${llvm_libs})

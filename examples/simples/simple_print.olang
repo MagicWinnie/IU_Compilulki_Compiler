@@ -1,12 +1,9 @@
-// Conditional statement test
-// "Complex way" of two reals comparison
 
-Program: Main(1.1, 1.2)
+Program: Main
 
 class Main is
-    this(a: Real, b: Real) is
-        var eq : false
-        eq.print()
+    this() is
+        var c : 123.5
+        c.print()
     end
-
 end
