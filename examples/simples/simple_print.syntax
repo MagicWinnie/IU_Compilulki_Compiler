@@ -12,23 +12,26 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: 15
-                      VariableName: t
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
+                      VariableName: a
                   BodyDeclaration
-                    CompoundExpression: t
+                    CompoundExpression: a
                       CompoundExpression: print
-                  BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: t
-              Parameters
-                Parameter: a
-                  ClassName: Integer
-              ReturnType
-                ClassName: Integer
               MethodName: test
           MemberDeclaration
             ConstructorDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    CompoundExpression: test
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            CompoundExpression: test
+                      CompoundExpression: Boolean
+                        Arguments
+                          Expressions
+                            Primary: true

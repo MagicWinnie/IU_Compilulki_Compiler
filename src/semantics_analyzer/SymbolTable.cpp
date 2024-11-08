@@ -61,6 +61,8 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
         }
 
         // Add the new entry to the current scope
+        identifierTypes[name] = ID_VARIABLE;
+        identifierStringTypes[name] = type;
         current_scope.addVariableEntry(name, type, is_constant);
     }
 }
@@ -69,6 +71,8 @@ void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::str
                                          const std::vector<std::string>& paramTypes) {
     MethodSignature signature(name, paramTypes);
     ClassEntry* classEntry = lookupClass(className, span, true);
+    identifierTypes[name] = ID_FUNCTION;
+    identifierStringTypes[name] = returnType;
     classEntry->addMethod(signature, {signature, returnType});
 }
 
@@ -82,7 +86,8 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
             " column: " + std::to_string(span.get_pos_begin())
         );
     }
-    classEntries.insert({name, ClassEntry(name)});
+    identifierTypes[name] = ID_CLASS;
+    classEntries[name] = ClassEntry(name);
 }
 
 const VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
@@ -110,9 +115,9 @@ const VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, 
 
 void ScopedSymbolTable::makeVariableUsed(const std::string& name)
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    for (auto it = scopes.size(); it-- > 0; )
     {
-        auto& [varEntries] = *it;
+        auto& varEntries = scopes[it].varEntries;
         auto found = varEntries.find(name);
         if (found != varEntries.end())
         {
@@ -128,6 +133,11 @@ MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, con
 {
     MethodSignature signature( methodName, params);
     ClassEntry* classEntry = lookupClass(className, span, true);
+    MethodEntry* methodEntry = classEntry->lookupMethod(signature);
+    if (methodEntry)
+    {
+        return methodEntry;
+    }
 
     if (throw_error)
     {
@@ -163,4 +173,23 @@ ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& 
         );
     }
     return nullptr;
+}
+
+IdentifierType ScopedSymbolTable::getIdentifierType(std::string identifier) {
+   if(identifierTypes.find(identifier) != identifierTypes.end()){
+         return identifierTypes[identifier];
+   }
+    return ID_UNDEFINED;
+}
+
+llvm::Value *ScopedSymbolTable::getLocalVariable(std::string varName) {
+    return varEntries[varName];
+}
+
+void ScopedSymbolTable::addLocalVariable(std::string &varName, llvm::Value *pInst, const std::string & type) {
+    varEntries[varName] = pInst;
+}
+
+std::string ScopedSymbolTable::getIdentifierStringType(std::string identifier){
+    return identifierStringTypes[identifier];
 }

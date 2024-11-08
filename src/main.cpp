@@ -68,7 +68,7 @@ int main(const int argc, char* argv[])
 
     parser.toFile(".semantics", program);
 
-    program->codegen(context, builder, *module.get());
+    program->codegen(context, builder, *module.get(), symbolTableVisitor.symbolTable);
 
     std::error_code EC;
     if(settings.get_debug())

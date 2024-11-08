@@ -11,6 +11,13 @@
 
 #include "../lexical_analyzer/span.h"
 
+enum IdentifierType {
+    ID_VARIABLE,
+    ID_FUNCTION,
+    ID_CLASS,
+    ID_UNDEFINED
+};
+
 struct VariableEntry
 {
     std::string name; // Variable name
@@ -64,7 +71,8 @@ class ClassEntry
     ClassEntry* parentClass = nullptr;
 
 public:
-    explicit ClassEntry(std::string name) : name(std::move(name)){}
+    ClassEntry(const std::string& className) : name(className) {}
+    ClassEntry() = default;
 
     void addField(const VariableEntry& field)
     {
@@ -78,8 +86,8 @@ public:
 
     bool doesMethodExists(std::string& name)
     {
-        std::vector<MethodEntry> methods = getMethods(name);
-      for (const auto& method : methods)
+      std::vector<MethodEntry> classMethods = getMethods(name);
+      for (const auto& method : classMethods)
       {
           if(method.signature.methodName == name)
           {
@@ -124,15 +132,21 @@ public:
         return nullptr;
     }
 
-    const MethodEntry* lookupMethod(const std::string& name, const std::vector<std::string>& params) const
+    MethodEntry* lookupMethod(MethodSignature signature)
     {
-        auto it = methods.find({name, params});
+        auto it = methods.find(signature);
+        if(it != methods.end())
+        {
+            return &it->second;
+        }
+
         if (parentClass)
         {
-            return parentClass->lookupMethod(name, params);
+            return parentClass->lookupMethod(signature);
         }
         return nullptr;
     }
+
 };
 
 
@@ -158,6 +172,9 @@ public:
     std::vector<SymbolTable> scopes;
     std::unordered_map<std::string, ClassEntry> classEntries;
     std::unordered_set<std::string> unusedVariables;
+    std::unordered_map<std::string, IdentifierType> identifierTypes;
+    std::unordered_map<std::string, std::string> identifierStringTypes;
+    std::unordered_map<std::string, llvm::Value*> varEntries;
     std::string currClassName;
 
     // Enter a new scope (push a new symbol table onto the stack)
@@ -178,13 +195,22 @@ public:
     const VariableEntry* lookupVariable(const std::string&, const Span&, bool throw_error = true);
     void makeVariableUsed(const std::string& name);
 
-    MethodEntry* lookupFunction(const std::string&, const std::string&, const std::vector<std::string>&,
+    MethodEntry* lookupFunction(const std::string& methodName, const std::string& className, const std::vector<std::string>& arguments,
                                       const Span&, bool throw_error = true);
 
     ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true);
 
 
+
     void addFunctionEntry(const std::string &name, const std::string &className, const std::string &returnType,
                      const Span &span,
                      const std::vector<std::string> &paramTypes);
+
+    IdentifierType getIdentifierType(std::string identifier);
+
+    llvm::Value *getLocalVariable(std::string basicString);
+
+    void addLocalVariable(std::string& basicString, llvm::Value *pInst, const std::string &);
+
+    std::string getIdentifierStringType(std::string identifier);
 };

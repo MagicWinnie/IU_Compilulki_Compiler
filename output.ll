@@ -58,19 +58,33 @@ entry:
   ret void
 }
 
-define %Integer @test(%Integer %a) {
+define void @test() {
 entry:
-  %a1 = alloca %Integer, align 8
-  store %Integer %a, ptr %a1, align 4
-  %t = alloca %Integer, align 8
-  call void @Integer_Create_Default(ptr %t, i32 15)
-  call void @Integer_print(ptr %t)
-  %returnVal = load %Integer, ptr %t, align 4
-  ret %Integer %returnVal
+  %class_object = alloca %Integer, align 8
+  call void @Integer_Create_Default(ptr %class_object, i32 10)
+  call void @Integer_print(ptr %class_object)
+  ret void
 }
 
 define void @Main_Create_Default(ptr %0) {
 entry:
+  %class_object = alloca %Boolean, align 8
+  call void @Boolean_Create_Default(ptr %class_object, i1 true)
+  %boolFieldPtr = getelementptr inbounds %Boolean, ptr %class_object, i32 0, i32 0
+  %loadBoolValue = load i1, ptr %boolFieldPtr, align 1
+  %whilecond = icmp ne i1 %loadBoolValue, false
+  br i1 %whilecond, label %loop, label %afterloop
+
+loop:                                             ; preds = %loop, %entry
+  call void @test()
+  %class_object1 = alloca %Boolean, align 8
+  call void @Boolean_Create_Default(ptr %class_object1, i1 true)
+  %boolFieldPtr2 = getelementptr inbounds %Boolean, ptr %class_object1, i32 0, i32 0
+  %loadBoolValue3 = load i1, ptr %boolFieldPtr2, align 1
+  %whilecond4 = icmp ne i1 %loadBoolValue3, false
+  br i1 %whilecond4, label %loop, label %afterloop
+
+afterloop:                                        ; preds = %loop, %entry
   ret void
 }
 

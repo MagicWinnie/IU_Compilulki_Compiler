@@ -33,7 +33,6 @@ add_executable(compilulki src/main.cpp
         src/semantics_analyzer/SymbolTableVisitor.cpp
         src/semantics_analyzer/SymbolTableVisitor.h
         src/semantics_analyzer/OptimizeVisitor.cpp
-        src/code_generator/LLVMSymbolTable.cpp
 )
 
 llvm_map_components_to_libnames(llvm_libs support core irreader linker)

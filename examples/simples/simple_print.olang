@@ -2,12 +2,15 @@
 Program: Main
 
 class Main is
-     method test(a: Integer): Integer is
-            var t : 15
-            t.print()
-            return t
+     method test() is
+            var a : Integer(10)
+            a.print()
         end
+
     this() is
-       test()
-    end
+       while Boolean(true) loop
+        test()
+       end
+
+      end
 end
