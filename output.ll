@@ -58,11 +58,19 @@ entry:
   ret void
 }
 
+define %Integer @test(%Integer %a) {
+entry:
+  %a1 = alloca %Integer, align 8
+  store %Integer %a, ptr %a1, align 4
+  %t = alloca %Integer, align 8
+  call void @Integer_Create_Default(ptr %t, i32 15)
+  call void @Integer_print(ptr %t)
+  %returnVal = load %Integer, ptr %t, align 4
+  ret %Integer %returnVal
+}
+
 define void @Main_Create_Default(ptr %0) {
 entry:
-  %c = alloca %Real, align 8
-  call void @Real_Create_Default(ptr %c, double 1.235000e+02)
-  call void @Real_print(ptr %c)
   ret void
 }
 

@@ -8,11 +8,6 @@ void SymbolTable::addVariableEntry(const std::string& name, const std::string& t
 }
 
 
-void SymbolTable::addClassEntry(const std::string& name)
-{
-    classEntries[name] = {name};
-}
-
 VariableEntry* SymbolTable::lookupVariable(const std::string& name)
 {
     const auto it = varEntries.find(name);
@@ -24,15 +19,6 @@ VariableEntry* SymbolTable::lookupVariable(const std::string& name)
 }
 
 
-ClassEntry* SymbolTable::lookupClass(const std::string& name)
-{
-    const auto it = classEntries.find(name);
-    if (it != classEntries.end())
-    {
-        return &it->second;
-    }
-    return nullptr; // Not found
-}
 
 void ScopedSymbolTable::enterScope()
 {
@@ -79,50 +65,28 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
     }
 }
 
-void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& returnType, const Span& span,
-                                         const std::vector<std::string>& paramTypes)
-{
-    MethodSignature signature(currClassName, name, paramTypes);
-
-    const auto foundFunc = funcEntries.find(signature);
-    if (foundFunc != funcEntries.end())
-    {
-        if (foundFunc->second.returnType == returnType)
-        {
-            throw std::runtime_error(
-                "Method '" + name + "' is already declared in this scope " +
-                "at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
-            );
-        }
-    }
-    // Add the new entry to the current scope
-    funcEntries.insert({signature, {signature, returnType}});
-    funcNames.insert(name);
+void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& className, const std::string& returnType, const Span& span,
+                                         const std::vector<std::string>& paramTypes) {
+    MethodSignature signature(name, paramTypes);
+    ClassEntry* classEntry = lookupClass(className, span, true);
+    classEntry->addMethod(signature, {signature, returnType});
 }
 
 void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
 {
-    if (!scopes.empty())
+    if (classEntries.find(name) != classEntries.end())
     {
-        // Use a reference to modify the actual scope on the stack
-        auto& current_scope = scopes.back();
-        if (current_scope.classEntries.find(name) != current_scope.classEntries.end())
-        {
-            throw std::runtime_error(
-                "Class '" + name + "' is already declared in this scope " +
-                "at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
-            );
-        }
-        // Add the new entry to the current scope
-        current_scope.addClassEntry(name);
-        currClassName = name;
+        throw std::runtime_error(
+            "Class '" + name + "' is already declared in this scope " +
+            "at line: " + std::to_string(span.get_line_num()) +
+            " column: " + std::to_string(span.get_pos_begin())
+        );
     }
+    classEntries.insert({name, ClassEntry(name)});
 }
 
 const VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
-                                                       const bool throw_error) const
+                                                       const bool throw_error)
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
@@ -158,20 +122,13 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
     }
 }
 
-const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, const std::string& methodName,
+MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, const std::string& methodName,
                                                      const std::vector<std::string>& params,
-                                                     const Span& span, const bool throw_error) const
+                                                     const Span& span, const bool throw_error)
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
-    {
-        const auto& [varEntries, classEntries] = *it;
-        MethodSignature signature(className, methodName, params);
-        auto found = funcEntries.find(signature);
-        if (found != funcEntries.end())
-        {
-            return &found->second;
-        }
-    }
+    MethodSignature signature( methodName, params);
+    ClassEntry* classEntry = lookupClass(className, span, true);
+
     if (throw_error)
     {
         throw std::runtime_error(
@@ -183,23 +140,20 @@ const MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& classNam
     return nullptr;
 }
 
-bool ScopedSymbolTable::doesMethodExists(const std::string& name)
+bool ScopedSymbolTable::doesMethodExists(const std::string& name, const std::string& className)
 {
-    return funcNames.find(name) != funcNames.end();
+   ClassEntry classEntry = classEntries[className];
+   return classEntry.doesMethodExists(className);
 }
 
-const ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& span,
-                                                 const bool throw_error) const
+
+ClassEntry* ScopedSymbolTable::lookupClass(const std::string& name, const Span& span,
+                                                 const bool throw_error)
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
-    {
-        const auto& [varEntries, classEntries] = *it;
-        auto found = classEntries.find(name);
-        if (found != classEntries.end())
-        {
-            return &found->second;
-        }
-    }
+   ClassEntry* classEntry = nullptr;
+   if(classEntries.find(name) != classEntries.end()){
+       return &classEntries[name];
+   }
     if (throw_error)
     {
         throw std::runtime_error(

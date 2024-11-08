@@ -4,18 +4,34 @@ Main                                           -> Main                    -> IDE
 Keyword{Span(4, 1, 6), 1}                      -> class                   -> CLASS                                         
 Main                                           -> Main                    -> IDENTIFIER                                    
 Keyword{Span(4, 12, 14), 3}                    -> is                      -> IS                                            
-Keyword{Span(5, 5, 9), 7}                      -> this                    -> THIS                                          
-Delimiter{Span(5, 9, 10), 18}                  -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(5, 10, 11), 19}                 -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(5, 12, 14), 3}                    -> is                      -> IS                                            
-Keyword{Span(6, 9, 12), 5}                     -> var                     -> VAR                                           
-c                                              -> c                       -> IDENTIFIER                                    
-Delimiter{Span(6, 15, 16), 14}                 -> :                       -> COLON                                         
-Real{Span(6, 17, 22), 24, 123.500000}          -> 123.5                   -> REAL                                          
-c                                              -> c                       -> IDENTIFIER                                    
-Delimiter{Span(7, 10, 11), 15}                 -> .                       -> DOT                                           
+Keyword{Span(5, 6, 12), 6}                     -> method                  -> METHOD                                        
+test                                           -> test                    -> IDENTIFIER                                    
+Delimiter{Span(5, 17, 18), 18}                 -> (                       -> LEFT_PAREN                                    
+a                                              -> a                       -> IDENTIFIER                                    
+Delimiter{Span(5, 19, 20), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(5, 28, 29), 19}                 -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(5, 29, 30), 14}                 -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Keyword{Span(5, 39, 41), 3}                    -> is                      -> IS                                            
+Keyword{Span(6, 13, 16), 5}                    -> var                     -> VAR                                           
+t                                              -> t                       -> IDENTIFIER                                    
+Delimiter{Span(6, 19, 20), 14}                 -> :                       -> COLON                                         
+Integer{Span(6, 21, 23), 23, 15}               -> 15                      -> INTEGER                                       
+t                                              -> t                       -> IDENTIFIER                                    
+Delimiter{Span(7, 14, 15), 15}                 -> .                       -> DOT                                           
 print                                          -> print                   -> IDENTIFIER                                    
-Delimiter{Span(7, 16, 17), 18}                 -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(7, 17, 18), 19}                 -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(8, 5, 8), 4}                      -> end                     -> END                                           
-Keyword{Span(9, 1, 4), 4}                      -> end                     -> END                                           
+Delimiter{Span(7, 20, 21), 18}                 -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(7, 21, 22), 19}                 -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(8, 13, 19), 13}                   -> return                  -> RETURN                                        
+t                                              -> t                       -> IDENTIFIER                                    
+Keyword{Span(9, 9, 12), 4}                     -> end                     -> END                                           
+Keyword{Span(10, 5, 9), 7}                     -> this                    -> THIS                                          
+Delimiter{Span(10, 9, 10), 18}                 -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(10, 10, 11), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(10, 12, 14), 3}                   -> is                      -> IS                                            
+test                                           -> test                    -> IDENTIFIER                                    
+Delimiter{Span(11, 12, 13), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(11, 13, 14), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(12, 5, 8), 4}                     -> end                     -> END                                           
+Keyword{Span(13, 1, 4), 4}                     -> end                     -> END                                           

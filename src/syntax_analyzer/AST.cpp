@@ -15,10 +15,6 @@ void Entity::printIndent(const int indent) {
     for (int i = 0; i < indent; ++i) std::cout << "  ";
 }
 
-llvm::StructType *getClassTypeByName(const std::string &className, llvm::LLVMContext &context) {
-    llvm::StructType *classType = llvm::dyn_cast<llvm::StructType>(llvm::StructType::getTypeByName(context, className));
-    return classType;
-}
 
 Literals::Literals(std::vector<std::unique_ptr<Literal>> literals) : literals(std::move(literals)) {
 }
@@ -66,7 +62,7 @@ llvm::Value *ProgramDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBui
     builder.SetInsertPoint(entry);  // Set the insertion point to the entry block of the main function
 
     // Step 3: Get the struct type for the class (e.g., 'Main') using className
-    llvm::StructType *mainType = getClassTypeByName(className->name, context);
+    llvm::StructType *mainType = llvm::StructType::getTypeByName(context, className->name);
 
     // Step 4: Allocate memory for the 'Main' object
     llvm::AllocaInst *mainAlloc = builder.CreateAlloca(mainType, nullptr, "main_object");
@@ -245,11 +241,11 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
 
         if (type == VARIABLE) {
             llvm::Value *ptr = symbolTable.getLocalVariable(identifier);
-
             return ptr;
         }
         if (type == CLASS) {
-            llvm::StructType *classType = getClassTypeByName(identifier, context);
+
+            llvm::StructType *classType = llvm::StructType::getTypeByName(context, identifier);
             llvm::AllocaInst *classAlloc = builder.CreateAlloca(classType, nullptr, "class_object");
             std::string constructorName = identifier + "_Create_Default";
             llvm::Function *constructorFunc = module.getFunction(constructorName);
@@ -272,6 +268,20 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
             builder.CreateCall(constructorFunc, constructorArgs);
             return classAlloc;
 
+        }
+        if(type==FUNCTION){
+            llvm::Function *function = module.getFunction(identifier);
+            if (!function) {
+                llvm::errs() << "Error: " << identifier << " not found.\n";
+                return nullptr;
+            }
+            if (function->getReturnType()->isVoidTy()) {
+                // TODO add other arguments
+                value = builder.CreateCall(function, {});
+            } else {
+                // TODO add other arguments
+                value = builder.CreateCall(function, {}, "call_" + identifier);
+            }
         }
 
     } else {
@@ -341,8 +351,7 @@ void ConstructorDeclaration::accept(Visitor &visitor) {
 llvm::Value *
 ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
     symbolTable.enterScope();
-    llvm::StructType *classType = getClassTypeByName(className, context);
-
+    llvm::StructType *classType = llvm::StructType::getTypeByName(context, className);
     llvm::FunctionType *constructorType = llvm::FunctionType::get(llvm::Type::getVoidTy(context),
                                                                   {classType->getPointerTo()}, false);
 
@@ -392,7 +401,7 @@ VariableDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &buil
         return val;
     } else {
         Primary *expr = dynamic_cast<Primary *>(expression.get());
-        llvm::StructType *classType = getClassTypeByName(expr->type, context);
+        llvm::StructType *classType = llvm::StructType::getTypeByName(context, expr->type);
         llvm::AllocaInst *classAlloc = builder.CreateAlloca(classType, nullptr, variable->name);
         std::string constructorName = expr->type + "_Create_Default";
         llvm::Function *constructorFunc = module.getFunction(constructorName);
@@ -402,20 +411,19 @@ VariableDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &buil
         }
         std::vector<llvm::Value *> constructorArgs;
         constructorArgs.push_back(classAlloc);
-        if(expr->literal){
-            if(expr->literal->type== BOOL_LITERAL){
+        if (expr->literal) {
+            if (expr->literal->type == BOOL_LITERAL) {
                 BoolLiteral *boolLiteral = dynamic_cast<BoolLiteral *>(expr->literal.get());
                 llvm::Value *boolValue = llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), boolLiteral->value);
                 constructorArgs.push_back(boolValue);
-            }
-            else if(expr->literal->type== INT_LITERAL){
+            } else if (expr->literal->type == INT_LITERAL) {
                 IntLiteral *intLiteral = dynamic_cast<IntLiteral *>(expr->literal.get());
                 llvm::Value *intValue = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), intLiteral->value);
                 constructorArgs.push_back(intValue);
-            }
-            else if(expr->literal->type== REAL_LITERAL){
+            } else if (expr->literal->type == REAL_LITERAL) {
                 RealLiteral *realLiteral = dynamic_cast<RealLiteral *>(expr->literal.get());
-                llvm::Value *realValue = llvm::ConstantFP::get(llvm::Type::getDoubleTy(context),(double) realLiteral->value);
+                llvm::Value *realValue = llvm::ConstantFP::get(llvm::Type::getDoubleTy(context),
+                                                               (double) realLiteral->value);
                 constructorArgs.push_back(realValue);
             }
         }
@@ -440,6 +448,80 @@ MethodDeclaration::MethodDeclaration(std::unique_ptr<MethodName> &method_name, s
 void MethodDeclaration::accept(Visitor &visitor) {
     visitor.visitMethodDeclaration(*this);
 }
+
+llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    // Step 1: Get the function return type
+    symbolTable.enterScope();
+
+
+    llvm::Type *llvmReturnType = nullptr;
+    if (returnType == nullptr) {
+        llvmReturnType = llvm::Type::getVoidTy(context);
+    } else {
+        llvmReturnType = llvm::StructType::getTypeByName(context, returnType->className->name);
+    }
+
+    if (!llvmReturnType) {
+        llvm::errs() << "Error: Failed to generate return type for method " << methodName->name << "\n";
+        return nullptr;
+    }
+
+    // Step 2: Generate function parameters
+    std::vector<llvm::Type *> paramTypes;
+    std::vector<std::string> paramNames;
+    if (parameters) {
+        for (const auto &param: parameters->parameters) {
+            llvm::Type *paramType = llvm::StructType::getTypeByName(context, param->className->name);
+            if (!paramType) {
+                llvm::errs() << "Error: Failed to generate code for parameter " << param->name << "\n";
+                return nullptr;
+            }
+            paramTypes.push_back(paramType);
+            paramNames.push_back(param->name);
+        }
+    }
+//
+    llvm::FunctionType *functionType = llvm::FunctionType::get(llvmReturnType, paramTypes, false);
+    llvm::Function *function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, methodName->name,
+                                                      &module);
+//
+    // Step 3: Name the function arguments
+    size_t idx = 0;
+    for (auto &arg: function->args()) {
+        arg.setName(paramNames[idx++]);
+    }
+
+//    // Step 4: Create a new basic block to start inserting into
+    llvm::BasicBlock *entryBlock = llvm::BasicBlock::Create(context, "entry", function);
+    builder.SetInsertPoint(entryBlock);
+//
+//    // Step 5: Add function parameters to the symbol table
+    idx = 0;
+    for (auto &arg: function->args()) {
+        llvm::AllocaInst *alloca = builder.CreateAlloca(arg.getType(), nullptr, arg.getName());
+        builder.CreateStore(&arg, alloca);
+        std::string argName = arg.getName().str();
+        symbolTable.addLocalVariable(argName, alloca, paramTypes[idx++]->getStructName().str());
+    }
+
+//    // Step 6: Generate code for the function body
+    llvm::Value *bodyVal = body->codegen(context, builder, module);
+//
+//    // Step 7: Return the generated value (for non-void functions)
+    if (llvmReturnType->isVoidTy()) {
+        builder.CreateRetVoid();
+    } else {
+        if (bodyVal->getType()->isPointerTy()) {
+            bodyVal = builder.CreateLoad(llvmReturnType, bodyVal, "returnVal");
+        }
+        builder.CreateRet(bodyVal);
+    }
+    symbolTable.addIdentifier(methodName->name, FUNCTION);
+    llvm::verifyFunction(*function);
+    symbolTable.leaveScope();
+    return function;
+}
+
 
 void Parameters::accept(Visitor &visitor) {
     visitor.visitParameters(*this);
@@ -487,10 +569,10 @@ void BodyDeclaration::accept(Visitor &visitor) {
 
 llvm::Value *BodyDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
     if (variableDeclaration) {
-        variableDeclaration->codegen(context, builder, module);
+        return variableDeclaration->codegen(context, builder, module);
     }
     if (statement) {
-        statement->codegen(context, builder, module);
+        return statement->codegen(context, builder, module);
     }
     return nullptr;
 }
@@ -557,9 +639,10 @@ llvm::Value *Assignment::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &
 llvm::Value *IfStatement::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
     llvm::Value *pointerToBoolean = expression->codegen(context, builder, module);
     llvm::Value *valuePtr = builder.CreateStructGEP(
-            getClassTypeByName("Boolean", context), // This retrieves the type definition of the 'Boolean' class.
-            pointerToBoolean,                              // Pointer to the object instance.
-            0,                                      // Field index: assuming value is at index 0.
+
+            llvm::StructType::getTypeByName(context, "Boolean"),
+            pointerToBoolean,
+            0,
             "boolFieldPtr"
     );
     llvm::Value *CondV = builder.CreateLoad(
@@ -616,9 +699,10 @@ llvm::Value *WhileLoop::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
     llvm::BasicBlock *AfterBB = llvm::BasicBlock::Create(context, "afterloop", TheFunction);
     llvm::Value *pointerToBoolean = expression->codegen(context, builder, module);
     llvm::Value *valuePtr = builder.CreateStructGEP(
-            getClassTypeByName("Boolean", context), // This retrieves the type definition of the 'Boolean' class.
-            pointerToBoolean,                              // Pointer to the object instance.
-            0,                                      // Field index: assuming value is at index 0.
+
+            llvm::StructType::getTypeByName(context, "Boolean"),
+            pointerToBoolean,
+            0,
             "boolFieldPtr"
     );
     llvm::Value *CondV = builder.CreateLoad(
@@ -637,7 +721,8 @@ llvm::Value *WhileLoop::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
     pointerToBoolean = expression->codegen(context, builder, module);
     valuePtr = builder.CreateStructGEP(
-            getClassTypeByName("Boolean", context), // This retrieves the type definition of the 'Boolean' class.
+            llvm::StructType::getTypeByName(context,
+                                            "Boolean"), // This retrieves the type definition of the 'Boolean' class.
             pointerToBoolean,                              // Pointer to the object instance.
             0,                                      // Field index: assuming value is at index 0.
             "boolFieldPtr"
@@ -702,6 +787,13 @@ void ReturnStatement::accept(Visitor &visitor) {
     visitor.visitReturnStatement(*this);
 }
 
+llvm::Value *ReturnStatement::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    if (expression) {
+        return expression->codegen(context, builder, module);
+    }
+    return nullptr;
+}
+
 Body::Body(std::unique_ptr<BodyDeclarations> body_declarations) : bodyDeclarations(std::move(body_declarations)) {
 }
 
@@ -710,8 +802,9 @@ void Body::accept(Visitor &visitor) {
 }
 
 llvm::Value *Body::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+
     if (bodyDeclarations) {
-        bodyDeclarations->codegen(context, builder, module);
+        return bodyDeclarations->codegen(context, builder, module);
     }
     return nullptr;
 }
@@ -725,10 +818,12 @@ void BodyDeclarations::accept(Visitor &visitor) {
 }
 
 llvm::Value *BodyDeclarations::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) {
+    llvm::Value *value = nullptr;
     for (const auto &bodyDeclaration: bodyDeclarations) {
-        bodyDeclaration->codegen(context, builder, module);
+        value = bodyDeclaration->codegen(context, builder, module);
     }
-    return nullptr;
+
+    return value;
 }
 
 

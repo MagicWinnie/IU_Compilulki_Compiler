@@ -14,11 +14,12 @@
 #include <llvm/IR/Module.h>
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/Intrinsics.h"
+#include "llvm/IR/Verifier.h"
 
 #include "../lexical_analyzer/span.h"
 #include "../semantics_analyzer/SymbolTable.h"
 
-llvm::StructType *getClassTypeByName(const std::string &className, llvm::LLVMContext &context);
+
 class MemberDeclarations;
 
 class BodyDeclaration;
@@ -514,9 +515,7 @@ public:
     MethodDeclaration(std::unique_ptr<MethodName> &, std::unique_ptr<Parameters> &,
                       std::unique_ptr<ReturnType> &, std::unique_ptr<Body> &);
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override {
-        return nullptr;
-    }
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override;
 
     void accept(Visitor &) override;
 };
@@ -677,9 +676,7 @@ public:
 
     explicit ReturnStatement(std::unique_ptr<Expression>);
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override {
-        return nullptr;
-    }
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module) override;
 
     void accept(Visitor &) override;
 };

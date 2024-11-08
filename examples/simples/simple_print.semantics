@@ -7,13 +7,28 @@ Program
       ClassBody
         MemberDeclarations
           MemberDeclaration
-            ConstructorDeclaration
+            MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: 123.500000
-                      VariableName: c
+                      Primary: 15
+                      VariableName: t
                   BodyDeclaration
-                    CompoundExpression: c
+                    CompoundExpression: t
                       CompoundExpression: print
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: t
+              Parameters
+                Parameter: a
+                  ClassName: Integer
+              ReturnType
+                ClassName: Integer
+              MethodName: test
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: test

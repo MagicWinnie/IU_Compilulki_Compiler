@@ -2,8 +2,12 @@
 Program: Main
 
 class Main is
+     method test(a: Integer): Integer is
+            var t : 15
+            t.print()
+            return t
+        end
     this() is
-        var c : 123.5
-        c.print()
+       test()
     end
 end
