@@ -4,7 +4,7 @@ current_dir=$(pwd)
 echo "Starting directory: $current_dir"
 
 expected_base_directory="IU_Compilulki_Compiler"
-
+checkouit
 navigate_to_base_dir() {
     while [[ $(basename "$current_dir") != "$expected_base_directory" && "$current_dir" != "/" ]]; do
         current_dir=$(dirname "$current_dir")

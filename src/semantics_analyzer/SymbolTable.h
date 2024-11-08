@@ -21,7 +21,6 @@ struct VariableEntry
 
 struct MethodSignature
 {
-
     std::string methodName;
     std::vector<std::string> parameterTypes; // Vector of parameter types, e.g., {"Integer", "Integer"}
 
@@ -52,7 +51,7 @@ class ClassEntry
     ClassEntry* parentClass = nullptr;
 
 public:
-    ClassEntry(std::string name) : name(std::move(name)) {}
+    ClassEntry(std::string name) : name(std::move(name)), methods(){}
 
     void addField(const VariableEntry& field)
     {
@@ -64,14 +63,30 @@ public:
         methods[signature] = method;
     }
 
-    bool doesMethodExists(const std::string& name)
+    bool doesMethodExists(std::string& name)
     {
-        auto it = methods.find(name);
-        if (it == methods.end())
+        std::vector<MethodEntry> methods = getMethods(name);
+      for (const auto& method : methods)
+      {
+          if(method.signature.methodName == name)
+          {
+              return true;
+          }
+      }
+        return false;
+    }
+
+    std::vector<MethodEntry> getMethods(std::string& name)
+    {
+        std::vector<MethodEntry> methodsList;
+        for (const auto& [signature, method] : methods)
         {
-            return false;
+            if (signature.methodName == name)
+            {
+                methodsList.push_back(method);
+            }
         }
-        return true;
+        return methodsList;
     }
 
 

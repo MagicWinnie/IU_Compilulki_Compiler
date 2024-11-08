@@ -90,7 +90,7 @@ const VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, 
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
-        const auto& [varEntries, classEntries] = *it;
+        const auto& [varEntries] = *it;
         auto found = varEntries.find(name);
         if (found != varEntries.end())
         {
@@ -112,7 +112,7 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
     {
-        auto& [varEntries, classEntries] = *it;
+        auto& [varEntries] = *it;
         auto found = varEntries.find(name);
         if (found != varEntries.end())
         {
