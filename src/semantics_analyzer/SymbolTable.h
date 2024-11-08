@@ -25,6 +25,7 @@ struct MethodSignature
     std::vector<std::string> parameterTypes; // Vector of parameter types, e.g., {"Integer", "Integer"}
 
     // Constructor
+    MethodSignature() = default; // Default constructor
     MethodSignature( std::string methodName, std::vector<std::string> parameterTypes)
         :  methodName(std::move(methodName)), parameterTypes(std::move(parameterTypes))
     {
@@ -34,6 +35,18 @@ struct MethodSignature
     bool operator==(const MethodSignature& other) const
     {
         return methodName == other.methodName && parameterTypes == other.parameterTypes;
+    }
+};
+struct MethodSignatureHash
+{
+    std::size_t operator()(const MethodSignature& signature) const
+    {
+        std::size_t hash = std::hash<std::string>{}(signature.methodName);
+        for (const auto& paramType : signature.parameterTypes)
+        {
+            hash ^= std::hash<std::string>{}(paramType) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+        }
+        return hash;
     }
 };
 
@@ -47,11 +60,11 @@ class ClassEntry
 {
     std::string name;
     std::vector<VariableEntry> fields;
-    std::unordered_map<MethodSignature, MethodEntry> methods;
+    std::unordered_map<MethodSignature, MethodEntry, MethodSignatureHash> methods;
     ClassEntry* parentClass = nullptr;
 
 public:
-    ClassEntry(std::string name) : name(std::move(name)), methods(){}
+    explicit ClassEntry(std::string name) : name(std::move(name)){}
 
     void addField(const VariableEntry& field)
     {
@@ -159,7 +172,7 @@ public:
 
     void addClassEntry(const std::string&, const Span&);
 
-    bool doesMethodExists(const std::string& name, const std::string& className);
+    bool doesMethodExists(std::string& name, std::string& className);
 
     // Lookup an entry across all scopes (from innermost to outermost)
     const VariableEntry* lookupVariable(const std::string&, const Span&, bool throw_error = true);

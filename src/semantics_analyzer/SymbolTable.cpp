@@ -140,7 +140,7 @@ MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, con
     return nullptr;
 }
 
-bool ScopedSymbolTable::doesMethodExists(const std::string& name, const std::string& className)
+bool ScopedSymbolTable::doesMethodExists(std::string& name, std::string& className)
 {
    ClassEntry classEntry = classEntries[className];
    return classEntry.doesMethodExists(className);
