@@ -15,8 +15,8 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("toReal", "Integer", "Real", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("toBoolean", "Integer", "Boolean", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Integer", "Integer", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Plus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
 
+    symbolTable.addFunctionEntry("Plus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("Minus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("Mult", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("Div", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
@@ -34,6 +34,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("Equal", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
 
     symbolTable.addFunctionEntry("print", "Integer", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("scan", "Integer", "String", Span(0, 0, 0), {});
 
 
     // Real
@@ -60,6 +61,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("Equal", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("print", "Real", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("scan", "Real", "String", Span(0, 0, 0), {});
 
     // Boolean
     symbolTable.addFunctionEntry("Or", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});

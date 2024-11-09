@@ -1,16 +1,21 @@
 
-Program: Main
+Program: Main()
 
 class Main is
-     method test() is
-            var a : Integer(10)
-            a.print()
+    this() is
+        var a : Integer
+        a.scan()
+        var b : Integer()
+        b.scan()
+
+        while a.Greater(0) loop
+            b.print()
+            b := b.Plus(1)
+            a := a.Minus(1)
         end
 
-    this() is
-       while Boolean(true) loop
-        test()
-       end
+        b.print()
 
-      end
+    end
+
 end

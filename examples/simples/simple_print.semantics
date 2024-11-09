@@ -7,31 +7,51 @@ Program
       ClassBody
         MemberDeclarations
           MemberDeclaration
-            MethodDeclaration
+            ConstructorDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
                       CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 10
                       VariableName: a
                   BodyDeclaration
                     CompoundExpression: a
-                      CompoundExpression: print
-              MethodName: test
-          MemberDeclaration
-            ConstructorDeclaration
-              Body
-                BodyDeclarations
+                      CompoundExpression: scan
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                      VariableName: b
+                  BodyDeclaration
+                    CompoundExpression: b
+                      CompoundExpression: scan
                   BodyDeclaration
                     WhileLoop
                       Body
                         BodyDeclarations
                           BodyDeclaration
-                            CompoundExpression: test
-                      CompoundExpression: Boolean
-                        Arguments
-                          Expressions
-                            Primary: true
+                            CompoundExpression: b
+                              CompoundExpression: print
+                          BodyDeclaration
+                            Assignment
+                              CompoundExpression: b
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
+                              VariableName: b
+                          BodyDeclaration
+                            Assignment
+                              CompoundExpression: a
+                                CompoundExpression: Minus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
+                              VariableName: a
+                      CompoundExpression: a
+                        CompoundExpression: Greater
+                          Arguments
+                            Expressions
+                              Primary: 0
+                  BodyDeclaration
+                    CompoundExpression: b
+                      CompoundExpression: print

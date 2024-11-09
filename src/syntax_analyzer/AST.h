@@ -446,7 +446,11 @@ public:
                                 std::vector<std::unique_ptr<CompoundExpression>> compExpr = {});
 
 
-    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module, ScopedSymbolTable& symbolTable) override;
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module, ScopedSymbolTable& symbolTable, llvm::Value* prevValue,std::string prevValueType);
+    llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module, ScopedSymbolTable& symbolTable) override{
+       return this->codegen(context, builder, module, symbolTable, nullptr, "");
+    };
+
 
     void accept(Visitor &) override;
 };
