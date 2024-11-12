@@ -62,17 +62,17 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
 
         // Add the new entry to the current scope
         identifierTypes[name] = ID_VARIABLE;
-        identifierStringTypes[name] = type;
+        variableTypes[name] = type;
         current_scope.addVariableEntry(name, type, is_constant);
     }
 }
 
 void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& className, const std::string& returnType, const Span& span,
                                          const std::vector<std::string>& paramTypes) {
-    MethodSignature signature(name, paramTypes);
+    auto funcName = className + "_" + name;
+    MethodSignature signature(funcName, paramTypes);
     ClassEntry* classEntry = lookupClass(className, span, true);
     identifierTypes[name] = ID_FUNCTION;
-    identifierStringTypes[name] = returnType;
     classEntry->addMethod(signature, {signature, returnType});
 }
 
@@ -131,7 +131,8 @@ MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, con
                                                      const std::vector<std::string>& params,
                                                      const Span& span, const bool throw_error)
 {
-    MethodSignature signature( methodName, params);
+    auto funcName = className + "_" + methodName;
+    MethodSignature signature( funcName, params);
     ClassEntry* classEntry = lookupClass(className, span, true);
     MethodEntry* methodEntry = classEntry->lookupMethod(signature);
     if (methodEntry)
@@ -190,6 +191,33 @@ void ScopedSymbolTable::addLocalVariable(std::string &varName, llvm::Value *pIns
     varEntries[varName] = pInst;
 }
 
-std::string ScopedSymbolTable::getIdentifierStringType(std::string identifier){
-    return identifierStringTypes[identifier];
+
+std::string ScopedSymbolTable::getFunctionType(const std::string &name, const std::string &className) {
+   auto classEntry = lookupClass(className, Span(0,0,0), false);
+   return classEntry->getMethodReturnType(name);
 }
+
+std::string ScopedSymbolTable::getIdentifierStringType(std::string& identifier, std::string& className) {
+    IdentifierType type = getIdentifierType(identifier);
+    switch (type) {
+        case ID_VARIABLE:
+            return variableTypes[identifier];
+        case ID_FUNCTION:
+            return getFunctionType(identifier, className);
+        default:
+            return "Undefined";
+    }
+}
+
+std::string ScopedSymbolTable::getIdentifierStringType(std::string& identifier) {
+    IdentifierType type = getIdentifierType(identifier);
+    switch (type) {
+        case ID_VARIABLE:
+            return variableTypes[identifier];
+        case ID_CLASS:
+            return identifier;
+        default:
+            return "Undefined";
+    }
+}
+

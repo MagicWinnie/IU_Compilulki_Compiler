@@ -7,9 +7,10 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addClassEntry("Integer", Span(0, 0, 0));
     symbolTable.addClassEntry("Boolean", Span(0, 0, 0));
     symbolTable.addClassEntry("Real", Span(0, 0, 0));
-    symbolTable.addClassEntry("Array", Span(0, 0, 0));
-    symbolTable.addClassEntry("List", Span(0, 0, 0));
-    symbolTable.addClassEntry("String", Span(0, 0, 0));
+    symbolTable.addClassEntry("IntArray", Span(0, 0, 0));
+    symbolTable.addClassEntry("RealArray", Span(0, 0, 0));
+    symbolTable.addClassEntry("IntList", Span(0, 0, 0));
+
 
     // Integer
     symbolTable.addFunctionEntry("toReal", "Integer", "Real", Span(0, 0, 0), {});
@@ -34,31 +35,31 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("Equal", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
 
     symbolTable.addFunctionEntry("print", "Integer", "void", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("scan", "Integer", "String", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("scan", "Integer", "void", Span(0, 0, 0), {});
 
 
     // Real
-    symbolTable.addFunctionEntry("toInteger", "Integer", "Integer", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("UnaryMinus", "Integer", "Real", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Plus", "Integer", "Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Plus", "Integer", "Real", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Minus", "Integer", "Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Minus", "Integer", "Real", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Mult", "Integer", "Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Mult", "Integer", "Real", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Div", "Integer", "Real", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Div", "Integer", "Real", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Rem", "Integer", "Real", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Less", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Less", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("LessEqual", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("LessEqual", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Greater", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Greater", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("GreaterEqual", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("GreaterEqual", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Equal", "Integer", "Boolean", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Equal", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Minus", "Real", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Minus", "Real", "Real", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Mult", "Real", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Mult", "Real", "Real", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Div", "Real", "Real", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Div", "Real", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Rem", "Real", "Real", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Less", "Real", "Boolean", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Less", "Real", "Boolean", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("LessEqual", "Real", "Boolean", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("LessEqual", "Real", "Boolean", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Greater", "Real", "Boolean", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Greater", "Real", "Boolean", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("GreaterEqual", "Real", "Boolean", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("GreaterEqual", "Real", "Boolean", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Equal", "Real", "Boolean", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Equal", "Real", "Boolean", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("print", "Real", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("scan", "Real", "String", Span(0, 0, 0), {});
@@ -72,17 +73,15 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("print", "Boolean", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("scan", "Boolean", "String", Span(0, 0, 0), {});
 
-    // List
-    symbolTable.addFunctionEntry("toList", "List", "List", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Length", "List", "Integer", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("get", "List", "T", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("set", "List", "void", Span(0, 0, 0), {"Integer", "T"});
+    //IntArray
+    symbolTable.addFunctionEntry("Length", "IntArray", "Integer", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("get", "IntArray", "Integer", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("set", "IntArray", "void", Span(0, 0, 0), {"Integer", "Integer"});
+    symbolTable.addFunctionEntry("print", "IntArray", "void", Span(0, 0, 0), {});
 
-    symbolTable.addFunctionEntry("append", "List", "List", Span(0, 0, 0), {"T"});
-    symbolTable.addFunctionEntry("head", "List", "T", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("tail", "List", "List", Span(0, 0, 0), {});
-
-    symbolTable.addFunctionEntry("print", "List", "void", Span(0, 0, 0), {});
+    //IntList
+    symbolTable.addFunctionEntry("append", "IntList", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("head", "IntList", "Integer", Span(0, 0, 0), {});
 }
 
 SymbolTableVisitor::~SymbolTableVisitor() {
@@ -155,10 +154,9 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
             if (node.compoundExpressions[0]->arguments) {
                 for (const auto &arg: node.compoundExpressions[0]->arguments->expressions->expressions) {
                     arg->accept(*this);
-                    argTypes.push_back(arg->get_type(symbolTable.identifierStringTypes));
+                    argTypes.push_back(arg->get_type(symbolTable));
                 }
             }
-
             symbolTable.lookupFunction(variableType, methodName, argTypes, node.span);
         }
 
@@ -167,7 +165,8 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
     } else if (symbolTable.getIdentifierType(node.identifier) == ID_FUNCTION) {
         //llvmSymbolTable.lookupFunction(node.identifier, node.span);
     } else {
-        throw std::runtime_error("Identifier " + node.identifier + " is not declared");
+        // TODO fix
+        //throw std::runtime_error("Identifier " + node.identifier + " is not declared");
     }
 
 
@@ -407,7 +406,7 @@ void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration &node) {
             symbolTable.lookupClass(expression->identifier,
                                     expression->span);
         }
-        symbolTable.addVariableEntry(node.variable->name, expression->identifier,
+        symbolTable.addVariableEntry(node.variable->name, expression->get_type(symbolTable),
                                      node.variable->span);
     } else {
         Primary *expression = dynamic_cast<Primary *>(node.expression.get());
@@ -471,7 +470,7 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration &node) {
         if (returnStatement->expression->isCompound) {
             CompoundExpression *expression = dynamic_cast<CompoundExpression *>(returnStatement->expression.get());
             const auto span = returnStatement->expression->span;
-            auto type = expression->get_type(symbolTable.identifierStringTypes);
+            auto type = expression->get_type(symbolTable);
             if (type != expectedReturnType) {
                 throw std::runtime_error(
                         "Method " + node.methodName->name + " is of statementType " + expectedReturnType +

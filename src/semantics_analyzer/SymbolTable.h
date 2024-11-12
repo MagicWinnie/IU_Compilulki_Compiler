@@ -68,6 +68,7 @@ class ClassEntry
     std::string name;
     std::vector<VariableEntry> fields;
     std::unordered_map<MethodSignature, MethodEntry, MethodSignatureHash> methods;
+    std::unordered_map<std::string, std::string> methoReturnTypes;
     ClassEntry* parentClass = nullptr;
 
 public:
@@ -82,6 +83,7 @@ public:
     void addMethod(MethodSignature signature, MethodEntry method)
     {
         methods[signature] = method;
+        methoReturnTypes[signature.methodName] = method.returnType;
     }
 
     bool doesMethodExists(std::string& name)
@@ -114,6 +116,11 @@ public:
     void setParentClass(ClassEntry* parent)
     {
         parentClass = parent;
+    }
+
+    std::string getMethodReturnType(const std::string& name)
+    {
+        return methoReturnTypes[this->name+"_"+name];
     }
 
     const VariableEntry* lookupField(const std::string& name) const
@@ -173,8 +180,9 @@ public:
     std::unordered_map<std::string, ClassEntry> classEntries;
     std::unordered_set<std::string> unusedVariables;
     std::unordered_map<std::string, IdentifierType> identifierTypes;
-    std::unordered_map<std::string, std::string> identifierStringTypes;
+    std::unordered_map<std::string, std::string> variableTypes;
     std::unordered_map<std::string, llvm::Value*> varEntries;
+
     std::string currClassName;
 
     // Enter a new scope (push a new symbol table onto the stack)
@@ -198,7 +206,7 @@ public:
     MethodEntry* lookupFunction(const std::string& methodName, const std::string& className, const std::vector<std::string>& arguments,
                                       const Span&, bool throw_error = true);
 
-    ClassEntry* lookupClass(const std::string&, const Span&, bool throw_error = true);
+    ClassEntry* lookupClass(const std::string&, const Span& = Span(0,0,0), bool throw_error = true);
 
 
 
@@ -212,5 +220,8 @@ public:
 
     void addLocalVariable(std::string& basicString, llvm::Value *pInst, const std::string &);
 
-    std::string getIdentifierStringType(std::string identifier);
+    std::string getIdentifierStringType(std::string& identifier, std::string& className);
+    std::string getIdentifierStringType(std::string& identifier);
+
+    std::string getFunctionType(const std::string& name, const std::string& className);
 };

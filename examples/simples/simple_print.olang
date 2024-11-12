@@ -1,21 +1,26 @@
-
 Program: Main()
 
 class Main is
     this() is
-        var a : Integer
-        a.scan()
-        var b : Integer()
-        b.scan()
+        var n : 10
 
-        while a.Greater(0) loop
-            b.print()
-            b := b.Plus(1)
-            a := a.Minus(1)
+        var b : IntArray(100)
+        var i : 0
+        while n.Greater(0) loop
+            b.set(i, n.Rem(2))
+            i := i.Plus(1)
+            n := n.Div(2)
         end
 
-        b.print()
 
+        i := i.Minus(1)
+
+        while i.Greater(0) loop
+            b.get(i).print()
+            i := i.Minus(1)
+        end
+
+        b.get(0).print()
     end
-
 end
+

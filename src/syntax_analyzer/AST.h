@@ -402,7 +402,7 @@ public:
     Span span;
     bool isCompound;
 
-    std::string get_type(std::unordered_map<std::string, std::string> &identifierTypes);
+    std::string get_type(ScopedSymbolTable& symbolTable);
 
     Expression() : span(Span(0, 0, 0)) {}
 };

@@ -298,7 +298,7 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
                 if (argValue && argValue->getType()->isPointerTy()) {
                     // Create load instruction to retrieve the value pointed to by argValue
                     llvm::Type *argType = llvm::StructType::getTypeByName(context, arg->get_type(
-                            symbolTable.identifierStringTypes));
+                            symbolTable));
                     argValue = builder.CreateLoad(argType, argValue, "loaded_arg");
                 }
                 if (!argValue) {
@@ -858,17 +858,30 @@ llvm::Value *BoolLiteral::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> 
 
 }
 
-std::string Expression::get_type(std::unordered_map<std::string, std::string> &identifierTypes) {
+std::string Expression::get_type(ScopedSymbolTable& symbolTable) {
     if (isCompound) {
         auto *expr = dynamic_cast<CompoundExpression *>(this);
-        CompoundExpression *nextExpr = expr;
+        std::string previousExprClass = symbolTable.getIdentifierStringType(expr->identifier);
+        if(expr->compoundExpressions.empty()) {
+            return previousExprClass;
+        }
+        CompoundExpression *nextExpr = expr->compoundExpressions[0].get();
+
         while (!nextExpr->compoundExpressions.empty()) {
+            auto clazz= symbolTable.lookupClass(previousExprClass);
             nextExpr = dynamic_cast<CompoundExpression *>(nextExpr->compoundExpressions[0].get());
         }
-        if (identifierTypes.find(nextExpr->identifier) == identifierTypes.end()) {
-            return nextExpr->identifier;
-        }
-        return identifierTypes[nextExpr->identifier];
+
+        std::string func_name = previousExprClass + "_" + nextExpr->identifier;
+        return symbolTable.getIdentifierStringType(nextExpr->identifier, previousExprClass);
+
+
+
+//        if (identifierTypes.find(nextExpr->identifier) == identifierTypes.end()) {
+//            return nextExpr->identifier;
+//        }
+//        return identifierTypes[nextExpr->identifier];
+        return type;
     } else {
         return type;
     }

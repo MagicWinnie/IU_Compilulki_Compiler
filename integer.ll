@@ -38,30 +38,23 @@ entry:
 
 define %Integer @Integer_Mult(ptr %self, %Integer %other) {
 entry:
-  ; Get a pointer to the field of the self Integer object
+  ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
-
-  ; Load the current value of the self Integer object
   %selfValue = load i32, ptr %selfFieldPtr, align 4
 
-  ; Create a temporary memory location to store %other since it's a value, not a pointer
+  ; Get the value of the other Integer object
   %otherPtr = alloca %Integer
   store %Integer %other, ptr %otherPtr, align 4
-
-  ; Get a pointer to the field of the other %Integer object
   %otherFieldPtr = getelementptr inbounds %Integer, ptr %otherPtr, i32 0, i32 0
-
-  ; Load the integer value from the other %Integer object
   %otherValue = load i32, ptr %otherFieldPtr, align 4
 
   ; Multiply the values
   %result = mul i32 %selfValue, %otherValue
 
-  ; Store the result back into the self Integer object
-  store i32 %result, ptr %selfFieldPtr, align 4
+  ; Create a new Integer value
+  %returnValue = insertvalue %Integer undef, i32 %result, 0
 
-  ; Return the modified self Integer object as a value
-  %returnValue = load %Integer, ptr %self, align 4
+  ; Return the new Integer object as a value
   ret %Integer %returnValue
 }
 
@@ -86,98 +79,77 @@ entry:
   ; Add the values
   %result = add i32 %selfValue, %otherValue
 
-  ; Store the result back into the self Integer object
-  store i32 %result, ptr %selfFieldPtr, align 4
+  ; Create a new Integer value
+  %returnValue = insertvalue %Integer undef, i32 %result, 0
 
-  ; Return the modified self Integer object as a value
-  %returnValue = load %Integer, ptr %self, align 4
+  ; Return the new Integer object as a value
   ret %Integer %returnValue
 }
 
 define %Integer @Integer_Minus(ptr %self, %Integer %other) {
 entry:
-  ; Get a pointer to the field of the self Integer object
+  ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
-
-  ; Load the current value of the self Integer object
   %selfValue = load i32, ptr %selfFieldPtr, align 4
 
-  ; Create a temporary memory location to store %other since it's a value, not a pointer
+  ; Get the value of the other Integer object
   %otherPtr = alloca %Integer
   store %Integer %other, ptr %otherPtr, align 4
-
-  ; Get a pointer to the field of the other %Integer object
   %otherFieldPtr = getelementptr inbounds %Integer, ptr %otherPtr, i32 0, i32 0
-
-  ; Load the integer value from the other %Integer object
   %otherValue = load i32, ptr %otherFieldPtr, align 4
 
   ; Subtract the values
   %result = sub i32 %selfValue, %otherValue
 
-  ; Store the result back into the self Integer object
-  store i32 %result, ptr %selfFieldPtr, align 4
+  ; Create a new Integer value
+  %returnValue = insertvalue %Integer undef, i32 %result, 0
 
-  ; Return the modified self Integer object as a value
-  %returnValue = load %Integer, ptr %self, align 4
+  ; Return the new Integer object as a value
   ret %Integer %returnValue
 }
 
 define %Integer @Integer_Div(ptr %self, %Integer %other) {
 entry:
-  ; Get a pointer to the field of the self Integer object
+  ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
-
-  ; Load the current value of the self Integer object
   %selfValue = load i32, ptr %selfFieldPtr, align 4
 
-  ; Create a temporary memory location to store %other since it's a value, not a pointer
+  ; Get the value of the other Integer object
   %otherPtr = alloca %Integer
   store %Integer %other, ptr %otherPtr, align 4
-
-  ; Get a pointer to the field of the other %Integer object
   %otherFieldPtr = getelementptr inbounds %Integer, ptr %otherPtr, i32 0, i32 0
-
-  ; Load the integer value from the other %Integer object
   %otherValue = load i32, ptr %otherFieldPtr, align 4
 
-  ; Perform the division (assuming no division by zero check)
+  ; Perform division
   %result = sdiv i32 %selfValue, %otherValue
 
-  ; Store the result back into the self Integer object
-  store i32 %result, ptr %selfFieldPtr, align 4
+  ; Create a new Integer value
+  %returnValue = insertvalue %Integer undef, i32 %result, 0
 
-  ; Return the modified self Integer object as a value
-  %returnValue = load %Integer, ptr %self, align 4
+  ; Return the new Integer object as a value
   ret %Integer %returnValue
 }
 
+
 define %Integer @Integer_Rem(ptr %self, %Integer %other) {
 entry:
-  ; Get a pointer to the field of the self Integer object
+  ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
-
-  ; Load the current value of the self Integer object
   %selfValue = load i32, ptr %selfFieldPtr, align 4
 
-  ; Create a temporary memory location to store %other since it's a value, not a pointer
+  ; Get the value of the other Integer object
   %otherPtr = alloca %Integer
   store %Integer %other, ptr %otherPtr, align 4
-
-  ; Get a pointer to the field of the other %Integer object
   %otherFieldPtr = getelementptr inbounds %Integer, ptr %otherPtr, i32 0, i32 0
-
-  ; Load the integer value from the other %Integer object
   %otherValue = load i32, ptr %otherFieldPtr, align 4
 
-  ; Perform the remainder (modulus) operation
+  ; Perform remainder operation
   %result = srem i32 %selfValue, %otherValue
 
-  ; Store the result back into the self Integer object
-  store i32 %result, ptr %selfFieldPtr, align 4
+  ; Create a new Integer value
+  %returnValue = insertvalue %Integer undef, i32 %result, 0
 
-  ; Return the modified self Integer object as a value
-  %returnValue = load %Integer, ptr %self, align 4
+  ; Return the new Integer object as a value
   ret %Integer %returnValue
 }
 
