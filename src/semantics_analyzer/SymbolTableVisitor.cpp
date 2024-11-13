@@ -37,7 +37,6 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("print", "Integer", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("scan", "Integer", "void", Span(0, 0, 0), {});
 
-
     // Real
     symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
@@ -153,10 +152,11 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
             std::vector<std::string> argTypes;
             if (node.compoundExpressions[0]->arguments) {
                 for (const auto &arg: node.compoundExpressions[0]->arguments->expressions->expressions) {
-                    arg->accept(*this);
+
                     argTypes.push_back(arg->get_type(symbolTable));
                 }
             }
+
             symbolTable.lookupFunction(variableType, methodName, argTypes, node.span);
         }
 

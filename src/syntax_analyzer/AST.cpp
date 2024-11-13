@@ -105,6 +105,7 @@ void Program::accept(Visitor &visitor) {
 
 llvm::Value *Program::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                               ScopedSymbolTable &symbolTable) {
+
     if (classDeclarations) {
         classDeclarations->codegen(context, builder, module, symbolTable);
     }
@@ -236,8 +237,8 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
                                          std::string prevValueType) {
     llvm::Value *value = nullptr;
     std::string valueType;
-
-    IdentifierType type = symbolTable.getIdentifierType(identifier);
+    IdentifierType type;
+    type = symbolTable.getIdentifierType(identifier);
 
     if (type == ID_VARIABLE) {
         llvm::Value *ptr = symbolTable.getLocalVariable(identifier);
@@ -272,18 +273,16 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
 
     }
     if (type == ID_FUNCTION) {
-        std::string funcName;
+        std::string funcName = identifier;
+        std::string funcClassName;
+
         if (prevValueType.empty()) {
-            funcName = identifier;
+            funcClassName = symbolTable.currClassName;
         } else {
-            funcName = prevValueType + "_" + identifier;
-        }
-        llvm::Function *function = module.getFunction(funcName);
-        if (!function) {
-            llvm::errs() << "Error: " << identifier << " not found.\n";
-            return nullptr;
+            funcClassName = prevValueType;
         }
         std::vector<llvm::Value *> args;
+        std::vector<std::string> argTypes;
         // TODO add pointer to the current object
         if (prevValue) {
             args.push_back(prevValue);    // Add the initial variable as the first argument
@@ -294,11 +293,12 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
             for (auto &arg: arguments->expressions->expressions) {
 
                 llvm::Value *argValue = arg->codegen(context, builder, module, symbolTable);
+                auto strArgType = arg->get_type(symbolTable);
                 // create load
                 if (argValue && argValue->getType()->isPointerTy()) {
                     // Create load instruction to retrieve the value pointed to by argValue
-                    llvm::Type *argType = llvm::StructType::getTypeByName(context, arg->get_type(
-                            symbolTable));
+
+                    llvm::Type *argType = llvm::StructType::getTypeByName(context, strArgType);
                     argValue = builder.CreateLoad(argType, argValue, "loaded_arg");
                 }
                 if (!argValue) {
@@ -306,8 +306,22 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
                     return nullptr;
                 }
                 args.push_back(argValue); // Add argument value to the call list
+
+                argTypes.push_back(strArgType);
             }
         }
+
+
+        for (int i = 0; i < argTypes.size(); i++) {
+            funcName += "_" + argTypes[i];
+        }
+        auto t = funcClassName + "_" + funcName;
+        llvm::Function *function = module.getFunction(funcClassName + "_" + funcName);
+        if (!function) {
+            llvm::errs() << "Error: " << identifier << " not found.\n";
+            return nullptr;
+        }
+
         if (function->getReturnType()->isVoidTy()) {
             // TODO add other arguments
             value = builder.CreateCall(function, args);
@@ -487,10 +501,13 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
 
     // Step 2: Generate function parameters
     std::vector<llvm::Type *> paramTypes;
+    std::vector<std::string> paramStringTypes;
     std::vector<std::string> paramNames;
     if (parameters) {
         for (const auto &param: parameters->parameters) {
-            llvm::Type *paramType = llvm::StructType::getTypeByName(context, param->className->name);
+            auto stringParamType = param->className->name;
+            paramStringTypes.push_back(stringParamType);
+            llvm::Type *paramType = llvm::StructType::getTypeByName(context, stringParamType);
             if (!paramType) {
                 llvm::errs() << "Error: Failed to generate code for parameter " << param->name << "\n";
                 return nullptr;
@@ -501,7 +518,11 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     }
 //
     llvm::FunctionType *functionType = llvm::FunctionType::get(llvmReturnType, paramTypes, false);
-    llvm::Function *function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, methodName->name,
+    std::string funcName = symbolTable.currClassName + "_" + methodName->name;
+    for (int i = 0; i < paramStringTypes.size(); i++) {
+        funcName += "_" + paramStringTypes[i];
+    }
+    llvm::Function *function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, funcName,
                                                       &module);
 //
     // Step 3: Name the function arguments
@@ -534,7 +555,7 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
         builder.CreateRet(bodyVal);
     }
     llvm::verifyFunction(*function);
-
+    symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
     return function;
 }
 
@@ -858,29 +879,30 @@ llvm::Value *BoolLiteral::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> 
 
 }
 
-std::string Expression::get_type(ScopedSymbolTable& symbolTable) {
+std::string Expression::get_type(ScopedSymbolTable &symbolTable) {
     if (isCompound) {
         auto *expr = dynamic_cast<CompoundExpression *>(this);
         std::string previousExprClass = symbolTable.getIdentifierStringType(expr->identifier);
-        if(expr->compoundExpressions.empty()) {
+        if (expr->compoundExpressions.empty()) {
             return previousExprClass;
         }
         CompoundExpression *nextExpr = expr->compoundExpressions[0].get();
 
         while (!nextExpr->compoundExpressions.empty()) {
-            auto clazz= symbolTable.lookupClass(previousExprClass);
+            auto clazz = symbolTable.lookupClass(previousExprClass);
             nextExpr = dynamic_cast<CompoundExpression *>(nextExpr->compoundExpressions[0].get());
         }
 
-        std::string func_name = previousExprClass + "_" + nextExpr->identifier;
-        return symbolTable.getIdentifierStringType(nextExpr->identifier, previousExprClass);
-
-
-
-//        if (identifierTypes.find(nextExpr->identifier) == identifierTypes.end()) {
-//            return nextExpr->identifier;
+//        std::string func_name = nextExpr->identifier;
+//        for (int i = 0; i < nextExpr->arguments->expressions->expressions.size(); i++) {
+//            auto arg = nextExpr->arguments->expressions->expressions[i].get();
+//            auto argType = arg->get_type(symbolTable);
+//            func_name += "_" + argType;
 //        }
-//        return identifierTypes[nextExpr->identifier];
+
+        return symbolTable.getIdentifierStringType( nextExpr->identifier, previousExprClass);
+
+
         return type;
     } else {
         return type;

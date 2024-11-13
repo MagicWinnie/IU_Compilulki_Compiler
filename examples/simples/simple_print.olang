@@ -1,26 +1,24 @@
+// While loop test
+// "Complex way" of a summation of two integers
+
 Program: Main()
 
 class Main is
     this() is
-        var n : 10
 
-        var b : IntArray(100)
-        var i : 0
-        while n.Greater(0) loop
-            b.set(i, n.Rem(2))
-            i := i.Plus(1)
-            n := n.Div(2)
+        var a : Integer
+        var b : Integer
+        a.scan()
+        b.scan()
+
+        while a.Greater(0) loop
+            b := b.Plus(1)
+            a := a.Minus(1)
+            a.print()
         end
 
+        b.print()
 
-        i := i.Minus(1)
-
-        while i.Greater(0) loop
-            b.get(i).print()
-            i := i.Minus(1)
-        end
-
-        b.get(0).print()
     end
-end
 
+end

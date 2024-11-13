@@ -36,7 +36,7 @@ entry:
   ret i32 %value
 }
 
-define %Integer @Integer_Mult(ptr %self, %Integer %other) {
+define %Integer @Integer_Mult_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
@@ -58,7 +58,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Plus(ptr %self, %Integer %other) {
+define %Integer @Integer_Plus_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get a pointer to the field of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
@@ -86,7 +86,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Minus(ptr %self, %Integer %other) {
+define %Integer @Integer_Minus_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
@@ -108,7 +108,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Div(ptr %self, %Integer %other) {
+define %Integer @Integer_Div_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
@@ -131,7 +131,7 @@ entry:
 }
 
 
-define %Integer @Integer_Rem(ptr %self, %Integer %other) {
+define %Integer @Integer_Rem_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get the value of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
@@ -153,7 +153,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Boolean @Integer_Less(ptr %self, %Integer %other) {
+define %Boolean @Integer_Less_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get a pointer to the field of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
@@ -183,7 +183,7 @@ entry:
   ret %Boolean %loadedBoolean
 }
 
-define %Boolean @Integer_Greater(ptr %self, %Integer %other) {
+define %Boolean @Integer_Greater_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get a pointer to the field of the self Integer object
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0

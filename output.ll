@@ -56,7 +56,7 @@ entry:
   ret i32 %value
 }
 
-define %Integer @Integer_Mult(ptr %self, %Integer %other) {
+define %Integer @Integer_Mult_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -69,7 +69,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Plus(ptr %self, %Integer %other) {
+define %Integer @Integer_Plus_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -82,7 +82,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Minus(ptr %self, %Integer %other) {
+define %Integer @Integer_Minus_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -95,7 +95,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Div(ptr %self, %Integer %other) {
+define %Integer @Integer_Div_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -108,7 +108,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @Integer_Rem(ptr %self, %Integer %other) {
+define %Integer @Integer_Rem_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -121,7 +121,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Boolean @Integer_Less(ptr %self, %Integer %other) {
+define %Boolean @Integer_Less_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -136,7 +136,7 @@ entry:
   ret %Boolean %loadedBoolean
 }
 
-define %Boolean @Integer_Greater(ptr %self, %Integer %other) {
+define %Boolean @Integer_Greater_Integer(ptr %self, %Integer %other) {
 entry:
   %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
   %selfValue = load i32, ptr %selfFieldPtr, align 4
@@ -218,7 +218,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define %Integer @IntArray_get(ptr %arrayPtr, i32 %index) {
+define %Integer @IntArray_get_Integer(ptr %arrayPtr, i32 %index) {
 entry:
   %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
   %dataPtr = load ptr, ptr %dataFieldPtr, align 8
@@ -231,7 +231,7 @@ entry:
   ret %Integer %returnValue
 }
 
-define void @IntArray_set(ptr %arrayPtr, i32 %index, i32 %value) {
+define void @IntArray_set_Integer_Integer(ptr %arrayPtr, i32 %index, i32 %value) {
 entry:
   %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
   %dataPtr = load ptr, ptr %dataFieldPtr, align 8
@@ -269,13 +269,13 @@ end:                                              ; preds = %loop
 
 define void @Main_Create_Default(ptr %0) {
 entry:
-  %n = alloca %Integer, align 8
-  call void @Integer_Create_Default(ptr %n, i32 10)
-  %class_object = alloca %IntArray, align 8
-  call void @IntArray_Create_Default(ptr %class_object, i32 100)
-  %i = alloca %Integer, align 8
-  call void @Integer_Create_Default(ptr %i, i32 0)
-  %call_Greater = call %Boolean @Integer_Greater(ptr %n, i32 0)
+  %class_object = alloca %Integer, align 8
+  call void @Integer_Create_Default(ptr %class_object)
+  %class_object1 = alloca %Integer, align 8
+  call void @Integer_Create_Default(ptr %class_object1)
+  call void @Integer_scan(ptr %class_object)
+  call void @Integer_scan(ptr %class_object1)
+  %call_Greater = call %Boolean @Integer_Greater_Integer(ptr %class_object, i32 0)
   %alloca_return_val = alloca %Boolean, align 8
   store %Boolean %call_Greater, ptr %alloca_return_val, align 1
   %boolFieldPtr = getelementptr inbounds %Boolean, ptr %alloca_return_val, i32 0, i32 0
@@ -284,64 +284,25 @@ entry:
   br i1 %whilecond, label %loop, label %afterloop
 
 loop:                                             ; preds = %loop, %entry
-  %loaded_arg = load %Integer, ptr %i, align 4
-  %call_Rem = call %Integer @Integer_Rem(ptr %n, i32 2)
-  %alloca_return_val1 = alloca %Integer, align 8
-  store %Integer %call_Rem, ptr %alloca_return_val1, align 4
-  %loaded_arg2 = load %Integer, ptr %alloca_return_val1, align 4
-  call void @IntArray_set(ptr %class_object, %Integer %loaded_arg, %Integer %loaded_arg2)
-  %call_Plus = call %Integer @Integer_Plus(ptr %i, i32 1)
+  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %class_object1, i32 1)
+  %alloca_return_val2 = alloca %Integer, align 8
+  store %Integer %call_Plus, ptr %alloca_return_val2, align 4
+  call void @llvm.memcpy.p0.p0.i64(ptr %class_object1, ptr %alloca_return_val2, i64 8, i1 false)
+  %call_Minus = call %Integer @Integer_Minus_Integer(ptr %class_object, i32 1)
   %alloca_return_val3 = alloca %Integer, align 8
-  store %Integer %call_Plus, ptr %alloca_return_val3, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %i, ptr %alloca_return_val3, i64 8, i1 false)
-  %call_Div = call %Integer @Integer_Div(ptr %n, i32 2)
-  %alloca_return_val4 = alloca %Integer, align 8
-  store %Integer %call_Div, ptr %alloca_return_val4, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %n, ptr %alloca_return_val4, i64 8, i1 false)
-  %call_Greater5 = call %Boolean @Integer_Greater(ptr %n, i32 0)
-  %alloca_return_val6 = alloca %Boolean, align 8
-  store %Boolean %call_Greater5, ptr %alloca_return_val6, align 1
-  %boolFieldPtr7 = getelementptr inbounds %Boolean, ptr %alloca_return_val6, i32 0, i32 0
-  %loadBoolValue8 = load i1, ptr %boolFieldPtr7, align 1
-  %whilecond9 = icmp ne i1 %loadBoolValue8, false
-  br i1 %whilecond9, label %loop, label %afterloop
+  store %Integer %call_Minus, ptr %alloca_return_val3, align 4
+  call void @llvm.memcpy.p0.p0.i64(ptr %class_object, ptr %alloca_return_val3, i64 8, i1 false)
+  call void @Integer_print(ptr %class_object)
+  %call_Greater4 = call %Boolean @Integer_Greater_Integer(ptr %class_object, i32 0)
+  %alloca_return_val5 = alloca %Boolean, align 8
+  store %Boolean %call_Greater4, ptr %alloca_return_val5, align 1
+  %boolFieldPtr6 = getelementptr inbounds %Boolean, ptr %alloca_return_val5, i32 0, i32 0
+  %loadBoolValue7 = load i1, ptr %boolFieldPtr6, align 1
+  %whilecond8 = icmp ne i1 %loadBoolValue7, false
+  br i1 %whilecond8, label %loop, label %afterloop
 
 afterloop:                                        ; preds = %loop, %entry
-  %call_Minus = call %Integer @Integer_Minus(ptr %i, i32 1)
-  %alloca_return_val10 = alloca %Integer, align 8
-  store %Integer %call_Minus, ptr %alloca_return_val10, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %i, ptr %alloca_return_val10, i64 8, i1 false)
-  %call_Greater13 = call %Boolean @Integer_Greater(ptr %i, i32 0)
-  %alloca_return_val14 = alloca %Boolean, align 8
-  store %Boolean %call_Greater13, ptr %alloca_return_val14, align 1
-  %boolFieldPtr15 = getelementptr inbounds %Boolean, ptr %alloca_return_val14, i32 0, i32 0
-  %loadBoolValue16 = load i1, ptr %boolFieldPtr15, align 1
-  %whilecond17 = icmp ne i1 %loadBoolValue16, false
-  br i1 %whilecond17, label %loop11, label %afterloop12
-
-loop11:                                           ; preds = %loop11, %afterloop
-  %loaded_arg18 = load %Integer, ptr %i, align 4
-  %call_get = call %Integer @IntArray_get(ptr %class_object, %Integer %loaded_arg18)
-  %alloca_return_val19 = alloca %Integer, align 8
-  store %Integer %call_get, ptr %alloca_return_val19, align 4
-  call void @Integer_print(ptr %alloca_return_val19)
-  %call_Minus20 = call %Integer @Integer_Minus(ptr %i, i32 1)
-  %alloca_return_val21 = alloca %Integer, align 8
-  store %Integer %call_Minus20, ptr %alloca_return_val21, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %i, ptr %alloca_return_val21, i64 8, i1 false)
-  %call_Greater22 = call %Boolean @Integer_Greater(ptr %i, i32 0)
-  %alloca_return_val23 = alloca %Boolean, align 8
-  store %Boolean %call_Greater22, ptr %alloca_return_val23, align 1
-  %boolFieldPtr24 = getelementptr inbounds %Boolean, ptr %alloca_return_val23, i32 0, i32 0
-  %loadBoolValue25 = load i1, ptr %boolFieldPtr24, align 1
-  %whilecond26 = icmp ne i1 %loadBoolValue25, false
-  br i1 %whilecond26, label %loop11, label %afterloop12
-
-afterloop12:                                      ; preds = %loop11, %afterloop
-  %call_get27 = call %Integer @IntArray_get(ptr %class_object, i32 0)
-  %alloca_return_val28 = alloca %Integer, align 8
-  store %Integer %call_get27, ptr %alloca_return_val28, align 4
-  call void @Integer_print(ptr %alloca_return_val28)
+  call void @Integer_print(ptr %class_object1)
   ret void
 }
 

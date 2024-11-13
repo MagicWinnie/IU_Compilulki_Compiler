@@ -12,91 +12,46 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: 10
-                      VariableName: n
+                      CompoundExpression: Integer
+                      VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: IntArray
-                        Arguments
-                          Expressions
-                            Primary: 100
+                      CompoundExpression: Integer
                       VariableName: b
                   BodyDeclaration
-                    VariableDeclaration
-                      Primary: 0
-                      VariableName: i
+                    CompoundExpression: a
+                      CompoundExpression: scan
+                  BodyDeclaration
+                    CompoundExpression: b
+                      CompoundExpression: scan
                   BodyDeclaration
                     WhileLoop
                       Body
                         BodyDeclarations
                           BodyDeclaration
-                            CompoundExpression: b
-                              CompoundExpression: set
-                                Arguments
-                                  Expressions
-                                    CompoundExpression: i
-                                    CompoundExpression: n
-                                      CompoundExpression: Rem
-                                        Arguments
-                                          Expressions
-                                            Primary: 2
-                          BodyDeclaration
                             Assignment
-                              CompoundExpression: i
+                              CompoundExpression: b
                                 CompoundExpression: Plus
                                   Arguments
                                     Expressions
                                       Primary: 1
-                              VariableName: i
+                              VariableName: b
                           BodyDeclaration
                             Assignment
-                              CompoundExpression: n
-                                CompoundExpression: Div
-                                  Arguments
-                                    Expressions
-                                      Primary: 2
-                              VariableName: n
-                      CompoundExpression: n
-                        CompoundExpression: Greater
-                          Arguments
-                            Expressions
-                              Primary: 0
-                  BodyDeclaration
-                    Assignment
-                      CompoundExpression: i
-                        CompoundExpression: Minus
-                          Arguments
-                            Expressions
-                              Primary: 1
-                      VariableName: i
-                  BodyDeclaration
-                    WhileLoop
-                      Body
-                        BodyDeclarations
-                          BodyDeclaration
-                            CompoundExpression: b
-                              CompoundExpression: get
-                                Arguments
-                                  Expressions
-                                    CompoundExpression: i
-                                CompoundExpression: print
-                          BodyDeclaration
-                            Assignment
-                              CompoundExpression: i
+                              CompoundExpression: a
                                 CompoundExpression: Minus
                                   Arguments
                                     Expressions
                                       Primary: 1
-                              VariableName: i
-                      CompoundExpression: i
+                              VariableName: a
+                          BodyDeclaration
+                            CompoundExpression: a
+                              CompoundExpression: print
+                      CompoundExpression: a
                         CompoundExpression: Greater
                           Arguments
                             Expressions
                               Primary: 0
                   BodyDeclaration
                     CompoundExpression: b
-                      CompoundExpression: get
-                        Arguments
-                          Expressions
-                            Primary: 0
-                        CompoundExpression: print
+                      CompoundExpression: print

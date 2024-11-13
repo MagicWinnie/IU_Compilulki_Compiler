@@ -2,9 +2,9 @@
 #include "SymbolTable.h"
 
 
-void SymbolTable::addVariableEntry(const std::string& name, const std::string& type, const bool is_constant)
+void SymbolTable::addVariableEntry(const std::string& name, const std::string& type)
 {
-    varEntries[name] = {name, type, is_constant};
+    varEntries[name] = {name, type};
 }
 
 
@@ -43,8 +43,7 @@ void ScopedSymbolTable::leaveScope()
     }
 }
 
-void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::string& type, const Span& span,
-                                         const bool is_constant)
+void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::string& type, const Span& span)
 {
     if (!scopes.empty())
     {
@@ -63,17 +62,28 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
         // Add the new entry to the current scope
         identifierTypes[name] = ID_VARIABLE;
         variableTypes[name] = type;
-        current_scope.addVariableEntry(name, type, is_constant);
+        current_scope.addVariableEntry(name, type);
     }
 }
 
 void ScopedSymbolTable::addFunctionEntry(const std::string& name, const std::string& className, const std::string& returnType, const Span& span,
-                                         const std::vector<std::string>& paramTypes) {
-    auto funcName = className + "_" + name;
+                                         const std::vector<std::string>& paramTypes ) {
+    std::string funcName = name;
+    for (int i = 0; i < paramTypes.size(); i++) {
+        funcName += "_"+paramTypes[i];
+    }
+
     MethodSignature signature(funcName, paramTypes);
     ClassEntry* classEntry = lookupClass(className, span, true);
     identifierTypes[name] = ID_FUNCTION;
     classEntry->addMethod(signature, {signature, returnType});
+}
+
+
+void ScopedSymbolTable::addFunctionValue(const std::string& name, const std::string& className, std::vector<std::string> argTypes, llvm::Function* func) {
+    MethodSignature signature(name, argTypes);
+    ClassEntry* classEntry = lookupClass(className, Span(0,0,0), true);
+    classEntry->addMethodValue(signature, func);
 }
 
 void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
@@ -131,7 +141,10 @@ MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, con
                                                      const std::vector<std::string>& params,
                                                      const Span& span, const bool throw_error)
 {
-    auto funcName = className + "_" + methodName;
+    auto funcName =  methodName;
+    for (int i = 0; i < params.size(); i++) {
+        funcName += "_"+params[i];
+    }
     MethodSignature signature( funcName, params);
     ClassEntry* classEntry = lookupClass(className, span, true);
     MethodEntry* methodEntry = classEntry->lookupMethod(signature);
@@ -205,7 +218,7 @@ std::string ScopedSymbolTable::getIdentifierStringType(std::string& identifier, 
         case ID_FUNCTION:
             return getFunctionType(identifier, className);
         default:
-            return "Undefined";
+            throw std::runtime_error("Identifier " + identifier + " is not declared");
     }
 }
 
@@ -217,7 +230,13 @@ std::string ScopedSymbolTable::getIdentifierStringType(std::string& identifier) 
         case ID_CLASS:
             return identifier;
         default:
-            return "Undefined";
+            throw std::runtime_error("Identifier " + identifier + " is not declared");
     }
 }
+
+llvm::Function* ScopedSymbolTable::getMethodValue(std::string className, std::string funcName, std::vector<std::string> argTypes) {
+    auto classEntry = lookupClass(className, Span(0,0,0), false);
+    return classEntry->getMethodValue(funcName, argTypes);
+}
+
 

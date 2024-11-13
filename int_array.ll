@@ -42,7 +42,7 @@ entry:
 }
 
 ; Method to get an element from the IntArray (get(i: Integer) : T)
-define %Integer @IntArray_get(ptr %arrayPtr, i32 %index) {
+define %Integer @IntArray_get_Integer(ptr %arrayPtr, i32 %index) {
 entry:
   ; Get the data pointer from the IntArray structure
   %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
@@ -65,7 +65,7 @@ entry:
 }
 
 ; Method to set an element in the IntArray (set(i: Integer, v: T))
-define void @IntArray_set(ptr %arrayPtr, i32 %index, i32 %value) {
+define void @IntArray_set_Integer_Integer(ptr %arrayPtr, i32 %index, i32 %value) {
 entry:
   ; Get the data pointer from the IntArray structure
   %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
