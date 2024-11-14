@@ -59,20 +59,40 @@ void ScopedSymbolTable::addFunctionEntry(const std::string &name, const std::str
                                          const std::string &returnType, const Span &span,
                                          const std::vector<std::string> &paramTypes) {
     std::string funcName = name;
-    for (const auto & paramType : paramTypes) {
+    for (const auto &paramType: paramTypes) {
         funcName += "_" + paramType;
     }
 
     MethodSignature signature(funcName, paramTypes);
     ClassEntry *classEntry = lookupClass(className, span, true);
     identifierTypes[name] = ID_FUNCTION;
+
+    if (classEntry->doesMethodExists(signature.methodName)) {
+        throw std::runtime_error(
+            "Method '" + name + "' is already declared in this scope" +
+            " at line: " + std::to_string(span.get_line_num()) +
+            " column: " + std::to_string(span.get_pos_begin())
+        );
+    }
+
+    if (!classEntry->getMethodsByNameWithoutTypes(name).empty()) {
+        const std::string existingType = classEntry->getMethodReturnType(name);
+        if (returnType != existingType) {
+            throw std::runtime_error(
+                "Method '" + name + "' is overloaded with another return type " + returnType +
+                ", it should have type of " + existingType +
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
+        }
+    }
     classEntry->addMethod(signature, {signature, returnType});
 }
 
 
 void ScopedSymbolTable::addFunctionValue(const std::string &name, const std::string &className,
-                                         std::vector<std::string> argTypes, llvm::Function *func) {
-    const MethodSignature signature(name, std::move(argTypes));
+                                         const std::vector<std::string> &argTypes, llvm::Function *func) {
+    const MethodSignature signature(name, argTypes);
     ClassEntry *classEntry = lookupClass(className, Span(0, 0, 0), true);
     classEntry->addMethodValue(signature, func);
 }
@@ -123,13 +143,12 @@ MethodEntry *ScopedSymbolTable::lookupFunction(const std::string &className, con
                                                const std::vector<std::string> &params,
                                                const Span &span, const bool throw_error) {
     auto funcName = methodName;
-    for (const auto & param : params) {
+    for (const auto &param: params) {
         funcName += "_" + param;
     }
     const MethodSignature signature(funcName, params);
     ClassEntry *classEntry = lookupClass(className, span, true);
-    MethodEntry *methodEntry = classEntry->lookupMethod(signature);
-    if (methodEntry) {
+    if (MethodEntry *methodEntry = classEntry->lookupMethod(signature)) {
         return methodEntry;
     }
 
@@ -185,29 +204,45 @@ std::string ScopedSymbolTable::getFunctionType(const std::string &name, const st
     return classEntry->getMethodReturnType(name);
 }
 
-std::string ScopedSymbolTable::getIdentifierStringType(const std::string &identifier, const std::string &className) {
+std::string ScopedSymbolTable::getIdentifierStringType(const std::string &identifier, const std::string &className,
+                                                       const Span &span) {
     switch (getIdentifierType(identifier)) {
         case ID_VARIABLE:
             return variableTypes[identifier];
         case ID_FUNCTION:
+            if (className == "void") {
+                throw std::runtime_error(
+                    "void has no method " + identifier  +
+                    " at line: " + std::to_string(span.get_line_num()) +
+                    " column: " + std::to_string(span.get_pos_begin())
+                );
+            }
             return getFunctionType(identifier, className);
         default:
-            throw std::runtime_error("Identifier " + identifier + " is not declared");
+            throw std::runtime_error(
+                "Identifier " + identifier + " is not declared" +
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
     }
 }
 
-std::string ScopedSymbolTable::getIdentifierStringType(std::string &identifier) {
+std::string ScopedSymbolTable::getIdentifierStringType(std::string &identifier, const Span& span) {
     switch (getIdentifierType(identifier)) {
         case ID_VARIABLE:
             return variableTypes[identifier];
         case ID_CLASS:
             return identifier;
         default:
-            throw std::runtime_error("Identifier " + identifier + " is not declared");
+            throw std::runtime_error(
+                "Identifier " + identifier + " is not declared" +
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
     }
 }
 
-llvm::Function *ScopedSymbolTable::getMethodValue(const std::string& className, const std::string &funcName,
+llvm::Function *ScopedSymbolTable::getMethodValue(const std::string &className, const std::string &funcName,
                                                   const std::vector<std::string> &argTypes) {
     auto classEntry = lookupClass(className, Span(0, 0, 0), false);
     return classEntry->getMethodValue(funcName, argTypes);

@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <utility>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -31,7 +32,7 @@ struct MethodSignature {
     // Constructor
     MethodSignature() = default; // Default constructor
     MethodSignature(std::string methodName, std::vector<std::string> parameterTypes)
-            : methodName(std::move(methodName)), parameterTypes(std::move(parameterTypes)) {
+        : methodName(std::move(methodName)), parameterTypes(std::move(parameterTypes)) {
     }
 
     // Define equality operator to use MethodSignature in a map or set
@@ -60,11 +61,12 @@ class ClassEntry {
     std::vector<VariableEntry> fields;
     std::unordered_map<MethodSignature, MethodEntry, MethodSignatureHash> methods;
     std::unordered_map<MethodSignature, llvm::Function *, MethodSignatureHash> methodValues;
-    std::unordered_map<std::string, std::string> methoReturnTypes;
+    std::unordered_map<std::string, std::string> methodReturnTypes;
     ClassEntry *parentClass = nullptr;
 
 public:
-    ClassEntry(const std::string &className) : name(className) {}
+    explicit ClassEntry(std::string className) : name(std::move(className)) {
+    }
 
     ClassEntry() = default;
 
@@ -72,27 +74,27 @@ public:
         fields.push_back(field);
     }
 
-    void addMethod(MethodSignature signature, MethodEntry method) {
+    void addMethod(const MethodSignature &signature, const MethodEntry &method) {
         methods[signature] = method;
         // Get method name before _
-        std::string methodName = signature.methodName.substr(0, signature.methodName.find('_'));
-        methoReturnTypes[methodName] = method.returnType;
+        const std::string methodName = signature.methodName.substr(0, signature.methodName.find('_'));
+        methodReturnTypes[methodName] = method.returnType;
     }
 
-    void addMethodValue(MethodSignature signature, llvm::Function *value) {
+    void addMethodValue(const MethodSignature &signature, llvm::Function *value) {
         methodValues[signature] = value;
     }
 
-    llvm::Function* getMethodValue(MethodSignature signature) {
-       return methodValues[signature];
+    llvm::Function *getMethodValue(const MethodSignature &signature) {
+        return methodValues[signature];
     }
 
-    llvm::Function* getMethodValue(std::string funcName, std::vector<std::string> argTypes) {
+    llvm::Function *getMethodValue(const std::string &funcName, const std::vector<std::string> &argTypes) {
         MethodSignature signature(funcName, argTypes);
         return methodValues[signature];
     }
 
-    bool doesMethodExists(std::string &name) {
+    bool doesMethodExists(const std::string &name) {
         std::vector<MethodEntry> classMethods = getMethods(name);
         for (const auto &method: classMethods) {
             if (method.signature.methodName == name) {
@@ -102,7 +104,7 @@ public:
         return false;
     }
 
-    std::vector<MethodEntry> getMethods(std::string &name) {
+    std::vector<MethodEntry> getMethods(const std::string &name) {
         std::vector<MethodEntry> methodsList;
         for (const auto &[signature, method]: methods) {
             if (signature.methodName == name) {
@@ -112,13 +114,23 @@ public:
         return methodsList;
     }
 
+    std::vector<MethodEntry> getMethodsByNameWithoutTypes(const std::string &prefix) {
+        std::vector<MethodEntry> methodsList;
+        for (const auto &[signature, method]: methods) {
+            const std::string methodName = signature.methodName.substr(0, signature.methodName.find('_'));
+            if (methodName == prefix) {
+                methodsList.push_back(method);
+            }
+        }
+        return methodsList;
+    }
 
     void setParentClass(ClassEntry *parent) {
         parentClass = parent;
     }
 
     std::string getMethodReturnType(const std::string &name) {
-        return methoReturnTypes[name];
+        return methodReturnTypes[name];
     }
 
     const VariableEntry *lookupField(const std::string &name) const {
@@ -133,7 +145,7 @@ public:
         return nullptr;
     }
 
-    MethodEntry *lookupMethod(const MethodSignature& signature) {
+    MethodEntry *lookupMethod(const MethodSignature &signature) {
         auto it = methods.find(signature);
         if (it != methods.end()) {
             return &it->second;
@@ -144,7 +156,6 @@ public:
         }
         return nullptr;
     }
-
 };
 
 
@@ -204,20 +215,22 @@ public:
                           const Span &span,
                           const std::vector<std::string> &paramTypes);
 
-    IdentifierType getIdentifierType(const std::string& identifier);
+    IdentifierType getIdentifierType(const std::string &identifier);
 
-    llvm::Value *getLocalVariable(const std::string& varName);
+    llvm::Value *getLocalVariable(const std::string &varName);
 
     void addLocalVariable(const std::string &varName, llvm::Value *pInst, const std::string &);
 
-    std::string getIdentifierStringType(const std::string &identifier, const std::string &className);
+    std::string getIdentifierStringType(const std::string &identifier, const std::string &className, const Span& span);
 
-    std::string getIdentifierStringType(std::string &identifier);
+    std::string getIdentifierStringType(std::string &identifier, const Span& span);
 
     std::string getFunctionType(const std::string &name, const std::string &className);
 
-    llvm::Function *getMethodValue(const std::string& className, const std::string &funcName, const std::vector<std::string> &argTypes);
+    llvm::Function *getMethodValue(const std::string &className, const std::string &funcName,
+                                   const std::vector<std::string> &argTypes);
 
-    void addFunctionValue(const std::string &name, const std::string &className, std::vector<std::string> argTypes,
+    void addFunctionValue(const std::string &name, const std::string &className,
+                          const std::vector<std::string> &argTypes,
                           llvm::Function *func);
 };
