@@ -48,11 +48,9 @@ Program
                       CompoundExpression: A
                       VariableName: a
                   BodyDeclaration
-                    CompoundExpression: print
-                      Arguments
-                        Expressions
-                          CompoundExpression: a
-                            CompoundExpression: getValue
+                    CompoundExpression: a
+                      CompoundExpression: getValue
+                        CompoundExpression: print
                   BodyDeclaration
                     CompoundExpression: a
                       CompoundExpression: setValue
