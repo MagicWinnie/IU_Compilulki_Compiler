@@ -166,7 +166,7 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
         //llvmSymbolTable.lookupFunction(node.identifier, node.span);
     } else {
         // TODO fix
-        //throw std::runtime_error("Identifier " + node.identifier + " is not declared");
+        throw std::runtime_error("Identifier " + node.identifier + " is not declared");
     }
 
 

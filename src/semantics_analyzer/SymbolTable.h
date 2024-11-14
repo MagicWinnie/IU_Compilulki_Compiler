@@ -133,7 +133,7 @@ public:
         return nullptr;
     }
 
-    MethodEntry *lookupMethod(MethodSignature signature) {
+    MethodEntry *lookupMethod(const MethodSignature& signature) {
         auto it = methods.find(signature);
         if (it != methods.end()) {
             return &it->second;
@@ -193,8 +193,8 @@ public:
 
     void makeVariableUsed(const std::string &name);
 
-    MethodEntry *lookupFunction(const std::string &methodName, const std::string &className,
-                                const std::vector<std::string> &arguments,
+    MethodEntry *lookupFunction(const std::string &className, const std::string &methodName,
+                                const std::vector<std::string> &params,
                                 const Span &, bool throw_error = true);
 
     ClassEntry *lookupClass(const std::string &, const Span & = Span(0, 0, 0), bool throw_error = true);
@@ -204,19 +204,19 @@ public:
                           const Span &span,
                           const std::vector<std::string> &paramTypes);
 
-    IdentifierType getIdentifierType(std::string identifier);
+    IdentifierType getIdentifierType(const std::string& identifier);
 
-    llvm::Value *getLocalVariable(std::string basicString);
+    llvm::Value *getLocalVariable(const std::string& varName);
 
-    void addLocalVariable(std::string &basicString, llvm::Value *pInst, const std::string &);
+    void addLocalVariable(const std::string &varName, llvm::Value *pInst, const std::string &);
 
-    std::string getIdentifierStringType(std::string &identifier, std::string &className);
+    std::string getIdentifierStringType(const std::string &identifier, const std::string &className);
 
     std::string getIdentifierStringType(std::string &identifier);
 
     std::string getFunctionType(const std::string &name, const std::string &className);
 
-    llvm::Function *getMethodValue(std::string className, std::string funcName, std::vector<std::string> argTypes);
+    llvm::Function *getMethodValue(const std::string& className, const std::string &funcName, const std::vector<std::string> &argTypes);
 
     void addFunctionValue(const std::string &name, const std::string &className, std::vector<std::string> argTypes,
                           llvm::Function *func);
