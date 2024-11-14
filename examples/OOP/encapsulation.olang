@@ -22,7 +22,7 @@ class Main is
     this() is
         var a : A()
         
-        print(a.getValue()) // -> 0
+        a.getValue().print() // -> 0
         
         a.setValue(1)
         

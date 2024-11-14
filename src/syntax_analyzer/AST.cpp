@@ -205,7 +205,7 @@ Primary::Primary(std::unique_ptr<ClassName> &class_name, const std::string &type
     this->type = type;
 }
 
-Primary::Primary(std::unique_ptr<Literal> &literal, const std::string &type, const Span &) {
+Primary::Primary(std::unique_ptr<Literal> &literal, const std::string &type, const Span &span) {
     this->literal = std::move(literal);
     isCompound = false;
     this->span = span;
@@ -227,11 +227,10 @@ void CompoundExpression::accept(Visitor &visitor) {
 
 llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                          ScopedSymbolTable &symbolTable, llvm::Value *prevValue,
-                                         std::string prevValueType) {
+                                         const std::string &prevValueType) {
     llvm::Value *value = nullptr;
     std::string valueType;
-    IdentifierType type;
-    type = symbolTable.getIdentifierType(identifier);
+    const IdentifierType type = symbolTable.getIdentifierType(identifier);
 
     if (type == ID_VARIABLE) {
         llvm::Value *ptr = symbolTable.getLocalVariable(identifier);
@@ -283,7 +282,7 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
         if (arguments) {
             for (auto &arg: arguments->expressions->expressions) {
                 llvm::Value *argValue = arg->codegen(context, builder, module, symbolTable);
-                auto strArgType = arg->get_type(symbolTable, Span(0, 0, 0));
+                auto strArgType = arg->get_type(symbolTable);
                 // create load
                 if (argValue && argValue->getType()->isPointerTy()) {
                     // Create load instruction to retrieve the value pointed to by argValue
@@ -302,8 +301,8 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
         }
 
 
-        for (int i = 0; i < argTypes.size(); i++) {
-            funcName += "_" + argTypes[i];
+        for (const auto & argType : argTypes) {
+            funcName += "_" + argType;
         }
         auto t = funcClassName + "_" + funcName;
         llvm::Function *function = module.getFunction(funcClassName + "_" + funcName);
@@ -865,7 +864,7 @@ llvm::Value *BoolLiteral::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> 
     return llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), value);
 }
 
-std::string Expression::get_type(ScopedSymbolTable &symbolTable, const Span &span) {
+std::string Expression::get_type(ScopedSymbolTable &symbolTable) {
     if (isCompound) {
         auto *expr = dynamic_cast<CompoundExpression *>(this);
         std::string previousExprClass = symbolTable.getIdentifierStringType(expr->identifier, span);

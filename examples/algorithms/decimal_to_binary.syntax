@@ -1,9 +1,6 @@
 Program
   ProgramDeclaration
     ClassName: Main
-    ProgramArguments
-      Literals
-        Literal: 42
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -15,23 +12,42 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: List
-                        CompoundExpression: Integer
+                      Primary: 128
+                      VariableName: n
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: IntArray
+                        Arguments
+                          Expressions
+                            Primary: 10
                       VariableName: b
+                  BodyDeclaration
+                    VariableDeclaration
+                      Primary: 0
+                      VariableName: i
                   BodyDeclaration
                     WhileLoop
                       Body
                         BodyDeclarations
                           BodyDeclaration
                             CompoundExpression: b
-                              CompoundExpression: append
+                              CompoundExpression: set
                                 Arguments
                                   Expressions
+                                    CompoundExpression: i
                                     CompoundExpression: n
                                       CompoundExpression: Rem
                                         Arguments
                                           Expressions
                                             Primary: 2
+                          BodyDeclaration
+                            Assignment
+                              CompoundExpression: i
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
+                              VariableName: i
                           BodyDeclaration
                             Assignment
                               CompoundExpression: n
@@ -46,8 +62,8 @@ Program
                             Expressions
                               Primary: 0
                   BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: n
+                    Assignment
+                      CompoundExpression: i
                         CompoundExpression: Minus
                           Arguments
                             Expressions
@@ -73,10 +89,14 @@ Program
                                       Primary: 1
                               VariableName: i
                       CompoundExpression: i
-                        CompoundExpression: GreaterEqual
+                        CompoundExpression: Greater
                           Arguments
                             Expressions
                               Primary: 0
-              Parameters
-                Parameter: n
-                  ClassName: Integer
+                  BodyDeclaration
+                    CompoundExpression: b
+                      CompoundExpression: get
+                        Arguments
+                          Expressions
+                            Primary: 0
+                        CompoundExpression: print

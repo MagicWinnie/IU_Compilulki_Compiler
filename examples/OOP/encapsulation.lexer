@@ -49,14 +49,15 @@ Delimiter{Span(23, 15, 16), 14}                -> :                       -> COL
 A                                              -> A                       -> IDENTIFIER                                    
 Delimiter{Span(23, 18, 19), 18}                -> (                       -> LEFT_PAREN                                    
 Delimiter{Span(23, 19, 20), 19}                -> )                       -> RIGHT_PAREN                                   
-print                                          -> print                   -> IDENTIFIER                                    
-Delimiter{Span(25, 14, 15), 18}                -> (                       -> LEFT_PAREN                                    
 a                                              -> a                       -> IDENTIFIER                                    
-Delimiter{Span(25, 16, 17), 15}                -> .                       -> DOT                                           
+Delimiter{Span(25, 10, 11), 15}                -> .                       -> DOT                                           
 getValue                                       -> getValue                -> IDENTIFIER                                    
-Delimiter{Span(25, 25, 26), 18}                -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(25, 26, 27), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(25, 27, 28), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(25, 19, 20), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(25, 20, 21), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(25, 21, 22), 15}                -> .                       -> DOT                                           
+print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(25, 27, 28), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(25, 28, 29), 19}                -> )                       -> RIGHT_PAREN                                   
 a                                              -> a                       -> IDENTIFIER                                    
 Delimiter{Span(27, 10, 11), 15}                -> .                       -> DOT                                           
 setValue                                       -> setValue                -> IDENTIFIER                                    

@@ -1,10 +1,6 @@
 Program
   ProgramDeclaration
     ClassName: Main
-    ProgramArguments
-      Literals
-        Literal: 1.100000
-        Literal: 1.200000
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -16,29 +12,77 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: true
-                      VariableName: eq
+                      CompoundExpression: IntArray
+                        Arguments
+                          Expressions
+                            Primary: 100
+                      VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: false
-                      VariableName: dif
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 0
+                      VariableName: i1
                   BodyDeclaration
-                    IfStatement
-                      CompoundExpression: eq
-                      IfBranch
-                        Body
-                          BodyDeclarations
-                            BodyDeclaration
-                              CompoundExpression: dif
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 100
+                      VariableName: n
+                  BodyDeclaration
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            CompoundExpression: a
+                              CompoundExpression: set
+                                Arguments
+                                  Expressions
+                                    CompoundExpression: i1
+                                    CompoundExpression: i1
+                          BodyDeclaration
+                            Assignment
+                              CompoundExpression: i1
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
+                              VariableName: i1
+                      CompoundExpression: i1
+                        CompoundExpression: Less
+                          Arguments
+                            Expressions
+                              CompoundExpression: n
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 99
+                      VariableName: i2
+                  BodyDeclaration
+                    WhileLoop
+                      Body
+                        BodyDeclarations
+                          BodyDeclaration
+                            CompoundExpression: a
+                              CompoundExpression: get
+                                Arguments
+                                  Expressions
+                                    CompoundExpression: i2
                                 CompoundExpression: print
-                      ElseBranch
-                        Body
-                          BodyDeclarations
-                            BodyDeclaration
-                              CompoundExpression: eq
-                                CompoundExpression: print
-              Parameters
-                Parameter: a
-                  ClassName: Real
-                Parameter: b
-                  ClassName: Real
+                          BodyDeclaration
+                            Assignment
+                              CompoundExpression: i2
+                                CompoundExpression: Minus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
+                              VariableName: i2
+                      CompoundExpression: i2
+                        CompoundExpression: Greater
+                          Arguments
+                            Expressions
+                              Primary: 0

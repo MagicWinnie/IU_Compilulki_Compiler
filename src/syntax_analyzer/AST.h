@@ -417,7 +417,7 @@ public:
     Span span;
     bool isCompound;
 
-    std::string get_type(ScopedSymbolTable &symbolTable, const Span &span);
+    std::string get_type(ScopedSymbolTable &symbolTable);
 
     Expression() : span(Span(0, 0, 0)), isCompound(false) {
     }
@@ -458,12 +458,12 @@ public:
     std::vector<std::unique_ptr<CompoundExpression> > compoundExpressions;
 
 
-    explicit CompoundExpression(std::string, const Span &sp, std::unique_ptr<Arguments> args = nullptr,
+    explicit CompoundExpression(std::string, const Span &span, std::unique_ptr<Arguments> args = nullptr,
                                 std::vector<std::unique_ptr<CompoundExpression> > compExpr = {});
 
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
-                         ScopedSymbolTable &symbolTable, llvm::Value *prevValue, std::string prevValueType);
+                         ScopedSymbolTable &symbolTable, llvm::Value *prevValue, const std::string &prevValueType);
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                          ScopedSymbolTable &symbolTable) override {
