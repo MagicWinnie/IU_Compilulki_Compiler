@@ -283,7 +283,7 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
         if (arguments) {
             for (auto &arg: arguments->expressions->expressions) {
                 llvm::Value *argValue = arg->codegen(context, builder, module, symbolTable);
-                auto strArgType = arg->get_type(symbolTable, Span(0, 0, 0));
+                auto strArgType = arg->get_type(symbolTable);
                 // create load
                 if (argValue && argValue->getType()->isPointerTy()) {
                     // Create load instruction to retrieve the value pointed to by argValue
@@ -865,7 +865,7 @@ llvm::Value *BoolLiteral::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> 
     return llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), value);
 }
 
-std::string Expression::get_type(ScopedSymbolTable &symbolTable, const Span &span) {
+std::string Expression::get_type(ScopedSymbolTable &symbolTable) {
     if (isCompound) {
         auto *expr = dynamic_cast<CompoundExpression *>(this);
         std::string previousExprClass = symbolTable.getIdentifierStringType(expr->identifier, span);

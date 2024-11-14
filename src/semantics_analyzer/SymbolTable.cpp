@@ -63,7 +63,7 @@ void ScopedSymbolTable::addFunctionEntry(const std::string &name, const std::str
         funcName += "_" + paramType;
     }
 
-    MethodSignature signature(funcName, paramTypes);
+    const MethodSignature signature(funcName, paramTypes);
     ClassEntry *classEntry = lookupClass(className, span, true);
     identifierTypes[name] = ID_FUNCTION;
 
@@ -162,7 +162,7 @@ MethodEntry *ScopedSymbolTable::lookupFunction(const std::string &className, con
     return nullptr;
 }
 
-bool ScopedSymbolTable::doesMethodExists(std::string &name, std::string &className) {
+bool ScopedSymbolTable::doesMethodExists(std::string &name, const std::string &className) {
     ClassEntry classEntry = classEntries[className];
     return classEntry.doesMethodExists(className);
 }

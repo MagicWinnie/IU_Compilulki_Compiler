@@ -197,7 +197,7 @@ public:
 
     void addClassEntry(const std::string &, const Span &);
 
-    bool doesMethodExists(std::string &name, std::string &className);
+    bool doesMethodExists(std::string &name, const std::string &className);
 
     // Lookup an entry across all scopes (from innermost to outermost)
     const VariableEntry *lookupVariable(const std::string &, const Span &, bool throw_error = true);
