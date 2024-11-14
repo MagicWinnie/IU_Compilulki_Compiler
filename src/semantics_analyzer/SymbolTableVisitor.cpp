@@ -121,13 +121,7 @@ void SymbolTableVisitor::visitLiteral(Literal &node) {
 }
 
 void SymbolTableVisitor::visitArguments(Arguments &node) {
-    if (!node.expressions) return;
-
-    // for (const auto &expression: node.expressions->expressions) {
-    //     std::cout << expression->type << " " << expression->isCompound << " " << expression->span.get_line_num() << std::endl;
-    // }
-
-    node.expressions->accept(*this);
+    if (node.expressions) node.expressions->accept(*this);
 }
 
 void SymbolTableVisitor::visitExpressions(Expressions &node) {
@@ -144,26 +138,41 @@ void SymbolTableVisitor::visitPrimary(Primary &node) {
     if (node.class_name) node.class_name->accept(*this);
 }
 
-void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
-    if (symbolTable.getIdentifierType(node.identifier) == ID_VARIABLE) {
-        const std::string variableType = symbolTable.lookupVariable(node.identifier, node.span)->type;
+void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression &node, const bool isFirst,
+                                                  std::string previousType) {
+    const auto identifierType = symbolTable.getIdentifierType(node.identifier);
+    if (identifierType == ID_VARIABLE) {
+        previousType = symbolTable.lookupVariable(node.identifier, node.span)->type;
         symbolTable.makeVariableUsed(node.identifier);
-        // Here we know the type of identifier. Next expression must be a function call -> we can check if the method is defined for the variable type
-        if (node.compoundExpressions.empty()) {
-        } else {
-            const std::string methodName = node.compoundExpressions[0]->identifier;
-            std::vector<std::string> argTypes;
-            if (node.compoundExpressions[0]->arguments) {
-                for (const auto &arg: node.compoundExpressions[0]->arguments->expressions->expressions) {
-                    argTypes.push_back(arg->get_type(symbolTable));
-                }
-            }
-
-            symbolTable.lookupFunction(variableType, methodName, argTypes, node.span);
-        }
-    } else if (symbolTable.getIdentifierType(node.identifier) == ID_CLASS) {
+        if (node.arguments) node.arguments->accept(*this);
+    } else if (identifierType == ID_CLASS) {
+        previousType = node.identifier;
+        if (node.arguments) node.arguments->accept(*this);
         //llvmSymbolTable.lookupClass(node.identifier, node.span);
-    } else if (symbolTable.getIdentifierType(node.identifier) == ID_FUNCTION) {
+    } else if (identifierType == ID_FUNCTION) {
+        if (isFirst) {
+            throw std::runtime_error(
+                "Variable " + node.identifier + " is not declared " +
+                "(if you are trying to call local method use this." + node.identifier + ")"
+                " at line: " + std::to_string(node.span.get_line_num()) +
+                " column: " + std::to_string(node.span.get_pos_begin())
+            );
+        }
+
+        std::vector<std::string> argTypes;
+        if (node.arguments) {
+            for (const auto &arg: node.arguments->expressions->expressions) {
+                if (arg->isCompound) {
+                    const auto compoundArgument = dynamic_cast<CompoundExpression *>(arg.get());
+                    compoundExpressionParser(*compoundArgument, true, symbolTable.currClassName);
+                }
+                argTypes.push_back(arg->get_type(symbolTable));
+            }
+        }
+        previousType = symbolTable.lookupFunction(
+            previousType, node.identifier, argTypes, node.span
+        )->returnType;
+
         //llvmSymbolTable.lookupFunction(node.identifier, node.span);
     } else {
         throw std::runtime_error(
@@ -173,10 +182,13 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
         );
     }
 
-    if (node.arguments) node.arguments->accept(*this);
     for (const auto &compoundExpression: node.compoundExpressions) {
-        compoundExpression->accept(*this);
+        compoundExpressionParser(*compoundExpression, false, previousType);
     }
+}
+
+void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
+    compoundExpressionParser(node, true, symbolTable.currClassName);
 }
 
 void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations &node) {
@@ -189,6 +201,7 @@ void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations &node) {
 void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration &node) {
     symbolTable.enterScope();
     symbolTable.currClassName = node.className->name;
+    symbolTable.addVariableEntry("this", node.className->name, node.className->span);
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);

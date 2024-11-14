@@ -166,12 +166,8 @@ public:
     // Add an entry
     void addVariableEntry(const std::string &, const std::string &);
 
-    void addClassEntry(const std::string &);
-
     // Lookup an entry
     VariableEntry *lookupVariable(const std::string &);
-
-    ClassEntry *lookupClass(const std::string &);
 };
 
 class ScopedSymbolTable {
@@ -192,15 +188,15 @@ public:
     void leaveScope();
 
     // Add an entry in the current scope
-    void addVariableEntry(const std::string &, const std::string &, const Span &);
+    void addVariableEntry(const std::string &name, const std::string &type, const Span &span);
 
 
-    void addClassEntry(const std::string &, const Span &);
+    void addClassEntry(const std::string &name, const Span &span);
 
     bool doesMethodExists(std::string &name, const std::string &className);
 
     // Lookup an entry across all scopes (from innermost to outermost)
-    const VariableEntry *lookupVariable(const std::string &, const Span &, bool throw_error = true);
+    const VariableEntry *lookupVariable(const std::string &name, const Span &span, bool throw_error = true);
 
     void makeVariableUsed(const std::string &name);
 
@@ -208,7 +204,7 @@ public:
                                 const std::vector<std::string> &params,
                                 const Span &, bool throw_error = true);
 
-    ClassEntry *lookupClass(const std::string &, const Span & = Span(0, 0, 0), bool throw_error = true);
+    ClassEntry *lookupClass(const std::string &name, const Span &span = Span(0, 0, 0), bool throw_error = true);
 
 
     void addFunctionEntry(const std::string &name, const std::string &className, const std::string &returnType,
@@ -219,11 +215,11 @@ public:
 
     llvm::Value *getLocalVariable(const std::string &varName);
 
-    void addLocalVariable(const std::string &varName, llvm::Value *pInst, const std::string &);
+    void addLocalVariable(const std::string &varName, llvm::Value *pInst, const std::string &type);
 
-    std::string getIdentifierStringType(const std::string &identifier, const std::string &className, const Span& span);
+    std::string getIdentifierStringType(const std::string &identifier, const std::string &className, const Span &span);
 
-    std::string getIdentifierStringType(std::string &identifier, const Span& span);
+    std::string getIdentifierStringType(std::string &identifier, const Span &span);
 
     std::string getFunctionType(const std::string &name, const std::string &className);
 
