@@ -463,7 +463,7 @@ public:
 
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
-                         ScopedSymbolTable &symbolTable, llvm::Value *prevValue, std::string prevValueType);
+                         ScopedSymbolTable &symbolTable, llvm::Value *prevValue, const std::string &prevValueType);
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                          ScopedSymbolTable &symbolTable) override {

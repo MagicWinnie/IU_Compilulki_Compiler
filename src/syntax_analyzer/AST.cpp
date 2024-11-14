@@ -227,11 +227,10 @@ void CompoundExpression::accept(Visitor &visitor) {
 
 llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                          ScopedSymbolTable &symbolTable, llvm::Value *prevValue,
-                                         std::string prevValueType) {
+                                         const std::string &prevValueType) {
     llvm::Value *value = nullptr;
     std::string valueType;
-    IdentifierType type;
-    type = symbolTable.getIdentifierType(identifier);
+    const IdentifierType type = symbolTable.getIdentifierType(identifier);
 
     if (type == ID_VARIABLE) {
         llvm::Value *ptr = symbolTable.getLocalVariable(identifier);
@@ -302,8 +301,8 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
         }
 
 
-        for (int i = 0; i < argTypes.size(); i++) {
-            funcName += "_" + argTypes[i];
+        for (const auto & argType : argTypes) {
+            funcName += "_" + argType;
         }
         auto t = funcClassName + "_" + funcName;
         llvm::Function *function = module.getFunction(funcClassName + "_" + funcName);
