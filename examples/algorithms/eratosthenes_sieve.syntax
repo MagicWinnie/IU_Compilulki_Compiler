@@ -15,6 +15,10 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
+                      Primary: 50
+                      VariableName: n
+                  BodyDeclaration
+                    VariableDeclaration
                       CompoundExpression: Array
                         Arguments
                           Expressions
@@ -201,6 +205,3 @@ Program
                             Expressions
                               CompoundExpression: A
                                 CompoundExpression: Length
-              Parameters
-                Parameter: n
-                  ClassName: Integer
