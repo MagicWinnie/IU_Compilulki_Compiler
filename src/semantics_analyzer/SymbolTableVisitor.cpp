@@ -13,6 +13,8 @@ SymbolTableVisitor::SymbolTableVisitor() {
 
 
     // Integer
+    symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("toReal", "Integer", "Real", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("toBoolean", "Integer", "Boolean", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Integer", "Integer", Span(0, 0, 0), {});
@@ -38,6 +40,8 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Integer", "void", Span(0, 0, 0), {});
 
     // Real
+    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Real"});
@@ -64,6 +68,8 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Real", "String", Span(0, 0, 0), {});
 
     // Boolean
+    symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {""});
+    symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {"Boolean"});
     symbolTable.addFunctionEntry("Or", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
     symbolTable.addFunctionEntry("And", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
     symbolTable.addFunctionEntry("Xor", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
@@ -73,6 +79,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Boolean", "String", Span(0, 0, 0), {});
 
     //IntArray
+    symbolTable.addFunctionEntry("Create_Default", "IntArray", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("Length", "IntArray", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("get", "IntArray", "Integer", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("set", "IntArray", "void", Span(0, 0, 0), {"Integer", "Integer"});
@@ -140,14 +147,26 @@ void SymbolTableVisitor::visitPrimary(Primary &node) {
 
 void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression &node, const bool isFirst,
                                                   std::string previousType) {
+    std::vector<std::string> argTypes;
+    if (node.arguments) {
+        for (const auto &arg: node.arguments->expressions->expressions) {
+            if (arg->isCompound) {
+                const auto compoundArgument = dynamic_cast<CompoundExpression *>(arg.get());
+                compoundExpressionParser(*compoundArgument, true, symbolTable.currClassName);
+            }
+            argTypes.push_back(arg->get_type(symbolTable));
+        }
+    }
+
     const auto identifierType = symbolTable.getIdentifierType(node.identifier);
     if (identifierType == ID_VARIABLE) {
         previousType = symbolTable.lookupVariable(node.identifier, node.span)->type;
         symbolTable.makeVariableUsed(node.identifier);
-        if (node.arguments) node.arguments->accept(*this);
     } else if (identifierType == ID_CLASS) {
         previousType = node.identifier;
-        if (node.arguments) node.arguments->accept(*this);
+        if (node.arguments) {
+            symbolTable.lookupFunction(previousType, "Create_Default", argTypes, node.span);
+        }
         //llvmSymbolTable.lookupClass(node.identifier, node.span);
     } else if (identifierType == ID_FUNCTION) {
         if (isFirst) {
@@ -159,16 +178,6 @@ void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression &node
             );
         }
 
-        std::vector<std::string> argTypes;
-        if (node.arguments) {
-            for (const auto &arg: node.arguments->expressions->expressions) {
-                if (arg->isCompound) {
-                    const auto compoundArgument = dynamic_cast<CompoundExpression *>(arg.get());
-                    compoundExpressionParser(*compoundArgument, true, symbolTable.currClassName);
-                }
-                argTypes.push_back(arg->get_type(symbolTable));
-            }
-        }
         previousType = symbolTable.lookupFunction(
             previousType, node.identifier, argTypes, node.span
         )->returnType;
