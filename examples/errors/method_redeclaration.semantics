@@ -12,13 +12,11 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: Plus
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 1
+                      CompoundExpression: a
+                        CompoundExpression: Plus
+                          Arguments
+                            Expressions
+                              Primary: 1
                       VariableName: a
               Parameters
                 Parameter: a
@@ -30,13 +28,11 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: Plus
-                            Arguments
-                              Expressions
-                                Expression
-                                  Primary: 2
+                      CompoundExpression: a
+                        CompoundExpression: Plus
+                          Arguments
+                            Expressions
+                              Primary: 2
                       VariableName: a
               Parameters
                 Parameter: a
