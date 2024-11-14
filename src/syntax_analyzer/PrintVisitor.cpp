@@ -120,7 +120,6 @@ void PrintVisitor::visitBodyDeclarations(BodyDeclarations &node) {
 }
 
 void PrintVisitor::visitBodyDeclaration(BodyDeclaration &node) {
-
     if (!(node.variableDeclaration == nullptr && node.statement == nullptr)) {
         printIndentation();
         out << "BodyDeclaration" << std::endl;
