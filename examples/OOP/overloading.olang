@@ -13,11 +13,6 @@ class Calculator is
     method add(x: Integer, y: Integer, z: Integer) : Integer is
         return x.Plus(y).Plus(z)
     end
-
-    // Method to add two real numbers
-    method add(x: Real, y: Real) : Real is
-        return x.Plus(y)
-    end
     
 end
 
@@ -27,14 +22,11 @@ class Main is
         
         var res1 : Integer
         var res2: Integer
-        var res3: Real
-        
+
         res1 := calculator.add(1,2)
         res2 := calculator.add(1,2,3)
-        res3 := calculator.add(1.0,2.0)
-        
-        res1.print // -> 3
-        res2.print // -> 6
-        res3.print // -> 3.0
+
+        res1.print() // -> 3
+        res2.print() // -> 6
     end
 end

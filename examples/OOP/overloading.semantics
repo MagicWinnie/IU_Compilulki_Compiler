@@ -50,25 +50,6 @@ Program
               ReturnType
                 ClassName: Integer
               MethodName: add
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: x
-                        CompoundExpression: Plus
-                          Arguments
-                            Expressions
-                              CompoundExpression: y
-              Parameters
-                Parameter: x
-                  ClassName: Real
-                Parameter: y
-                  ClassName: Real
-              ReturnType
-                ClassName: Real
-              MethodName: add
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -90,10 +71,6 @@ Program
                       CompoundExpression: Integer
                       VariableName: res2
                   BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: Real
-                      VariableName: res3
-                  BodyDeclaration
                     Assignment
                       CompoundExpression: calculator
                         CompoundExpression: add
@@ -113,20 +90,8 @@ Program
                               Primary: 3
                       VariableName: res2
                   BodyDeclaration
-                    Assignment
-                      CompoundExpression: calculator
-                        CompoundExpression: add
-                          Arguments
-                            Expressions
-                              Primary: 1.000000
-                              Primary: 2.000000
-                      VariableName: res3
-                  BodyDeclaration
                     CompoundExpression: res1
                       CompoundExpression: print
                   BodyDeclaration
                     CompoundExpression: res2
-                      CompoundExpression: print
-                  BodyDeclaration
-                    CompoundExpression: res3
                       CompoundExpression: print
