@@ -139,8 +139,6 @@ void SymbolTableVisitor::visitPrimary(Primary &node) {
 }
 
 void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
-    // TODO check if identifier is a variable or a class or a method
-
     if (symbolTable.getIdentifierType(node.identifier) == ID_VARIABLE) {
         std::string variableType = symbolTable.lookupVariable(node.identifier, node.span)->type;
         symbolTable.makeVariableUsed(node.identifier);
@@ -165,7 +163,6 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
     } else if (symbolTable.getIdentifierType(node.identifier) == ID_FUNCTION) {
         //llvmSymbolTable.lookupFunction(node.identifier, node.span);
     } else {
-        // TODO fix
         throw std::runtime_error("Identifier " + node.identifier + " is not declared");
     }
 
