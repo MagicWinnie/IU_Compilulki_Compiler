@@ -205,7 +205,7 @@ Primary::Primary(std::unique_ptr<ClassName> &class_name, const std::string &type
     this->type = type;
 }
 
-Primary::Primary(std::unique_ptr<Literal> &literal, const std::string &type, const Span &) {
+Primary::Primary(std::unique_ptr<Literal> &literal, const std::string &type, const Span &span) {
     this->literal = std::move(literal);
     isCompound = false;
     this->span = span;
