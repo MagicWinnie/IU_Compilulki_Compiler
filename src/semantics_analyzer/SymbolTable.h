@@ -90,18 +90,17 @@ public:
     }
 
     llvm::Function *getMethodValue(const std::string &funcName, const std::vector<std::string> &argTypes) {
-        MethodSignature signature(funcName, argTypes);
+        const MethodSignature signature(funcName, argTypes);
         return methodValues[signature];
     }
 
     bool doesMethodExists(const std::string &name) {
         std::vector<MethodEntry> classMethods = getMethods(name);
-        for (const auto &method: classMethods) {
-            if (method.signature.methodName == name) {
-                return true;
-            }
-        }
-        return false;
+        return std::any_of(
+            classMethods.begin(),
+            classMethods.end(),
+            [name](const MethodEntry &entry) { return entry.signature.methodName == name; }
+        );
     }
 
     std::vector<MethodEntry> getMethods(const std::string &name) {
