@@ -223,7 +223,8 @@ void SymbolTableVisitor::visitClassBody(ClassBody &node) {
 
 void SymbolTableVisitor::visitExtension(Extension &node) {
     if (node.className) {
-        symbolTable.lookupClass(symbolTable.currClassName)->setParentClass(symbolTable.lookupClass(node.className->name));
+        symbolTable.lookupClass(symbolTable.currClassName)->
+                setParentClass(symbolTable.lookupClass(node.className->name));
         node.className->accept(*this);
     }
 }
@@ -285,16 +286,31 @@ void SymbolTableVisitor::visitAssignment(Assignment &node) {
 
     // [CHECK] if variable is assigned to the correct statementType
     const auto variableType = symbolTable.lookupVariable(node.variableName->name, span)->type;
-
-    const std::string expressionType = node.expression->get_type(symbolTable);
+    std::string expressionType = node.expression->get_type(symbolTable);
 
     if (variableType != expressionType) {
-        throw std::runtime_error(
-            "Variable " + node.variableName->name + " is of type " + variableType +
-            " but is being assigned to type " + expressionType +
-            " at line: " + std::to_string(span.get_line_num()) +
-            " column: " + std::to_string(span.get_pos_begin())
-        );
+        // check if expressionType is subtype of variableType
+        auto foundClassEntry = symbolTable.lookupClass(expressionType, span, true);
+        while (true) {
+            const auto parentClassEntry = foundClassEntry->getParentClass();
+            if (parentClassEntry == nullptr) {
+                break;
+            }
+            if (parentClassEntry->getName() == variableType) {
+                expressionType = variableType;
+                break;
+            }
+            foundClassEntry = parentClassEntry;
+        }
+
+        if (variableType != expressionType) {
+            throw std::runtime_error(
+                "Variable " + node.variableName->name + " is of type " + variableType +
+                ", but type of " + expressionType + " is being assigned to it"
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
+        }
     }
 
     if (node.expression) node.expression->accept(*this);

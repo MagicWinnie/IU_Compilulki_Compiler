@@ -70,6 +70,10 @@ public:
 
     ClassEntry() = default;
 
+    std::string getName() const {
+        return name;
+    }
+
     void addField(const VariableEntry &field) {
         fields.push_back(field);
     }
@@ -126,6 +130,10 @@ public:
 
     void setParentClass(ClassEntry *parent) {
         parentClass = parent;
+    }
+
+    ClassEntry *getParentClass() const {
+        return parentClass;
     }
 
     std::string getMethodReturnType(const std::string &name) {
@@ -218,7 +226,7 @@ public:
 
     std::string getIdentifierStringType(const std::string &identifier, const std::string &className, const Span &span);
 
-    std::string getIdentifierStringType(std::string &identifier, const Span &span);
+    std::string getIdentifierStringType(const std::string &identifier, const Span &span);
 
     std::string getFunctionType(const std::string &name, const std::string &className);
 
