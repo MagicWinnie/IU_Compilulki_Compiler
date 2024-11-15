@@ -203,7 +203,7 @@ public:
     bool doesMethodExists(std::string &name, const std::string &className);
 
     // Lookup an entry across all scopes (from innermost to outermost)
-    const VariableEntry *lookupVariable(const std::string &name, const Span &span, bool throw_error = true);
+    VariableEntry *lookupVariable(const std::string &name, const Span &span, bool throw_error = true);
 
     void makeVariableUsed(const std::string &name);
 
