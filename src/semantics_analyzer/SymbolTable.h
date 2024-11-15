@@ -145,7 +145,7 @@ public:
     }
 
     MethodEntry *lookupMethod(const MethodSignature &signature) {
-        auto it = methods.find(signature);
+        const auto it = methods.find(signature);
         if (it != methods.end()) {
             return &it->second;
         }

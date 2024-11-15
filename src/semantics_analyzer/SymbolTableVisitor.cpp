@@ -222,7 +222,10 @@ void SymbolTableVisitor::visitClassBody(ClassBody &node) {
 }
 
 void SymbolTableVisitor::visitExtension(Extension &node) {
-    if (node.className) node.className->accept(*this);
+    if (node.className) {
+        symbolTable.lookupClass(symbolTable.currClassName)->setParentClass(symbolTable.lookupClass(node.className->name));
+        node.className->accept(*this);
+    }
 }
 
 void SymbolTableVisitor::visitBody(Body &node) {
