@@ -275,12 +275,8 @@ void SymbolTableVisitor::visitWhileLoop(WhileLoop &node) {
 
 void SymbolTableVisitor::visitAssignment(Assignment &node) {
     // [CHECK] if variable is declared
-    try {
-        symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
-        symbolTable.makeVariableUsed(node.variableName->name);
-    } catch (const std::runtime_error &e) {
-        std::cerr << e.what() << std::endl;
-    }
+    symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
+    symbolTable.makeVariableUsed(node.variableName->name);
 
     const auto span = node.variableName->span;
 
