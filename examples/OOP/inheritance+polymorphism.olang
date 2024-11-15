@@ -7,25 +7,42 @@ class Base is
     method show() is
         Integer(1).print()
     end
+
+    method foo() is
+        Integer(3).print()
+    end
 end
 
 // Derived class that inherits from the Base class
 class Derived extends Base is
      method show() is
         Integer(2).print()
-    end
+     end
+
+     method bar() is
+        Integer(4).print()
+     end
 end
  
 class Main is
+    method show(a: Base) is
+        a.show()
+    end
+
     this() is
         var b : Base
         b := Base()
         
         var d : Base
         d := Derived()
-        
+
         b.show() // -> 1
         d.show() // -> 2
+
+        d.foo() // -> 3
+        d.bar() // -> 4
+
+        // this.show(d) // -> 2
     end
 
 end

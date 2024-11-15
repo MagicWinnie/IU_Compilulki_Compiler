@@ -274,15 +274,13 @@ void SymbolTableVisitor::visitWhileLoop(WhileLoop &node) {
 }
 
 void SymbolTableVisitor::visitAssignment(Assignment &node) {
-    // [CHECK] if variable is declared
-    symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
+    const auto span = node.variableName->span;
     symbolTable.makeVariableUsed(node.variableName->name);
 
-    const auto span = node.variableName->span;
-
     // [CHECK] if variable is assigned to the correct statementType
-    const auto variableType = symbolTable.lookupVariable(node.variableName->name, span)->type;
-    std::string expressionType = node.expression->get_type(symbolTable);
+    const auto foundVariable = symbolTable.lookupVariable(node.variableName->name, span);
+    auto variableType = foundVariable->type;
+    const std::string expressionType = node.expression->get_type(symbolTable);
 
     if (variableType != expressionType) {
         // check if expressionType is subtype of variableType
@@ -293,7 +291,9 @@ void SymbolTableVisitor::visitAssignment(Assignment &node) {
                 break;
             }
             if (parentClassEntry->getName() == variableType) {
-                expressionType = variableType;
+                foundVariable->type = expressionType;
+                symbolTable.variableTypes[foundVariable->name] = expressionType;
+                variableType = expressionType;
                 break;
             }
             foundClassEntry = parentClassEntry;

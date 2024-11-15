@@ -24,8 +24,8 @@ void ScopedSymbolTable::enterScope() {
 void ScopedSymbolTable::leaveScope() {
     if (!scopes.empty()) {
         // Find all unused variables in the current scope
-        auto &current_scope = scopes.back();
-        for (const auto &[name, entry]: current_scope.varEntries) {
+        auto &[varEntries] = scopes.back();
+        for (const auto &[name, entry]: varEntries) {
             if (!entry.is_used) {
                 unusedVariables.insert(name);
             }
@@ -109,10 +109,10 @@ void ScopedSymbolTable::addClassEntry(const std::string &name, const Span &span)
     classEntries[name] = ClassEntry(name);
 }
 
-const VariableEntry *ScopedSymbolTable::lookupVariable(const std::string &name, const Span &span,
-                                                       const bool throw_error) {
+VariableEntry *ScopedSymbolTable::lookupVariable(const std::string &name, const Span &span,
+                                                 const bool throw_error) {
     for (auto it = scopes.rbegin(); it != scopes.rend(); ++it) {
-        const auto &[varEntries] = *it;
+        auto &[varEntries] = *it;
         auto found = varEntries.find(name);
         if (found != varEntries.end()) {
             return &found->second;
