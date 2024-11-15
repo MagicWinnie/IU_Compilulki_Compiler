@@ -17,6 +17,17 @@ Program
                           Primary: 1
                       CompoundExpression: print
               MethodName: show
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 3
+                      CompoundExpression: print
+              MethodName: foo
     ClassDeclaration
       ClassName: Derived
       Extension
@@ -34,10 +45,32 @@ Program
                           Primary: 2
                       CompoundExpression: print
               MethodName: show
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 4
+                      CompoundExpression: print
+              MethodName: bar
     ClassDeclaration
       ClassName: Main
       ClassBody
         MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: a
+                      CompoundExpression: show
+              Parameters
+                Parameter: a
+                  ClassName: Base
+              MethodName: show
           MemberDeclaration
             ConstructorDeclaration
               Body
@@ -64,3 +97,9 @@ Program
                   BodyDeclaration
                     CompoundExpression: d
                       CompoundExpression: show
+                  BodyDeclaration
+                    CompoundExpression: d
+                      CompoundExpression: foo
+                  BodyDeclaration
+                    CompoundExpression: d
+                      CompoundExpression: bar
