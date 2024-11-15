@@ -70,6 +70,10 @@ public:
 
     ClassEntry() = default;
 
+    std::string getName() const {
+        return name;
+    }
+
     void addField(const VariableEntry &field) {
         fields.push_back(field);
     }
@@ -90,18 +94,17 @@ public:
     }
 
     llvm::Function *getMethodValue(const std::string &funcName, const std::vector<std::string> &argTypes) {
-        MethodSignature signature(funcName, argTypes);
+        const MethodSignature signature(funcName, argTypes);
         return methodValues[signature];
     }
 
     bool doesMethodExists(const std::string &name) {
         std::vector<MethodEntry> classMethods = getMethods(name);
-        for (const auto &method: classMethods) {
-            if (method.signature.methodName == name) {
-                return true;
-            }
-        }
-        return false;
+        return std::any_of(
+            classMethods.begin(),
+            classMethods.end(),
+            [name](const MethodEntry &entry) { return entry.signature.methodName == name; }
+        );
     }
 
     std::vector<MethodEntry> getMethods(const std::string &name) {
@@ -129,6 +132,10 @@ public:
         parentClass = parent;
     }
 
+    ClassEntry *getParentClass() const {
+        return parentClass;
+    }
+
     std::string getMethodReturnType(const std::string &name) {
         return methodReturnTypes[name];
     }
@@ -146,7 +153,7 @@ public:
     }
 
     MethodEntry *lookupMethod(const MethodSignature &signature) {
-        auto it = methods.find(signature);
+        const auto it = methods.find(signature);
         if (it != methods.end()) {
             return &it->second;
         }
@@ -219,7 +226,7 @@ public:
 
     std::string getIdentifierStringType(const std::string &identifier, const std::string &className, const Span &span);
 
-    std::string getIdentifierStringType(std::string &identifier, const Span &span);
+    std::string getIdentifierStringType(const std::string &identifier, const Span &span);
 
     std::string getFunctionType(const std::string &name, const std::string &className);
 

@@ -212,7 +212,7 @@ std::string ScopedSymbolTable::getIdentifierStringType(const std::string &identi
         case ID_FUNCTION:
             if (className == "void") {
                 throw std::runtime_error(
-                    "void has no method " + identifier  +
+                    "void has no method " + identifier +
                     " at line: " + std::to_string(span.get_line_num()) +
                     " column: " + std::to_string(span.get_pos_begin())
                 );
@@ -227,7 +227,7 @@ std::string ScopedSymbolTable::getIdentifierStringType(const std::string &identi
     }
 }
 
-std::string ScopedSymbolTable::getIdentifierStringType(std::string &identifier, const Span& span) {
+std::string ScopedSymbolTable::getIdentifierStringType(const std::string &identifier, const Span &span) {
     switch (getIdentifierType(identifier)) {
         case ID_VARIABLE:
             return variableTypes[identifier];

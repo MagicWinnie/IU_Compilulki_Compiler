@@ -222,7 +222,11 @@ void SymbolTableVisitor::visitClassBody(ClassBody &node) {
 }
 
 void SymbolTableVisitor::visitExtension(Extension &node) {
-    if (node.className) node.className->accept(*this);
+    if (node.className) {
+        symbolTable.lookupClass(symbolTable.currClassName)->
+                setParentClass(symbolTable.lookupClass(node.className->name));
+        node.className->accept(*this);
+    }
 }
 
 void SymbolTableVisitor::visitBody(Body &node) {
@@ -271,51 +275,38 @@ void SymbolTableVisitor::visitWhileLoop(WhileLoop &node) {
 
 void SymbolTableVisitor::visitAssignment(Assignment &node) {
     // [CHECK] if variable is declared
-    try {
-        symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
-        symbolTable.makeVariableUsed(node.variableName->name);
-    } catch (const std::runtime_error &e) {
-        std::cerr << e.what() << std::endl;
-    }
+    symbolTable.lookupVariable(node.variableName->name, node.variableName->span);
+    symbolTable.makeVariableUsed(node.variableName->name);
 
     const auto span = node.variableName->span;
 
     // [CHECK] if variable is assigned to the correct statementType
     const auto variableType = symbolTable.lookupVariable(node.variableName->name, span)->type;
-
-    std::string expressionType;
-
-    if (node.expression->isCompound) {
-        expressionType = node.expression->get_type(symbolTable);
-    } else {
-        const auto expression = dynamic_cast<Primary *>(node.expression.get());
-        if (expression->literal) {
-            switch (expression->literal->type) {
-                case BOOL_LITERAL:
-                    expressionType = "Boolean";
-                    break;
-                case INT_LITERAL:
-                    expressionType = "Integer";
-                    break;
-                case REAL_LITERAL:
-                    expressionType = "Real";
-                    break;
-                default:
-                    expressionType = variableType;
-                    break;
-            }
-        } else if (expression->class_name) {
-            expressionType = expression->class_name->name;
-        }
-    }
+    std::string expressionType = node.expression->get_type(symbolTable);
 
     if (variableType != expressionType) {
-        throw std::runtime_error(
-            "Variable " + node.variableName->name + " is of type " + variableType +
-            " but is being assigned to type " + expressionType +
-            " at line: " + std::to_string(span.get_line_num()) +
-            " column: " + std::to_string(span.get_pos_begin())
-        );
+        // check if expressionType is subtype of variableType
+        auto foundClassEntry = symbolTable.lookupClass(expressionType, span, true);
+        while (true) {
+            const auto parentClassEntry = foundClassEntry->getParentClass();
+            if (parentClassEntry == nullptr) {
+                break;
+            }
+            if (parentClassEntry->getName() == variableType) {
+                expressionType = variableType;
+                break;
+            }
+            foundClassEntry = parentClassEntry;
+        }
+
+        if (variableType != expressionType) {
+            throw std::runtime_error(
+                "Variable " + node.variableName->name + " is of type " + variableType +
+                ", but type of " + expressionType + " is being assigned to it"
+                " at line: " + std::to_string(span.get_line_num()) +
+                " column: " + std::to_string(span.get_pos_begin())
+            );
+        }
     }
 
     if (node.expression) node.expression->accept(*this);
