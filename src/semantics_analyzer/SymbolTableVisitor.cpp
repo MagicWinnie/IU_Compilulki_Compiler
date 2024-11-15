@@ -283,31 +283,7 @@ void SymbolTableVisitor::visitAssignment(Assignment &node) {
     // [CHECK] if variable is assigned to the correct statementType
     const auto variableType = symbolTable.lookupVariable(node.variableName->name, span)->type;
 
-    std::string expressionType;
-
-    if (node.expression->isCompound) {
-        expressionType = node.expression->get_type(symbolTable);
-    } else {
-        const auto expression = dynamic_cast<Primary *>(node.expression.get());
-        if (expression->literal) {
-            switch (expression->literal->type) {
-                case BOOL_LITERAL:
-                    expressionType = "Boolean";
-                    break;
-                case INT_LITERAL:
-                    expressionType = "Integer";
-                    break;
-                case REAL_LITERAL:
-                    expressionType = "Real";
-                    break;
-                default:
-                    expressionType = variableType;
-                    break;
-            }
-        } else if (expression->class_name) {
-            expressionType = expression->class_name->name;
-        }
-    }
+    const std::string expressionType = node.expression->get_type(symbolTable);
 
     if (variableType != expressionType) {
         throw std::runtime_error(
