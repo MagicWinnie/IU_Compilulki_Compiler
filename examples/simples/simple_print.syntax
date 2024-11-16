@@ -1,9 +1,6 @@
 Program
   ProgramDeclaration
     ClassName: Main
-    ProgramArguments
-      Literals
-        Literal: 223
   ClassDeclarations
     ClassDeclaration
       ClassName: A
@@ -25,26 +22,11 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    CompoundExpression: a1
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 15
                       CompoundExpression: print
-                  BodyDeclaration
-                    CompoundExpression: a2
-                      CompoundExpression: print
-              Parameters
-                Parameter: a1
-                  ClassName: Integer
-                Parameter: a2
-                  ClassName: Integer
-          MemberDeclaration
-            ConstructorDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: a1
-                      CompoundExpression: print
-              Parameters
-                Parameter: a1
-                  ClassName: Integer
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -56,21 +38,7 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       CompoundExpression: A
-                        Arguments
-                          Expressions
-                            Primary: 5
-                            Primary: 15
                       VariableName: b
                   BodyDeclaration
                     CompoundExpression: b
                       CompoundExpression: test
-          MemberDeclaration
-            ConstructorDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: a1
-                      CompoundExpression: print
-              Parameters
-                Parameter: a1
-                  ClassName: Integer

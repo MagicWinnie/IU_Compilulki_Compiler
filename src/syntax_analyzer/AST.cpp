@@ -34,7 +34,8 @@ void Arguments::accept(Visitor &visitor) {
 }
 
 ClassName::ClassName(std::string name, const Span &span, std::unique_ptr<ClassName> className) : name(std::move(name)),
-    span(span), className(std::move(className)) {
+                                                                                                 span(span), className(
+                std::move(className)) {
 }
 
 void ClassName::accept(Visitor &visitor) {
@@ -105,7 +106,7 @@ llvm::Value *ProgramDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBui
 
 //    // Step 7: Optionally, return the object or return an exit code from main
     builder.CreateRet(
-        llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 0)); // Return 0 for a successful execution
+            llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 0)); // Return 0 for a successful execution
 
     return mainAlloc;
 }
@@ -148,6 +149,19 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
     llvm::StructType *classType = llvm::StructType::create(context, {}, className->name);
     symbolTable.currClassName = className->name;
     if (classBody) classBody->codegen(context, builder, module, symbolTable);
+
+    // Find the constructor function NAME_Constructor
+    std::string constructorName = className->name + "_Constructor";
+    llvm::Function *constructorFunc = module.getFunction(constructorName);
+    if (!constructorFunc) {
+        // Create default empty constructor
+        llvm::FunctionType *constructorType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
+        constructorFunc = llvm::Function::Create(constructorType, llvm::Function::ExternalLinkage, constructorName,
+                                                 module);
+        llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", constructorFunc);
+        builder.SetInsertPoint(entry);
+        builder.CreateRetVoid();
+    }
     return nullptr;
 }
 
@@ -179,7 +193,7 @@ llvm::Value *Extension::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 }
 
 ClassBody::ClassBody(std::unique_ptr<MemberDeclarations> member_declarations) : memberDeclarations(
-    std::move(member_declarations)) {
+        std::move(member_declarations)) {
 }
 
 void ClassBody::accept(Visitor &visitor) {
@@ -213,7 +227,7 @@ llvm::Value *Primary::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &bui
 }
 
 Primary::Primary(std::unique_ptr<ClassName> &class_name, const std::string &type, const Span &span) : class_name(
-    std::move(class_name)) {
+        std::move(class_name)) {
     isCompound = false;
     this->span = span;
     this->type = type;
@@ -322,7 +336,7 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
         }
 
 
-        for (const auto & argType : argTypes) {
+        for (const auto &argType: argTypes) {
             funcName += "_" + argType;
         }
         auto t = funcClassName + "_" + funcName;
@@ -426,7 +440,7 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
 
     llvm::FunctionType *functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), paramTypes, false);
-    std::string constructorName = className + "_Constructor" ;
+    std::string constructorName = className + "_Constructor";
     for (int i = 0; i < paramStringTypes.size(); i++) {
         constructorName += "_" + paramStringTypes[i];
     }
@@ -434,7 +448,7 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
                                                       &module);
 
     size_t idx = 0;
-    for (auto &arg : function->args()) {
+    for (auto &arg: function->args()) {
         if (idx == 0) {
             // The first argument is 'this'
             arg.setName("this");
@@ -446,16 +460,13 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
     }
 
 
-
-
-
     llvm::BasicBlock *entryBlock = llvm::BasicBlock::Create(context, "entry", function);
     builder.SetInsertPoint(entryBlock);
     // Step 5: Add function parameters to the symbol table
 
     idx = 0;
     for (auto &arg: function->args()) {
-        if(idx==0) {
+        if (idx == 0) {
             idx++;
             continue;
         }
@@ -516,7 +527,7 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
 VariableDeclaration::VariableDeclaration(std::unique_ptr<VariableName> variable,
                                          std::unique_ptr<Expression> expression) : variable(std::move(variable)),
-    expression(std::move(expression)) {
+                                                                                   expression(std::move(expression)) {
 }
 
 void VariableDeclaration::accept(Visitor &visitor) {
@@ -672,7 +683,8 @@ void MethodName::accept(Visitor &visitor) {
 }
 
 Parameter::Parameter(std::string name, const Span &span, std::unique_ptr<ClassName> class_name) : name(std::move(name)),
-    span(span), className(std::move(class_name)) {
+                                                                                                  span(span), className(
+                std::move(class_name)) {
 }
 
 void Parameter::accept(Visitor &visitor) {
@@ -694,7 +706,7 @@ void ReturnType::accept(Visitor &visitor) {
 }
 
 BodyDeclaration::BodyDeclaration(std::unique_ptr<VariableDeclaration> variable_declaration) : variableDeclaration(
-    std::move(variable_declaration)) {
+        std::move(variable_declaration)) {
 }
 
 BodyDeclaration::BodyDeclaration(std::unique_ptr<Statement> statement) : statement(std::move(statement)) {
@@ -753,8 +765,8 @@ llvm::Value *Assignment::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &
         // TODO maybe memmove
         llvm::Function *memcpyFunc = llvm::Intrinsic::getDeclaration(&module, llvm::Intrinsic::memcpy,
                                                                      {
-                                                                         value->getType(), ptr->getType(),
-                                                                         sizeValue->getType()
+                                                                             value->getType(), ptr->getType(),
+                                                                             sizeValue->getType()
                                                                      }
         );
         builder.CreateCall(memcpyFunc, {ptr, value, sizeValue, isVolatile});
@@ -781,15 +793,15 @@ llvm::Value *IfStatement::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> 
     llvm::Value *pointerToBoolean = expression->codegen(context, builder, module, symbolTable);
     llvm::Value *valuePtr = builder.CreateStructGEP(
 
-        llvm::StructType::getTypeByName(context, "Boolean"),
-        pointerToBoolean,
-        0,
-        "boolFieldPtr"
+            llvm::StructType::getTypeByName(context, "Boolean"),
+            pointerToBoolean,
+            0,
+            "boolFieldPtr"
     );
     llvm::Value *CondV = builder.CreateLoad(
-        llvm::Type::getInt1Ty(context), // The type of the value.
-        valuePtr,
-        "loadBoolValue"
+            llvm::Type::getInt1Ty(context), // The type of the value.
+            valuePtr,
+            "loadBoolValue"
     );
 
     // Convert the condition to a boolean value (assume nonzero is true)
@@ -825,7 +837,7 @@ llvm::Value *IfStatement::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> 
 
 WhileLoop::WhileLoop(std::unique_ptr<Expression> expression, std::unique_ptr<Body> body) : expression(std::move(
         expression)),
-    body(std::move(body)) {
+                                                                                           body(std::move(body)) {
     statementType = WHILE_LOOP;
 }
 
@@ -841,15 +853,15 @@ llvm::Value *WhileLoop::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
     llvm::Value *pointerToBoolean = expression->codegen(context, builder, module, symbolTable);
     llvm::Value *valuePtr = builder.CreateStructGEP(
 
-        llvm::StructType::getTypeByName(context, "Boolean"),
-        pointerToBoolean,
-        0,
-        "boolFieldPtr"
+            llvm::StructType::getTypeByName(context, "Boolean"),
+            pointerToBoolean,
+            0,
+            "boolFieldPtr"
     );
     llvm::Value *CondV = builder.CreateLoad(
-        llvm::Type::getInt1Ty(context), // The type of the value.
-        valuePtr,
-        "loadBoolValue"
+            llvm::Type::getInt1Ty(context), // The type of the value.
+            valuePtr,
+            "loadBoolValue"
     );
     if (!CondV)
         return nullptr;
@@ -862,16 +874,16 @@ llvm::Value *WhileLoop::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
     pointerToBoolean = expression->codegen(context, builder, module, symbolTable);
     valuePtr = builder.CreateStructGEP(
-        llvm::StructType::getTypeByName(context,
-                                        "Boolean"), // This retrieves the type definition of the 'Boolean' class.
-        pointerToBoolean, // Pointer to the object instance.
-        0, // Field index: assuming value is at index 0.
-        "boolFieldPtr"
+            llvm::StructType::getTypeByName(context,
+                                            "Boolean"), // This retrieves the type definition of the 'Boolean' class.
+            pointerToBoolean, // Pointer to the object instance.
+            0, // Field index: assuming value is at index 0.
+            "boolFieldPtr"
     );
     CondV = builder.CreateLoad(
-        llvm::Type::getInt1Ty(context), // The type of the value.
-        valuePtr,
-        "loadBoolValue"
+            llvm::Type::getInt1Ty(context), // The type of the value.
+            valuePtr,
+            "loadBoolValue"
     );
     if (!CondV)
         return nullptr;
@@ -954,7 +966,7 @@ llvm::Value *Body::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builde
 }
 
 BodyDeclarations::BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration> > body_declarations) : bodyDeclarations(
-    std::move(body_declarations)) {
+        std::move(body_declarations)) {
 }
 
 void BodyDeclarations::accept(Visitor &visitor) {

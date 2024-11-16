@@ -1,31 +1,22 @@
 // While loop test
 // "Complex way" of a summation of two integers
 
-Program: Main(223)
+Program: Main()
 
 class A is
     method test() is
         Integer(10).print()
     end
 
-    this(a1: Integer, a2: Integer) is
-        a1.print()
-        a2.print()
-    end
+    this() is
+        Integer(15).print()
+       end
 
-     this(a1: Integer) is
-            a1.print()
-        end
 
 end
 class Main is
     this() is
-        var b : A(5,15)
+        var b : A()
         b.test()
     end
-
-    this(a1: Integer) is
-        a1.print()
-    end
-
 end

@@ -276,44 +276,25 @@ entry:
   ret void
 }
 
-define void @A_Constructor_Integer_Integer(ptr %this, %Integer %a1, %Integer %a2) {
+define void @A_Constructor(ptr %this) {
 entry:
-  %a11 = alloca %Integer, align 8
-  store %Integer %a1, ptr %a11, align 4
-  %a22 = alloca %Integer, align 8
-  store %Integer %a2, ptr %a22, align 4
-  call void @Integer_print(ptr %a11)
-  call void @Integer_print(ptr %a22)
-  ret void
-}
-
-define void @A_Constructor_Integer(ptr %this, %Integer %a1) {
-entry:
-  %a11 = alloca %Integer, align 8
-  store %Integer %a1, ptr %a11, align 4
-  call void @Integer_print(ptr %a11)
+  %class_object = alloca %Integer, align 8
+  call void @Integer_Constructor_Integer(ptr %class_object, i32 15)
+  call void @Integer_print(ptr %class_object)
   ret void
 }
 
 define void @Main_Constructor(ptr %this) {
 entry:
   %class_object = alloca %A, align 8
-  call void @A_Constructor_Integer_Integer(ptr %class_object, i32 5, i32 15)
+  call void @A_Constructor(ptr %class_object)
   call void @A_test(ptr %class_object)
-  ret void
-}
-
-define void @Main_Constructor_Integer(ptr %this, %Integer %a1) {
-entry:
-  %a11 = alloca %Integer, align 8
-  store %Integer %a1, ptr %a11, align 4
-  call void @Integer_print(ptr %a11)
   ret void
 }
 
 define i32 @main() {
 entry:
   %main_object = alloca %Main, align 8
-  call void @Main_Constructor_Integer(ptr %main_object, i32 223)
+  call void @Main_Constructor(ptr %main_object)
   ret i32 0
 }
