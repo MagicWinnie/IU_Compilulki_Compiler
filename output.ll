@@ -5,6 +5,7 @@ source_filename = "compilul'ki"
 %Integer = type { i32 }
 %Real = type { double }
 %IntArray = type { ptr, i32 }
+%A = type {}
 %Main = type {}
 
 @fmt = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
@@ -16,7 +17,7 @@ source_filename = "compilul'ki"
 @fmt.2 = private unnamed_addr constant [4 x i8] c"%f\0A\00", align 1
 @int_fmt = private unnamed_addr constant [4 x i8] c"%d \00", align 1
 
-define void @Boolean_Create_Default(ptr %0, i1 %1) {
+define void @Boolean_Constructor_Boolean(ptr %0, i1 %1) {
 entry:
   %boolFieldPtr = getelementptr inbounds %Boolean, ptr %0, i32 0, i32 0
   store i1 %1, ptr %boolFieldPtr, align 1
@@ -42,7 +43,7 @@ print_false:                                      ; preds = %entry
 
 declare i32 @printf(ptr, ...)
 
-define void @Integer_Create_Default(ptr %0, i32 %1) {
+define void @Integer_Constructor_Integer(ptr %0, i32 %1) {
 entry:
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 %1, ptr %intFieldPtr, align 4
@@ -131,7 +132,7 @@ entry:
   %otherValue = load i32, ptr %otherFieldPtr, align 4
   %result = icmp slt i32 %selfValue, %otherValue
   %booleanResult = alloca %Boolean, align 8
-  call void @Boolean_Create_Default(ptr %booleanResult, i1 %result)
+  call void @Boolean_Constructor_Boolean(ptr %booleanResult, i1 %result)
   %loadedBoolean = load %Boolean, ptr %booleanResult, align 1
   ret %Boolean %loadedBoolean
 }
@@ -146,7 +147,7 @@ entry:
   %otherValue = load i32, ptr %otherFieldPtr, align 4
   %result = icmp sgt i32 %selfValue, %otherValue
   %booleanResult = alloca %Boolean, align 8
-  call void @Boolean_Create_Default(ptr %booleanResult, i1 %result)
+  call void @Boolean_Constructor_Boolean(ptr %booleanResult, i1 %result)
   %loadedBoolean = load %Boolean, ptr %booleanResult, align 1
   ret %Boolean %loadedBoolean
 }
@@ -267,53 +268,52 @@ end:                                              ; preds = %loop
   ret void
 }
 
-define void @Main_Create_Default(ptr %0) {
+define void @A_test() {
 entry:
   %class_object = alloca %Integer, align 8
-  call void @Integer_Create_Default(ptr %class_object)
-  %class_object1 = alloca %Integer, align 8
-  call void @Integer_Create_Default(ptr %class_object1)
-  call void @Integer_scan(ptr %class_object)
-  call void @Integer_scan(ptr %class_object1)
-  %call_Greater = call %Boolean @Integer_Greater_Integer(ptr %class_object, i32 0)
-  %alloca_return_val = alloca %Boolean, align 8
-  store %Boolean %call_Greater, ptr %alloca_return_val, align 1
-  %boolFieldPtr = getelementptr inbounds %Boolean, ptr %alloca_return_val, i32 0, i32 0
-  %loadBoolValue = load i1, ptr %boolFieldPtr, align 1
-  %whilecond = icmp ne i1 %loadBoolValue, false
-  br i1 %whilecond, label %loop, label %afterloop
-
-loop:                                             ; preds = %loop, %entry
-  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %class_object1, i32 1)
-  %alloca_return_val2 = alloca %Integer, align 8
-  store %Integer %call_Plus, ptr %alloca_return_val2, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %class_object1, ptr %alloca_return_val2, i64 8, i1 false)
-  %call_Minus = call %Integer @Integer_Minus_Integer(ptr %class_object, i32 1)
-  %alloca_return_val3 = alloca %Integer, align 8
-  store %Integer %call_Minus, ptr %alloca_return_val3, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %class_object, ptr %alloca_return_val3, i64 8, i1 false)
+  call void @Integer_Constructor_Integer(ptr %class_object, i32 10)
   call void @Integer_print(ptr %class_object)
-  %call_Greater4 = call %Boolean @Integer_Greater_Integer(ptr %class_object, i32 0)
-  %alloca_return_val5 = alloca %Boolean, align 8
-  store %Boolean %call_Greater4, ptr %alloca_return_val5, align 1
-  %boolFieldPtr6 = getelementptr inbounds %Boolean, ptr %alloca_return_val5, i32 0, i32 0
-  %loadBoolValue7 = load i1, ptr %boolFieldPtr6, align 1
-  %whilecond8 = icmp ne i1 %loadBoolValue7, false
-  br i1 %whilecond8, label %loop, label %afterloop
-
-afterloop:                                        ; preds = %loop, %entry
-  call void @Integer_print(ptr %class_object1)
   ret void
 }
 
-; Function Attrs: nocallback nofree nounwind willreturn memory(argmem: readwrite)
-declare void @llvm.memcpy.p0.p0.i64(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i64, i1 immarg) #0
+define void @A_Constructor_Integer_Integer(ptr %this, %Integer %a1, %Integer %a2) {
+entry:
+  %a11 = alloca %Integer, align 8
+  store %Integer %a1, ptr %a11, align 4
+  %a22 = alloca %Integer, align 8
+  store %Integer %a2, ptr %a22, align 4
+  call void @Integer_print(ptr %a11)
+  call void @Integer_print(ptr %a22)
+  ret void
+}
+
+define void @A_Constructor_Integer(ptr %this, %Integer %a1) {
+entry:
+  %a11 = alloca %Integer, align 8
+  store %Integer %a1, ptr %a11, align 4
+  call void @Integer_print(ptr %a11)
+  ret void
+}
+
+define void @Main_Constructor(ptr %this) {
+entry:
+  %class_object = alloca %A, align 8
+  call void @A_Constructor_Integer_Integer(ptr %class_object, i32 5, i32 15)
+  call void @A_test(ptr %class_object)
+  ret void
+}
+
+define void @Main_Constructor_Integer(ptr %this, %Integer %a1) {
+entry:
+  %a11 = alloca %Integer, align 8
+  store %Integer %a1, ptr %a11, align 4
+  call void @Integer_print(ptr %a11)
+  ret void
+}
 
 define i32 @main() {
 entry:
   %main_object = alloca %Main, align 8
-  call void @Main_Create_Default(ptr %main_object)
+  call void @Main_Constructor_Integer(ptr %main_object, i32 223)
   ret i32 0
 }
-
-attributes #0 = { nocallback nofree nounwind willreturn memory(argmem: readwrite) }

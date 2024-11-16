@@ -1,7 +1,50 @@
 Program
   ProgramDeclaration
     ClassName: Main
+    ProgramArguments
+      Literals
+        Literal: 223
   ClassDeclarations
+    ClassDeclaration
+      ClassName: A
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 10
+                      CompoundExpression: print
+              MethodName: test
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: a1
+                      CompoundExpression: print
+                  BodyDeclaration
+                    CompoundExpression: a2
+                      CompoundExpression: print
+              Parameters
+                Parameter: a1
+                  ClassName: Integer
+                Parameter: a2
+                  ClassName: Integer
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: a1
+                      CompoundExpression: print
+              Parameters
+                Parameter: a1
+                  ClassName: Integer
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -12,46 +55,22 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Integer
-                      VariableName: a
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: Integer
+                      CompoundExpression: A
+                        Arguments
+                          Expressions
+                            Primary: 5
+                            Primary: 15
                       VariableName: b
                   BodyDeclaration
-                    CompoundExpression: a
-                      CompoundExpression: scan
-                  BodyDeclaration
                     CompoundExpression: b
-                      CompoundExpression: scan
+                      CompoundExpression: test
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
                   BodyDeclaration
-                    WhileLoop
-                      Body
-                        BodyDeclarations
-                          BodyDeclaration
-                            Assignment
-                              CompoundExpression: b
-                                CompoundExpression: Plus
-                                  Arguments
-                                    Expressions
-                                      Primary: 1
-                              VariableName: b
-                          BodyDeclaration
-                            Assignment
-                              CompoundExpression: a
-                                CompoundExpression: Minus
-                                  Arguments
-                                    Expressions
-                                      Primary: 1
-                              VariableName: a
-                          BodyDeclaration
-                            CompoundExpression: a
-                              CompoundExpression: print
-                      CompoundExpression: a
-                        CompoundExpression: Greater
-                          Arguments
-                            Expressions
-                              Primary: 0
-                  BodyDeclaration
-                    CompoundExpression: b
+                    CompoundExpression: a1
                       CompoundExpression: print
+              Parameters
+                Parameter: a1
+                  ClassName: Integer

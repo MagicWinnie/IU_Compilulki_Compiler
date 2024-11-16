@@ -7,7 +7,7 @@ source_filename = "boolean"
 @true_str = private unnamed_addr constant [5 x i8] c"true\00", align 1
 @false_str = private unnamed_addr constant [6 x i8] c"false\00", align 1
 
-define void @Boolean_Create_Default(ptr %0, i1 %1) {
+define void @Boolean_Constructor_Boolean(ptr %0, i1 %1) {
 entry:
   %boolFieldPtr = getelementptr inbounds %Boolean, ptr %0, i32 0, i32 0
   store i1 %1, ptr %boolFieldPtr, align 1

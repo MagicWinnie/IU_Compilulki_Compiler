@@ -2,7 +2,7 @@
 source_filename = "integer"
 
 
-declare void @Boolean_Create_Default(ptr %0, i1 %1)
+declare void @Boolean_Constructor_Boolean(ptr %0, i1 %1)
 
 ; Declare the Boolean type here as it is defined in the other file
 %Boolean = type { i1 }
@@ -17,7 +17,7 @@ declare i32 @printf(ptr, ...)
 declare i32 @scanf(ptr, ...)
 
 ; Function to create a default Integer object with a given value
-define void @Integer_Create_Default(ptr %0, i32 %1) {
+define void @Integer_Constructor_Integer(ptr %0, i32 %1) {
 entry:
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 %1, ptr %intFieldPtr, align 4
@@ -174,9 +174,9 @@ entry:
   ; Perform the less-than comparison
   %result = icmp slt i32 %selfValue, %otherValue
 
-  ; Create a Boolean using Boolean_Create_Default, passing the comparison result
+  ; Create a Boolean using Boolean_Constructor_Boolean, passing the comparison result
   %booleanResult = alloca %Boolean
-  call void @Boolean_Create_Default(ptr %booleanResult, i1 %result)
+  call void @Boolean_Constructor_Boolean(ptr %booleanResult, i1 %result)
 
   %loadedBoolean = load %Boolean, ptr %booleanResult, align 1
   ; Return the Boolean result
@@ -204,9 +204,9 @@ entry:
   ; Perform the greater-than comparison
   %result = icmp sgt i32 %selfValue, %otherValue
 
-  ; Create a Boolean using Boolean_Create_Default, passing the comparison result
+  ; Create a Boolean using Boolean_Constructor_Boolean, passing the comparison result
   %booleanResult = alloca %Boolean
-  call void @Boolean_Create_Default(ptr %booleanResult, i1 %result)
+  call void @Boolean_Constructor_Boolean(ptr %booleanResult, i1 %result)
 
   ; Load the value of %booleanResult and return it
   %loadedBoolean = load %Boolean, ptr %booleanResult, align 1
