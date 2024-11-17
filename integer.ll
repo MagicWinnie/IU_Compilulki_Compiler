@@ -24,6 +24,13 @@ entry:
   ret void
 }
 
+define void @Integer_Constructor(ptr %0) {
+entry:
+  %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
+    store i32 0, ptr %intFieldPtr, align 4
+  ret void
+}
+
 define i32 @Integer_get(ptr %integerPtr) {
 entry:
   ; Get a pointer to the field of the %Integer object

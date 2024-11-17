@@ -7,26 +7,32 @@ Program
       ClassBody
         MemberDeclarations
           MemberDeclaration
+            VariableDeclaration
+              CompoundExpression: Integer
+                Arguments
+                  Expressions
+                    Primary: 10
+              VariableName: q
+          MemberDeclaration
+            VariableDeclaration
+              CompoundExpression: Integer
+                Arguments
+                  Expressions
+                    Primary: 20
+              VariableName: g
+          MemberDeclaration
             MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    CompoundExpression: Integer
-                      Arguments
-                        Expressions
-                          Primary: 10
-                      CompoundExpression: print
-              MethodName: test
-          MemberDeclaration
-            ConstructorDeclaration
-              Body
-                BodyDeclarations
+                    ReturnStatement
+                      CompoundExpression: q
                   BodyDeclaration
-                    CompoundExpression: Integer
-                      Arguments
-                        Expressions
-                          Primary: 15
-                      CompoundExpression: print
+                    ReturnStatement
+                      CompoundExpression: g
+              ReturnType
+                ClassName: Integer
+              MethodName: getA
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -40,5 +46,10 @@ Program
                       CompoundExpression: A
                       VariableName: b
                   BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                      VariableName: res
+                  BodyDeclaration
                     CompoundExpression: b
-                      CompoundExpression: test
+                      CompoundExpression: getA
+                        CompoundExpression: print

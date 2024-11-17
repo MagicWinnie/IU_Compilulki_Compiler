@@ -203,6 +203,7 @@ void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
 void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations &node) {
     for (const auto &classDeclaration: node.classDeclarations) {
         symbolTable.addClassEntry(classDeclaration->className->name, classDeclaration->className->span);
+        symbolTable.currClassName = classDeclaration->className->name;
         classDeclaration->accept(*this);
     }
 }
@@ -322,7 +323,10 @@ void SymbolTableVisitor::visitMemberDeclarations(MemberDeclarations &node) {
 void SymbolTableVisitor::visitMemberDeclaration(MemberDeclaration &node) {
     if (node.constructorDeclaration) node.constructorDeclaration->accept(*this);
     if (node.methodDeclaration) node.methodDeclaration->accept(*this);
-    if (node.variableDeclaration) node.variableDeclaration->accept(*this);
+    if (node.variableDeclaration) {
+        node.variableDeclaration->isClassField = true;
+        node.variableDeclaration->accept(*this);
+    }
 }
 
 void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration &node) {
@@ -366,19 +370,20 @@ void SymbolTableVisitor::visitReturnStatement(ReturnStatement &node) {
 void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration &node) {
     if (node.expression->isCompound) {
         auto *expression = dynamic_cast<CompoundExpression *>(node.expression.get());
+
         if (expression->compoundExpressions.empty()) {
             symbolTable.lookupClass(expression->identifier,
                                     expression->span);
         }
-        symbolTable.addVariableEntry(node.variable->name, expression->get_type(symbolTable), node.variable->span);
+        symbolTable.addVariableEntry(node.variable->name, expression->get_type(symbolTable), node.variable->span, node.isClassField);
     } else {
         const auto *expression = dynamic_cast<Primary *>(node.expression.get());
         if (expression->literal->type == BOOL_LITERAL) {
-            symbolTable.addVariableEntry(node.variable->name, "Boolean", node.variable->span);
+            symbolTable.addVariableEntry(node.variable->name, "Boolean", node.variable->span, node.isClassField);
         } else if (expression->literal->type == INT_LITERAL) {
-            symbolTable.addVariableEntry(node.variable->name, "Integer", node.variable->span);
+            symbolTable.addVariableEntry(node.variable->name, "Integer", node.variable->span, node.isClassField);
         } else if (expression->literal->type == REAL_LITERAL) {
-            symbolTable.addVariableEntry(node.variable->name, "Real", node.variable->span);
+            symbolTable.addVariableEntry(node.variable->name, "Real", node.variable->span, node.isClassField);
         }
     }
 

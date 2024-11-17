@@ -522,6 +522,7 @@ public:
     std::unique_ptr<Expression> expression;
     BodyDeclaration *bodyParent = nullptr;
     MemberDeclaration *memberParent = nullptr;
+    bool isClassField = false;
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                          ScopedSymbolTable &symbolTable) override;

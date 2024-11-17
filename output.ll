@@ -5,7 +5,7 @@ source_filename = "compilul'ki"
 %Integer = type { i32 }
 %Real = type { double }
 %IntArray = type { ptr, i32 }
-%A = type {}
+%A = type { %Integer, %Integer }
 %Main = type {}
 
 @fmt = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
@@ -47,6 +47,13 @@ define void @Integer_Constructor_Integer(ptr %0, i32 %1) {
 entry:
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 %1, ptr %intFieldPtr, align 4
+  ret void
+}
+
+define void @Integer_Constructor(ptr %0) {
+entry:
+  %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
+  store i32 0, ptr %intFieldPtr, align 4
   ret void
 }
 
@@ -268,27 +275,47 @@ end:                                              ; preds = %loop
   ret void
 }
 
-define void @A_test() {
+define void @A_Init(ptr %0) {
 entry:
-  %class_object = alloca %Integer, align 8
-  call void @Integer_Constructor_Integer(ptr %class_object, i32 10)
-  call void @Integer_print(ptr %class_object)
+  %load_g = getelementptr inbounds %A, ptr %0, i32 0, i32 1
+  %mallocCall1 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 20)
+  store ptr %mallocCall1, ptr %load_g, align 8
+  %load_q = getelementptr inbounds %A, ptr %0, i32 0, i32 0
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 10)
+  store ptr %mallocCall, ptr %load_q, align 8
   ret void
 }
 
-define void @A_Constructor(ptr %this) {
+define %Integer @A_getA(ptr %this) {
 entry:
-  %class_object = alloca %Integer, align 8
-  call void @Integer_Constructor_Integer(ptr %class_object, i32 15)
-  call void @Integer_print(ptr %class_object)
+  %q = getelementptr inbounds %A, ptr %this, i32 0, i32 0
+  %q1 = load ptr, ptr %q, align 8
+  %returnVal = load %Integer, ptr %q1, align 4
+  ret %Integer %returnVal
+}
+
+define void @A_Constructor(ptr %0) {
+entry:
+  call void @A_Init(ptr %0)
+  ret void
+}
+
+define void @Main_Init(ptr %0) {
+entry:
   ret void
 }
 
 define void @Main_Constructor(ptr %this) {
 entry:
-  %class_object = alloca %A, align 8
-  call void @A_Constructor(ptr %class_object)
-  call void @A_test(ptr %class_object)
+  call void @Main_Init(ptr %this)
+  %mallocCall = call ptr @malloc(i64 8)
+  call void @A_Constructor(ptr %mallocCall)
+  %call_getA = call %Integer @A_getA(ptr %mallocCall)
+  %alloca_return_val = alloca %Integer, align 8
+  store %Integer %call_getA, ptr %alloca_return_val, align 4
+  call void @Integer_print(ptr %alloca_return_val)
   ret void
 }
 

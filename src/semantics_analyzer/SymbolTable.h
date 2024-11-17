@@ -78,6 +78,10 @@ public:
         fields.push_back(field);
     }
 
+    std::vector<VariableEntry> getFields() const {
+        return fields;
+    }
+
     void addMethod(const MethodSignature &signature, const MethodEntry &method) {
         methods[signature] = method;
         // Get method name before _
@@ -163,6 +167,19 @@ public:
         }
         return nullptr;
     }
+
+    int getFieldIndex(std::string varName) {
+        for (int i = 0; i < fields.size(); i++) {
+            if (fields[i].name == varName) {
+                return i;
+            }
+        }
+        if (parentClass) {
+            return parentClass->getFieldIndex(varName);
+        }
+        return -1;
+
+    }
 };
 
 
@@ -185,6 +202,7 @@ public:
     std::unordered_map<std::string, IdentifierType> identifierTypes;
     std::unordered_map<std::string, std::string> variableTypes;
     std::unordered_map<std::string, llvm::Value *> varEntries;
+    llvm::Value* thisPtr = nullptr;
 
     std::string currClassName;
 
@@ -195,7 +213,7 @@ public:
     void leaveScope();
 
     // Add an entry in the current scope
-    void addVariableEntry(const std::string &name, const std::string &type, const Span &span);
+    void addVariableEntry(const std::string &name, const std::string &type, const Span &span, bool isClassField = false);
 
 
     void addClassEntry(const std::string &name, const Span &span);
@@ -236,4 +254,10 @@ public:
     void addFunctionValue(const std::string &name, const std::string &className,
                           const std::vector<std::string> &argTypes,
                           llvm::Function *func);
+
+    int getFieldIndex(std::string basicString, std::string basicString1);
+
+    llvm::Value *getThisPointer();
+
+    void setThisPointer(llvm::Value *thisPtr);
 };

@@ -35,6 +35,7 @@ int main(const int argc, char* argv[])
     llvm::IRBuilder<> builder(context);
     auto module = std::make_unique<llvm::Module>("compilul'ki", context);
 
+    loadCustomIR(context, *module.get(), "memory.ll");
     loadCustomIR(context, *module.get(), "boolean.ll");
     loadCustomIR(context, *module.get(), "integer.ll");
     loadCustomIR(context, *module.get(), "real.ll");

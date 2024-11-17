@@ -4,19 +4,21 @@
 Program: Main()
 
 class A is
-    method test() is
-        Integer(10).print()
-    end
+    var q : Integer(10)
+    var g : Integer(20)
 
-    this() is
-        Integer(15).print()
-       end
+    method getA() : Integer is
+        return q
+        return g
+    end
 
 
 end
 class Main is
     this() is
         var b : A()
-        b.test()
+        var res : Integer
+        b.getA().print()
+
     end
 end

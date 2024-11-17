@@ -35,7 +35,9 @@ void ScopedSymbolTable::leaveScope() {
     }
 }
 
-void ScopedSymbolTable::addVariableEntry(const std::string &name, const std::string &type, const Span &span) {
+void ScopedSymbolTable::addVariableEntry(const std::string &name, const std::string &type, const Span &span, bool isClassField) {
+
+
     if (!scopes.empty()) {
         // Use a reference to modify the actual scope on the stack
         auto &current_scope = scopes.back();
@@ -52,6 +54,11 @@ void ScopedSymbolTable::addVariableEntry(const std::string &name, const std::str
         identifierTypes[name] = ID_VARIABLE;
         variableTypes[name] = type;
         current_scope.addVariableEntry(name, type);
+        if(isClassField){
+            auto classEntry = lookupClass(currClassName, span, true);
+            VariableEntry field = {name, type};
+            classEntry->addField(field);
+        }
     }
 }
 
@@ -247,3 +254,18 @@ llvm::Function *ScopedSymbolTable::getMethodValue(const std::string &className, 
     auto classEntry = lookupClass(className, Span(0, 0, 0), false);
     return classEntry->getMethodValue(funcName, argTypes);
 }
+
+int ScopedSymbolTable::getFieldIndex(std::string className, std::string varName) {
+    auto classEntry = lookupClass(className, Span(0, 0, 0), false);
+    return classEntry->getFieldIndex(varName);
+}
+
+llvm::Value *ScopedSymbolTable::getThisPointer() {
+    return thisPtr;
+}
+
+void ScopedSymbolTable::setThisPointer(llvm::Value *thisPtr) {
+    this->thisPtr = thisPtr;
+}
+
+

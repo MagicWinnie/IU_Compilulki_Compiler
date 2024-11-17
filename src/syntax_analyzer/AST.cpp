@@ -146,8 +146,28 @@ void ClassDeclaration::accept(Visitor &visitor) {
 llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                        ScopedSymbolTable &symbolTable) {
     // TODO fix if class name has elements
-    llvm::StructType *classType = llvm::StructType::create(context, {}, className->name);
+    auto elements = symbolTable.lookupClass(className->name, className->span)->getFields();
+    std::vector<llvm::Type *> elementsType;
+    for (const auto &element: elements) {
+        // All my types are structs
+        elementsType.push_back(llvm::StructType::getTypeByName(context, element.type));
+    }
+
+    llvm::StructType *classType = llvm::StructType::create(context, elementsType, className->name);
     symbolTable.currClassName = className->name;
+
+    std::vector<llvm::Type *> constructorArgs;
+    constructorArgs.push_back(llvm::PointerType::get(classType, 0));
+
+    // Create init block
+    std::string initName = className->name + "_Init";
+    llvm::FunctionType *initType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), constructorArgs, false);
+    llvm::Function* initFunc = llvm::Function::Create(initType, llvm::Function::ExternalLinkage, initName,
+                                             module);
+    llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", initFunc);
+    builder.SetInsertPoint(entry);
+    builder.CreateRetVoid();
+
     if (classBody) classBody->codegen(context, builder, module, symbolTable);
 
     // Find the constructor function NAME_Constructor
@@ -155,11 +175,26 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
     llvm::Function *constructorFunc = module.getFunction(constructorName);
     if (!constructorFunc) {
         // Create default empty constructor
-        llvm::FunctionType *constructorType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
+        llvm::FunctionType *constructorType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), constructorArgs,false);
         constructorFunc = llvm::Function::Create(constructorType, llvm::Function::ExternalLinkage, constructorName,
                                                  module);
         llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", constructorFunc);
+
+
+
         builder.SetInsertPoint(entry);
+
+        // call void @A_Init(ptr %this)
+        std::string initName = className->name + "_Init";
+        llvm::Function *initFunc = module.getFunction(initName);
+        if (!initFunc) {
+            llvm::errs() << "Error: Init function not found for " << className->name << "\n";
+            return nullptr;
+        }
+        std::vector<llvm::Value *> initArgs;
+        initArgs.push_back(constructorFunc->getArg(0));
+        builder.CreateCall(initFunc, initArgs);
+
         builder.CreateRetVoid();
     }
     return nullptr;
@@ -261,17 +296,43 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
     const IdentifierType type = symbolTable.getIdentifierType(identifier);
 
     if (type == ID_VARIABLE) {
+
         llvm::Value *ptr = symbolTable.getLocalVariable(identifier);
+        if(!ptr){
+            // Then the variable is a class field. Acces varaible from the 'this' argument
+            // TODO maybe bug
+            llvm::StructType *classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
+            // get this ptr as first arguemtn of current fucntion
+            // get this pointer from arguments
+            llvm::Value* thisPtr = symbolTable.getThisPointer();
+            int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, identifier);
+
+            ptr = builder.CreateStructGEP(classType,thisPtr, memberIndex, identifier);
+            // Create load
+            ptr = builder.CreateLoad(thisPtr->getType(),ptr, identifier);
+        }
+
         value = ptr;
         valueType = symbolTable.getIdentifierStringType(identifier, Span(0, 0, 0));
     }
     if (type == ID_CLASS) {
         llvm::StructType *classType = llvm::StructType::getTypeByName(context, identifier);
-        llvm::AllocaInst *classAlloc = builder.CreateAlloca(classType, nullptr, "class_object");
+//        llvm::AllocaInst *classAlloc = builder.CreateAlloca(classType, nullptr, identifier + "_object");
+        llvm::DataLayout dataLayout(&module);
+        uint64_t allocSize = dataLayout.getTypeAllocSize(classType);
+        llvm::Value *sizeValue = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context), allocSize);
+        llvm::FunctionType *mallocType = llvm::FunctionType::get(llvm::Type::getInt8Ty(context)->getPointerTo(), {llvm::Type::getInt64Ty(context)}, false);
+        llvm::FunctionCallee mallocFunc = module.getOrInsertFunction("malloc", mallocType);
+
+        // Call malloc with the computed size
+        llvm::Value *mallocCall = builder.CreateCall(mallocFunc, sizeValue, "mallocCall");
+
+        // Optionally cast the result to the desired pointer type
+        llvm::Value *typedPtr = builder.CreateBitCast(mallocCall, classType->getPointerTo(), "typedPtr");
 
         std::vector<llvm::Value *> constructorArgs;
         std::vector<std::string> argTypes;
-        constructorArgs.push_back(classAlloc);
+        constructorArgs.push_back(typedPtr);
         if (arguments) {
             for (auto &arg: arguments->expressions->expressions) {
                 llvm::Value *argValue = arg->codegen(context, builder, module, symbolTable);
@@ -294,7 +355,7 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
             return nullptr;
         }
         builder.CreateCall(constructorFunc, constructorArgs);
-        value = classAlloc;
+        value = typedPtr;
         valueType = identifier;
     }
     if (type == ID_FUNCTION) {
@@ -415,13 +476,16 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
 
 
+
     // Generate the constructor function (name it based on the class it's constructing).
 
     // TODO class may have two or more constructors
     // TODO class may have arguments
 
     std::vector<llvm::Type *> paramTypes;
+
     paramTypes.push_back(classType->getPointerTo());
+
     std::vector<std::string> paramStringTypes;
     std::vector<std::string> paramNames;
     if (parameters) {
@@ -462,6 +526,17 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
     llvm::BasicBlock *entryBlock = llvm::BasicBlock::Create(context, "entry", function);
     builder.SetInsertPoint(entryBlock);
+
+    //Call init function
+    std::string initName = className + "_Init";
+    llvm::Function *initFunc = module.getFunction(initName);
+    if (!initFunc) {
+        llvm::errs() << "Error: Init function not found for " << className << "\n";
+        return nullptr;
+    }
+    std::vector<llvm::Value *> initArgs;
+    initArgs.push_back(function->getArg(0));
+    builder.CreateCall(initFunc, initArgs);
     // Step 5: Add function parameters to the symbol table
 
     idx = 0;
@@ -478,6 +553,7 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
 
     llvm::Value *thisPtr = function->getArg(0);
+    symbolTable.setThisPointer(thisPtr);
 
     if (body) {
         body->codegen(context, builder, module, symbolTable);
@@ -537,6 +613,44 @@ void VariableDeclaration::accept(Visitor &visitor) {
 
 llvm::Value *VariableDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                           ScopedSymbolTable &symbolTable) {
+
+    if (isClassField) {
+        // Get the current class type
+        llvm::StructType *classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
+        if (!classType) {
+            llvm::errs() << "Error: Class type not found.\n";
+            return nullptr;
+        }
+
+        // Determine the LLVM type for the variable
+        llvm::Type *fieldType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
+
+        // Initialize the field in the class constructor
+        llvm::Function *constructor = module.getFunction(symbolTable.currClassName + "_Init");
+        if (constructor) {
+            // Set the insertion point to the constructor's entry block
+            llvm::IRBuilder<> ctorBuilder(&constructor->getEntryBlock(), constructor->getEntryBlock().begin());
+
+            // Get the 'this' pointer (first argument of the constructor)
+            llvm::Argument *thisPtr = constructor->arg_begin();
+            // TODO get index of the field
+            unsigned fieldIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variable->name);
+            if (fieldIndex == -1) {
+                llvm::errs() << "Error: Field index not found.\n";
+                return nullptr;
+            }
+
+            // Get the pointer to the new field
+            llvm::Value *fieldPtr = ctorBuilder.CreateStructGEP(fieldType, thisPtr, fieldIndex, "load_"+variable->name);
+
+            // Generate the initialization value
+            llvm::Value *initValue = expression->codegen(context, ctorBuilder, module, symbolTable);
+
+            // Store the initialization value into the field
+            ctorBuilder.CreateStore(initValue, fieldPtr);
+            return nullptr;
+        }
+    }
     if (expression->isCompound) {
         CompoundExpression *expr = dynamic_cast<CompoundExpression *>(expression.get());
         auto val = expr->codegen(context, builder, module, symbolTable);
@@ -610,10 +724,13 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
         return nullptr;
     }
 
+
     // Step 2: Generate function parameters
     std::vector<llvm::Type *> paramTypes;
+    paramTypes.push_back(llvm::StructType::getTypeByName(context, symbolTable.currClassName)->getPointerTo());
     std::vector<std::string> paramStringTypes;
     std::vector<std::string> paramNames;
+    int i =0;
     if (parameters) {
         for (const auto &param: parameters->parameters) {
             auto stringParamType = param->className->name;
@@ -625,6 +742,7 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
             }
             paramTypes.push_back(paramType);
             paramNames.push_back(param->name);
+            i++;
         }
     }
     //
@@ -639,6 +757,11 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     // Step 3: Name the function arguments
     size_t idx = 0;
     for (auto &arg: function->args()) {
+        if(idx == 0){
+            arg.setName("this");
+            idx++;
+            continue;
+        }
         arg.setName(paramNames[idx++]);
     }
 
@@ -648,12 +771,18 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     // Step 5: Add function parameters to the symbol table
     idx = 0;
     for (auto &arg: function->args()) {
+        if(idx == 0){
+            idx++;
+            continue;
+        }
         llvm::AllocaInst *alloca = builder.CreateAlloca(arg.getType(), nullptr, arg.getName());
         builder.CreateStore(&arg, alloca);
         std::string argName = arg.getName().str();
         symbolTable.addLocalVariable(argName, alloca, paramTypes[idx++]->getStructName().str());
     }
 
+    llvm::Value *thisPtr = function->getArg(0);
+    symbolTable.setThisPointer(thisPtr);
     // Step 6: Generate code for the function body
     llvm::Value *bodyVal = body->codegen(context, builder, module, symbolTable);
     // Step 7: Return the generated value (for non-void functions)
@@ -666,6 +795,7 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
         builder.CreateRet(bodyVal);
     }
     llvm::verifyFunction(*function);
+
     symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
     return function;
 }
