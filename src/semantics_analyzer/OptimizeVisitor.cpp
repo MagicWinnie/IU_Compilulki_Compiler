@@ -84,7 +84,8 @@ void OptimizeVisitor::visitBodyDeclarations(BodyDeclarations &node) {
         auto &bodyDeclaration = node.bodyDeclarations[i];
         if (bodyDeclaration) {
             bodyDeclaration->accept(*this);
-            if (bodyDeclaration && bodyDeclaration->statement && bodyDeclaration->statement->statementType == RETURN_STATEMENT) {
+            if (bodyDeclaration && bodyDeclaration->statement &&
+                bodyDeclaration->statement->statementType == RETURN_STATEMENT) {
                 node.bodyDeclarations.erase(node.bodyDeclarations.begin() + i + 1, node.bodyDeclarations.end());
                 break;
             }
@@ -213,12 +214,16 @@ void OptimizeVisitor::visitReturnStatement(ReturnStatement &node) {
 void OptimizeVisitor::visitVariableDeclaration(VariableDeclaration &node) {
     if (symbolTable.unusedVariables.find(node.variable->name) != symbolTable.unusedVariables.end()) {
         std::cout << "Unused variable: " << node.variable->name << std::endl;
-        if (node.bodyParent) {
-            node.bodyParent->variableDeclaration = nullptr;
-        }
-        if (node.memberParent) {
-            node.memberParent->variableDeclaration = nullptr;
-        }
+        // TODO fix
+//        if (!node.isClassField) {
+//            if (node.bodyParent) {
+//                node.bodyParent->variableDeclaration = nullptr;
+//            }
+//            if (node.memberParent) {
+//                node.memberParent->variableDeclaration = nullptr;
+//            }
+//        }
+
     }
 
     if (node.expression) node.expression->accept(*this);

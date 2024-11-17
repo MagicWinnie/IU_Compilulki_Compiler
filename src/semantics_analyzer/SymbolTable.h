@@ -57,14 +57,15 @@ struct MethodEntry {
 };
 
 class ClassEntry {
+
+
+public:
     std::string name;
     std::vector<VariableEntry> fields;
     std::unordered_map<MethodSignature, MethodEntry, MethodSignatureHash> methods;
     std::unordered_map<MethodSignature, llvm::Function *, MethodSignatureHash> methodValues;
     std::unordered_map<std::string, std::string> methodReturnTypes;
     ClassEntry *parentClass = nullptr;
-
-public:
     explicit ClassEntry(std::string className) : name(std::move(className)) {
     }
 

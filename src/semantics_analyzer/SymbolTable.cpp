@@ -55,13 +55,13 @@ void ScopedSymbolTable::addVariableEntry(const std::string &name, const std::str
         variableTypes[name] = type;
         current_scope.addVariableEntry(name, type);
         auto classEntry = lookupClass(currClassName, span, true);
-        if(classEntry->getFieldIndex(name) != -1){
-            throw std::runtime_error(
-                "Variable '" + name + "' is already declared in this class " +
-                "at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
-            );
-        }
+//        if(classEntry->getFieldIndex(name) != -1){
+//            throw std::runtime_error(
+//                "Variable '" + name + "' is already declared in this class " +
+//                "at line: " + std::to_string(span.get_line_num()) +
+//                " column: " + std::to_string(span.get_pos_begin())
+//            );
+//        }
         if(isClassField){
             VariableEntry field = {name, type};
             classEntry->addField(field);

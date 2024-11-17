@@ -3,7 +3,7 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
-      ClassName: A
+      ClassName: Base
       ClassBody
         MemberDeclarations
           MemberDeclaration
@@ -12,44 +12,59 @@ Program
                 Arguments
                   Expressions
                     Primary: 123
-              VariableName: q
+              VariableName: b
           MemberDeclaration
             MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: q
-              ReturnType
-                ClassName: Integer
-              MethodName: getA
+                    CompoundExpression: b
+                      CompoundExpression: print
+              Parameters
+                Parameter: a
+                  ClassName: Integer
+              MethodName: test
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 2222
+                      VariableName: b
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: b
+                      CompoundExpression: print
+              MethodName: show
     ClassDeclaration
       ClassName: Main
       ClassBody
         MemberDeclarations
-          MemberDeclaration
-            VariableDeclaration
-              CompoundExpression: Integer
-                Arguments
-                  Expressions
-                    Primary: 5
-              VariableName: q
           MemberDeclaration
             ConstructorDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: A
-                      VariableName: b
+                      CompoundExpression: Base
+                      VariableName: d
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Integer
-                      VariableName: res
+                      Primary: 52
+                      VariableName: t
                   BodyDeclaration
-                    CompoundExpression: b
-                      CompoundExpression: getA
-                        CompoundExpression: print
+                    CompoundExpression: d
+                      CompoundExpression: test
+                        Arguments
+                          Expressions
+                            CompoundExpression: t
                   BodyDeclaration
-                    CompoundExpression: q
-                      CompoundExpression: print
+                    CompoundExpression: d
+                      CompoundExpression: show

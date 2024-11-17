@@ -197,6 +197,53 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
 
         builder.CreateRetVoid();
     }
+
+
+    // Add funcitons of a base class
+    if (extension) {
+        std::string baseClassName = extension->className->name;
+        ClassEntry *baseClass = symbolTable.lookupClass(baseClassName, extension->className->span);
+        auto baseClassMethods = baseClass->methods;
+
+        ClassEntry *currentClass = symbolTable.lookupClass(className->name, className->span);
+        auto currentClassMethods = symbolTable.lookupClass(className->name, className->span)->methods;
+
+        // Add base class methods to the current class if not already present
+        for (const auto &baseMethod: baseClassMethods) {
+            if (currentClassMethods.find(baseMethod.first) == currentClassMethods.end()) {
+                currentClass->addMethod(baseMethod.first, baseMethod.second);
+                // Add call to the base class method
+                std::string baseMethodName = baseClassName + "_" + baseMethod.first.methodName;
+                std::string currentMethodName = className->name + "_" + baseMethod.first.methodName;
+                llvm::Function *baseMethodFunc = module.getFunction(baseMethodName);
+                if (!baseMethodFunc) {
+                    llvm::errs() << "Error: Base method function not found for " << baseMethodName << "\n";
+                    return nullptr;
+                }
+                // Create args signature
+                std::vector<llvm::Type *> args;
+                args.push_back(llvm::PointerType::get(classType, 0));
+                for (const auto &argType: baseMethod.first.parameterTypes) {
+                    args.push_back(llvm::StructType::getTypeByName(context, argType));
+                }
+                llvm::FunctionType *baseMethodType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), args, false);
+                llvm::Function *currentMethodFunc = llvm::Function::Create(baseMethodType, llvm::Function::ExternalLinkage,
+                                                                           currentMethodName, module);
+                llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", currentMethodFunc);
+                builder.SetInsertPoint(entry);
+
+                // Create call to the base class method
+                std::vector<llvm::Value *> callArgs;
+                callArgs.push_back(currentMethodFunc->getArg(0));
+                for (int i = 1; i < currentMethodFunc->arg_size(); ++i) {
+                    callArgs.push_back(currentMethodFunc->getArg(i));
+                }
+                builder.CreateCall(baseMethodFunc, callArgs);
+                builder.CreateRetVoid();
+            }
+        }
+
+    }
     return nullptr;
 }
 
@@ -561,41 +608,7 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
     llvm::verifyFunction(*function);
     symbolTable.addFunctionValue(constructorName, className, paramStringTypes, function);
 
-
     return nullptr;
-
-
-
-
-
-
-    // Step 1: Get the function return type
-
-    // Step 2: Generate function parameters
-
-    //
-
-    //
-    // Step 3: Name the function arguments
-
-
-    //    // Step 4: Create a new basic block to start inserting into
-
-
-    // Step 6: Generate code for the function body
-//    llvm::Value *bodyVal = body->codegen(context, builder, module, symbolTable);
-//    // Step 7: Return the generated value (for non-void functions)
-//    if (llvmReturnType->isVoidTy()) {
-//        builder.CreateRetVoid();
-//    } else {
-//        if (bodyVal->getType()->isPointerTy()) {
-//            bodyVal = builder.CreateLoad(llvmReturnType, bodyVal, "returnVal");
-//        }
-//        builder.CreateRet(bodyVal);
-//    }
-//    llvm::verifyFunction(*function);
-//    symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
-//    return function;
 }
 
 VariableDeclaration::VariableDeclaration(std::unique_ptr<VariableName> variable,
@@ -759,7 +772,8 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
             idx++;
             continue;
         }
-        arg.setName(paramNames[idx++]);
+        arg.setName(paramNames[idx-1]);
+        idx++;
     }
 
     //    // Step 4: Create a new basic block to start inserting into
@@ -774,8 +788,8 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
         }
         llvm::AllocaInst *alloca = builder.CreateAlloca(arg.getType(), nullptr, arg.getName());
         builder.CreateStore(&arg, alloca);
-        std::string argName = arg.getName().str();
-        symbolTable.addLocalVariable(argName, alloca, paramTypes[idx++]->getStructName().str());
+        symbolTable.addLocalVariable(paramNames[idx-1], alloca, paramTypes[idx]->getStructName().str());
+        idx++;
     }
 
     llvm::Value *thisPtr = function->getArg(0);
@@ -874,8 +888,24 @@ llvm::Value *Assignment::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &
 
         // Get the destination pointer for the assignment
         llvm::Value *ptr = symbolTable.getLocalVariable(variableName->name);
+
+        if(symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name) != -1){
+            // Then the variable is a class field. Acces varaible from the 'this' argument
+            // TODO maybe bug
+            llvm::StructType *classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
+            // get this ptr as first arguemtn of current fucntion
+            // get this pointer from arguments
+            llvm::Value* thisPtr = symbolTable.getThisPointer();
+            int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name);
+
+            ptr = builder.CreateConstInBoundsGEP2_32(classType, thisPtr, memberIndex,0,variableName->name);
+
+            // Create load
+            ptr = builder.CreateLoad(thisPtr->getType(),ptr, variableName->name);
+        }
+
         if (!ptr) {
-            llvm::errs() << "Error: Undefined local variable " << variableName->name << "\n";
+            llvm::errs() << "Error: Undefined variable " << variableName->name << "\n";
             return nullptr;
         }
 

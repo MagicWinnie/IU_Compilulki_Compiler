@@ -169,15 +169,6 @@ void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression &node
         }
         //llvmSymbolTable.lookupClass(node.identifier, node.span);
     } else if (identifierType == ID_FUNCTION) {
-        if (isFirst) {
-            throw std::runtime_error(
-                "Variable " + node.identifier + " is not declared " +
-                "(if you are trying to call local method use this." + node.identifier + ")"
-                " at line: " + std::to_string(node.span.get_line_num()) +
-                " column: " + std::to_string(node.span.get_pos_begin())
-            );
-        }
-
         previousType = symbolTable.lookupFunction(
             previousType, node.identifier, argTypes, node.span
         )->returnType;
@@ -211,7 +202,6 @@ void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations &node) {
 void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration &node) {
     symbolTable.enterScope();
     symbolTable.currClassName = node.className->name;
-    symbolTable.addVariableEntry("this", node.className->name, node.className->span);
     if (node.className) node.className->accept(*this);
     if (node.extension) node.extension->accept(*this);
     if (node.classBody) node.classBody->accept(*this);

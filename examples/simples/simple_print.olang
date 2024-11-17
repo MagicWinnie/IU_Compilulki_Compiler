@@ -3,25 +3,30 @@
 
 Program: Main()
 
-class A is
-    var q : Integer(123)
+class Base is
+    var b : Integer(123)
+   method test(a : Integer) is
 
+        b.print()
+   end
 
-    method getA(): Integer is
-        return q
-    end
+   this() is
+   b := Integer(2222)
+   end
 
+   method show() is
+    b.print()
 
+   end
 end
+
+
 class Main is
-
-    var q : Integer(5)
-
     this() is
-        var b : A()
-        var res : Integer
-        b.getA().print()
-        q.print()
+        var d : Base()
+        var t : 52
 
+        d.test(t)
+        d.show()
     end
 end
