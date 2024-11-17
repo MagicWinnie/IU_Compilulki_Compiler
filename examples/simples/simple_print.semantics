@@ -11,15 +11,8 @@ Program
               CompoundExpression: Integer
                 Arguments
                   Expressions
-                    Primary: 10
+                    Primary: 123
               VariableName: q
-          MemberDeclaration
-            VariableDeclaration
-              CompoundExpression: Integer
-                Arguments
-                  Expressions
-                    Primary: 20
-              VariableName: g
           MemberDeclaration
             MethodDeclaration
               Body
@@ -35,6 +28,13 @@ Program
       ClassBody
         MemberDeclarations
           MemberDeclaration
+            VariableDeclaration
+              CompoundExpression: Integer
+                Arguments
+                  Expressions
+                    Primary: 5
+              VariableName: q
+          MemberDeclaration
             ConstructorDeclaration
               Body
                 BodyDeclarations
@@ -46,3 +46,6 @@ Program
                     CompoundExpression: b
                       CompoundExpression: getA
                         CompoundExpression: print
+                  BodyDeclaration
+                    CompoundExpression: q
+                      CompoundExpression: print

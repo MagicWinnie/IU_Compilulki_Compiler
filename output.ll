@@ -5,8 +5,8 @@ source_filename = "compilul'ki"
 %Integer = type { i32 }
 %Real = type { double }
 %IntArray = type { ptr, i32 }
-%A = type { %Integer, %Integer }
-%Main = type {}
+%A = type { %Integer }
+%Main = type { %Integer }
 
 @fmt = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
 @true_str = private unnamed_addr constant [5 x i8] c"true\00", align 1
@@ -277,14 +277,10 @@ end:                                              ; preds = %loop
 
 define void @A_Init(ptr %0) {
 entry:
-  %load_g = getelementptr inbounds %A, ptr %0, i32 0, i32 1
-  %mallocCall1 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 20)
-  store ptr %mallocCall1, ptr %load_g, align 8
-  %load_q = getelementptr inbounds %A, ptr %0, i32 0, i32 0
+  %q_load = getelementptr inbounds %A, ptr %0, i32 0, i32 0
   %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 10)
-  store ptr %mallocCall, ptr %load_q, align 8
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 123)
+  store ptr %mallocCall, ptr %q_load, align 8
   ret void
 }
 
@@ -304,18 +300,25 @@ entry:
 
 define void @Main_Init(ptr %0) {
 entry:
+  %q_load = getelementptr inbounds %Main, ptr %0, i32 0, i32 0
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 5)
+  store ptr %mallocCall, ptr %q_load, align 8
   ret void
 }
 
 define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
-  %mallocCall = call ptr @malloc(i64 8)
+  %mallocCall = call ptr @malloc(i64 4)
   call void @A_Constructor(ptr %mallocCall)
   %call_getA = call %Integer @A_getA(ptr %mallocCall)
   %alloca_return_val = alloca %Integer, align 8
   store %Integer %call_getA, ptr %alloca_return_val, align 4
   call void @Integer_print(ptr %alloca_return_val)
+  %q = getelementptr inbounds %Main, ptr %this, i32 0, i32 0
+  %q1 = load ptr, ptr %q, align 8
+  call void @Integer_print(ptr %q1)
   ret void
 }
 

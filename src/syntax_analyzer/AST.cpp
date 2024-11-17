@@ -307,7 +307,8 @@ llvm::Value *CompoundExpression::codegen(llvm::LLVMContext &context, llvm::IRBui
             llvm::Value* thisPtr = symbolTable.getThisPointer();
             int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, identifier);
 
-            ptr = builder.CreateStructGEP(classType,thisPtr, memberIndex, identifier);
+            ptr = builder.CreateConstInBoundsGEP2_32(classType, thisPtr, memberIndex,0,identifier);
+
             // Create load
             ptr = builder.CreateLoad(thisPtr->getType(),ptr, identifier);
         }
@@ -478,10 +479,6 @@ ConstructorDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &b
 
 
     // Generate the constructor function (name it based on the class it's constructing).
-
-    // TODO class may have two or more constructors
-    // TODO class may have arguments
-
     std::vector<llvm::Type *> paramTypes;
 
     paramTypes.push_back(classType->getPointerTo());
@@ -641,7 +638,7 @@ llvm::Value *VariableDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBu
             }
 
             // Get the pointer to the new field
-            llvm::Value *fieldPtr = ctorBuilder.CreateStructGEP(fieldType, thisPtr, fieldIndex, "load_"+variable->name);
+            llvm::Value *fieldPtr = ctorBuilder.CreateConstInBoundsGEP2_32(fieldType, thisPtr, fieldIndex,0,variable->name+"_load");
 
             // Generate the initialization value
             llvm::Value *initValue = expression->codegen(context, ctorBuilder, module, symbolTable);

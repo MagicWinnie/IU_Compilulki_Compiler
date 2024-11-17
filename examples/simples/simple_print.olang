@@ -4,21 +4,24 @@
 Program: Main()
 
 class A is
-    var q : Integer(10)
-    var g : Integer(20)
+    var q : Integer(123)
 
-    method getA() : Integer is
+
+    method getA(): Integer is
         return q
-        return g
     end
 
 
 end
 class Main is
+
+    var q : Integer(5)
+
     this() is
         var b : A()
         var res : Integer
         b.getA().print()
+        q.print()
 
     end
 end
