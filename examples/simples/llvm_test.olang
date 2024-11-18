@@ -1,8 +1,7 @@
 Program: Main()
 
-class Main is
-    this() is
-
+class IntegerTester is
+    method test() is
         var a : Integer()
         a := 1
         a.print()
@@ -92,9 +91,144 @@ class Main is
         b8.print()
 
 
-        var s: Integer()
-        s.scan()
-        s.print()
+        // var s: Integer()
+        // s.scan()
+        // s.print()
+    end
+end
+
+class RealTester is
+    method test() is
+
+        var a1 : Real()
+        a1 := 1.1
+        a1.print()
+
+        var a2 : Real(14.5)
+        a2.print()
+
+        var a3 : Real(14)
+        a3.print()
+
+
+
+
+        var a4 : Integer()
+        a4 := a2.toInteger()
+        a4.print()
+
+        var a5 : Real()
+        a5 := a2.UnaryMinus()
+        a5.print()
+
+
+
+
+        var a6 : Real()
+        a6 := a2.Plus(a1)
+        a6.print()
+
+        var a7 : Real()
+        a7 := a2.Minus(a1)
+        a7.print()
+
+        var a8 : Real()
+        a8 := a2.Mult(a1)
+        a8.print()
+
+        var a9 : Real()
+        a9 := a2.Div(a1)
+        a9.print()
+
+        var a10 : Real()
+        a10 := a2.Plus(a4)
+        a10.print()
+
+        var a11 : Real()
+        a11 := a2.Minus(a4)
+        a11.print()
+
+        var a12 : Real()
+        a12 := a2.Mult(a4)
+        a12.print()
+
+        var a13 : Real()
+        a13 := a2.Div(a4)
+        a13.print()
+
+        var a14 : Real()
+        a14 := a2.Rem(a4)
+        a14.print()
+
+
+
+        var a15 : Real()
+        a15 := a15.Max()
+        a15.print()
+
+        var a16 : Real()
+        a16 := a16.Min()
+        a16.print()
+
+        var a17 : Real()
+        a17 := a17.Epsilon()
+        a17.print()
+
+
+
+        var c1 : Boolean()
+        c1 := a2.Less(a1)
+        c1.print()
+
+        var c2 : Boolean()
+        c2 := a2.LessEqual(a1)
+        c2.print()
+
+        var c3 : Boolean()
+        c3 := a2.Greater(a1)
+        c3.print()
+
+        var c4 : Boolean()
+        c4 := a2.GreaterEqual(a1)
+        c4.print()
+
+        var c5 : Boolean()
+        c5 := a2.Equal(a1)
+        c5.print()
+
+        var c6 : Boolean()
+        c6 := a2.Less(a4)
+        c6.print()
+
+        var c7 : Boolean()
+        c7 := a2.LessEqual(a4)
+        c7.print()
+
+        var c8 : Boolean()
+        c8 := a2.Greater(a4)
+        c8.print()
+
+        var c9 : Boolean()
+        c9 := a2.GreaterEqual(a4)
+        c9.print()
+
+        var c10 : Boolean()
+        c10 := a2.Equal(a4)
+        c10.print()
+
+
+
+    end
+end
+
+class Main is
+    this() is
+
+        var integerTester : IntegerTester()
+        integerTester.test()
+
+        var realTester : RealTester()
+        RealTester.test()
 
 
 

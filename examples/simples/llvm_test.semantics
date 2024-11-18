@@ -3,11 +3,11 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
-      ClassName: Main
+      ClassName: IntegerTester
       ClassBody
         MemberDeclarations
           MemberDeclaration
-            ConstructorDeclaration
+            MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
@@ -284,13 +284,411 @@ Program
                   BodyDeclaration
                     CompoundExpression: b8
                       CompoundExpression: print
+              MethodName: test
+    ClassDeclaration
+      ClassName: RealTester
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a1
+                  BodyDeclaration
+                    Assignment
+                      Primary: 1.100000
+                      VariableName: a1
+                  BodyDeclaration
+                    CompoundExpression: a1
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                        Arguments
+                          Expressions
+                            Primary: 14.500000
+                      VariableName: a2
+                  BodyDeclaration
+                    CompoundExpression: a2
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                        Arguments
+                          Expressions
+                            Primary: 14
+                      VariableName: a3
+                  BodyDeclaration
+                    CompoundExpression: a3
+                      CompoundExpression: print
                   BodyDeclaration
                     VariableDeclaration
                       CompoundExpression: Integer
-                      VariableName: s
+                      VariableName: a4
                   BodyDeclaration
-                    CompoundExpression: s
-                      CompoundExpression: scan
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: toInteger
+                      VariableName: a4
                   BodyDeclaration
-                    CompoundExpression: s
+                    CompoundExpression: a4
                       CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a5
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: UnaryMinus
+                      VariableName: a5
+                  BodyDeclaration
+                    CompoundExpression: a5
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a6
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Plus
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: a6
+                  BodyDeclaration
+                    CompoundExpression: a6
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a7
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Minus
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: a7
+                  BodyDeclaration
+                    CompoundExpression: a7
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a8
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Mult
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: a8
+                  BodyDeclaration
+                    CompoundExpression: a8
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a9
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Div
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: a9
+                  BodyDeclaration
+                    CompoundExpression: a9
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a10
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Plus
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: a10
+                  BodyDeclaration
+                    CompoundExpression: a10
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a11
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Minus
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: a11
+                  BodyDeclaration
+                    CompoundExpression: a11
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a12
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Mult
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: a12
+                  BodyDeclaration
+                    CompoundExpression: a12
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a13
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Div
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: a13
+                  BodyDeclaration
+                    CompoundExpression: a13
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a14
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Rem
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: a14
+                  BodyDeclaration
+                    CompoundExpression: a14
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a15
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a15
+                        CompoundExpression: Max
+                      VariableName: a15
+                  BodyDeclaration
+                    CompoundExpression: a15
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a16
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a16
+                        CompoundExpression: Min
+                      VariableName: a16
+                  BodyDeclaration
+                    CompoundExpression: a16
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Real
+                      VariableName: a17
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a17
+                        CompoundExpression: Epsilon
+                      VariableName: a17
+                  BodyDeclaration
+                    CompoundExpression: a17
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c1
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Less
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: c1
+                  BodyDeclaration
+                    CompoundExpression: c1
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c2
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: LessEqual
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: c2
+                  BodyDeclaration
+                    CompoundExpression: c2
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c3
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Greater
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: c3
+                  BodyDeclaration
+                    CompoundExpression: c3
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c4
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: GreaterEqual
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: c4
+                  BodyDeclaration
+                    CompoundExpression: c4
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c5
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Equal
+                          Arguments
+                            Expressions
+                              CompoundExpression: a1
+                      VariableName: c5
+                  BodyDeclaration
+                    CompoundExpression: c5
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c6
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Less
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: c6
+                  BodyDeclaration
+                    CompoundExpression: c6
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c7
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: LessEqual
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: c7
+                  BodyDeclaration
+                    CompoundExpression: c7
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c8
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Greater
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: c8
+                  BodyDeclaration
+                    CompoundExpression: c8
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c9
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: GreaterEqual
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: c9
+                  BodyDeclaration
+                    CompoundExpression: c9
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: c10
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a2
+                        CompoundExpression: Equal
+                          Arguments
+                            Expressions
+                              CompoundExpression: a4
+                      VariableName: c10
+                  BodyDeclaration
+                    CompoundExpression: c10
+                      CompoundExpression: print
+              MethodName: test
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: IntegerTester
+                      VariableName: integerTester
+                  BodyDeclaration
+                    CompoundExpression: integerTester
+                      CompoundExpression: test
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: RealTester
+                      VariableName: realTester
+                  BodyDeclaration
+                    CompoundExpression: RealTester
+                      CompoundExpression: test
