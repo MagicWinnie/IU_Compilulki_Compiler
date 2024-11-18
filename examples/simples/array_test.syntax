@@ -15,7 +15,7 @@ Program
                       CompoundExpression: IntArray
                         Arguments
                           Expressions
-                            Primary: 100
+                            Primary: 10
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
@@ -29,7 +29,7 @@ Program
                       CompoundExpression: Integer
                         Arguments
                           Expressions
-                            Primary: 100
+                            Primary: 10
                       VariableName: n
                   BodyDeclaration
                     WhileLoop
@@ -60,7 +60,7 @@ Program
                       CompoundExpression: Integer
                         Arguments
                           Expressions
-                            Primary: 99
+                            Primary: 9
                       VariableName: i2
                   BodyDeclaration
                     WhileLoop

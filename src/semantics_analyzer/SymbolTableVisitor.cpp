@@ -108,12 +108,12 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("print", "IntArray", "void", Span(0, 0, 0), {});
 
     //IntList
-//    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {""});
-//    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {""});
+    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("append", "IntList", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("head", "IntList", "Integer", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("tail", "IntList", "IntList", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("tail", "IntList", "IntList", Span(0, 0, 0), {});
 
 //    //RealArray
 //    symbolTable.addFunctionEntry("Create_Default", "RealArray", "void", Span(0, 0, 0), {"Integer"});

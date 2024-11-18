@@ -5,6 +5,7 @@ source_filename = "compilul'ki"
 %Integer = type { i32 }
 %Real = type { double }
 %IntArray = type { ptr, i32 }
+%IntList = type { %IntArray }
 %Main = type {}
 
 @fmt = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
@@ -729,7 +730,7 @@ entry:
   ret void
 }
 
-define void @IntArray_Create_Default(ptr %arrayPtr, i32 %length) {
+define void @IntArray_Constructor_Integer(ptr %arrayPtr, i32 %length) {
 entry:
   %elementSize = mul i32 %length, 4
   %dataPtr = call ptr @malloc(i32 %elementSize)
@@ -802,430 +803,80 @@ end:                                              ; preds = %loop
   ret void
 }
 
-define void @IntegerTester_Init(ptr %0) {
+define void @IntList_Constructor(ptr %listPtr) {
 entry:
+  %arrayPtr = getelementptr inbounds %IntList, ptr %listPtr, i32 0, i32 0
+  call void @IntArray_Constructor_Integer(ptr %arrayPtr, i32 0)
   ret void
 }
 
-define void @IntegerTester_test(ptr %this) {
+define void @IntList_Constructor_Integer(ptr %listPtr, i32 %length) {
 entry:
-  %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall)
-  store i32 1, ptr %mallocCall, align 4
-  call void @Integer_print(ptr %mallocCall)
-  %mallocCall1 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 10)
-  call void @Integer_print(ptr %mallocCall1)
-  %mallocCall2 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Real(ptr %mallocCall2, double 1.450000e+01)
-  call void @Integer_print(ptr %mallocCall2)
-  %mallocCall3 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall3)
-  %call_toReal = call %Real @Integer_toReal(ptr %mallocCall)
-  %alloca_return_val = alloca %Real, align 8
-  store %Real %call_toReal, ptr %alloca_return_val, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall3, ptr %alloca_return_val, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall3)
-  %mallocCall4 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor_Boolean(ptr %mallocCall4, i1 false)
-  %call_toBoolean = call %Boolean @Integer_toBoolean(ptr %mallocCall)
-  %alloca_return_val5 = alloca %Boolean, align 8
-  store %Boolean %call_toBoolean, ptr %alloca_return_val5, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall4, ptr %alloca_return_val5, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall4)
-  %mallocCall6 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall6)
-  %call_UnaryMinus = call %Integer @Integer_UnaryMinus(ptr %mallocCall)
-  %alloca_return_val7 = alloca %Integer, align 8
-  store %Integer %call_UnaryMinus, ptr %alloca_return_val7, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall6, ptr %alloca_return_val7, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall6)
-  %mallocCall8 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall8)
-  %call_Min = call %Integer @Integer_Min(ptr %mallocCall8)
-  %alloca_return_val9 = alloca %Integer, align 8
-  store %Integer %call_Min, ptr %alloca_return_val9, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall8, ptr %alloca_return_val9, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall8)
-  %mallocCall10 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall10)
-  %call_Max = call %Integer @Integer_Max(ptr %mallocCall10)
-  %alloca_return_val11 = alloca %Integer, align 8
-  store %Integer %call_Max, ptr %alloca_return_val11, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall10, ptr %alloca_return_val11, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall10)
-  %mallocCall12 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall12)
-  %loaded_arg = load %Integer, ptr %mallocCall1, align 4
-  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %mallocCall, %Integer %loaded_arg)
-  %alloca_return_val13 = alloca %Integer, align 8
-  store %Integer %call_Plus, ptr %alloca_return_val13, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall12, ptr %alloca_return_val13, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall12)
-  %mallocCall14 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall14)
-  %loaded_arg15 = load %Integer, ptr %mallocCall1, align 4
-  %call_Minus = call %Integer @Integer_Minus_Integer(ptr %mallocCall, %Integer %loaded_arg15)
-  %alloca_return_val16 = alloca %Integer, align 8
-  store %Integer %call_Minus, ptr %alloca_return_val16, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall14, ptr %alloca_return_val16, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall14)
-  %mallocCall17 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall17)
-  %loaded_arg18 = load %Integer, ptr %mallocCall1, align 4
-  %call_Mult = call %Integer @Integer_Mult_Integer(ptr %mallocCall, %Integer %loaded_arg18)
-  %alloca_return_val19 = alloca %Integer, align 8
-  store %Integer %call_Mult, ptr %alloca_return_val19, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall17, ptr %alloca_return_val19, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall17)
-  %mallocCall20 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall20)
-  %loaded_arg21 = load %Integer, ptr %mallocCall1, align 4
-  %call_Div = call %Integer @Integer_Div_Integer(ptr %mallocCall, %Integer %loaded_arg21)
-  %alloca_return_val22 = alloca %Integer, align 8
-  store %Integer %call_Div, ptr %alloca_return_val22, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall20, ptr %alloca_return_val22, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall20)
-  %mallocCall23 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall23)
-  %loaded_arg24 = load %Integer, ptr %mallocCall1, align 4
-  %call_Less = call %Boolean @Integer_Less_Integer(ptr %mallocCall, %Integer %loaded_arg24)
-  %alloca_return_val25 = alloca %Boolean, align 8
-  store %Boolean %call_Less, ptr %alloca_return_val25, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall23, ptr %alloca_return_val25, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall23)
-  %mallocCall26 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall26)
-  %loaded_arg27 = load %Real, ptr %mallocCall3, align 8
-  %call_Less28 = call %Boolean @Integer_Less_Real(ptr %mallocCall, %Real %loaded_arg27)
-  %alloca_return_val29 = alloca %Boolean, align 8
-  store %Boolean %call_Less28, ptr %alloca_return_val29, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall26, ptr %alloca_return_val29, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall26)
-  %mallocCall30 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall30)
-  %loaded_arg31 = load %Integer, ptr %mallocCall1, align 4
-  %call_LessEqual = call %Boolean @Integer_LessEqual_Integer(ptr %mallocCall, %Integer %loaded_arg31)
-  %alloca_return_val32 = alloca %Boolean, align 8
-  store %Boolean %call_LessEqual, ptr %alloca_return_val32, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall30, ptr %alloca_return_val32, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall30)
-  %mallocCall33 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall33)
-  %loaded_arg34 = load %Real, ptr %mallocCall3, align 8
-  %call_LessEqual35 = call %Boolean @Integer_LessEqual_Real(ptr %mallocCall, %Real %loaded_arg34)
-  %alloca_return_val36 = alloca %Boolean, align 8
-  store %Boolean %call_LessEqual35, ptr %alloca_return_val36, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall33, ptr %alloca_return_val36, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall33)
-  %mallocCall37 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall37)
-  %loaded_arg38 = load %Integer, ptr %mallocCall1, align 4
-  %call_Greater = call %Boolean @Integer_Greater_Integer(ptr %mallocCall, %Integer %loaded_arg38)
-  %alloca_return_val39 = alloca %Boolean, align 8
-  store %Boolean %call_Greater, ptr %alloca_return_val39, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall37, ptr %alloca_return_val39, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall37)
-  %mallocCall40 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall40)
-  %loaded_arg41 = load %Real, ptr %mallocCall3, align 8
-  %call_Greater42 = call %Boolean @Integer_Greater_Real(ptr %mallocCall, %Real %loaded_arg41)
-  %alloca_return_val43 = alloca %Boolean, align 8
-  store %Boolean %call_Greater42, ptr %alloca_return_val43, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall40, ptr %alloca_return_val43, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall40)
-  %mallocCall44 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall44)
-  %loaded_arg45 = load %Integer, ptr %mallocCall1, align 4
-  %call_GreaterEqual = call %Boolean @Integer_GreaterEqual_Integer(ptr %mallocCall, %Integer %loaded_arg45)
-  %alloca_return_val46 = alloca %Boolean, align 8
-  store %Boolean %call_GreaterEqual, ptr %alloca_return_val46, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall44, ptr %alloca_return_val46, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall44)
-  %mallocCall47 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall47)
-  %loaded_arg48 = load %Real, ptr %mallocCall3, align 8
-  %call_GreaterEqual49 = call %Boolean @Integer_GreaterEqual_Real(ptr %mallocCall, %Real %loaded_arg48)
-  %alloca_return_val50 = alloca %Boolean, align 8
-  store %Boolean %call_GreaterEqual49, ptr %alloca_return_val50, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall47, ptr %alloca_return_val50, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall47)
+  %arrayPtr = getelementptr inbounds %IntList, ptr %listPtr, i32 0, i32 0
+  call void @IntArray_Constructor_Integer(ptr %arrayPtr, i32 %length)
   ret void
 }
 
-; Function Attrs: nocallback nofree nounwind willreturn memory(argmem: readwrite)
-declare void @llvm.memcpy.p0.p0.i64(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i64, i1 immarg) #0
-
-define void @IntegerTester_Constructor(ptr %0) {
+define void @IntList_append_Integer(ptr %listPtr, i32 %value) {
 entry:
-  call void @IntegerTester_Init(ptr %0)
+  %arrayPtr = getelementptr inbounds %IntList, ptr %listPtr, i32 0, i32 0
+  %lengthTemp = call %Integer @IntArray_Length(ptr %arrayPtr)
+  %lengthPtr = alloca %Integer, align 8
+  store %Integer %lengthTemp, ptr %lengthPtr, align 4
+  %lengthFieldPtr = getelementptr inbounds %Integer, ptr %lengthPtr, i32 0, i32 0
+  %length = load i32, ptr %lengthFieldPtr, align 4
+  call void @IntArray_set_Integer_Integer(ptr %arrayPtr, i32 %length, i32 %value)
+  %newLength = add i32 %length, 1
+  %lengthFieldPtr2 = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
+  store i32 %newLength, ptr %lengthFieldPtr2, align 4
   ret void
 }
 
-define void @RealTester_Init(ptr %0) {
+define %Integer @IntList_head(ptr %listPtr) {
 entry:
-  ret void
+  %arrayPtr = getelementptr inbounds %IntList, ptr %listPtr, i32 0, i32 0
+  %value = call %Integer @IntArray_get_Integer(ptr %arrayPtr, i32 0)
+  ret %Integer %value
 }
 
-define void @RealTester_test(ptr %this) {
+define ptr @IntList_tail(ptr %listPtr) {
 entry:
-  %mallocCall = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall)
-  store double 1.100000e+00, ptr %mallocCall, align 8
-  call void @Real_print(ptr %mallocCall)
-  %mallocCall1 = call ptr @malloc(i64 8)
-  call void @Real_Constructor_Real(ptr %mallocCall1, double 1.450000e+01)
-  call void @Real_print(ptr %mallocCall1)
-  %mallocCall2 = call ptr @malloc(i64 8)
-  call void @Real_Constructor_Integer(ptr %mallocCall2, i32 14)
-  call void @Real_print(ptr %mallocCall2)
-  %mallocCall3 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor(ptr %mallocCall3)
-  %call_toInteger = call %Integer @Real_toInteger(ptr %mallocCall1)
-  %alloca_return_val = alloca %Integer, align 8
-  store %Integer %call_toInteger, ptr %alloca_return_val, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall3, ptr %alloca_return_val, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall3)
-  %mallocCall4 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall4)
-  %call_UnaryMinus = call %Real @Real_UnaryMinus(ptr %mallocCall1)
-  %alloca_return_val5 = alloca %Real, align 8
-  store %Real %call_UnaryMinus, ptr %alloca_return_val5, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall4, ptr %alloca_return_val5, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall4)
-  %mallocCall6 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall6)
-  %loaded_arg = load %Real, ptr %mallocCall, align 8
-  %call_Plus = call %Real @Real_Plus_Real(ptr %mallocCall1, %Real %loaded_arg)
-  %alloca_return_val7 = alloca %Real, align 8
-  store %Real %call_Plus, ptr %alloca_return_val7, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall6, ptr %alloca_return_val7, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall6)
-  %mallocCall8 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall8)
-  %loaded_arg9 = load %Real, ptr %mallocCall, align 8
-  %call_Minus = call %Real @Real_Minus_Real(ptr %mallocCall1, %Real %loaded_arg9)
-  %alloca_return_val10 = alloca %Real, align 8
-  store %Real %call_Minus, ptr %alloca_return_val10, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall8, ptr %alloca_return_val10, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall8)
-  %mallocCall11 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall11)
-  %loaded_arg12 = load %Real, ptr %mallocCall, align 8
-  %call_Mult = call %Real @Real_Mult_Real(ptr %mallocCall1, %Real %loaded_arg12)
-  %alloca_return_val13 = alloca %Real, align 8
-  store %Real %call_Mult, ptr %alloca_return_val13, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall11, ptr %alloca_return_val13, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall11)
-  %mallocCall14 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall14)
-  %loaded_arg15 = load %Real, ptr %mallocCall, align 8
-  %call_Div = call %Real @Real_Div_Real(ptr %mallocCall1, %Real %loaded_arg15)
-  %alloca_return_val16 = alloca %Real, align 8
-  store %Real %call_Div, ptr %alloca_return_val16, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall14, ptr %alloca_return_val16, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall14)
-  %mallocCall17 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall17)
-  %loaded_arg18 = load %Integer, ptr %mallocCall3, align 4
-  %call_Plus19 = call %Real @Real_Plus_Integer(ptr %mallocCall1, %Integer %loaded_arg18)
-  %alloca_return_val20 = alloca %Real, align 8
-  store %Real %call_Plus19, ptr %alloca_return_val20, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall17, ptr %alloca_return_val20, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall17)
-  %mallocCall21 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall21)
-  %loaded_arg22 = load %Integer, ptr %mallocCall3, align 4
-  %call_Minus23 = call %Real @Real_Minus_Integer(ptr %mallocCall1, %Integer %loaded_arg22)
-  %alloca_return_val24 = alloca %Real, align 8
-  store %Real %call_Minus23, ptr %alloca_return_val24, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall21, ptr %alloca_return_val24, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall21)
-  %mallocCall25 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall25)
-  %loaded_arg26 = load %Integer, ptr %mallocCall3, align 4
-  %call_Mult27 = call %Real @Real_Mult_Integer(ptr %mallocCall1, %Integer %loaded_arg26)
-  %alloca_return_val28 = alloca %Real, align 8
-  store %Real %call_Mult27, ptr %alloca_return_val28, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall25, ptr %alloca_return_val28, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall25)
-  %mallocCall29 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall29)
-  %loaded_arg30 = load %Integer, ptr %mallocCall3, align 4
-  %call_Div31 = call %Real @Real_Div_Integer(ptr %mallocCall1, %Integer %loaded_arg30)
-  %alloca_return_val32 = alloca %Real, align 8
-  store %Real %call_Div31, ptr %alloca_return_val32, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall29, ptr %alloca_return_val32, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall29)
-  %mallocCall33 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall33)
-  %loaded_arg34 = load %Integer, ptr %mallocCall3, align 4
-  %call_Rem = call %Real @Real_Rem_Integer(ptr %mallocCall1, %Integer %loaded_arg34)
-  %alloca_return_val35 = alloca %Real, align 8
-  store %Real %call_Rem, ptr %alloca_return_val35, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall33, ptr %alloca_return_val35, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall33)
-  %mallocCall36 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall36)
-  %call_Max = call %Real @Real_Max(ptr %mallocCall36)
-  %alloca_return_val37 = alloca %Real, align 8
-  store %Real %call_Max, ptr %alloca_return_val37, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall36, ptr %alloca_return_val37, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall36)
-  %mallocCall38 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall38)
-  %call_Min = call %Real @Real_Min(ptr %mallocCall38)
-  %alloca_return_val39 = alloca %Real, align 8
-  store %Real %call_Min, ptr %alloca_return_val39, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall38, ptr %alloca_return_val39, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall38)
-  %mallocCall40 = call ptr @malloc(i64 8)
-  call void @Real_Constructor(ptr %mallocCall40)
-  %call_Epsilon = call %Real @Real_Epsilon(ptr %mallocCall40)
-  %alloca_return_val41 = alloca %Real, align 8
-  store %Real %call_Epsilon, ptr %alloca_return_val41, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall40, ptr %alloca_return_val41, i64 8, i1 false)
-  call void @Real_print(ptr %mallocCall40)
-  %mallocCall42 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall42)
-  %loaded_arg43 = load %Real, ptr %mallocCall, align 8
-  %call_Less = call %Boolean @Real_Less_Real(ptr %mallocCall1, %Real %loaded_arg43)
-  %alloca_return_val44 = alloca %Boolean, align 8
-  store %Boolean %call_Less, ptr %alloca_return_val44, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall42, ptr %alloca_return_val44, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall42)
-  %mallocCall45 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall45)
-  %loaded_arg46 = load %Real, ptr %mallocCall, align 8
-  %call_LessEqual = call %Boolean @Real_LessEqual_Real(ptr %mallocCall1, %Real %loaded_arg46)
-  %alloca_return_val47 = alloca %Boolean, align 8
-  store %Boolean %call_LessEqual, ptr %alloca_return_val47, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall45, ptr %alloca_return_val47, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall45)
-  %mallocCall48 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall48)
-  %loaded_arg49 = load %Real, ptr %mallocCall, align 8
-  %call_Greater = call %Boolean @Real_Greater_Real(ptr %mallocCall1, %Real %loaded_arg49)
-  %alloca_return_val50 = alloca %Boolean, align 8
-  store %Boolean %call_Greater, ptr %alloca_return_val50, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall48, ptr %alloca_return_val50, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall48)
-  %mallocCall51 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall51)
-  %loaded_arg52 = load %Real, ptr %mallocCall, align 8
-  %call_GreaterEqual = call %Boolean @Real_GreaterEqual_Real(ptr %mallocCall1, %Real %loaded_arg52)
-  %alloca_return_val53 = alloca %Boolean, align 8
-  store %Boolean %call_GreaterEqual, ptr %alloca_return_val53, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall51, ptr %alloca_return_val53, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall51)
-  %mallocCall54 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall54)
-  %loaded_arg55 = load %Real, ptr %mallocCall, align 8
-  %call_Equal = call %Boolean @Real_Equal_Real(ptr %mallocCall1, %Real %loaded_arg55)
-  %alloca_return_val56 = alloca %Boolean, align 8
-  store %Boolean %call_Equal, ptr %alloca_return_val56, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall54, ptr %alloca_return_val56, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall54)
-  %mallocCall57 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall57)
-  %loaded_arg58 = load %Integer, ptr %mallocCall3, align 4
-  %call_Less59 = call %Boolean @Real_Less_Integer(ptr %mallocCall1, %Integer %loaded_arg58)
-  %alloca_return_val60 = alloca %Boolean, align 8
-  store %Boolean %call_Less59, ptr %alloca_return_val60, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall57, ptr %alloca_return_val60, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall57)
-  %mallocCall61 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall61)
-  %loaded_arg62 = load %Integer, ptr %mallocCall3, align 4
-  %call_LessEqual63 = call %Boolean @Real_LessEqual_Integer(ptr %mallocCall1, %Integer %loaded_arg62)
-  %alloca_return_val64 = alloca %Boolean, align 8
-  store %Boolean %call_LessEqual63, ptr %alloca_return_val64, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall61, ptr %alloca_return_val64, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall61)
-  %mallocCall65 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall65)
-  %loaded_arg66 = load %Integer, ptr %mallocCall3, align 4
-  %call_Greater67 = call %Boolean @Real_Greater_Integer(ptr %mallocCall1, %Integer %loaded_arg66)
-  %alloca_return_val68 = alloca %Boolean, align 8
-  store %Boolean %call_Greater67, ptr %alloca_return_val68, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall65, ptr %alloca_return_val68, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall65)
-  %mallocCall69 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall69)
-  %loaded_arg70 = load %Integer, ptr %mallocCall3, align 4
-  %call_GreaterEqual71 = call %Boolean @Real_GreaterEqual_Integer(ptr %mallocCall1, %Integer %loaded_arg70)
-  %alloca_return_val72 = alloca %Boolean, align 8
-  store %Boolean %call_GreaterEqual71, ptr %alloca_return_val72, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall69, ptr %alloca_return_val72, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall69)
-  %mallocCall73 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall73)
-  %loaded_arg74 = load %Integer, ptr %mallocCall3, align 4
-  %call_Equal75 = call %Boolean @Real_Equal_Integer(ptr %mallocCall1, %Integer %loaded_arg74)
-  %alloca_return_val76 = alloca %Boolean, align 8
-  store %Boolean %call_Equal75, ptr %alloca_return_val76, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall73, ptr %alloca_return_val76, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall73)
-  ret void
-}
+  %nullPtr = inttoptr i32 0 to ptr
+  %endPtr = getelementptr inbounds %IntList, ptr %nullPtr, i32 1
+  %listSize = ptrtoint ptr %endPtr to i32
+  %newListPtr = call ptr @malloc(i32 %listSize)
+  %arrayPtr = getelementptr inbounds %IntList, ptr %listPtr, i32 0, i32 0
+  %lengthTemp = call %Integer @IntArray_Length(ptr %arrayPtr)
+  %lengthPtr = alloca %Integer, align 8
+  store %Integer %lengthTemp, ptr %lengthPtr, align 4
+  %lengthFieldPtr = getelementptr inbounds %Integer, ptr %lengthPtr, i32 0, i32 0
+  %length = load i32, ptr %lengthFieldPtr, align 4
+  %newLength = sub i32 %length, 1
+  %newArrayPtr = getelementptr inbounds %IntList, ptr %newListPtr, i32 0, i32 0
+  call void @IntArray_Constructor_Integer(ptr %newArrayPtr, i32 %newLength)
+  %index = alloca i32, align 4
+  store i32 0, ptr %index, align 4
+  br label %loop
 
-define void @RealTester_Constructor(ptr %0) {
-entry:
-  call void @RealTester_Init(ptr %0)
-  ret void
-}
+loop:                                             ; preds = %body, %entry
+  %currentIndex = load i32, ptr %index, align 4
+  %isEnd = icmp slt i32 %currentIndex, %newLength
+  br i1 %isEnd, label %body, label %end
 
-define void @BooleanTester_Init(ptr %0) {
-entry:
-  ret void
-}
+body:                                             ; preds = %loop
+  %sourceIndex = add i32 %currentIndex, 1
+  %valueTemp = call %Integer @IntArray_get_Integer(ptr %arrayPtr, i32 %sourceIndex)
+  %valuePtr = alloca %Integer, align 8
+  store %Integer %valueTemp, ptr %valuePtr, align 4
+  %valueFieldPtr = getelementptr inbounds %Integer, ptr %valuePtr, i32 0, i32 0
+  %valueInt = load i32, ptr %valueFieldPtr, align 4
+  call void @IntArray_set_Integer_Integer(ptr %newArrayPtr, i32 %currentIndex, i32 %valueInt)
+  %nextIndex = add i32 %currentIndex, 1
+  store i32 %nextIndex, ptr %index, align 4
+  br label %loop
 
-define void @BooleanTester_test(ptr %this) {
-entry:
-  %mallocCall = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor_Boolean(ptr %mallocCall, i1 true)
-  call void @Boolean_print(ptr %mallocCall)
-  %mallocCall1 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor_Boolean(ptr %mallocCall1, i1 false)
-  call void @Boolean_print(ptr %mallocCall1)
-  %mallocCall2 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall2)
-  %loaded_arg = load %Boolean, ptr %mallocCall, align 1
-  %call_Or = call %Boolean @Boolean_Or_Boolean(ptr %mallocCall1, %Boolean %loaded_arg)
-  %alloca_return_val = alloca %Boolean, align 8
-  store %Boolean %call_Or, ptr %alloca_return_val, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall2, ptr %alloca_return_val, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall2)
-  %mallocCall3 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall3)
-  %loaded_arg4 = load %Boolean, ptr %mallocCall, align 1
-  %call_And = call %Boolean @Boolean_And_Boolean(ptr %mallocCall1, %Boolean %loaded_arg4)
-  %alloca_return_val5 = alloca %Boolean, align 8
-  store %Boolean %call_And, ptr %alloca_return_val5, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall3, ptr %alloca_return_val5, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall3)
-  %mallocCall6 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall6)
-  %loaded_arg7 = load %Boolean, ptr %mallocCall, align 1
-  %call_Xor = call %Boolean @Boolean_Xor_Boolean(ptr %mallocCall1, %Boolean %loaded_arg7)
-  %alloca_return_val8 = alloca %Boolean, align 8
-  store %Boolean %call_Xor, ptr %alloca_return_val8, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall6, ptr %alloca_return_val8, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall6)
-  %mallocCall9 = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor(ptr %mallocCall9)
-  %call_Not = call %Boolean @Boolean_Not(ptr %mallocCall1)
-  %alloca_return_val10 = alloca %Boolean, align 8
-  store %Boolean %call_Not, ptr %alloca_return_val10, align 1
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall9, ptr %alloca_return_val10, i64 8, i1 false)
-  call void @Boolean_print(ptr %mallocCall9)
-  ret void
-}
-
-define void @BooleanTester_Constructor(ptr %0) {
-entry:
-  call void @BooleanTester_Init(ptr %0)
-  ret void
+end:                                              ; preds = %loop
+  ret ptr %newListPtr
 }
 
 define void @Main_Init(ptr %0) {
@@ -1236,13 +887,40 @@ entry:
 define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
-  %mallocCall = call ptr @malloc(i64 0)
-  call void @BooleanTester_Constructor(ptr %mallocCall)
-  %mallocCall1 = call ptr @malloc(i64 0)
-  call void @BooleanTester_Constructor(ptr %mallocCall1)
-  call void @BooleanTester_test(ptr %mallocCall1)
+  %mallocCall = call ptr @malloc(i64 16)
+  call void @IntList_Constructor_Integer(ptr %mallocCall, i32 5)
+  %mallocCall1 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 0)
+  %mallocCall2 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall2, i32 1)
+  %mallocCall3 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall3, i32 2)
+  %mallocCall4 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall4, i32 3)
+  %mallocCall5 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall5, i32 4)
+  %loaded_arg = load %Integer, ptr %mallocCall1, align 4
+  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg)
+  %loaded_arg6 = load %Integer, ptr %mallocCall2, align 4
+  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg6)
+  %loaded_arg7 = load %Integer, ptr %mallocCall3, align 4
+  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg7)
+  %loaded_arg8 = load %Integer, ptr %mallocCall4, align 4
+  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg8)
+  %loaded_arg9 = load %Integer, ptr %mallocCall5, align 4
+  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg9)
+  %mallocCall10 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall10, i32 5)
+  %call_head = call %Integer @IntList_head(ptr %mallocCall)
+  %alloca_return_val = alloca %Integer, align 8
+  store %Integer %call_head, ptr %alloca_return_val, align 4
+  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall10, ptr %alloca_return_val, i64 8, i1 false)
+  call void @Integer_print(ptr %mallocCall10)
   ret void
 }
+
+; Function Attrs: nocallback nofree nounwind willreturn memory(argmem: readwrite)
+declare void @llvm.memcpy.p0.p0.i64(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i64, i1 immarg) #0
 
 define i32 @main() {
 entry:

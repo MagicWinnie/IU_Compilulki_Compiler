@@ -254,11 +254,11 @@ end
 class Main is
     this() is
 
-        //var integerTester : IntegerTester()
-        //integerTester.test()
+        var integerTester : IntegerTester()
+        integerTester.test()
 
-        //var realTester : RealTester()
-        //RealTester.test()
+        var realTester : RealTester()
+        RealTester.test()
 
         var booleanTester : BooleanTester()
         BooleanTester.test()

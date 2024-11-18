@@ -5,7 +5,7 @@
 declare ptr @malloc(i32)
 
 ; Constructor for IntArray (this(l: Integer))
-define void @IntArray_Create_Default(ptr %arrayPtr, i32 %length) {
+define void @IntArray_Constructor_Integer(ptr %arrayPtr, i32 %length) {
 entry:
   ; Allocate memory for 'length' elements of i32 (4 bytes per element)
   %elementSize = mul i32 %length, 4

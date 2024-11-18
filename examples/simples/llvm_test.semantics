@@ -766,6 +766,20 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
+                      CompoundExpression: IntegerTester
+                      VariableName: integerTester
+                  BodyDeclaration
+                    CompoundExpression: integerTester
+                      CompoundExpression: test
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: RealTester
+                      VariableName: realTester
+                  BodyDeclaration
+                    CompoundExpression: RealTester
+                      CompoundExpression: test
+                  BodyDeclaration
+                    VariableDeclaration
                       CompoundExpression: BooleanTester
                       VariableName: booleanTester
                   BodyDeclaration
