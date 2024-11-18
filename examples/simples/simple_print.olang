@@ -4,29 +4,28 @@
 Program: Main()
 
 class Base is
-    var b : Integer(123)
-   method test(a : Integer) is
+    var a : Integer(153)
 
-        b.print()
-   end
+    method getA(): Integer  is
 
-   this() is
-   b := Integer(2222)
-   end
-
-   method show() is
-    b.print()
-
-   end
+        return a
+    end
 end
 
+class Derived extends Base is
+    method getA(): Integer  is
+            a := Integer(123123)
+            a.print()
+            return a
+    end
+
+end
 
 class Main is
     this() is
-        var d : Base()
-        var t : 52
-
-        d.test(t)
-        d.show()
+       var base : Base()
+       var derived : Derived()
+       derived.getA().print()
+       base.getA().print()
     end
 end

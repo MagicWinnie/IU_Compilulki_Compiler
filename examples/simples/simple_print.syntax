@@ -11,21 +11,26 @@ Program
               CompoundExpression: Integer
                 Arguments
                   Expressions
-                    Primary: 123
-              VariableName: b
+                    Primary: 153
+              VariableName: a
           MemberDeclaration
             MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    CompoundExpression: b
-                      CompoundExpression: print
-              Parameters
-                Parameter: a
-                  ClassName: Integer
-              MethodName: test
+                    ReturnStatement
+                      CompoundExpression: a
+              ReturnType
+                ClassName: Integer
+              MethodName: getA
+    ClassDeclaration
+      ClassName: Derived
+      Extension
+        ClassName: Base
+      ClassBody
+        MemberDeclarations
           MemberDeclaration
-            ConstructorDeclaration
+            MethodDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
@@ -33,16 +38,17 @@ Program
                       CompoundExpression: Integer
                         Arguments
                           Expressions
-                            Primary: 2222
-                      VariableName: b
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
+                            Primary: 123123
+                      VariableName: a
                   BodyDeclaration
-                    CompoundExpression: b
+                    CompoundExpression: a
                       CompoundExpression: print
-              MethodName: show
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: a
+              ReturnType
+                ClassName: Integer
+              MethodName: getA
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -54,17 +60,16 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       CompoundExpression: Base
-                      VariableName: d
+                      VariableName: base
                   BodyDeclaration
                     VariableDeclaration
-                      Primary: 52
-                      VariableName: t
+                      CompoundExpression: Derived
+                      VariableName: derived
                   BodyDeclaration
-                    CompoundExpression: d
-                      CompoundExpression: test
-                        Arguments
-                          Expressions
-                            CompoundExpression: t
+                    CompoundExpression: derived
+                      CompoundExpression: getA
+                        CompoundExpression: print
                   BodyDeclaration
-                    CompoundExpression: d
-                      CompoundExpression: show
+                    CompoundExpression: base
+                      CompoundExpression: getA
+                        CompoundExpression: print

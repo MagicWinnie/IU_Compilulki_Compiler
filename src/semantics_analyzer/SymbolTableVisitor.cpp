@@ -201,9 +201,16 @@ void SymbolTableVisitor::visitClassDeclarations(ClassDeclarations &node) {
 
 void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration &node) {
     symbolTable.enterScope();
-    symbolTable.currClassName = node.className->name;
     if (node.className) node.className->accept(*this);
-    if (node.extension) node.extension->accept(*this);
+    if (node.extension) {
+        node.extension->accept(*this);
+        // Add parent class variables to the symbol table
+        const auto parentClass = symbolTable.lookupClass(node.extension->className->name);
+        for (const auto &field: parentClass->getFields()) {
+            symbolTable.addVariableEntry(field.name, field.type, node.className->span, true);
+        }
+    }
+
     if (node.classBody) node.classBody->accept(*this);
     symbolTable.leaveScope();
 }

@@ -166,6 +166,20 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
                                              module);
     llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", initFunc);
     builder.SetInsertPoint(entry);
+    if(extension){
+        // Crete call to the base class init using this pointer
+        std::string baseClassName = extension->className->name;
+        std::string baseInitName = baseClassName + "_Init";
+        llvm::Function *baseInitFunc = module.getFunction(baseInitName);
+        if (!baseInitFunc) {
+            llvm::errs() << "Error: Base init function not found for " << baseInitName << "\n";
+            return nullptr;
+        }
+        std::vector<llvm::Value *> baseInitArgs;
+        baseInitArgs.push_back(initFunc->getArg(0));
+        builder.CreateCall(baseInitFunc, baseInitArgs);
+
+    }
     builder.CreateRetVoid();
 
     if (classBody) classBody->codegen(context, builder, module, symbolTable);
@@ -198,9 +212,8 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
         builder.CreateRetVoid();
     }
 
-
-    // Add funcitons of a base class
     if (extension) {
+        // Add functions of a base class
         std::string baseClassName = extension->className->name;
         ClassEntry *baseClass = symbolTable.lookupClass(baseClassName, extension->className->span);
         auto baseClassMethods = baseClass->methods;
@@ -226,8 +239,7 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
                 for (const auto &argType: baseMethod.first.parameterTypes) {
                     args.push_back(llvm::StructType::getTypeByName(context, argType));
                 }
-                llvm::FunctionType *baseMethodType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), args, false);
-                llvm::Function *currentMethodFunc = llvm::Function::Create(baseMethodType, llvm::Function::ExternalLinkage,
+                llvm::Function *currentMethodFunc = llvm::Function::Create(baseMethodFunc->getFunctionType(), llvm::Function::ExternalLinkage,
                                                                            currentMethodName, module);
                 llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", currentMethodFunc);
                 builder.SetInsertPoint(entry);
@@ -238,11 +250,25 @@ llvm::Value *ClassDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuild
                 for (int i = 1; i < currentMethodFunc->arg_size(); ++i) {
                     callArgs.push_back(currentMethodFunc->getArg(i));
                 }
-                builder.CreateCall(baseMethodFunc, callArgs);
-                builder.CreateRetVoid();
+
+                if(baseMethodFunc->getFunctionType()->getReturnType()->isVoidTy()){
+                    builder.CreateCall(baseMethodFunc, callArgs);
+                    builder.CreateRetVoid();
+                } else {
+                    llvm::Value *ret = builder.CreateCall(baseMethodFunc, callArgs);
+                    builder.CreateRet(ret);
+                }
             }
         }
 
+        // Add class fields of a base class
+        auto baseClassFields = baseClass->fields;
+        // baseClassFields is a vector
+        for(const auto &field: baseClassFields) {
+            if(symbolTable.getFieldIndex(className->name, field.name) == -1) {
+                currentClass->addField(field);
+            }
+        }
     }
     return nullptr;
 }
