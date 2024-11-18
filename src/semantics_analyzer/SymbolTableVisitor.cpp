@@ -9,20 +9,31 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addClassEntry("Real", Span(0, 0, 0));
     symbolTable.addClassEntry("IntArray", Span(0, 0, 0));
     symbolTable.addClassEntry("RealArray", Span(0, 0, 0));
+    symbolTable.addClassEntry("BoolArray", Span(0, 0, 0));
     symbolTable.addClassEntry("IntList", Span(0, 0, 0));
+    symbolTable.addClassEntry("RealList", Span(0, 0, 0));
+    symbolTable.addClassEntry("BoolList", Span(0, 0, 0));
 
 
     // Integer
     symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("toReal", "Integer", "Real", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("toBoolean", "Integer", "Boolean", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Integer", "Integer", Span(0, 0, 0), {});
 
+    symbolTable.addFunctionEntry("Min", "Integer", "Integer", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Max", "Integer", "Integer", Span(0, 0, 0), {});
+
     symbolTable.addFunctionEntry("Plus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
+//    symbolTable.addFunctionEntry("Plus", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Minus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
+//    symbolTable.addFunctionEntry("Minus", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Mult", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
+//    symbolTable.addFunctionEntry("Mult", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Div", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
+//    symbolTable.addFunctionEntry("Div", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Rem", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("Less", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
@@ -42,8 +53,15 @@ SymbolTableVisitor::SymbolTableVisitor() {
     // Real
     symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Real"});
+//    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Integer"});
+
     symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
+
+//    symbolTable.addFunctionEntry("Min", "Real", "Real", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("Max", "Real", "Real", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("Epsilon", "Real", "Real", Span(0, 0, 0), {});
+
     symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("Minus", "Real", "Real", Span(0, 0, 0), {"Real"});
@@ -53,6 +71,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("Div", "Real", "Real", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("Div", "Real", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Rem", "Real", "Real", Span(0, 0, 0), {"Integer"});
+
     symbolTable.addFunctionEntry("Less", "Real", "Boolean", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Less", "Real", "Boolean", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("LessEqual", "Real", "Boolean", Span(0, 0, 0), {"Real"});
@@ -70,6 +89,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     // Boolean
     symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {""});
     symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {"Boolean"});
+
     symbolTable.addFunctionEntry("Or", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
     symbolTable.addFunctionEntry("And", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
     symbolTable.addFunctionEntry("Xor", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
@@ -80,14 +100,54 @@ SymbolTableVisitor::SymbolTableVisitor() {
 
     //IntArray
     symbolTable.addFunctionEntry("Create_Default", "IntArray", "void", Span(0, 0, 0), {"Integer"});
+
+//    symbolTable.addFunctionEntry("toList", "IntArray", "IntList", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Length", "IntArray", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("get", "IntArray", "Integer", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("set", "IntArray", "void", Span(0, 0, 0), {"Integer", "Integer"});
     symbolTable.addFunctionEntry("print", "IntArray", "void", Span(0, 0, 0), {});
 
     //IntList
+//    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {""});
+//    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {"Integer"});
+
     symbolTable.addFunctionEntry("append", "IntList", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("head", "IntList", "Integer", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("tail", "IntList", "IntList", Span(0, 0, 0), {});
+
+//    //RealArray
+//    symbolTable.addFunctionEntry("Create_Default", "RealArray", "void", Span(0, 0, 0), {"Integer"});
+//
+//    symbolTable.addFunctionEntry("toList", "RealArray", "RealList", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("Length", "RealArray", "Integer", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("get", "RealArray", "Real", Span(0, 0, 0), {"Integer"});
+//    symbolTable.addFunctionEntry("set", "RealArray", "void", Span(0, 0, 0), {"Integer", "Real"});
+//    symbolTable.addFunctionEntry("print", "RealArray", "void", Span(0, 0, 0), {});
+
+//    //RealList
+//    symbolTable.addFunctionEntry("Create_Default", "RealList", "void", Span(0, 0, 0), {""});
+//    symbolTable.addFunctionEntry("Create_Default", "RealList", "void", Span(0, 0, 0), {"Integer"});
+//
+//    symbolTable.addFunctionEntry("append", "RealList", "void", Span(0, 0, 0), {"Real"});
+//    symbolTable.addFunctionEntry("head", "RealList", "Real", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("tail", "RealList", "RealList", Span(0, 0, 0), {});
+//
+//    //BoolArray
+//    symbolTable.addFunctionEntry("Create_Default", "BoolArray", "void", Span(0, 0, 0), {"Integer"});
+//
+//    symbolTable.addFunctionEntry("toList", "BoolArray", "BoolList", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("Length", "BoolArray", "Integer", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("get", "BoolArray", "Boolean", Span(0, 0, 0), {"Integer"});
+//    symbolTable.addFunctionEntry("set", "BoolArray", "void", Span(0, 0, 0), {"Integer", "Boolean"});
+//    symbolTable.addFunctionEntry("print", "BoolArray", "void", Span(0, 0, 0), {});
+//
+//    //BoolList
+//    symbolTable.addFunctionEntry("Create_Default", "BoolList", "void", Span(0, 0, 0), {""});
+//    symbolTable.addFunctionEntry("Create_Default", "BoolList", "void", Span(0, 0, 0), {"Integer"});
+//
+//    symbolTable.addFunctionEntry("append", "BoolList", "void", Span(0, 0, 0), {"Boolean"});
+//    symbolTable.addFunctionEntry("head", "BoolList", "Boolean", Span(0, 0, 0), {});
+//    symbolTable.addFunctionEntry("tail", "BoolList", "BoolList", Span(0, 0, 0), {});
 }
 
 SymbolTableVisitor::~SymbolTableVisitor() {

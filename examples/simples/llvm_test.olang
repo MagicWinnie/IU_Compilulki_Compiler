@@ -1,0 +1,103 @@
+Program: Main()
+
+class Main is
+    this() is
+
+        var a : Integer()
+        a := 1
+        a.print()
+
+        var b : Integer(10)
+        b.print()
+
+        var c : Integer(14.5)
+        c.print()
+
+
+
+
+        var d : Real()
+        d := a.toReal()
+        d.print()
+
+        var e : Boolean(false)
+        e := a.toBoolean()
+        e.print()
+
+        var f : Integer()
+        f := a.UnaryMinus()
+        f.print()
+
+        var g : Integer()
+        g := g.Min()
+        g.print()
+
+        var h : Integer()
+        h := h.Max()
+        h.print()
+
+
+
+
+        var i : Integer()
+        i := a.Plus(b)
+        i.print()
+
+        var k : Integer()
+        k := a.Minus(b)
+        k.print()
+
+        var m : Integer()
+        m := a.Mult(b)
+        m.print()
+
+        var a2 : Integer()
+        a2 := a.Div(b)
+        a2.print()
+
+
+
+
+
+        var b1 : Boolean()
+        b1 := a.Less(b)
+        b1.print()
+
+        var b2 : Boolean()
+        b2 := a.Less(d)
+        b2.print()
+
+        var b3 : Boolean()
+        b3 := a.LessEqual(b)
+        b3.print()
+
+        var b4 : Boolean()
+        b4 := a.LessEqual(d)
+        b4.print()
+
+        var b5 : Boolean()
+        b5 := a.Greater(b)
+        b5.print()
+
+        var b6 : Boolean()
+        b6 := a.Greater(d)
+        b6.print()
+
+        var b7 : Boolean()
+        b7 := a.GreaterEqual(b)
+        b7.print()
+
+        var b8 : Boolean()
+        b8 := a.GreaterEqual(d)
+        b8.print()
+
+
+        var s: Integer()
+        s.scan()
+        s.print()
+
+
+
+    end
+
+end

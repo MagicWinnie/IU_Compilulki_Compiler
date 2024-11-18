@@ -14,6 +14,13 @@ entry:
   ret void
 }
 
+define void @Boolean_Constructor(ptr %0) {
+entry:
+  %boolFieldPtr = getelementptr inbounds %Boolean, ptr %0, i32 0, i32 0
+  store i1 0, ptr %boolFieldPtr, align 1
+  ret void
+}
+
 define void @Boolean_print(ptr %0) {
 entry:
   %boolFieldPtr = getelementptr inbounds %Boolean, ptr %0, i32 0, i32 0
