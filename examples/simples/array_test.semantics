@@ -82,7 +82,38 @@ Program
                                       Primary: 1
                               VariableName: i2
                       CompoundExpression: i2
-                        CompoundExpression: Greater
+                        CompoundExpression: GreaterEqual
                           Arguments
                             Expressions
                               Primary: 0
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                      VariableName: l
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a
+                        CompoundExpression: Length
+                      VariableName: l
+                  BodyDeclaration
+                    CompoundExpression: l
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: BoolArray
+                        Arguments
+                          Expressions
+                            Primary: 10
+                      VariableName: b
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                      VariableName: k
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: b
+                        CompoundExpression: Length
+                      VariableName: k
+                  BodyDeclaration
+                    CompoundExpression: k
+                      CompoundExpression: print

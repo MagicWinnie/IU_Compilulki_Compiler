@@ -41,6 +41,10 @@ int main(const int argc, char* argv[])
     loadCustomIR(context, *module.get(), "real.ll");
     loadCustomIR(context, *module.get(), "int_array.ll");
     loadCustomIR(context, *module.get(), "int_list.ll");
+    loadCustomIR(context, *module.get(), "real_array.ll");
+//    loadCustomIR(context, *module.get(), "real_list.ll");
+    loadCustomIR(context, *module.get(), "bool_array.ll");
+//    loadCustomIR(context, *module.get(), "bool_list.ll");
     auto settings = Settings();
     settings.parse(argc, argv);
     settings.process();

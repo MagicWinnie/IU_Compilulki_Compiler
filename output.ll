@@ -16,6 +16,7 @@ source_filename = "compilul'ki"
 @error_msg = private unnamed_addr constant [33 x i8] c"Invalid input. Exiting program.\0A\00", align 1
 @fmt.4 = private unnamed_addr constant [4 x i8] c"%f\0A\00", align 1
 @int_fmt = private unnamed_addr constant [4 x i8] c"%d \00", align 1
+@bool_fmt = private unnamed_addr constant [4 x i8] c"%d \00", align 1
 
 define void @Boolean_Constructor_Boolean(ptr %0, i1 %1) {
 entry:
@@ -879,6 +880,77 @@ end:                                              ; preds = %loop
   ret ptr %newListPtr
 }
 
+define void @BoolArray_Constructor_Integer(ptr %arrayPtr, i32 %length) {
+entry:
+  %elementSize = mul i32 %length, 1
+  %dataPtr = call ptr @malloc(i32 %elementSize)
+  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
+  store ptr %dataPtr, ptr %dataFieldPtr, align 8
+  %lengthFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
+  store i32 %length, ptr %lengthFieldPtr, align 4
+  ret void
+}
+
+define %Integer @BoolArray_Length(ptr %arrayPtr) {
+entry:
+  %lengthFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
+  %length = load i32, ptr %lengthFieldPtr, align 4
+  %newInteger = alloca %Integer, align 4
+  %integerFieldPtr = getelementptr inbounds %Integer, ptr %newInteger, i32 0, i32 0
+  store i32 %length, ptr %integerFieldPtr, align 4
+  %returnValue = load %Integer, ptr %newInteger, align 4
+  ret %Integer %returnValue
+}
+
+define %Boolean @BoolArray_get_Integer(ptr %arrayPtr, i32 %index) {
+entry:
+  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
+  %dataPtr = load ptr, ptr %dataFieldPtr, align 8
+  %elementPtr = getelementptr inbounds i1, ptr %dataPtr, i32 %index
+  %value = load i1, ptr %elementPtr, align 1
+  %booleanValue = alloca %Boolean, align 8
+  %booleanFieldPtr = getelementptr inbounds %Boolean, ptr %booleanValue, i32 0, i32 0
+  store i1 %value, ptr %booleanFieldPtr, align 1
+  %returnValue = load %Boolean, ptr %booleanValue, align 1
+  ret %Boolean %returnValue
+}
+
+define void @BoolArray_set_Integer_Boolean(ptr %arrayPtr, i32 %index, i1 %value) {
+entry:
+  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
+  %dataPtr = load ptr, ptr %dataFieldPtr, align 8
+  %elementPtr = getelementptr inbounds i1, ptr %dataPtr, i32 %index
+  store i1 %value, ptr %elementPtr, align 1
+  ret void
+}
+
+define void @BoolArray_print(ptr %arrayPtr) {
+entry:
+  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
+  %dataPtr = load ptr, ptr %dataFieldPtr, align 8
+  %lengthFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
+  %length = load i32, ptr %lengthFieldPtr, align 4
+  %index = alloca i32, align 4
+  store i32 0, ptr %index, align 4
+  br label %loop
+
+loop:                                             ; preds = %body, %entry
+  %currentIndex = load i32, ptr %index, align 4
+  %isEnd = icmp slt i32 %currentIndex, %length
+  br i1 %isEnd, label %body, label %end
+
+body:                                             ; preds = %loop
+  %elementPtr = getelementptr inbounds i1, ptr %dataPtr, i32 %currentIndex
+  %elementValue = load i1, ptr %elementPtr, align 1
+  %0 = call i32 (ptr, ...) @printf(ptr @bool_fmt, i1 %elementValue)
+  %nextIndex = add i32 %currentIndex, 1
+  store i32 %nextIndex, ptr %index, align 4
+  br label %loop
+
+end:                                              ; preds = %loop
+  ret void
+}
+
 define void @Main_Init(ptr %0) {
 entry:
   ret void
@@ -888,34 +960,74 @@ define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
   %mallocCall = call ptr @malloc(i64 16)
-  call void @IntList_Constructor_Integer(ptr %mallocCall, i32 5)
+  call void @IntArray_Constructor_Integer(ptr %mallocCall, i32 10)
   %mallocCall1 = call ptr @malloc(i64 4)
   call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 0)
   %mallocCall2 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall2, i32 1)
-  %mallocCall3 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall3, i32 2)
-  %mallocCall4 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall4, i32 3)
-  %mallocCall5 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall5, i32 4)
-  %loaded_arg = load %Integer, ptr %mallocCall1, align 4
-  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg)
+  call void @Integer_Constructor_Integer(ptr %mallocCall2, i32 10)
+  %loaded_arg = load %Integer, ptr %mallocCall2, align 4
+  %call_Less = call %Boolean @Integer_Less_Integer(ptr %mallocCall1, %Integer %loaded_arg)
+  %alloca_return_val = alloca %Boolean, align 8
+  store %Boolean %call_Less, ptr %alloca_return_val, align 1
+  %boolFieldPtr = getelementptr inbounds %Boolean, ptr %alloca_return_val, i32 0, i32 0
+  %loadBoolValue = load i1, ptr %boolFieldPtr, align 1
+  %whilecond = icmp ne i1 %loadBoolValue, false
+  br i1 %whilecond, label %loop, label %afterloop
+
+loop:                                             ; preds = %loop, %entry
+  %loaded_arg3 = load %Integer, ptr %mallocCall1, align 4
+  %loaded_arg4 = load %Integer, ptr %mallocCall1, align 4
+  call void @IntArray_set_Integer_Integer(ptr %mallocCall, %Integer %loaded_arg3, %Integer %loaded_arg4)
+  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %mallocCall1, i32 1)
+  %alloca_return_val5 = alloca %Integer, align 8
+  store %Integer %call_Plus, ptr %alloca_return_val5, align 4
+  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall1, ptr %alloca_return_val5, i64 8, i1 false)
   %loaded_arg6 = load %Integer, ptr %mallocCall2, align 4
-  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg6)
-  %loaded_arg7 = load %Integer, ptr %mallocCall3, align 4
-  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg7)
-  %loaded_arg8 = load %Integer, ptr %mallocCall4, align 4
-  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg8)
-  %loaded_arg9 = load %Integer, ptr %mallocCall5, align 4
-  call void @IntList_append_Integer(ptr %mallocCall, %Integer %loaded_arg9)
-  %mallocCall10 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall10, i32 5)
-  %call_head = call %Integer @IntList_head(ptr %mallocCall)
-  %alloca_return_val = alloca %Integer, align 8
-  store %Integer %call_head, ptr %alloca_return_val, align 4
-  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall10, ptr %alloca_return_val, i64 8, i1 false)
-  call void @Integer_print(ptr %mallocCall10)
+  %call_Less7 = call %Boolean @Integer_Less_Integer(ptr %mallocCall1, %Integer %loaded_arg6)
+  %alloca_return_val8 = alloca %Boolean, align 8
+  store %Boolean %call_Less7, ptr %alloca_return_val8, align 1
+  %boolFieldPtr9 = getelementptr inbounds %Boolean, ptr %alloca_return_val8, i32 0, i32 0
+  %loadBoolValue10 = load i1, ptr %boolFieldPtr9, align 1
+  %whilecond11 = icmp ne i1 %loadBoolValue10, false
+  br i1 %whilecond11, label %loop, label %afterloop
+
+afterloop:                                        ; preds = %loop, %entry
+  %mallocCall12 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall12, i32 9)
+  %call_GreaterEqual = call %Boolean @Integer_GreaterEqual_Integer(ptr %mallocCall12, i32 0)
+  %alloca_return_val15 = alloca %Boolean, align 8
+  store %Boolean %call_GreaterEqual, ptr %alloca_return_val15, align 1
+  %boolFieldPtr16 = getelementptr inbounds %Boolean, ptr %alloca_return_val15, i32 0, i32 0
+  %loadBoolValue17 = load i1, ptr %boolFieldPtr16, align 1
+  %whilecond18 = icmp ne i1 %loadBoolValue17, false
+  br i1 %whilecond18, label %loop13, label %afterloop14
+
+loop13:                                           ; preds = %loop13, %afterloop
+  %loaded_arg19 = load %Integer, ptr %mallocCall12, align 4
+  %call_get = call %Integer @IntArray_get_Integer(ptr %mallocCall, %Integer %loaded_arg19)
+  %alloca_return_val20 = alloca %Integer, align 8
+  store %Integer %call_get, ptr %alloca_return_val20, align 4
+  call void @Integer_print(ptr %alloca_return_val20)
+  %call_Minus = call %Integer @Integer_Minus_Integer(ptr %mallocCall12, i32 1)
+  %alloca_return_val21 = alloca %Integer, align 8
+  store %Integer %call_Minus, ptr %alloca_return_val21, align 4
+  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall12, ptr %alloca_return_val21, i64 8, i1 false)
+  %call_GreaterEqual22 = call %Boolean @Integer_GreaterEqual_Integer(ptr %mallocCall12, i32 0)
+  %alloca_return_val23 = alloca %Boolean, align 8
+  store %Boolean %call_GreaterEqual22, ptr %alloca_return_val23, align 1
+  %boolFieldPtr24 = getelementptr inbounds %Boolean, ptr %alloca_return_val23, i32 0, i32 0
+  %loadBoolValue25 = load i1, ptr %boolFieldPtr24, align 1
+  %whilecond26 = icmp ne i1 %loadBoolValue25, false
+  br i1 %whilecond26, label %loop13, label %afterloop14
+
+afterloop14:                                      ; preds = %loop13, %afterloop
+  %mallocCall27 = call ptr @malloc(i64 4)
+  call void @Integer_Constructor(ptr %mallocCall27)
+  %call_Length = call %Integer @IntArray_Length(ptr %mallocCall)
+  %alloca_return_val28 = alloca %Integer, align 8
+  store %Integer %call_Length, ptr %alloca_return_val28, align 4
+  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall27, ptr %alloca_return_val28, i64 8, i1 false)
+  call void @Integer_print(ptr %mallocCall27)
   ret void
 }
 

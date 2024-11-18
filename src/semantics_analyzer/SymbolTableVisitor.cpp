@@ -115,14 +115,14 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("head", "IntList", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("tail", "IntList", "IntList", Span(0, 0, 0), {});
 
-//    //RealArray
-//    symbolTable.addFunctionEntry("Create_Default", "RealArray", "void", Span(0, 0, 0), {"Integer"});
-//
+    //RealArray
+    symbolTable.addFunctionEntry("Create_Default", "RealArray", "void", Span(0, 0, 0), {"Integer"});
+
 //    symbolTable.addFunctionEntry("toList", "RealArray", "RealList", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("Length", "RealArray", "Integer", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("get", "RealArray", "Real", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("set", "RealArray", "void", Span(0, 0, 0), {"Integer", "Real"});
-//    symbolTable.addFunctionEntry("print", "RealArray", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Length", "RealArray", "Integer", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("get", "RealArray", "Real", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("set", "RealArray", "void", Span(0, 0, 0), {"Integer", "Real"});
+    symbolTable.addFunctionEntry("print", "RealArray", "void", Span(0, 0, 0), {});
 
 //    //RealList
 //    symbolTable.addFunctionEntry("Create_Default", "RealList", "void", Span(0, 0, 0), {""});
@@ -132,15 +132,15 @@ SymbolTableVisitor::SymbolTableVisitor() {
 //    symbolTable.addFunctionEntry("head", "RealList", "Real", Span(0, 0, 0), {});
 //    symbolTable.addFunctionEntry("tail", "RealList", "RealList", Span(0, 0, 0), {});
 //
-//    //BoolArray
-//    symbolTable.addFunctionEntry("Create_Default", "BoolArray", "void", Span(0, 0, 0), {"Integer"});
-//
+    //BoolArray
+    symbolTable.addFunctionEntry("Create_Default", "BoolArray", "void", Span(0, 0, 0), {"Integer"});
+
 //    symbolTable.addFunctionEntry("toList", "BoolArray", "BoolList", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("Length", "BoolArray", "Integer", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("get", "BoolArray", "Boolean", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("set", "BoolArray", "void", Span(0, 0, 0), {"Integer", "Boolean"});
-//    symbolTable.addFunctionEntry("print", "BoolArray", "void", Span(0, 0, 0), {});
-//
+    symbolTable.addFunctionEntry("Length", "BoolArray", "Integer", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("get", "BoolArray", "Boolean", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("set", "BoolArray", "void", Span(0, 0, 0), {"Integer", "Boolean"});
+    symbolTable.addFunctionEntry("print", "BoolArray", "void", Span(0, 0, 0), {});
+
 //    //BoolList
 //    symbolTable.addFunctionEntry("Create_Default", "BoolList", "void", Span(0, 0, 0), {""});
 //    symbolTable.addFunctionEntry("Create_Default", "BoolList", "void", Span(0, 0, 0), {"Integer"});
