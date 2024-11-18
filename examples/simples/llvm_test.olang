@@ -1,0 +1,270 @@
+Program: Main()
+
+class IntegerTester is
+    method test() is
+        var a : Integer()
+        a := 1
+        a.print()
+
+        var b : Integer(10)
+        b.print()
+
+        var c : Integer(14.5)
+        c.print()
+
+
+
+
+        var d : Real()
+        d := a.toReal()
+        d.print()
+
+        var e : Boolean(false)
+        e := a.toBoolean()
+        e.print()
+
+        var f : Integer()
+        f := a.UnaryMinus()
+        f.print()
+
+        var g : Integer()
+        g := g.Min()
+        g.print()
+
+        var h : Integer()
+        h := h.Max()
+        h.print()
+
+
+
+
+        var i : Integer()
+        i := a.Plus(b)
+        i.print()
+
+        var k : Integer()
+        k := a.Minus(b)
+        k.print()
+
+        var m : Integer()
+        m := a.Mult(b)
+        m.print()
+
+        var a2 : Integer()
+        a2 := a.Div(b)
+        a2.print()
+
+
+
+
+
+        var b1 : Boolean()
+        b1 := a.Less(b)
+        b1.print()
+
+        var b2 : Boolean()
+        b2 := a.Less(d)
+        b2.print()
+
+        var b3 : Boolean()
+        b3 := a.LessEqual(b)
+        b3.print()
+
+        var b4 : Boolean()
+        b4 := a.LessEqual(d)
+        b4.print()
+
+        var b5 : Boolean()
+        b5 := a.Greater(b)
+        b5.print()
+
+        var b6 : Boolean()
+        b6 := a.Greater(d)
+        b6.print()
+
+        var b7 : Boolean()
+        b7 := a.GreaterEqual(b)
+        b7.print()
+
+        var b8 : Boolean()
+        b8 := a.GreaterEqual(d)
+        b8.print()
+
+
+        // var s: Integer()
+        // s.scan()
+        // s.print()
+    end
+end
+
+class RealTester is
+    method test() is
+
+        var a1 : Real()
+        a1 := 1.1
+        a1.print()
+
+        var a2 : Real(14.5)
+        a2.print()
+
+        var a3 : Real(14)
+        a3.print()
+
+
+
+
+        var a4 : Integer()
+        a4 := a2.toInteger()
+        a4.print()
+
+        var a5 : Real()
+        a5 := a2.UnaryMinus()
+        a5.print()
+
+
+
+
+        var a6 : Real()
+        a6 := a2.Plus(a1)
+        a6.print()
+
+        var a7 : Real()
+        a7 := a2.Minus(a1)
+        a7.print()
+
+        var a8 : Real()
+        a8 := a2.Mult(a1)
+        a8.print()
+
+        var a9 : Real()
+        a9 := a2.Div(a1)
+        a9.print()
+
+        var a10 : Real()
+        a10 := a2.Plus(a4)
+        a10.print()
+
+        var a11 : Real()
+        a11 := a2.Minus(a4)
+        a11.print()
+
+        var a12 : Real()
+        a12 := a2.Mult(a4)
+        a12.print()
+
+        var a13 : Real()
+        a13 := a2.Div(a4)
+        a13.print()
+
+        var a14 : Real()
+        a14 := a2.Rem(a4)
+        a14.print()
+
+
+
+        var a15 : Real()
+        a15 := a15.Max()
+        a15.print()
+
+        var a16 : Real()
+        a16 := a16.Min()
+        a16.print()
+
+        var a17 : Real()
+        a17 := a17.Epsilon()
+        a17.print()
+
+
+
+        var c1 : Boolean()
+        c1 := a2.Less(a1)
+        c1.print()
+
+        var c2 : Boolean()
+        c2 := a2.LessEqual(a1)
+        c2.print()
+
+        var c3 : Boolean()
+        c3 := a2.Greater(a1)
+        c3.print()
+
+        var c4 : Boolean()
+        c4 := a2.GreaterEqual(a1)
+        c4.print()
+
+        var c5 : Boolean()
+        c5 := a2.Equal(a1)
+        c5.print()
+
+        var c6 : Boolean()
+        c6 := a2.Less(a4)
+        c6.print()
+
+        var c7 : Boolean()
+        c7 := a2.LessEqual(a4)
+        c7.print()
+
+        var c8 : Boolean()
+        c8 := a2.Greater(a4)
+        c8.print()
+
+        var c9 : Boolean()
+        c9 := a2.GreaterEqual(a4)
+        c9.print()
+
+        var c10 : Boolean()
+        c10 := a2.Equal(a4)
+        c10.print()
+
+
+
+    end
+end
+
+
+class BooleanTester is
+    method test() is
+
+        var l1: Boolean(true)
+        l1.print()
+
+        var l2: Boolean(false)
+        l2.print()
+
+        var l3: Boolean()
+        l3 := l2.Or(l1)
+        l3.print()
+
+        var l4: Boolean()
+        l4 := l2.And(l1)
+        l4.print()
+
+        var l5: Boolean()
+        l5 := l2.Xor(l1)
+        l5.print()
+
+        var l6: Boolean()
+        l6 := l2.Not()
+        l6.print()
+
+
+    end
+end
+
+class Main is
+    this() is
+
+        var integerTester : IntegerTester()
+        integerTester.test()
+
+        var realTester : RealTester()
+        RealTester.test()
+
+        var booleanTester : BooleanTester()
+        BooleanTester.test()
+
+
+
+    end
+
+end

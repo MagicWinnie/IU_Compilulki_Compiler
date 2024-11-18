@@ -6,20 +6,22 @@ Program: Main
 class Main is
     this() is
 
-        var l : List[Integer](5)
-        var i : Integer().scan()
+        var l : IntList(5)
+        var i : Integer(0)
+        var i1 : Integer(1)
+        var i2 : Integer(2)
+        var i3 : Integer(3)
+        var i4 : Integer(4)
+        l.append(i)
+        l.append(i1)
+        l.append(i2)
+        l.append(i3)
+        l.append(i4)
 
-        var i1 : Integer(0)
-        while i1.LessEqual(4) loop
-            l.append(i1.Mult(i).Mult(i1))
-        end
+        var ii : Integer(5)
+        ii := l.head()
+        ii.print()
 
-        var i2 : Integer(0)
-        while i2.Less(i) loop
-            l := l.tail()
-        end
-
-        l.head().print()
 
     end
 

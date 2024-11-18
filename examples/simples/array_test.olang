@@ -6,22 +6,30 @@ Program: Main
 class Main is
     this() is
 
-        var a : IntArray(100)
+        var a : IntArray(10)
 
         var i1 : Integer(0)
 
-        var n : Integer(100)
+        var n : Integer(10)
 
         while i1.Less(n) loop
             a.set(i1, i1)
             i1 := i1.Plus(1)
         end
 
-        var i2 : Integer(99)
-        while i2.Greater(0) loop
+        var i2 : Integer(9)
+        while i2.GreaterEqual(0) loop
             a.get(i2).print()
             i2 := i2.Minus(1)
         end
+
+
+        var l : Integer()
+        l := a.Length()
+        l.print()
+
+
+
 
     end
 
