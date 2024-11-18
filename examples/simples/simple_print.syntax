@@ -3,47 +3,6 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
-      ClassName: Base
-      ClassBody
-        MemberDeclarations
-          MemberDeclaration
-            VariableDeclaration
-              CompoundExpression: Integer
-                Arguments
-                  Expressions
-                    Primary: 123
-              VariableName: b
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: b
-                      CompoundExpression: print
-              Parameters
-                Parameter: a
-                  ClassName: Integer
-              MethodName: test
-          MemberDeclaration
-            ConstructorDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    Assignment
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 2222
-                      VariableName: b
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: b
-                      CompoundExpression: print
-              MethodName: show
-    ClassDeclaration
       ClassName: Main
       ClassBody
         MemberDeclarations
@@ -53,18 +12,26 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Base
-                      VariableName: d
-                  BodyDeclaration
-                    VariableDeclaration
-                      Primary: 52
-                      VariableName: t
-                  BodyDeclaration
-                    CompoundExpression: d
-                      CompoundExpression: test
+                      CompoundExpression: Integer
                         Arguments
                           Expressions
-                            CompoundExpression: t
+                            Primary: 5
+                      VariableName: a
                   BodyDeclaration
-                    CompoundExpression: d
-                      CompoundExpression: show
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
+                      VariableName: b
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: a
+                        CompoundExpression: Plus
+                          Arguments
+                            Expressions
+                              CompoundExpression: b
+                      VariableName: sum
+                  BodyDeclaration
+                    CompoundExpression: sum
+                      CompoundExpression: print

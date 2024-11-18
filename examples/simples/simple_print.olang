@@ -1,32 +1,16 @@
-// While loop test
-// "Complex way" of a summation of two integers
+// Simplest program test
+// Just sum of two integers
 
 Program: Main()
 
-class Base is
-    var b : Integer(123)
-   method test(a : Integer) is
-
-        b.print()
-   end
-
-   this() is
-   b := Integer(2222)
-   end
-
-   method show() is
-    b.print()
-
-   end
-end
-
-
 class Main is
     this() is
-        var d : Base()
-        var t : 52
 
-        d.test(t)
-        d.show()
+        var a : Integer(5)
+        var b : Integer(10)
+        var sum : a.Plus(b)
+        sum.print()
+
     end
+
 end
