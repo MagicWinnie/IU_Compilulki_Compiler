@@ -221,14 +221,47 @@ class RealTester is
     end
 end
 
+
+class BooleanTester is
+    method test() is
+
+        var l1: Boolean(true)
+        l1.print()
+
+        var l2: Boolean(false)
+        l2.print()
+
+        var l3: Boolean()
+        l3 := l2.Or(l1)
+        l3.print()
+
+        var l4: Boolean()
+        l4 := l2.And(l1)
+        l4.print()
+
+        var l5: Boolean()
+        l5 := l2.Xor(l1)
+        l5.print()
+
+        var l6: Boolean()
+        l6 := l2.Not()
+        l6.print()
+
+
+    end
+end
+
 class Main is
     this() is
 
-        var integerTester : IntegerTester()
-        integerTester.test()
+        //var integerTester : IntegerTester()
+        //integerTester.test()
 
-        var realTester : RealTester()
-        RealTester.test()
+        //var realTester : RealTester()
+        //RealTester.test()
+
+        var booleanTester : BooleanTester()
+        BooleanTester.test()
 
 
 

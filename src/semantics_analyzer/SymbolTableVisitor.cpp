@@ -53,14 +53,14 @@ SymbolTableVisitor::SymbolTableVisitor() {
     // Real
     symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Real"});
-//    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
 
-//    symbolTable.addFunctionEntry("Min", "Real", "Real", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("Max", "Real", "Real", Span(0, 0, 0), {});
-//    symbolTable.addFunctionEntry("Epsilon", "Real", "Real", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Min", "Real", "Real", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Max", "Real", "Real", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Epsilon", "Real", "Real", Span(0, 0, 0), {});
 
     symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Plus", "Real", "Real", Span(0, 0, 0), {"Integer"});
@@ -87,7 +87,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Real", "String", Span(0, 0, 0), {});
 
     // Boolean
-    symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {""});
+    symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {"Boolean"});
 
     symbolTable.addFunctionEntry("Or", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});

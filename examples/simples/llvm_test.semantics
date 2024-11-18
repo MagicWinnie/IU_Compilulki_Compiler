@@ -671,6 +671,92 @@ Program
                       CompoundExpression: print
               MethodName: test
     ClassDeclaration
+      ClassName: BooleanTester
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                        Arguments
+                          Expressions
+                            Primary: true
+                      VariableName: l1
+                  BodyDeclaration
+                    CompoundExpression: l1
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                        Arguments
+                          Expressions
+                            Primary: false
+                      VariableName: l2
+                  BodyDeclaration
+                    CompoundExpression: l2
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: l3
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: l2
+                        CompoundExpression: Or
+                          Arguments
+                            Expressions
+                              CompoundExpression: l1
+                      VariableName: l3
+                  BodyDeclaration
+                    CompoundExpression: l3
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: l4
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: l2
+                        CompoundExpression: And
+                          Arguments
+                            Expressions
+                              CompoundExpression: l1
+                      VariableName: l4
+                  BodyDeclaration
+                    CompoundExpression: l4
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: l5
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: l2
+                        CompoundExpression: Xor
+                          Arguments
+                            Expressions
+                              CompoundExpression: l1
+                      VariableName: l5
+                  BodyDeclaration
+                    CompoundExpression: l5
+                      CompoundExpression: print
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Boolean
+                      VariableName: l6
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: l2
+                        CompoundExpression: Not
+                      VariableName: l6
+                  BodyDeclaration
+                    CompoundExpression: l6
+                      CompoundExpression: print
+              MethodName: test
+    ClassDeclaration
       ClassName: Main
       ClassBody
         MemberDeclarations
@@ -680,15 +766,8 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: IntegerTester
-                      VariableName: integerTester
+                      CompoundExpression: BooleanTester
+                      VariableName: booleanTester
                   BodyDeclaration
-                    CompoundExpression: integerTester
-                      CompoundExpression: test
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: RealTester
-                      VariableName: realTester
-                  BodyDeclaration
-                    CompoundExpression: RealTester
+                    CompoundExpression: BooleanTester
                       CompoundExpression: test
