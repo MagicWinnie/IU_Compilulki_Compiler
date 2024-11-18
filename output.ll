@@ -16,7 +16,6 @@ source_filename = "compilul'ki"
 @error_msg = private unnamed_addr constant [33 x i8] c"Invalid input. Exiting program.\0A\00", align 1
 @fmt.4 = private unnamed_addr constant [4 x i8] c"%f\0A\00", align 1
 @int_fmt = private unnamed_addr constant [4 x i8] c"%d \00", align 1
-@bool_fmt = private unnamed_addr constant [4 x i8] c"%d \00", align 1
 
 define void @Boolean_Constructor_Boolean(ptr %0, i1 %1) {
 entry:
@@ -878,77 +877,6 @@ body:                                             ; preds = %loop
 
 end:                                              ; preds = %loop
   ret ptr %newListPtr
-}
-
-define void @BoolArray_Constructor_Integer(ptr %arrayPtr, i32 %length) {
-entry:
-  %elementSize = mul i32 %length, 1
-  %dataPtr = call ptr @malloc(i32 %elementSize)
-  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
-  store ptr %dataPtr, ptr %dataFieldPtr, align 8
-  %lengthFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
-  store i32 %length, ptr %lengthFieldPtr, align 4
-  ret void
-}
-
-define %Integer @BoolArray_Length(ptr %arrayPtr) {
-entry:
-  %lengthFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
-  %length = load i32, ptr %lengthFieldPtr, align 4
-  %newInteger = alloca %Integer, align 4
-  %integerFieldPtr = getelementptr inbounds %Integer, ptr %newInteger, i32 0, i32 0
-  store i32 %length, ptr %integerFieldPtr, align 4
-  %returnValue = load %Integer, ptr %newInteger, align 4
-  ret %Integer %returnValue
-}
-
-define %Boolean @BoolArray_get_Integer(ptr %arrayPtr, i32 %index) {
-entry:
-  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
-  %dataPtr = load ptr, ptr %dataFieldPtr, align 8
-  %elementPtr = getelementptr inbounds i1, ptr %dataPtr, i32 %index
-  %value = load i1, ptr %elementPtr, align 1
-  %booleanValue = alloca %Boolean, align 8
-  %booleanFieldPtr = getelementptr inbounds %Boolean, ptr %booleanValue, i32 0, i32 0
-  store i1 %value, ptr %booleanFieldPtr, align 1
-  %returnValue = load %Boolean, ptr %booleanValue, align 1
-  ret %Boolean %returnValue
-}
-
-define void @BoolArray_set_Integer_Boolean(ptr %arrayPtr, i32 %index, i1 %value) {
-entry:
-  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
-  %dataPtr = load ptr, ptr %dataFieldPtr, align 8
-  %elementPtr = getelementptr inbounds i1, ptr %dataPtr, i32 %index
-  store i1 %value, ptr %elementPtr, align 1
-  ret void
-}
-
-define void @BoolArray_print(ptr %arrayPtr) {
-entry:
-  %dataFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 0
-  %dataPtr = load ptr, ptr %dataFieldPtr, align 8
-  %lengthFieldPtr = getelementptr inbounds %IntArray, ptr %arrayPtr, i32 0, i32 1
-  %length = load i32, ptr %lengthFieldPtr, align 4
-  %index = alloca i32, align 4
-  store i32 0, ptr %index, align 4
-  br label %loop
-
-loop:                                             ; preds = %body, %entry
-  %currentIndex = load i32, ptr %index, align 4
-  %isEnd = icmp slt i32 %currentIndex, %length
-  br i1 %isEnd, label %body, label %end
-
-body:                                             ; preds = %loop
-  %elementPtr = getelementptr inbounds i1, ptr %dataPtr, i32 %currentIndex
-  %elementValue = load i1, ptr %elementPtr, align 1
-  %0 = call i32 (ptr, ...) @printf(ptr @bool_fmt, i1 %elementValue)
-  %nextIndex = add i32 %currentIndex, 1
-  store i32 %nextIndex, ptr %index, align 4
-  br label %loop
-
-end:                                              ; preds = %loop
-  ret void
 }
 
 define void @Main_Init(ptr %0) {

@@ -98,22 +98,3 @@ Program
                   BodyDeclaration
                     CompoundExpression: l
                       CompoundExpression: print
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: BoolArray
-                        Arguments
-                          Expressions
-                            Primary: 10
-                      VariableName: b
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: Integer
-                      VariableName: k
-                  BodyDeclaration
-                    Assignment
-                      CompoundExpression: b
-                        CompoundExpression: Length
-                      VariableName: k
-                  BodyDeclaration
-                    CompoundExpression: k
-                      CompoundExpression: print

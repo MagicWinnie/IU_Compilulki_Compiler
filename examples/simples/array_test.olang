@@ -23,16 +23,11 @@ class Main is
             i2 := i2.Minus(1)
         end
 
+
         var l : Integer()
         l := a.Length()
         l.print()
 
-
-        var b : BoolArray(10)
-
-        var k : Integer()
-        k := b.Length()
-        k.print()
 
 
 
