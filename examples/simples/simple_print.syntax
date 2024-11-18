@@ -3,53 +3,6 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
-      ClassName: Base
-      ClassBody
-        MemberDeclarations
-          MemberDeclaration
-            VariableDeclaration
-              CompoundExpression: Integer
-                Arguments
-                  Expressions
-                    Primary: 153
-              VariableName: a
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: a
-              ReturnType
-                ClassName: Integer
-              MethodName: getA
-    ClassDeclaration
-      ClassName: Derived
-      Extension
-        ClassName: Base
-      ClassBody
-        MemberDeclarations
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    Assignment
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 123123
-                      VariableName: a
-                  BodyDeclaration
-                    CompoundExpression: a
-                      CompoundExpression: print
-                  BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: a
-              ReturnType
-                ClassName: Integer
-              MethodName: getA
-    ClassDeclaration
       ClassName: Main
       ClassBody
         MemberDeclarations
@@ -59,17 +12,26 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Base
-                      VariableName: base
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 5
+                      VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Derived
-                      VariableName: derived
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
+                      VariableName: b
                   BodyDeclaration
-                    CompoundExpression: derived
-                      CompoundExpression: getA
-                        CompoundExpression: print
+                    VariableDeclaration
+                      CompoundExpression: a
+                        CompoundExpression: Plus
+                          Arguments
+                            Expressions
+                              CompoundExpression: b
+                      VariableName: sum
                   BodyDeclaration
-                    CompoundExpression: base
-                      CompoundExpression: getA
-                        CompoundExpression: print
+                    CompoundExpression: sum
+                      CompoundExpression: print

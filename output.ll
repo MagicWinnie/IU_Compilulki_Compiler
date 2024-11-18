@@ -5,8 +5,6 @@ source_filename = "compilul'ki"
 %Integer = type { i32 }
 %Real = type { double }
 %IntArray = type { ptr, i32 }
-%Base = type { %Integer }
-%Derived = type { %Integer }
 %Main = type {}
 
 @fmt = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
@@ -203,7 +201,7 @@ entry:
   ret void
 }
 
-define void @IntArray_Create_Default(ptr %arrayPtr, i32 %length) {
+define void @IntArray_Constructor_Integer(ptr %arrayPtr, i32 %length) {
 entry:
   %elementSize = mul i32 %length, 4
   %dataPtr = call ptr @malloc(i32 %elementSize)
@@ -276,60 +274,6 @@ end:                                              ; preds = %loop
   ret void
 }
 
-define void @Base_Init(ptr %0) {
-entry:
-  %a_load = getelementptr inbounds %Base, ptr %0, i32 0, i32 0
-  %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 153)
-  store ptr %mallocCall, ptr %a_load, align 8
-  ret void
-}
-
-define %Integer @Base_getA(ptr %this) {
-entry:
-  %a = getelementptr inbounds %Base, ptr %this, i32 0, i32 0
-  %a1 = load ptr, ptr %a, align 8
-  %returnVal = load %Integer, ptr %a1, align 4
-  ret %Integer %returnVal
-}
-
-define void @Base_Constructor(ptr %0) {
-entry:
-  call void @Base_Init(ptr %0)
-  ret void
-}
-
-define void @Derived_Init(ptr %0) {
-entry:
-  call void @Base_Init(ptr %0)
-  ret void
-}
-
-define %Integer @Derived_getA(ptr %this) {
-entry:
-  %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 123123)
-  %a = getelementptr inbounds %Derived, ptr %this, i32 0, i32 0
-  %a1 = load ptr, ptr %a, align 8
-  call void @llvm.memcpy.p0.p0.i64(ptr %a1, ptr %mallocCall, i64 8, i1 false)
-  %a2 = getelementptr inbounds %Derived, ptr %this, i32 0, i32 0
-  %a3 = load ptr, ptr %a2, align 8
-  call void @Integer_print(ptr %a3)
-  %a4 = getelementptr inbounds %Derived, ptr %this, i32 0, i32 0
-  %a5 = load ptr, ptr %a4, align 8
-  %returnVal = load %Integer, ptr %a5, align 4
-  ret %Integer %returnVal
-}
-
-; Function Attrs: nocallback nofree nounwind willreturn memory(argmem: readwrite)
-declare void @llvm.memcpy.p0.p0.i64(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i64, i1 immarg) #0
-
-define void @Derived_Constructor(ptr %0) {
-entry:
-  call void @Derived_Init(ptr %0)
-  ret void
-}
-
 define void @Main_Init(ptr %0) {
 entry:
   ret void
@@ -339,17 +283,14 @@ define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
   %mallocCall = call ptr @malloc(i64 4)
-  call void @Base_Constructor(ptr %mallocCall)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 5)
   %mallocCall1 = call ptr @malloc(i64 4)
-  call void @Derived_Constructor(ptr %mallocCall1)
-  %call_getA = call %Integer @Derived_getA(ptr %mallocCall1)
+  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 10)
+  %loaded_arg = load %Integer, ptr %mallocCall1, align 4
+  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %mallocCall, %Integer %loaded_arg)
   %alloca_return_val = alloca %Integer, align 8
-  store %Integer %call_getA, ptr %alloca_return_val, align 4
+  store %Integer %call_Plus, ptr %alloca_return_val, align 4
   call void @Integer_print(ptr %alloca_return_val)
-  %call_getA2 = call %Integer @Base_getA(ptr %mallocCall)
-  %alloca_return_val3 = alloca %Integer, align 8
-  store %Integer %call_getA2, ptr %alloca_return_val3, align 4
-  call void @Integer_print(ptr %alloca_return_val3)
   ret void
 }
 
@@ -359,5 +300,3 @@ entry:
   call void @Main_Constructor(ptr %main_object)
   ret i32 0
 }
-
-attributes #0 = { nocallback nofree nounwind willreturn memory(argmem: readwrite) }
