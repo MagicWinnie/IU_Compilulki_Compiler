@@ -15,7 +15,7 @@ Program
                       CompoundExpression: IntArray
                         Arguments
                           Expressions
-                            Primary: 100
+                            Primary: 10
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
@@ -29,7 +29,7 @@ Program
                       CompoundExpression: Integer
                         Arguments
                           Expressions
-                            Primary: 100
+                            Primary: 10
                       VariableName: n
                   BodyDeclaration
                     WhileLoop
@@ -60,7 +60,7 @@ Program
                       CompoundExpression: Integer
                         Arguments
                           Expressions
-                            Primary: 99
+                            Primary: 9
                       VariableName: i2
                   BodyDeclaration
                     WhileLoop
@@ -82,7 +82,19 @@ Program
                                       Primary: 1
                               VariableName: i2
                       CompoundExpression: i2
-                        CompoundExpression: Greater
+                        CompoundExpression: GreaterEqual
                           Arguments
                             Expressions
                               Primary: 0
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                      VariableName: l
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: a
+                        CompoundExpression: Length
+                      VariableName: l
+                  BodyDeclaration
+                    CompoundExpression: l
+                      CompoundExpression: print
