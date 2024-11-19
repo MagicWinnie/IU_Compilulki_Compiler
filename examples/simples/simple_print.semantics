@@ -3,6 +3,60 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
+      ClassName: Base
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 1
+                      CompoundExpression: print
+              MethodName: show
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 3
+                      CompoundExpression: print
+              MethodName: foo
+    ClassDeclaration
+      ClassName: Derived
+      Extension
+        ClassName: Base
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 2
+                      CompoundExpression: print
+              MethodName: show
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 4
+                      CompoundExpression: print
+              MethodName: bar
+    ClassDeclaration
       ClassName: Main
       ClassBody
         MemberDeclarations
@@ -12,26 +66,12 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 5
-                      VariableName: a
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 10
+                      CompoundExpression: Base
                       VariableName: b
                   BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: a
-                        CompoundExpression: Plus
-                          Arguments
-                            Expressions
-                              CompoundExpression: b
-                      VariableName: sum
+                    Assignment
+                      CompoundExpression: Derived
+                      VariableName: b
                   BodyDeclaration
-                    CompoundExpression: sum
-                      CompoundExpression: print
+                    CompoundExpression: b
+                      CompoundExpression: show

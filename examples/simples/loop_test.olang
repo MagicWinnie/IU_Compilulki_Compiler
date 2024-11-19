@@ -15,6 +15,7 @@ class Main is
         while a.Greater(0) loop
             b := b.Plus(1)
             a := a.Minus(1)
+            b.print()
         end
 
         b.print()

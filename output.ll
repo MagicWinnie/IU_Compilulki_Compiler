@@ -186,7 +186,7 @@ declare i32 @scanf(ptr, ...)
 
 declare void @exit(i32)
 
-define void @Real_Create_Default(ptr %0, double %1) {
+define void @Real_Constructor_Real(ptr %0, double %1) {
 entry:
   %doubleFieldPtr = getelementptr inbounds %Real, ptr %0, i32 0, i32 0
   store double %1, ptr %doubleFieldPtr, align 8
@@ -274,6 +274,67 @@ end:                                              ; preds = %loop
   ret void
 }
 
+define void @Base_Init(ptr %0) {
+entry:
+  ret void
+}
+
+define void @Base_show(ptr %this) {
+entry:
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 1)
+  call void @Integer_print(ptr %mallocCall)
+  ret void
+}
+
+define void @Base_foo(ptr %this) {
+entry:
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 3)
+  call void @Integer_print(ptr %mallocCall)
+  ret void
+}
+
+define void @Base_Constructor(ptr %0) {
+entry:
+  call void @Base_Init(ptr %0)
+  ret void
+}
+
+define void @Derived_Init(ptr %0) {
+entry:
+  call void @Base_Init(ptr %0)
+  ret void
+}
+
+define void @Derived_show(ptr %this) {
+entry:
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 2)
+  call void @Integer_print(ptr %mallocCall)
+  ret void
+}
+
+define void @Derived_bar(ptr %this) {
+entry:
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 4)
+  call void @Integer_print(ptr %mallocCall)
+  ret void
+}
+
+define void @Derived_Constructor(ptr %0) {
+entry:
+  call void @Derived_Init(ptr %0)
+  ret void
+}
+
+define void @Derived_foo(ptr %0) {
+entry:
+  call void @Base_foo(ptr %0)
+  ret void
+}
+
 define void @Main_Init(ptr %0) {
 entry:
   ret void
@@ -282,17 +343,17 @@ entry:
 define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
-  %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 5)
-  %mallocCall1 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 10)
-  %loaded_arg = load %Integer, ptr %mallocCall1, align 4
-  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %mallocCall, %Integer %loaded_arg)
-  %alloca_return_val = alloca %Integer, align 8
-  store %Integer %call_Plus, ptr %alloca_return_val, align 4
-  call void @Integer_print(ptr %alloca_return_val)
+  %mallocCall = call ptr @malloc(i64 0)
+  call void @Base_Constructor(ptr %mallocCall)
+  %mallocCall1 = call ptr @malloc(i64 0)
+  call void @Derived_Constructor(ptr %mallocCall1)
+  call void @llvm.memcpy.p0.p0.i64(ptr %mallocCall, ptr %mallocCall1, i64 8, i1 false)
+  call void @Derived_show(ptr %mallocCall)
   ret void
 }
+
+; Function Attrs: nocallback nofree nounwind willreturn memory(argmem: readwrite)
+declare void @llvm.memcpy.p0.p0.i64(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i64, i1 immarg) #0
 
 define i32 @main() {
 entry:
@@ -300,3 +361,5 @@ entry:
   call void @Main_Constructor(ptr %main_object)
   ret i32 0
 }
+
+attributes #0 = { nocallback nofree nounwind willreturn memory(argmem: readwrite) }

@@ -5,7 +5,7 @@ source_filename = "real"
 
 @fmt = private unnamed_addr constant [4 x i8] c"%f\0A\00", align 1
 
-define void @Real_Create_Default(ptr %0, double %1) {
+define void @Real_Constructor_Real(ptr %0, double %1) {
 entry:
   %doubleFieldPtr = getelementptr inbounds %Real, ptr %0, i32 0, i32 0
   store double %1, ptr %doubleFieldPtr, align 8
