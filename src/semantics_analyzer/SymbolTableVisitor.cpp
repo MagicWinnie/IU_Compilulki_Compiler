@@ -14,11 +14,9 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addClassEntry("RealList", Span(0, 0, 0));
     symbolTable.addClassEntry("BoolList", Span(0, 0, 0));
 
-
     // Integer
-    symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {"Integer"});
-    symbolTable.addFunctionEntry("Create_Default", "Integer", "void", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Constructor", "Integer", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Constructor", "Integer", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("toReal", "Integer", "Real", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("toBoolean", "Integer", "Boolean", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Integer", "Integer", Span(0, 0, 0), {});
@@ -51,10 +49,8 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Integer", "void", Span(0, 0, 0), {});
 
     // Real
-    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Real"});
-    symbolTable.addFunctionEntry("Create_Default", "Real", "void", Span(0, 0, 0), {"Integer"});
-
+    symbolTable.addFunctionEntry("Constructor", "Real", "void", Span(0, 0, 0), {});
+    symbolTable.addFunctionEntry("Constructor", "Real", "void", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
 
@@ -87,8 +83,8 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Real", "String", Span(0, 0, 0), {});
 
     // Boolean
-    symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {});
-    symbolTable.addFunctionEntry("Create_Default", "Boolean", "void", Span(0, 0, 0), {"Boolean"});
+    symbolTable.addFunctionEntry("Constructor", "Boolean", "void", Span(0, 0, 0), {""});
+    symbolTable.addFunctionEntry("Constructor", "Boolean", "void", Span(0, 0, 0), {"Boolean"});
 
     symbolTable.addFunctionEntry("Or", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
     symbolTable.addFunctionEntry("And", "Boolean", "Boolean", Span(0, 0, 0), {"Boolean"});
@@ -99,7 +95,9 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("scan", "Boolean", "String", Span(0, 0, 0), {});
 
     //IntArray
-    symbolTable.addFunctionEntry("Create_Default", "IntArray", "void", Span(0, 0, 0), {"Integer"});
+
+    symbolTable.addFunctionEntry("Constructor", "IntArray", "void", Span(0, 0, 0), {"Integer"});
+
 
 //    symbolTable.addFunctionEntry("toList", "IntArray", "IntList", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Length", "IntArray", "Integer", Span(0, 0, 0), {});
@@ -225,7 +223,7 @@ void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression &node
     } else if (identifierType == ID_CLASS) {
         previousType = node.identifier;
         if (node.arguments) {
-            symbolTable.lookupFunction(previousType, "Create_Default", argTypes, node.span);
+            symbolTable.lookupFunction(previousType, "Constructor", argTypes, node.span);
         }
         //llvmSymbolTable.lookupClass(node.identifier, node.span);
     } else if (identifierType == ID_FUNCTION) {
@@ -399,7 +397,7 @@ void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration &nod
         }
     }
 
-    symbolTable.addFunctionEntry("Create_Default", node.className, "void", node.span, paramNames);
+    symbolTable.addFunctionEntry("Constructor", node.className, "void", node.span, paramNames);
     if (node.body) node.body->accept(*this);
 
     const ReturnStatement *returnStatement = nullptr;

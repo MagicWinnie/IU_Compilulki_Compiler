@@ -1,19 +1,14 @@
 // Conditional statement test
-// "Complex way" of two reals comparison
+// "Complex way" of two integer comparison
 
-Program: Main(1.1, 1.2)
+Program: Main(5, 2)
 
 class Main is
-    this(a: Real, b: Real) is
-        var eq : true
-        var dif : false
-
-        if eq then
-            dif.print()
+    this(a: Integer, b: Integer) is
+        if a.Greater(b) then
+            Boolean(true).print()
         else
-            eq.print()
+            Boolean(false).print()
         end
-
     end
-
 end

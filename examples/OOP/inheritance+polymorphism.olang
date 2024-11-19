@@ -42,7 +42,6 @@ class Main is
         d.foo() // -> 3
         d.bar() // -> 4
 
-        // this.show(d) // -> 2
     end
 
 end
