@@ -448,37 +448,37 @@ void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration &node) {
     if (node.variable) node.variable->accept(*this);
 }
 
-void checkTypeOfReturnStatemtn(std::string expectedReturnType, const ReturnStatement* returnStatement,
+void checkTypeOfReturnStatemtn(std::string expectedReturnType, const ReturnStatement *returnStatement,
                                ScopedSymbolTable &symbolTable) {
-   if (returnStatement == nullptr) {
-       if (expectedReturnType != "void") {
+    if (returnStatement == nullptr) {
+        if (expectedReturnType != "void") {
 //            throw std::runtime_error(
 //                    "Method " + node.methodName->name + " is of type " + expectedReturnType +
 //                    " but is being assigned to type void");
-           throw std::runtime_error("ReturnStatement type error");
-       }
-   } else {
-       // TODO check statementType of the last element in the compound expression
-       if (returnStatement->expression->isCompound) {
-           auto *expression = dynamic_cast<CompoundExpression *>(returnStatement->expression.get());
-           const auto span = returnStatement->expression->span;
-           const auto type = expression->get_type(symbolTable);
-           if (type != expectedReturnType) {
+            throw std::runtime_error("ReturnStatement type error");
+        }
+    } else {
+        // TODO check statementType of the last element in the compound expression
+        if (returnStatement->expression->isCompound) {
+            auto *expression = dynamic_cast<CompoundExpression *>(returnStatement->expression.get());
+            const auto span = returnStatement->expression->span;
+            const auto type = expression->get_type(symbolTable);
+            if (type != expectedReturnType) {
 //                throw std::runtime_error(
 //                        "Method " + node.methodName->name + " is of type " + expectedReturnType +
 //                        " but is being assigned to type " + type +
 //                        " at line: " + std::to_string(span.get_line_num()) +
 //                        " column: " + std::to_string(span.get_pos_begin())
 //                );
-               throw std::runtime_error("ReturnStatement type error");
-           }
-       }
-       // TODO check for primary expression
-   }
+                throw std::runtime_error("ReturnStatement type error");
+            }
+        }
+        // TODO check for primary expression
+    }
 }
 
 void checkReturnStatement(std::string expectedReturnType,
-                           Body* body, std::string methodName,ScopedSymbolTable &symbolTable) {
+                          Body *body, std::string methodName, ScopedSymbolTable &symbolTable) {
 
     const ReturnStatement *returnStatement = nullptr;
     for (const auto &bodyDeclaration: body->bodyDeclarations->bodyDeclarations) {
@@ -488,13 +488,14 @@ void checkReturnStatement(std::string expectedReturnType,
                 returnStatement = dynamic_cast<ReturnStatement *>(bodyDeclaration->statement.get());
                 checkTypeOfReturnStatemtn(expectedReturnType, returnStatement, symbolTable);
 
-            } else if(bodyDeclaration->statement->statementType == IF_STATEMENT) {
+            } else if (bodyDeclaration->statement->statementType == IF_STATEMENT) {
                 auto *ifStatement = dynamic_cast<IfStatement *>(bodyDeclaration->statement.get());
                 checkReturnStatement(expectedReturnType, ifStatement->ifBranch->body.get(), methodName, symbolTable);
                 if (ifStatement->elseBranch) {
-                    checkReturnStatement(expectedReturnType, ifStatement->elseBranch->body.get(), methodName, symbolTable);
+                    checkReturnStatement(expectedReturnType, ifStatement->elseBranch->body.get(), methodName,
+                                         symbolTable);
                 }
-            } else if(bodyDeclaration->statement->statementType == WHILE_LOOP) {
+            } else if (bodyDeclaration->statement->statementType == WHILE_LOOP) {
                 auto *whileLoop = dynamic_cast<WhileLoop *>(bodyDeclaration->statement.get());
                 checkReturnStatement(expectedReturnType, whileLoop->body.get(), methodName, symbolTable);
 
@@ -503,7 +504,6 @@ void checkReturnStatement(std::string expectedReturnType,
         }
 
     }
-
 
 
 }
@@ -535,8 +535,19 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration &node) {
             symbolTable.currClassName, node.methodName->name, paramNames, node.methodName->span
     )->returnType;
     checkReturnStatement(expectedReturnType, node.body.get(), node.methodName->name, symbolTable);
+    bool doesHaveReturnStatement = false;
+    for (const auto &bodyDeclaration: node.body->bodyDeclarations->bodyDeclarations) {
+        if (bodyDeclaration && bodyDeclaration->statement) {
+            if (bodyDeclaration->statement->statementType == RETURN_STATEMENT) {
+                doesHaveReturnStatement = true;
+                break;
+            }
+        }
+    }
 
-
+    if(!doesHaveReturnStatement && expectedReturnType != "void"){
+        throw std::runtime_error("Method " + node.methodName->name + "needs a return statement of type "+ expectedReturnType+" at the end");
+    }
     if (node.returnType) node.returnType->accept(*this);
     if (node.methodName) node.methodName->accept(*this);
     symbolTable.leaveScope();

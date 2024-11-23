@@ -821,8 +821,11 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     llvm::Value *thisPtr = function->getArg(0);
     symbolTable.setThisPointer(thisPtr);
     // Step 6: Generate code for the function body
-    body->codegen(context, builder, module, symbolTable);
+    auto retValue = body->codegen(context, builder, module, symbolTable);
     // Step 7: Return the generated value (for non-void functions)
+
+
+
 
     llvm::verifyFunction(*function);
 
@@ -1163,10 +1166,11 @@ void BodyDeclarations::accept(Visitor &visitor) {
 
 llvm::Value *BodyDeclarations::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                        ScopedSymbolTable &symbolTable) {
-
+    llvm::Value* value = nullptr;
     for (const auto &bodyDeclaration: bodyDeclarations) {
-        bodyDeclaration->codegen(context, builder, module, symbolTable);
+        value = bodyDeclaration->codegen(context, builder, module, symbolTable);
     }
+    return value;
 }
 
 

@@ -24,16 +24,22 @@ Program
                                 CompoundExpression: Integer
                                   Arguments
                                     Expressions
-                                      Primary: 0
+                                      Primary: 5
                       ElseBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              ReturnStatement
-                                CompoundExpression: Integer
-                                  Arguments
-                                    Expressions
-                                      Primary: 1
+                              CompoundExpression: Integer
+                                Arguments
+                                  Expressions
+                                    Primary: 111
+                                CompoundExpression: print
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
               ReturnType
                 ClassName: Integer
               MethodName: print

@@ -85,12 +85,32 @@ int main(const int argc, char* argv[])
     }
 
 
-    llvm::raw_fd_ostream dest("output.ll", EC);
+    std::string output_filename = settings.get_output_filename();
+    llvm::raw_fd_ostream dest(output_filename + ".ll", EC);
     module->print(dest, nullptr);
 
     std::cout<<"\nRESULT:\n";
 
-    int result = std::system("lli output.ll");
+    std::string optimizerCommand = "opt " + settings.get_optimization_level() + " "+output_filename+".ll -o "+output_filename+".bc";
+
+    std::system(optimizerCommand.c_str());
+
+    std::string llcCommand = "llc -filetype=obj "+output_filename+".ll -o "+output_filename+".o";
+    std::system(llcCommand.c_str());
+
+    std::string clangCommand = "clang "+output_filename+".o -o "+output_filename;
+    std::system(clangCommand.c_str());
+
+
+    // Remove the intermediate files
+    std::string rmCommand = "rm "+output_filename+".o "+output_filename+".bc";
+    std::system(rmCommand.c_str());
+    if(!settings.get_debug()){
+        rmCommand = "rm "+output_filename+".ll";
+        std::system(rmCommand.c_str());
+    }
+    std::string runCommand = "./"+output_filename;
+    int result = std::system(runCommand.c_str());
 
     if (result != 0) {
         std::cerr << "Execution failed with code: " << result << std::endl;

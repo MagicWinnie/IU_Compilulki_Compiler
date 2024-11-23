@@ -12,7 +12,16 @@ void Settings::parse(const int argc, char *argv[]) {
                 this->debug = true;
             } else if (opt == "--help" || opt == "-h") {
                 this->help = true;
-            } else {
+
+            }
+            // Check if starts with "-O"
+            else if (opt.rfind("-O", 0) == 0) {
+                this->optimizationL_level = opt;
+            }
+            else if(opt == "--output-filename" || opt == "-o"){
+                this->output_filename = argv[++i];
+            }
+            else {
                 std::cerr << "Unknown option: " << opt << "\n";
                 this->print_help();
 
@@ -67,6 +76,14 @@ std::string Settings::get_infile() const {
 
 bool Settings::get_debug() const {
     return this->debug;
+}
+
+std::string Settings::get_output_filename() const {
+    return this->output_filename;
+}
+
+std::string Settings::get_optimization_level() const {
+    return this->optimizationL_level;
 }
 
 std::ostream &operator<<(std::ostream &os, Settings const &settings) {
