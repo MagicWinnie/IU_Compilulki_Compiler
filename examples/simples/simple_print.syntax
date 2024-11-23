@@ -3,7 +3,7 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
-      ClassName: Base
+      ClassName: Test
       ClassBody
         MemberDeclarations
           MemberDeclaration
@@ -11,51 +11,32 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    CompoundExpression: Integer
-                      Arguments
-                        Expressions
-                          Primary: 1
-                      CompoundExpression: print
-              MethodName: show
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: Integer
-                      Arguments
-                        Expressions
-                          Primary: 3
-                      CompoundExpression: print
-              MethodName: foo
-    ClassDeclaration
-      ClassName: Derived
-      Extension
-        ClassName: Base
-      ClassBody
-        MemberDeclarations
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: Integer
-                      Arguments
-                        Expressions
-                          Primary: 2
-                      CompoundExpression: print
-              MethodName: show
-          MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    CompoundExpression: Integer
-                      Arguments
-                        Expressions
-                          Primary: 4
-                      CompoundExpression: print
-              MethodName: bar
+                    IfStatement
+                      CompoundExpression: Boolean
+                        Arguments
+                          Expressions
+                            Primary: true
+                      IfBranch
+                        Body
+                          BodyDeclarations
+                            BodyDeclaration
+                              ReturnStatement
+                                CompoundExpression: Integer
+                                  Arguments
+                                    Expressions
+                                      Primary: 0
+                      ElseBranch
+                        Body
+                          BodyDeclarations
+                            BodyDeclaration
+                              ReturnStatement
+                                CompoundExpression: Integer
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
+              ReturnType
+                ClassName: Integer
+              MethodName: print
     ClassDeclaration
       ClassName: Main
       ClassBody
@@ -66,12 +47,9 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Base
-                      VariableName: b
+                      CompoundExpression: Test
+                      VariableName: a
                   BodyDeclaration
-                    Assignment
-                      CompoundExpression: Derived
-                      VariableName: b
-                  BodyDeclaration
-                    CompoundExpression: b
-                      CompoundExpression: show
+                    CompoundExpression: a
+                      CompoundExpression: print
+                        CompoundExpression: print

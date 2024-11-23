@@ -821,16 +821,9 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     llvm::Value *thisPtr = function->getArg(0);
     symbolTable.setThisPointer(thisPtr);
     // Step 6: Generate code for the function body
-    llvm::Value *bodyVal = body->codegen(context, builder, module, symbolTable);
+    body->codegen(context, builder, module, symbolTable);
     // Step 7: Return the generated value (for non-void functions)
-    if (llvmReturnType->isVoidTy()) {
-        builder.CreateRetVoid();
-    } else {
-        if (bodyVal->getType()->isPointerTy()) {
-            bodyVal = builder.CreateLoad(llvmReturnType, bodyVal, "returnVal");
-        }
-        builder.CreateRet(bodyVal);
-    }
+
     llvm::verifyFunction(*function);
 
     symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
@@ -1127,8 +1120,20 @@ void ReturnStatement::accept(Visitor &visitor) {
 
 llvm::Value *ReturnStatement::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                       ScopedSymbolTable &symbolTable) {
+    llvm::BasicBlock *currentBlock = builder.GetInsertBlock();
+    llvm::Function *currentFunction = currentBlock->getParent();
+    auto functionReturnType = currentFunction->getReturnType();
+    auto *bodyVal = expression->codegen(context, builder, module, symbolTable);
     if (expression) {
-        return expression->codegen(context, builder, module, symbolTable);
+        if (functionReturnType->isVoidTy()) {
+            builder.CreateRetVoid();
+        } else {
+            if (bodyVal->getType()->isPointerTy()) {
+                bodyVal = builder.CreateLoad(functionReturnType, bodyVal, "returnVal");
+            }
+            builder.CreateRet(bodyVal);
+        }
+        return bodyVal;
     }
     return nullptr;
 }
@@ -1158,12 +1163,10 @@ void BodyDeclarations::accept(Visitor &visitor) {
 
 llvm::Value *BodyDeclarations::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                        ScopedSymbolTable &symbolTable) {
-    llvm::Value *value = nullptr;
-    for (const auto &bodyDeclaration: bodyDeclarations) {
-        value = bodyDeclaration->codegen(context, builder, module, symbolTable);
-    }
 
-    return value;
+    for (const auto &bodyDeclaration: bodyDeclarations) {
+        bodyDeclaration->codegen(context, builder, module, symbolTable);
+    }
 }
 
 

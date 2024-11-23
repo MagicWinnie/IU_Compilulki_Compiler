@@ -1,34 +1,25 @@
-// While loop test
-// "Complex way" of a summation of two integers
+// Array test
+// Creating and printing the array of cubes of integers from 0 to 4
 
-Program: Main()
+Program: Main
 
-class Base is
-    method show() is
-        Integer(1).print()
+class Test  is
+    method print(): Integer is
+        if Boolean(true) then
+            return Integer(0)
+        else
+            return Integer(1)
+        end
+
     end
-
-    method foo() is
-        Integer(3).print()
-    end
-end
-
-class Derived extends Base is
-     method show() is
-        Integer(2).print()
-     end
-
-     method bar() is
-        Integer(4).print()
-     end
 end
 
 class Main is
     this() is
 
-        var b : Base
-        b := Derived()
-        b.show()
+        var a : Test()
+        a.print().print()
+
 
     end
 
