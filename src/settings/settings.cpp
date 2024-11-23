@@ -47,6 +47,8 @@ void Settings::print_help() const {
     std::cerr << "Options:\n";
     std::cerr << "\t-g, --debug: Enable debugging information\n";
     std::cerr << "\t-h, --help: Show this help message\n";
+    std::cerr << "\t-O<level>: Set optimization level (default: -O0)\n";
+    std::cerr << "\t-o, --output-filename: Set output filename\n";
 }
 
 
