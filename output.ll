@@ -879,60 +879,43 @@ end:                                              ; preds = %loop
   ret ptr %newListPtr
 }
 
-define void @Test_Init(ptr %0) {
-entry:
-  ret void
-}
-
-define %Integer @Test_print(ptr %this) {
-entry:
-  %mallocCall = call ptr @malloc(i64 1)
-  call void @Boolean_Constructor_Boolean(ptr %mallocCall, i1 true)
-  %boolFieldPtr = getelementptr inbounds %Boolean, ptr %mallocCall, i32 0, i32 0
-  %loadBoolValue = load i1, ptr %boolFieldPtr, align 1
-  %ifcond = icmp ne i1 %loadBoolValue, false
-  br i1 %ifcond, label %btrue, label %bfalse
-
-btrue:                                            ; preds = %entry
-  %mallocCall1 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall1, i32 5)
-  %returnVal = load %Integer, ptr %mallocCall1, align 4
-  ret %Integer %returnVal
-  br label %end
-
-bfalse:                                           ; preds = %entry
-  %mallocCall2 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall2, i32 111)
-  call void @Integer_print(ptr %mallocCall2)
-  br label %end
-
-end:                                              ; preds = %bfalse, %btrue
-  %mallocCall3 = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall3, i32 10)
-  %returnVal4 = load %Integer, ptr %mallocCall3, align 4
-  ret %Integer %returnVal4
-}
-
-define void @Test_Constructor(ptr %0) {
-entry:
-  call void @Test_Init(ptr %0)
-  ret void
-}
-
 define void @Main_Init(ptr %0) {
 entry:
   ret void
 }
 
+define %Integer @Main_Plus_Integer(ptr %this, %Integer %i) {
+entry:
+  %i1 = alloca %Integer, align 8
+  store %Integer %i, ptr %i1, align 4
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 10)
+  %loaded_arg = load %Integer, ptr %mallocCall, align 4
+  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %i1, %Integer %loaded_arg)
+  %alloca_return_val = alloca %Integer, align 8
+  store %Integer %call_Plus, ptr %alloca_return_val, align 4
+  %returnVal = load %Integer, ptr %alloca_return_val, align 4
+  ret %Integer %returnVal
+}
+
+define %Real @Main_Plus_Real(ptr %this, %Real %r) {
+entry:
+  %r1 = alloca %Real, align 8
+  store %Real %r, ptr %r1, align 8
+  %returnVal = load %Real, ptr %r1, align 8
+  ret %Real %returnVal
+}
+
 define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
-  %mallocCall = call ptr @malloc(i64 0)
-  call void @Test_Constructor(ptr %mallocCall)
-  %call_print = call %Integer @Test_print(ptr %mallocCall)
-  %alloca_return_val = alloca %Integer, align 8
-  store %Integer %call_print, ptr %alloca_return_val, align 4
-  call void @Integer_print(ptr %alloca_return_val)
+  %mallocCall = call ptr @malloc(i64 8)
+  call void @Real_Constructor_Real(ptr %mallocCall, double 5.000000e+00)
+  %loaded_arg = load %Real, ptr %mallocCall, align 8
+  %call_Plus = call %Real @Main_Plus_Real(%Real %loaded_arg)
+  %alloca_return_val = alloca %Real, align 8
+  store %Real %call_Plus, ptr %alloca_return_val, align 8
+  call void @Real_print(ptr %alloca_return_val)
   ret void
 }
 

@@ -88,18 +88,6 @@ void ScopedSymbolTable::addFunctionEntry(const std::string &name, const std::str
             " column: " + std::to_string(span.get_pos_begin())
         );
     }
-
-    if (!classEntry->getMethodsByNameWithoutTypes(name).empty()) {
-        const std::string existingType = classEntry->getMethodReturnType(name);
-        if (returnType != existingType) {
-            throw std::runtime_error(
-                "Method '" + name + "' is overloaded with another return type " + returnType +
-                ", it should have type of " + existingType +
-                " at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
-            );
-        }
-    }
     classEntry->addMethod(signature, {signature, returnType});
 }
 
