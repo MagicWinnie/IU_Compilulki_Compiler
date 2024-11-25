@@ -20,24 +20,34 @@ declare void @Real_Constructor_Real(ptr %0, double %1)
 declare i32 @printf(ptr, ...)
 declare i32 @scanf(ptr, ...)
 
+define void @Integer_Init(ptr %0) {
+entry:
+  ret void
+}
+
 ; Function to create a default Integer object with a given value
 define void @Integer_Constructor_Integer(ptr %0, i32 %1) {
 entry:
+  call void @Integer_Init(ptr %0)
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 %1, ptr %intFieldPtr, align 4
   ret void
 }
 
+
 define void @Integer_Constructor(ptr %0) {
 entry:
+  call void @Integer_Init(ptr %0)
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
-    store i32 0, ptr %intFieldPtr, align 4
+  store i32 0, ptr %intFieldPtr, align 4
   ret void
 }
+
 
 ; Constructor: Integer from Real
 define void @Integer_Constructor_Real(ptr %0, double %1) {
 entry:
+   call void @Integer_Init(ptr %0)
   ; Convert the real value to an integer
   %intValue = fptosi double %1 to i32
 

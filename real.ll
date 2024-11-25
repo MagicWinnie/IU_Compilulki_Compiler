@@ -4,6 +4,11 @@ source_filename = "real"
 declare void @Boolean_Constructor_Boolean(ptr %0, i1 %1)
 declare void @Integer_Constructor_Integer(ptr %0, i32 %1)
 
+define void @Real_Init(ptr %0) {
+entry:
+  ret void
+}
+
 %Boolean = type { i1 }
 %Real = type { double }
 %Integer = type { i32 }
@@ -15,6 +20,7 @@ declare void @Integer_Constructor_Integer(ptr %0, i32 %1)
 
 define void @Real_Constructor_Real(ptr %0, double %1) {
 entry:
+  call void @Real_Init(ptr %0)
   %doubleFieldPtr = getelementptr inbounds %Real, ptr %0, i32 0, i32 0
   store double %1, ptr %doubleFieldPtr, align 8
   ret void
@@ -22,6 +28,7 @@ entry:
 
 define void @Real_Constructor(ptr %0) {
 entry:
+  call void @Real_Init(ptr %0)
   %doubleFieldPtr = getelementptr inbounds %Real, ptr %0, i32 0, i32 0
     store double 0.0, ptr %doubleFieldPtr, align 8
   ret void
@@ -29,6 +36,7 @@ entry:
 
 define void @Real_Constructor_Integer(ptr %realPtr, %Integer %integerValue) {
 entry:
+  call void @Real_Init(ptr %realPtr)
   ; Extract the i32 value from the %Integer type
   %integerFieldValue = extractvalue %Integer %integerValue, 0
 

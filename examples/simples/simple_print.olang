@@ -3,28 +3,18 @@
 
 Program: Main
 
+class DerivedInteger extends Integer is
+    method print() is
+        Integer(5).print()
+     end
+
+end
+
 class Main is
 
-  method Plus(i: Integer): Integer is
-            return i.Plus(Integer(10))
-
-        end
-
-         method Plus(i: Integer): Real is
-                    return Real(5.0)
-                end
+    var a: Integer
     this() is
-
-
-        Plus(Real(5.0)).print()
-
-
-
-
-
-
-
-
+       DerivedInteger().print()
     end
 
 end

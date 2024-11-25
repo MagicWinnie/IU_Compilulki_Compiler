@@ -6,7 +6,7 @@ source_filename = "compilul'ki"
 %Real = type { double }
 %IntArray = type { ptr, i32 }
 %IntList = type { %IntArray }
-%Main = type {}
+%Main = type { %Integer }
 
 @fmt = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
 @true_str = private unnamed_addr constant [5 x i8] c"true\00", align 1
@@ -17,8 +17,14 @@ source_filename = "compilul'ki"
 @fmt.4 = private unnamed_addr constant [4 x i8] c"%f\0A\00", align 1
 @int_fmt = private unnamed_addr constant [4 x i8] c"%d \00", align 1
 
+define void @Boolean_Init(ptr %0) {
+entry:
+  ret void
+}
+
 define void @Boolean_Constructor_Boolean(ptr %0, i1 %1) {
 entry:
+  call void @Boolean_Init(ptr %0)
   %boolFieldPtr = getelementptr inbounds %Boolean, ptr %0, i32 0, i32 0
   store i1 %1, ptr %boolFieldPtr, align 1
   ret void
@@ -26,6 +32,7 @@ entry:
 
 define void @Boolean_Constructor(ptr %0) {
 entry:
+  call void @Boolean_Init(ptr %0)
   %boolFieldPtr = getelementptr inbounds %Boolean, ptr %0, i32 0, i32 0
   store i1 false, ptr %boolFieldPtr, align 1
   ret void
@@ -95,8 +102,14 @@ print_false:                                      ; preds = %entry
 
 declare i32 @printf(ptr, ...)
 
+define void @Integer_Init(ptr %0) {
+entry:
+  ret void
+}
+
 define void @Integer_Constructor_Integer(ptr %0, i32 %1) {
 entry:
+  call void @Integer_Init(ptr %0)
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 %1, ptr %intFieldPtr, align 4
   ret void
@@ -104,6 +117,7 @@ entry:
 
 define void @Integer_Constructor(ptr %0) {
 entry:
+  call void @Integer_Init(ptr %0)
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 0, ptr %intFieldPtr, align 4
   ret void
@@ -111,6 +125,7 @@ entry:
 
 define void @Integer_Constructor_Real(ptr %0, double %1) {
 entry:
+  call void @Integer_Init(ptr %0)
   %intValue = fptosi double %1 to i32
   %intFieldPtr = getelementptr inbounds %Integer, ptr %0, i32 0, i32 0
   store i32 %intValue, ptr %intFieldPtr, align 4
@@ -395,8 +410,14 @@ declare i32 @scanf(ptr, ...)
 
 declare void @exit(i32)
 
+define void @Real_Init(ptr %0) {
+entry:
+  ret void
+}
+
 define void @Real_Constructor_Real(ptr %0, double %1) {
 entry:
+  call void @Real_Init(ptr %0)
   %doubleFieldPtr = getelementptr inbounds %Real, ptr %0, i32 0, i32 0
   store double %1, ptr %doubleFieldPtr, align 8
   ret void
@@ -404,6 +425,7 @@ entry:
 
 define void @Real_Constructor(ptr %0) {
 entry:
+  call void @Real_Init(ptr %0)
   %doubleFieldPtr = getelementptr inbounds %Real, ptr %0, i32 0, i32 0
   store double 0.000000e+00, ptr %doubleFieldPtr, align 8
   ret void
@@ -411,6 +433,7 @@ entry:
 
 define void @Real_Constructor_Integer(ptr %realPtr, %Integer %integerValue) {
 entry:
+  call void @Real_Init(ptr %realPtr)
   %integerFieldValue = extractvalue %Integer %integerValue, 0
   %realValue = sitofp i32 %integerFieldValue to double
   %realFieldPtr = getelementptr inbounds %Real, ptr %realPtr, i32 0, i32 0
@@ -879,43 +902,179 @@ end:                                              ; preds = %loop
   ret ptr %newListPtr
 }
 
-define void @Main_Init(ptr %0) {
+define void @DerivedInteger_Init(ptr %0) {
 entry:
+  call void @Integer_Init(ptr %0)
   ret void
 }
 
-define %Integer @Main_Plus_Integer(ptr %this, %Integer %i) {
+define void @DerivedInteger_print(ptr %this) {
 entry:
-  %i1 = alloca %Integer, align 8
-  store %Integer %i, ptr %i1, align 4
   %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 10)
-  %loaded_arg = load %Integer, ptr %mallocCall, align 4
-  %call_Plus = call %Integer @Integer_Plus_Integer(ptr %i1, %Integer %loaded_arg)
-  %alloca_return_val = alloca %Integer, align 8
-  store %Integer %call_Plus, ptr %alloca_return_val, align 4
-  %returnVal = load %Integer, ptr %alloca_return_val, align 4
-  ret %Integer %returnVal
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 5)
+  call void @Integer_print(ptr %mallocCall)
+  ret void
 }
 
-define %Real @Main_Plus_Real(ptr %this, %Real %r) {
+define void @DerivedInteger_Constructor(ptr %0) {
 entry:
-  %r1 = alloca %Real, align 8
-  store %Real %r, ptr %r1, align 8
-  %returnVal = load %Real, ptr %r1, align 8
-  ret %Real %returnVal
+  call void @DerivedInteger_Init(ptr %0)
+  ret void
+}
+
+define void @DerivedInteger_Constructor_Integer(ptr %0, i32 %1) {
+entry:
+  call void @Integer_Constructor_Integer(ptr %0, i32 %1)
+  ret void
+}
+
+define %Boolean @DerivedInteger_Equal_Real(ptr %0, double %1) {
+entry:
+  %2 = call %Boolean @Integer_Equal_Real(ptr %0, double %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_toBoolean(ptr %0) {
+entry:
+  %1 = call %Boolean @Integer_toBoolean(ptr %0)
+  ret %Boolean %1
+}
+
+define %Integer @DerivedInteger_Mult_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Integer @Integer_Mult_Integer(ptr %0, %Integer %1)
+  ret %Integer %2
+}
+
+define %Integer @DerivedInteger_Min(ptr %0) {
+entry:
+  %1 = call %Integer @Integer_Min(ptr %0)
+  ret %Integer %1
+}
+
+define %Integer @DerivedInteger_Div_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Integer @Integer_Div_Integer(ptr %0, %Integer %1)
+  ret %Integer %2
+}
+
+define %Integer @DerivedInteger_Max(ptr %0) {
+entry:
+  %1 = call %Integer @Integer_Max(ptr %0)
+  ret %Integer %1
+}
+
+define void @DerivedInteger_Constructor.5(ptr %0) {
+entry:
+  call void @Integer_Constructor(ptr %0)
+  ret void
+}
+
+define %Boolean @DerivedInteger_Less_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Boolean @Integer_Less_Integer(ptr %0, %Integer %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_Greater_Real(ptr %0, double %1) {
+entry:
+  %2 = call %Boolean @Integer_Greater_Real(ptr %0, double %1)
+  ret %Boolean %2
+}
+
+define %Integer @DerivedInteger_Plus_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Integer @Integer_Plus_Integer(ptr %0, %Integer %1)
+  ret %Integer %2
+}
+
+define %Integer @DerivedInteger_Minus_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Integer @Integer_Minus_Integer(ptr %0, %Integer %1)
+  ret %Integer %2
+}
+
+define %Integer @DerivedInteger_Rem_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Integer @Integer_Rem_Integer(ptr %0, %Integer %1)
+  ret %Integer %2
+}
+
+define %Boolean @DerivedInteger_GreaterEqual_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Boolean @Integer_GreaterEqual_Integer(ptr %0, %Integer %1)
+  ret %Boolean %2
+}
+
+define %Real @DerivedInteger_toReal(ptr %0) {
+entry:
+  %1 = call %Real @Integer_toReal(ptr %0)
+  ret %Real %1
+}
+
+define %Boolean @DerivedInteger_Less_Real(ptr %0, double %1) {
+entry:
+  %2 = call %Boolean @Integer_Less_Real(ptr %0, double %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_LessEqual_Real(ptr %0, double %1) {
+entry:
+  %2 = call %Boolean @Integer_LessEqual_Real(ptr %0, double %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_LessEqual_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Boolean @Integer_LessEqual_Integer(ptr %0, %Integer %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_GreaterEqual_Real(ptr %0, double %1) {
+entry:
+  %2 = call %Boolean @Integer_GreaterEqual_Real(ptr %0, double %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_Greater_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Boolean @Integer_Greater_Integer(ptr %0, %Integer %1)
+  ret %Boolean %2
+}
+
+define %Boolean @DerivedInteger_Equal_Integer(ptr %0, %Integer %1) {
+entry:
+  %2 = call %Boolean @Integer_Equal_Integer(ptr %0, %Integer %1)
+  ret %Boolean %2
+}
+
+define %Integer @DerivedInteger_UnaryMinus(ptr %0) {
+entry:
+  %1 = call %Integer @Integer_UnaryMinus(ptr %0)
+  ret %Integer %1
+}
+
+define void @DerivedInteger_scan(ptr %0) {
+entry:
+  call void @Integer_scan(ptr %0)
+  ret void
+}
+
+define void @Main_Init(ptr %0) {
+entry:
+  %a_load = getelementptr inbounds %Main, ptr %0, i32 0, i32 0
+  %mallocCall = call ptr @malloc(i64 4)
+  call void @Integer_Constructor(ptr %mallocCall)
+  store ptr %mallocCall, ptr %a_load, align 8
+  ret void
 }
 
 define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
-  %mallocCall = call ptr @malloc(i64 8)
-  call void @Real_Constructor_Real(ptr %mallocCall, double 5.000000e+00)
-  %loaded_arg = load %Real, ptr %mallocCall, align 8
-  %call_Plus = call %Real @Main_Plus_Real(%Real %loaded_arg)
-  %alloca_return_val = alloca %Real, align 8
-  store %Real %call_Plus, ptr %alloca_return_val, align 8
-  call void @Real_print(ptr %alloca_return_val)
+  %mallocCall = call ptr @malloc(i64 0)
+  call void @DerivedInteger_Constructor(ptr %mallocCall)
+  call void @DerivedInteger_print(ptr %mallocCall)
   ret void
 }
 

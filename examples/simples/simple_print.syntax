@@ -3,7 +3,9 @@ Program
     ClassName: Main
   ClassDeclarations
     ClassDeclaration
-      ClassName: Main
+      ClassName: DerivedInteger
+      Extension
+        ClassName: Integer
       ClassBody
         MemberDeclarations
           MemberDeclaration
@@ -11,47 +13,24 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: i
-                        CompoundExpression: Plus
-                          Arguments
-                            Expressions
-                              CompoundExpression: Integer
-                                Arguments
-                                  Expressions
-                                    Primary: 10
-              Parameters
-                Parameter: i
-                  ClassName: Integer
-              ReturnType
-                ClassName: Integer
-              MethodName: Plus
+                    CompoundExpression: Integer
+                      Arguments
+                        Expressions
+                          Primary: 5
+                      CompoundExpression: print
+              MethodName: print
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
           MemberDeclaration
-            MethodDeclaration
-              Body
-                BodyDeclarations
-                  BodyDeclaration
-                    ReturnStatement
-                      CompoundExpression: Real
-                        Arguments
-                          Expressions
-                            Primary: 5.000000
-              Parameters
-                Parameter: i
-                  ClassName: Integer
-              ReturnType
-                ClassName: Real
-              MethodName: Plus
+            VariableDeclaration
+              CompoundExpression: Integer
+              VariableName: a
           MemberDeclaration
             ConstructorDeclaration
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    CompoundExpression: Plus
-                      Arguments
-                        Expressions
-                          CompoundExpression: Real
-                            Arguments
-                              Expressions
-                                Primary: 5.000000
+                    CompoundExpression: DerivedInteger
                       CompoundExpression: print

@@ -745,6 +745,17 @@ void MethodDeclaration::accept(Visitor &visitor) {
     visitor.visitMethodDeclaration(*this);
 }
 
+bool isReturnStatement(llvm::Value *V) {
+    // Check if the value is an instruction
+    if (auto *Inst = llvm::dyn_cast<llvm::Instruction>(V)) {
+        // Check if the instruction is a ReturnInst
+        if (llvm::isa<llvm::ReturnInst>(Inst)) {
+            return true;
+        }
+    }
+    return false; // Not a return instruction
+}
+
 llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                                         ScopedSymbolTable &symbolTable) {
     // Step 1: Get the function return type
@@ -824,9 +835,7 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     auto retValue = body->codegen(context, builder, module, symbolTable);
     // Step 7: Return the generated value (for non-void functions)
 
-
-
-
+    builder.CreateRetVoid();
     llvm::verifyFunction(*function);
 
     symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
