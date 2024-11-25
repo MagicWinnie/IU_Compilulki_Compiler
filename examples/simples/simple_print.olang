@@ -3,24 +3,26 @@
 
 Program: Main
 
-class Test  is
-    method print(): Integer is
-        if Boolean(true) then
-            return Integer(5)
-        else
-            Integer(111).print()
+class Main is
+
+  method Plus(i: Integer): Integer is
+            return i.Plus(Integer(10))
+
         end
 
-        return Integer(10)
-
-    end
-end
-
-class Main is
+         method Plus(i: Integer): Real is
+                    return Real(5.0)
+                end
     this() is
 
-        var a : Test()
-        a.print().print()
+
+        Plus(Real(5.0)).print()
+
+
+
+
+
+
 
 
     end
