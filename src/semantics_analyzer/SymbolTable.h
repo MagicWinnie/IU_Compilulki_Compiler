@@ -193,13 +193,16 @@ public:
 
     // Lookup an entry
     VariableEntry *lookupVariable(const std::string &);
+
+    std::vector<std::string> getUnusedVariables();
+
+
 };
 
 class ScopedSymbolTable {
 public:
     std::vector<SymbolTable> scopes;
     std::unordered_map<std::string, ClassEntry> classEntries;
-    std::unordered_set<std::string> unusedVariables;
     std::unordered_map<std::string, IdentifierType> identifierTypes;
     std::unordered_map<std::string, std::string> variableTypes;
     std::unordered_map<std::string, llvm::Value *> varEntries;
@@ -261,4 +264,6 @@ public:
     llvm::Value *getThisPointer();
 
     void setThisPointer(llvm::Value *thisPtr);
+
+    SymbolTable getCurrentScope();
 };

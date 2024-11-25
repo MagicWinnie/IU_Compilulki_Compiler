@@ -63,11 +63,6 @@ int main(const int argc, char* argv[])
     SymbolTableVisitor symbolTableVisitor;
     program->accept(symbolTableVisitor);
 
-    std::cout << "\033[33mUnused variables in this scope: ";
-    for (const auto& name : symbolTableVisitor.symbolTable.unusedVariables)
-    {
-        std::cout << name << " ";
-    }
     std::cout << "\033[0m" << std::endl;
 
     OptimizeVisitor optimizeVisitor(symbolTableVisitor.symbolTable);

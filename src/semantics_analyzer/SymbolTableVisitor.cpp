@@ -244,6 +244,18 @@ void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression &node
         compoundExpressionParser(*compoundExpression, false, previousType);
     }
 }
+void markVariableForDeletion(const std::string &variableName,Body& body){
+    for (const auto &bodyDeclaration: body.bodyDeclarations->bodyDeclarations) {
+        if (bodyDeclaration && bodyDeclaration->variableDeclaration) {
+
+            if(bodyDeclaration->variableDeclaration->variable->name == variableName){
+                bodyDeclaration->variableDeclaration->markForDeletion();
+            }
+
+        }
+    }
+
+}
 
 void SymbolTableVisitor::visitCompoundExpression(CompoundExpression &node) {
     compoundExpressionParser(node, true, symbolTable.currClassName);
@@ -270,6 +282,7 @@ void SymbolTableVisitor::visitClassDeclaration(ClassDeclaration &node) {
     }
 
     if (node.classBody) node.classBody->accept(*this);
+
     symbolTable.leaveScope();
 }
 
@@ -287,6 +300,7 @@ void SymbolTableVisitor::visitExtension(Extension &node) {
 
 void SymbolTableVisitor::visitBody(Body &node) {
     if (node.bodyDeclarations) node.bodyDeclarations->accept(*this);
+    auto unusedVars = symbolTable.getCurrentScope().getUnusedVariables();
 }
 
 void SymbolTableVisitor::visitBodyDeclarations(BodyDeclarations &node) {
@@ -313,12 +327,22 @@ void SymbolTableVisitor::visitIfStatement(IfStatement &node) {
 void SymbolTableVisitor::visitIfBranch(IfBranch &node) {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
+    auto unusedVars = symbolTable.getCurrentScope().getUnusedVariables();
+
+    for (const auto &var: unusedVars) {
+        markVariableForDeletion(var,*node.body);
+    }
     symbolTable.leaveScope();
 }
 
 void SymbolTableVisitor::visitElseBranch(ElseBranch &node) {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
+    auto unusedVars = symbolTable.getCurrentScope().getUnusedVariables();
+
+    for (const auto &var: unusedVars) {
+        markVariableForDeletion(var,*node.body);
+    }
     symbolTable.leaveScope();
 }
 
@@ -326,6 +350,11 @@ void SymbolTableVisitor::visitWhileLoop(WhileLoop &node) {
     symbolTable.enterScope();
     if (node.body) node.body->accept(*this);
     if (node.expression) node.expression->accept(*this);
+    auto unusedVars = symbolTable.getCurrentScope().getUnusedVariables();
+
+    for (const auto &var: unusedVars) {
+        markVariableForDeletion(var,*node.body);
+    }
     symbolTable.leaveScope();
 }
 
@@ -416,6 +445,11 @@ void SymbolTableVisitor::visitConstructorDeclaration(ConstructorDeclaration &nod
         throw std::runtime_error("Constructor cannot have return statement");
     }
 
+    auto unusedVars = symbolTable.getCurrentScope().getUnusedVariables();
+
+    for (const auto &var: unusedVars) {
+        markVariableForDeletion(var,*node.body);
+    }
     symbolTable.leaveScope();
 }
 
@@ -500,13 +534,11 @@ void checkReturnStatement(std::string expectedReturnType,
                 checkReturnStatement(expectedReturnType, whileLoop->body.get(), methodName, symbolTable);
 
             }
-
         }
-
     }
-
-
 }
+
+
 
 void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration &node) {
     symbolTable.enterScope();
@@ -550,6 +582,11 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration &node) {
     }
     if (node.returnType) node.returnType->accept(*this);
     if (node.methodName) node.methodName->accept(*this);
+    auto unusedVars = symbolTable.getCurrentScope().getUnusedVariables();
+
+    for (const auto &var: unusedVars) {
+        markVariableForDeletion(var,*node.body);
+    }
     symbolTable.leaveScope();
 }
 

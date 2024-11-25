@@ -523,11 +523,18 @@ public:
     BodyDeclaration *bodyParent = nullptr;
     MemberDeclaration *memberParent = nullptr;
     bool isClassField = false;
+    bool needsToBeDeleted = false;
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                          ScopedSymbolTable &symbolTable) override;
 
     VariableDeclaration(std::unique_ptr<VariableName>, std::unique_ptr<Expression>);
+
+    void markForDeletion() {
+        needsToBeDeleted = true;
+    }
+
+
 
     void accept(Visitor &) override;
 };

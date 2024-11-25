@@ -16,20 +16,30 @@ VariableEntry *SymbolTable::lookupVariable(const std::string &name) {
     return nullptr; // Not found
 }
 
+std::vector<std::string> SymbolTable::getUnusedVariables() {
+    // Find all unused variables in the current scope
+    std::vector<std::string> unusedVariables;
+    for (const auto &[name, entry]: varEntries) {
+        if (!entry.is_used) {
+            unusedVariables.push_back(name);
+        }
+    }
+    return unusedVariables;
+}
+
+SymbolTable ScopedSymbolTable::getCurrentScope() {
+    return scopes.back();
+}
+
 
 void ScopedSymbolTable::enterScope() {
     scopes.emplace_back();
 }
 
+
 void ScopedSymbolTable::leaveScope() {
     if (!scopes.empty()) {
-        // Find all unused variables in the current scope
-        auto &[varEntries] = scopes.back();
-        for (const auto &[name, entry]: varEntries) {
-            if (!entry.is_used) {
-                unusedVariables.insert(name);
-            }
-        }
+
 
         scopes.pop_back();
     }

@@ -1,20 +1,16 @@
-// Array test
-// Creating and printing the array of cubes of integers from 0 to 4
-
 Program: Main
 
-class DerivedInteger extends Integer is
-    method print() is
-        Integer(5).print()
-     end
-
-end
-
 class Main is
+    var a : 555
+     method test(a: Integer) is
 
-    var a: Integer
+            var t : Integer(15)
+            t.print()
+        end
+
     this() is
-       DerivedInteger().print()
-    end
+       var a: Integer(5)
 
+       a.print()
+    end
 end
