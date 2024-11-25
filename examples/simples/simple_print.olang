@@ -9,8 +9,15 @@ class Main is
         end
 
     this() is
-       var a: Integer(5)
+       var a: Integer(5555)
+       var b: 6667
 
-       a.print()
+       if Boolean(true) then
+           a.print()
+       else
+           b.print()
+       end
+
+
     end
 end

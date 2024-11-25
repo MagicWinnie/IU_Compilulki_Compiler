@@ -923,8 +923,25 @@ define void @Main_Constructor(ptr %this) {
 entry:
   call void @Main_Init(ptr %this)
   %mallocCall = call ptr @malloc(i64 4)
-  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 5)
+  call void @Integer_Constructor_Integer(ptr %mallocCall, i32 5555)
+  %b = alloca %Integer, align 8
+  call void @Integer_Constructor_Integer(ptr %b, i32 6667)
+  %mallocCall1 = call ptr @malloc(i64 1)
+  call void @Boolean_Constructor_Boolean(ptr %mallocCall1, i1 true)
+  %boolFieldPtr = getelementptr inbounds %Boolean, ptr %mallocCall1, i32 0, i32 0
+  %loadBoolValue = load i1, ptr %boolFieldPtr, align 1
+  %ifcond = icmp ne i1 %loadBoolValue, false
+  br i1 %ifcond, label %btrue, label %bfalse
+
+btrue:                                            ; preds = %entry
   call void @Integer_print(ptr %mallocCall)
+  br label %end
+
+bfalse:                                           ; preds = %entry
+  call void @Integer_print(ptr %b)
+  br label %end
+
+end:                                              ; preds = %bfalse, %btrue
   ret void
 }
 

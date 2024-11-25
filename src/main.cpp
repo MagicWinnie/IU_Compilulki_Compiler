@@ -15,7 +15,7 @@
 
 void loadCustomIR(llvm::LLVMContext &context, llvm::Module &module, const std::string &filePath) {
     llvm::SMDiagnostic err;
-    auto loadedModule = llvm::parseIRFile(filePath, err, context);
+    auto loadedModule = llvm::parseIRFile("std/"+filePath, err, context);
 
     if (!loadedModule) {
         err.print("IR Loading Error", llvm::errs());
