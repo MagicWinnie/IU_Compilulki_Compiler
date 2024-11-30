@@ -17,6 +17,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     // Integer
     symbolTable.addFunctionEntry("Constructor", "Integer", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Constructor", "Integer", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Constructor", "Integer", "void", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("toReal", "Integer", "Real", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("toBoolean", "Integer", "Boolean", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Integer", "Integer", Span(0, 0, 0), {});
@@ -25,13 +26,13 @@ SymbolTableVisitor::SymbolTableVisitor() {
     symbolTable.addFunctionEntry("Max", "Integer", "Integer", Span(0, 0, 0), {});
 
     symbolTable.addFunctionEntry("Plus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Plus", "Integer", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Plus", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Minus", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Minus", "Integer", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Minus", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Mult", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Mult", "Integer", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Mult", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Div", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
-//    symbolTable.addFunctionEntry("Div", "Integer", "Real", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Div", "Integer", "Real", Span(0, 0, 0), {"Real"});
     symbolTable.addFunctionEntry("Rem", "Integer", "Integer", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("Less", "Integer", "Boolean", Span(0, 0, 0), {"Integer"});
@@ -51,6 +52,7 @@ SymbolTableVisitor::SymbolTableVisitor() {
     // Real
     symbolTable.addFunctionEntry("Constructor", "Real", "void", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Constructor", "Real", "void", Span(0, 0, 0), {"Real"});
+    symbolTable.addFunctionEntry("Constructor", "Real", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("toInteger", "Real", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("UnaryMinus", "Real", "Real", Span(0, 0, 0), {});
 
