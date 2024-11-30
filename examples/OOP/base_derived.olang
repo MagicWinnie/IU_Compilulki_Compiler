@@ -1,0 +1,31 @@
+Program: Main()
+
+class Base is
+    method abc() is
+        var a : Integer(1)
+        a.print()
+    end
+end
+
+class Derived extends Base is
+    method abc() is
+        var a : Integer(2)
+        a.print()
+    end
+end
+
+
+class Main is
+    method foo(b: Base, c: Derived) is
+        b.abc()
+    end
+
+    this() is
+        var b : Base
+        b := Derived()
+        var c : Base
+        c := Derived()
+        foo(b, c)
+    end
+
+end
