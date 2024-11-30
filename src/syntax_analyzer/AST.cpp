@@ -551,8 +551,9 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
             }
         }
 
-
-        for (const auto& argType : argTypes)
+        const auto* methodEntry = symbolTable.lookupFunction(funcClassName, funcName, argTypes,
+                                                             Span(0, 0, 0), false);
+        for (const auto& argType : methodEntry->signature.parameterTypes)
         {
             funcName += "_" + argType;
         }
@@ -674,7 +675,7 @@ llvm::Value* ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::I
 
     llvm::FunctionType* functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), paramTypes, false);
     std::string constructorName = className + "_Constructor";
-    for (const auto & paramStringType : paramStringTypes)
+    for (const auto& paramStringType : paramStringTypes)
     {
         constructorName += "_" + paramStringType;
     }
@@ -931,9 +932,11 @@ llvm::Value* MethodDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuil
         }
     }
     //
+    const auto* methodEntry = symbolTable.lookupFunction(symbolTable.currClassName, methodName->name, paramStringTypes,
+                                                         Span(0, 0, 0), false);
     llvm::FunctionType* functionType = llvm::FunctionType::get(llvmReturnType, paramTypes, false);
     std::string funcName = symbolTable.currClassName + "_" + methodName->name;
-    for (const auto & paramStringType : paramStringTypes)
+    for (const auto& paramStringType : methodEntry->signature.parameterTypes)
     {
         funcName += "_" + paramStringType;
     }
@@ -1449,7 +1452,7 @@ std::string Expression::get_type(ScopedSymbolTable& symbolTable, std::string pre
         );
     }
 
-    std::string originalPreviousType = previousType;
+    const std::string originalPreviousType = previousType;
     for (const auto& compoundExpression : expr->compoundExpressions)
     {
         previousType = compoundExpression->get_type(symbolTable, originalPreviousType);

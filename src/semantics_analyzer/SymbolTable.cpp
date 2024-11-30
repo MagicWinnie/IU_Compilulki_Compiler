@@ -139,7 +139,7 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
 }
 
 std::unique_ptr<VariableEntry> ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
-                                                                  const bool throw_error)
+                                                                 const bool throw_error)
 {
     const auto found = variableTypes.find(name);
     if (found != variableTypes.end())
@@ -180,26 +180,87 @@ void ScopedSymbolTable::makeVariableUsed(const std::string& name)
     }
 }
 
+std::vector<std::string> getAllAncestors(ScopedSymbolTable* symbolTable, const std::string& className)
+{
+    std::vector<std::string> ancestors;
+    const ClassEntry* current = symbolTable->lookupClass(className, Span(0, 0, 0), false);
+    while (current && current->parentClass)
+    {
+        ancestors.push_back(current->parentClass->name);
+        current = current->parentClass;
+    }
+    return ancestors;
+}
+
 MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, const std::string& methodName,
                                                const std::vector<std::string>& params,
                                                const Span& span, const bool throw_error)
 {
-    auto funcName = methodName;
+    std::vector<std::vector<std::string>> paramOptions;
+    paramOptions.emplace_back(); // Start with an empty combination
+
     for (const auto& param : params)
     {
-        funcName += "_" + param;
+        std::vector<std::string> currentTypes;
+        currentTypes.push_back(param); // The type itself
+
+        // Get all ancestors of this parameter type
+        std::vector<std::string> ancestors = getAllAncestors(this, param);
+        currentTypes.insert(currentTypes.end(), ancestors.begin(), ancestors.end());
+
+        // Generate new combinations by appending each possible type
+        std::vector<std::vector<std::string>> newParamOptions;
+        for (const auto& existingCombination : paramOptions)
+        {
+            for (const auto& typeOption : currentTypes)
+            {
+                std::vector<std::string> newCombination = existingCombination;
+                newCombination.push_back(typeOption);
+                newParamOptions.push_back(newCombination);
+            }
+        }
+        paramOptions = std::move(newParamOptions);
     }
-    const MethodSignature signature(funcName, params);
+
     ClassEntry* classEntry = lookupClass(className, span, true);
-    if (MethodEntry* methodEntry = classEntry->lookupMethod(signature))
+    for (const auto& option : paramOptions)
     {
-        return methodEntry;
+        // Construct the function name with the current parameter types
+        std::string funcName = methodName;
+        for (const auto& paramType : option)
+        {
+            funcName += "_" + paramType;
+        }
+
+        MethodSignature signature{funcName, option};
+        MethodEntry* methodEntry = classEntry->lookupMethod(signature);
+        if (methodEntry)
+        {
+            return methodEntry;
+        }
     }
+
+    // auto funcName = methodName;
+    // for (const auto& param : params)
+    // {
+    //     funcName += "_" + param;
+    // }
+    // const MethodSignature signature(funcName, params);
+    // ClassEntry* classEntry = lookupClass(className, span, true);
+    // if (MethodEntry* methodEntry = classEntry->lookupMethod(signature))
+    // {
+    //     return methodEntry;
+    // }
 
     if (throw_error)
     {
+        std::string originalFuncName = methodName;
+        for (const auto& param : params)
+        {
+            originalFuncName += "_" + param;
+        }
         throw std::runtime_error(
-            "Method '" + className + "::" + funcName + "' used before declaration " +
+            "Method '" + className + "::" + originalFuncName + "' used before declaration " +
             "at line: " + std::to_string(span.get_line_num()) +
             " column: " + std::to_string(span.get_pos_begin())
         );
