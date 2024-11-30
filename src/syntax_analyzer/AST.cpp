@@ -1080,6 +1080,7 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
 {
     if (expression->isCompound)
     {
+
         llvm::Value* value = expression->codegen(context, builder, module, symbolTable);
         if (!value)
         {
@@ -1092,12 +1093,13 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
 
         if (symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name) != -1)
         {
+            llvm::Value* thisPtr = symbolTable.getThisPointer();
             // Then the variable is a class field. Acces varaible from the 'this' argument
             // TODO maybe bug
             llvm::StructType* classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
             // get this ptr as first arguemtn of current fucntion
             // get this pointer from arguments
-            llvm::Value* thisPtr = symbolTable.getThisPointer();
+
             int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name);
 
             ptr = builder.CreateConstInBoundsGEP2_32(classType, thisPtr, memberIndex, 0, variableName->name);
