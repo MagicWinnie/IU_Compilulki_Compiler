@@ -13,17 +13,17 @@ Program
                   BodyDeclaration
                     VariableDeclaration
                       CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 3
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
                       CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 2
                       VariableName: b
-                  BodyDeclaration
-                    CompoundExpression: a
-                      CompoundExpression: scan
-                  BodyDeclaration
-                    CompoundExpression: b
-                      CompoundExpression: scan
                   BodyDeclaration
                     WhileLoop
                       Body
@@ -44,6 +44,9 @@ Program
                                     Expressions
                                       Primary: 1
                               VariableName: a
+                          BodyDeclaration
+                            CompoundExpression: b
+                              CompoundExpression: print
                       CompoundExpression: a
                         CompoundExpression: Greater
                           Arguments
