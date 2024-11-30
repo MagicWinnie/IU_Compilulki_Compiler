@@ -41,10 +41,6 @@ Program
               CompoundExpression: A
               VariableName: c
           MemberDeclaration
-            VariableDeclaration
-              Primary: 555
-              VariableName: a
-          MemberDeclaration
             ConstructorDeclaration
               Body
                 BodyDeclarations

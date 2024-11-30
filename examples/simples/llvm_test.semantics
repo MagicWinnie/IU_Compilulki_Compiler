@@ -772,16 +772,8 @@ Program
                     CompoundExpression: integerTester
                       CompoundExpression: test
                   BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: RealTester
-                      VariableName: realTester
-                  BodyDeclaration
                     CompoundExpression: RealTester
                       CompoundExpression: test
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: BooleanTester
-                      VariableName: booleanTester
                   BodyDeclaration
                     CompoundExpression: BooleanTester
                       CompoundExpression: test
