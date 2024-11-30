@@ -417,7 +417,7 @@ public:
     Span span;
     bool isCompound;
 
-    std::string get_type(ScopedSymbolTable &symbolTable);
+    std::string get_type(ScopedSymbolTable &symbolTable, std::string previousType);
 
     Expression() : span(Span(0, 0, 0)), isCompound(false) {
     }

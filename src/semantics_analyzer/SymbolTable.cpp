@@ -138,18 +138,23 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
     classEntries[name] = ClassEntry(name);
 }
 
-VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
-                                                 const bool throw_error)
+std::unique_ptr<VariableEntry> ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
+                                                                  const bool throw_error)
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    const auto found = variableTypes.find(name);
+    if (found != variableTypes.end())
     {
-        auto& [varEntries] = *it;
-        auto found = varEntries.find(name);
-        if (found != varEntries.end())
-        {
-            return &found->second;
-        }
+        return std::make_unique<VariableEntry>(name, found->second, true);
     }
+    // for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    // {
+    //     auto& [varEntries] = *it;
+    //     const auto found = varEntries.find(name);
+    //     if (found != varEntries.end())
+    //     {
+    //         return &found->second;
+    //     }
+    // }
     if (throw_error)
     {
         throw std::runtime_error(
@@ -251,32 +256,6 @@ std::string ScopedSymbolTable::getFunctionType(const std::string& name, const st
 {
     const auto classEntry = lookupClass(className, Span(0, 0, 0), false);
     return classEntry->getMethodReturnType(name);
-}
-
-std::string ScopedSymbolTable::getIdentifierStringType(const std::string& identifier, const std::string& className,
-                                                       const Span& span)
-{
-    switch (getIdentifierType(identifier))
-    {
-    case ID_VARIABLE:
-        return variableTypes[identifier];
-    case ID_FUNCTION:
-        if (className == "void")
-        {
-            throw std::runtime_error(
-                "void has no method " + identifier +
-                " at line: " + std::to_string(span.get_line_num()) +
-                " column: " + std::to_string(span.get_pos_begin())
-            );
-        }
-        return getFunctionType(identifier, className);
-    default:
-        throw std::runtime_error(
-            "Identifier " + identifier + " is not declared" +
-            " at line: " + std::to_string(span.get_line_num()) +
-            " column: " + std::to_string(span.get_pos_begin())
-        );
-    }
 }
 
 std::string ScopedSymbolTable::getIdentifierStringType(const std::string& identifier, const Span& span)
