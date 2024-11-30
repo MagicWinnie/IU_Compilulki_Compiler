@@ -6,12 +6,16 @@ Program: Main()
 class Main is
     this() is
 
-        var a : Integer().scan()
-        var b : Integer().scan()
+        var a : Integer
+        var b : Integer
+
+        a.scan()
+        b.scan()
 
         while a.Greater(0) loop
             b := b.Plus(1)
             a := a.Minus(1)
+            b.print()
         end
 
         b.print()

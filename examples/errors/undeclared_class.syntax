@@ -16,10 +16,8 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Error
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 5
+                      CompoundExpression: Error
+                        Arguments
+                          Expressions
+                            Primary: 5
                       VariableName: a

@@ -1,0 +1,23 @@
+Program: Main
+
+class Main is
+    var a : 555
+     method test(a: Integer) is
+
+            var t : Integer(15)
+            t.print()
+        end
+
+    this() is
+       var a: Integer(5555)
+       var b: 6667
+
+       if Boolean(true) then
+           a.print()
+       else
+           b.print()
+       end
+
+
+    end
+end

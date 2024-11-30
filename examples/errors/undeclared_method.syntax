@@ -16,13 +16,11 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
+                      CompoundExpression: Integer
                       VariableName: a
                   BodyDeclaration
                     ReturnStatement
-                      Expression
-                        CompoundExpression: a
+                      CompoundExpression: a
               ReturnType
                 ClassName: Integer
               MethodName: abc
@@ -38,8 +36,7 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Real
+                      CompoundExpression: Real
                       VariableName: b
     ClassDeclaration
       ClassName: Main
@@ -51,10 +48,8 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: B
+                      CompoundExpression: B
                       VariableName: a
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: a
-                        CompoundExpression: cddsf
+                    CompoundExpression: a
+                      CompoundExpression: cddsf

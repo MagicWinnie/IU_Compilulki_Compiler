@@ -8,12 +8,10 @@ Program
         MemberDeclarations
           MemberDeclaration
             VariableDeclaration
-              Expression
-                CompoundExpression: Integer
-                  Arguments
-                    Expressions
-                      Expression
-                        Primary: 0
+              CompoundExpression: Integer
+                Arguments
+                  Expressions
+                    Primary: 0
               VariableName: value
           MemberDeclaration
             MethodDeclaration
@@ -21,8 +19,7 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     ReturnStatement
-                      Expression
-                        CompoundExpression: value
+                      CompoundExpression: value
               ReturnType
                 ClassName: Integer
               MethodName: getValue
@@ -32,8 +29,7 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: newValue
+                      CompoundExpression: newValue
                       VariableName: value
               Parameters
                 Parameter: newValue
@@ -49,27 +45,19 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: A
+                      CompoundExpression: A
                       VariableName: a
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: print
+                    CompoundExpression: a
+                      CompoundExpression: getValue
+                        CompoundExpression: print
+                  BodyDeclaration
+                    CompoundExpression: a
+                      CompoundExpression: setValue
                         Arguments
                           Expressions
-                            Expression
-                              CompoundExpression: a
-                                CompoundExpression: getValue
+                            Primary: 1
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: a
-                        CompoundExpression: setValue
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 1
-                  BodyDeclaration
-                    Expression
-                      CompoundExpression: a
-                        CompoundExpression: getValue
-                          CompoundExpression: print
+                    CompoundExpression: a
+                      CompoundExpression: getValue
+                        CompoundExpression: print

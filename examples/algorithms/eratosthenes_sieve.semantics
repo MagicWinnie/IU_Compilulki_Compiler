@@ -15,68 +15,54 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Array
-                          Arguments
-                            Expressions
-                              Expression
-                                CompoundExpression: n
-                                  CompoundExpression: Plus
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          Primary: 1
-                          CompoundExpression: Boolean
+                      CompoundExpression: Array
+                        Arguments
+                          Expressions
+                            CompoundExpression: n
+                              CompoundExpression: Plus
+                                Arguments
+                                  Expressions
+                                    Primary: 1
+                        CompoundExpression: Boolean
                       VariableName: A
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 0
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 0
                       VariableName: i
                   BodyDeclaration
                     WhileLoop
                       Body
                         BodyDeclarations
                           BodyDeclaration
-                            Expression
-                              CompoundExpression: A
-                                CompoundExpression: set
-                                  Arguments
-                                    Expressions
-                                      Expression
-                                        CompoundExpression: i
-                                      Expression
-                                        Primary: true
+                            CompoundExpression: A
+                              CompoundExpression: set
+                                Arguments
+                                  Expressions
+                                    CompoundExpression: i
+                                    Primary: true
                           BodyDeclaration
                             Assignment
-                              Expression
-                                CompoundExpression: i
-                                  CompoundExpression: Plus
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          Primary: 1
+                              CompoundExpression: i
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
                               VariableName: i
-                      Expression
-                        CompoundExpression: i
-                          CompoundExpression: Less
-                            Arguments
-                              Expressions
-                                Expression
-                                  CompoundExpression: A
-                                    CompoundExpression: Length
-                  BodyDeclaration
-                    Assignment
-                      Expression
-                        CompoundExpression: Integer
+                      CompoundExpression: i
+                        CompoundExpression: Less
                           Arguments
                             Expressions
-                              Expression
-                                Primary: 2
+                              CompoundExpression: A
+                                CompoundExpression: Length
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 2
                       VariableName: i
                   BodyDeclaration
                     WhileLoop
@@ -84,132 +70,105 @@ Program
                         BodyDeclarations
                           BodyDeclaration
                             IfStatement
-                              Expression
-                                CompoundExpression: A
-                                  CompoundExpression: get
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          CompoundExpression: i
+                              CompoundExpression: A
+                                CompoundExpression: get
+                                  Arguments
+                                    Expressions
+                                      CompoundExpression: i
                               IfBranch
                                 Body
                                   BodyDeclarations
                                     BodyDeclaration
                                       VariableDeclaration
-                                        Expression
-                                          CompoundExpression: Integer
-                                            Arguments
-                                              Expressions
-                                                Expression
-                                                  Primary: 0
+                                        CompoundExpression: Integer
+                                          Arguments
+                                            Expressions
+                                              Primary: 0
                                         VariableName: j
                                     BodyDeclaration
                                       VariableDeclaration
-                                        Expression
-                                          CompoundExpression: Integer
-                                            Arguments
-                                              Expressions
-                                                Expression
-                                                  CompoundExpression: i
-                                                    CompoundExpression: Mult
-                                                      Arguments
-                                                        Expressions
-                                                          Expression
-                                                            CompoundExpression: i
-                                                      CompoundExpression: Plus
-                                                        Arguments
-                                                          Expressions
-                                                            Expression
-                                                              CompoundExpression: j
-                                                                CompoundExpression: Mult
-                                                                  Arguments
-                                                                    Expressions
-                                                                      Expression
-                                                                        CompoundExpression: i
+                                        CompoundExpression: Integer
+                                          Arguments
+                                            Expressions
+                                              CompoundExpression: i
+                                                CompoundExpression: Mult
+                                                  Arguments
+                                                    Expressions
+                                                      CompoundExpression: i
+                                                  CompoundExpression: Plus
+                                                    Arguments
+                                                      Expressions
+                                                        CompoundExpression: j
+                                                          CompoundExpression: Mult
+                                                            Arguments
+                                                              Expressions
+                                                                CompoundExpression: i
                                         VariableName: k
                                     BodyDeclaration
                                       WhileLoop
                                         Body
                                           BodyDeclarations
                                             BodyDeclaration
-                                              Expression
-                                                CompoundExpression: A
-                                                  CompoundExpression: set
-                                                    Arguments
-                                                      Expressions
-                                                        Expression
-                                                          CompoundExpression: k
-                                                        Expression
-                                                          Primary: false
+                                              CompoundExpression: A
+                                                CompoundExpression: set
+                                                  Arguments
+                                                    Expressions
+                                                      CompoundExpression: k
+                                                      Primary: false
                                             BodyDeclaration
                                               Assignment
-                                                Expression
-                                                  CompoundExpression: j
-                                                    CompoundExpression: Plus
-                                                      Arguments
-                                                        Expressions
-                                                          Expression
-                                                            Primary: 1
+                                                CompoundExpression: j
+                                                  CompoundExpression: Plus
+                                                    Arguments
+                                                      Expressions
+                                                        Primary: 1
                                                 VariableName: j
                                             BodyDeclaration
                                               Assignment
-                                                Expression
-                                                  CompoundExpression: i
-                                                    CompoundExpression: Mult
+                                                CompoundExpression: i
+                                                  CompoundExpression: Mult
+                                                    Arguments
+                                                      Expressions
+                                                        CompoundExpression: i
+                                                    CompoundExpression: Plus
                                                       Arguments
                                                         Expressions
-                                                          Expression
-                                                            CompoundExpression: i
-                                                      CompoundExpression: Plus
-                                                        Arguments
-                                                          Expressions
-                                                            Expression
-                                                              CompoundExpression: j
-                                                                CompoundExpression: Mult
-                                                                  Arguments
-                                                                    Expressions
-                                                                      Expression
-                                                                        CompoundExpression: i
+                                                          CompoundExpression: j
+                                                            CompoundExpression: Mult
+                                                              Arguments
+                                                                Expressions
+                                                                  CompoundExpression: i
                                                 VariableName: k
-                                        Expression
-                                          CompoundExpression: k
-                                            CompoundExpression: Less
-                                              Arguments
-                                                Expressions
-                                                  Expression
-                                                    CompoundExpression: A
-                                                      CompoundExpression: Length
+                                        CompoundExpression: k
+                                          CompoundExpression: Less
+                                            Arguments
+                                              Expressions
+                                                CompoundExpression: A
+                                                  CompoundExpression: Length
                           BodyDeclaration
                             Assignment
-                              Expression
-                                CompoundExpression: i
-                                  CompoundExpression: Plus
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          Primary: 1
+                              CompoundExpression: i
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
                               VariableName: i
-                      Expression
-                        CompoundExpression: i
-                          CompoundExpression: Mult
-                            Arguments
-                              Expressions
-                                Expression
-                                  CompoundExpression: i
-                            CompoundExpression: Less
-                              Arguments
-                                Expressions
-                                  Expression
-                                    CompoundExpression: A
-                                      CompoundExpression: Length
-                  BodyDeclaration
-                    Assignment
-                      Expression
-                        CompoundExpression: Integer
+                      CompoundExpression: i
+                        CompoundExpression: Mult
                           Arguments
                             Expressions
-                              Expression
-                                Primary: 0
+                              CompoundExpression: i
+                          CompoundExpression: Less
+                            Arguments
+                              Expressions
+                                CompoundExpression: A
+                                  CompoundExpression: Length
+                  BodyDeclaration
+                    Assignment
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 0
                       VariableName: i
                   BodyDeclaration
                     WhileLoop
@@ -217,38 +176,31 @@ Program
                         BodyDeclarations
                           BodyDeclaration
                             IfStatement
-                              Expression
-                                CompoundExpression: A
-                                  CompoundExpression: get
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          CompoundExpression: i
+                              CompoundExpression: A
+                                CompoundExpression: get
+                                  Arguments
+                                    Expressions
+                                      CompoundExpression: i
                               IfBranch
                                 Body
                                   BodyDeclarations
                                     BodyDeclaration
-                                      Expression
-                                        CompoundExpression: i
-                                          CompoundExpression: print
+                                      CompoundExpression: i
+                                        CompoundExpression: print
                           BodyDeclaration
                             Assignment
-                              Expression
-                                CompoundExpression: i
-                                  CompoundExpression: Plus
-                                    Arguments
-                                      Expressions
-                                        Expression
-                                          Primary: 1
+                              CompoundExpression: i
+                                CompoundExpression: Plus
+                                  Arguments
+                                    Expressions
+                                      Primary: 1
                               VariableName: i
-                      Expression
-                        CompoundExpression: i
-                          CompoundExpression: Less
-                            Arguments
-                              Expressions
-                                Expression
-                                  CompoundExpression: A
-                                    CompoundExpression: Length
+                      CompoundExpression: i
+                        CompoundExpression: Less
+                          Arguments
+                            Expressions
+                              CompoundExpression: A
+                                CompoundExpression: Length
               Parameters
                 Parameter: n
                   ClassName: Integer

@@ -12,29 +12,23 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
+                      CompoundExpression: Integer
                       VariableName: a
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 10
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Real
+                      CompoundExpression: Real
                       VariableName: a
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: Real
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 10.000000
+                      CompoundExpression: Real
+                        Arguments
+                          Expressions
+                            Primary: 10.000000
                       VariableName: a

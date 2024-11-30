@@ -16,23 +16,18 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 5
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 5
                       VariableName: a
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 5
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 5
                       VariableName: b
                   BodyDeclaration
-                    Expression
-                      CompoundExpression: a
-                        CompoundExpression: print
+                    CompoundExpression: a
+                      CompoundExpression: print

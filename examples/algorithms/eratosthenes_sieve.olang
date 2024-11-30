@@ -3,23 +3,24 @@
 Program: Main(50)
 
 class Main is
-    this(n: Integer) is
+    this() is
+        var n : 50
         var A : Array[Boolean](n.Plus(1)) // array from 0 to n (has n + 1 elements)
         var i : Integer(0)
         
         // populate array with true
-        while i.Less(A.Length) loop
+        while i.Less(A.Length()) loop
             A.set(i, true)
             i := i.Plus(1)
         end
         
         // calculate
         i := Integer(2)
-        while i.Mult(i).Less(A.Length) loop
+        while i.Mult(i).Less(A.Length()) loop
             if A.get(i) then
                 var j : Integer(0)
                 var k : Integer(i.Mult(i).Plus(j.Mult(i)))
-                while k.Less(A.Length) loop
+                while k.Less(A.Length()) loop
                     A.set(k, false)
                     j := j.Plus(1)
                     k := i.Mult(i).Plus(j.Mult(i))
@@ -30,7 +31,7 @@ class Main is
         
         // print primes from 2 to n
         i := Integer(0)
-        while i.Less(A.Length) loop
+        while i.Less(A.Length()) loop
             if A.get(i) then
                 i.print()
             end

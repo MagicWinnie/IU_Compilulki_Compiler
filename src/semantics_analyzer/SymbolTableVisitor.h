@@ -36,6 +36,8 @@ public:
 
     void visitPrimary(Primary&) override;
 
+    void compoundExpressionParser(const CompoundExpression &node, bool isFirst, std::string previousType);
+
     void visitCompoundExpression(CompoundExpression&) override;
 
     void visitClassDeclarations(ClassDeclarations&) override;

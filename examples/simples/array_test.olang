@@ -4,19 +4,27 @@
 Program: Main
 
 class Main is
+
+  method Plus(i: Integer): Integer is
+            return i.Plus(Integer(10))
+
+        end
+
+         method Plus(r: Rea): Real is
+                    r
+
+                end
     this() is
 
-        var a : Array[Integer](5)
 
-        var i1 : Integer(0)
-        while i1.LessEqual(4) loop
-            a.set(i1, i1.Mult(i1).Mult(i1))
-        end
+        Plus(Integer(5))
 
-        var i2 : Integer(4)
-        while i2.GreaterEqual(0) loop
-            a.get(i2).print()
-        end
+
+
+
+
+
+
 
     end
 

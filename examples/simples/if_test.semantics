@@ -16,38 +16,27 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        Primary: true
+                      Primary: true
                       VariableName: eq
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        Primary: false
+                      Primary: false
                       VariableName: dif
                   BodyDeclaration
                     IfStatement
-                      Expression
-                        CompoundExpression: a
-                          CompoundExpression: Equal
-                            Arguments
-                              Expressions
-                                Expression
-                                  CompoundExpression: b
-                            CompoundExpression: Not
+                      CompoundExpression: eq
                       IfBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              Expression
-                                CompoundExpression: dif
-                                  CompoundExpression: print
+                              CompoundExpression: dif
+                                CompoundExpression: print
                       ElseBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              Expression
-                                CompoundExpression: eq
-                                  CompoundExpression: print
+                              CompoundExpression: eq
+                                CompoundExpression: print
               Parameters
                 Parameter: a
                   ClassName: Real

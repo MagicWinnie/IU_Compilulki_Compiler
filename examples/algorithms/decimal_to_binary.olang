@@ -1,19 +1,27 @@
 // Перевод числа из десятичной системы счисления в двоичную
 
-Program: Main(42)
+Program: Main()
 
 class Main is
-    this(n: Integer) is
-        var b : List[Integer]
+    this() is
+        var n : 128
+
+        var b : IntArray(10)
+        var i : 0
         while n.Greater(0) loop
-            b.append(n.Rem(2))
+            b.set(i, n.Rem(2))
+            i := i.Plus(1)
             n := n.Div(2)
         end
-        
-        var i : n.Minus(1)
-        while i.GreaterEqual(0) loop
+
+
+        i := i.Minus(1)
+
+        while i.Greater(0) loop
             b.get(i).print()
             i := i.Minus(1)
         end
+
+        b.get(0).print()
     end
 end

@@ -12,17 +12,14 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
+                      CompoundExpression: Integer
                       VariableName: a
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 10
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
                       VariableName: a
     ClassDeclaration
       ClassName: Main
@@ -34,15 +31,12 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      Expression
-                        CompoundExpression: Integer
+                      CompoundExpression: Integer
                       VariableName: a
                   BodyDeclaration
                     Assignment
-                      Expression
-                        CompoundExpression: Integer
-                          Arguments
-                            Expressions
-                              Expression
-                                Primary: 10
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 10
                       VariableName: a

@@ -1,0 +1,33 @@
+
+Program: Main()
+
+class Base is
+    method show() is
+        Integer(1).print()
+    end
+
+    method foo() is
+        Integer(3).print()
+    end
+end
+
+class Derived extends Base is
+     method show() is
+        Integer(2).print()
+     end
+
+     method bar() is
+        Integer(4).print()
+     end
+end
+
+class Main is
+    this() is
+
+        var b : Base
+        b := Derived()
+        b.show()
+
+    end
+
+end
