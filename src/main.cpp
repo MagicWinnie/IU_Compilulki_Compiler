@@ -95,8 +95,6 @@ int main(const int argc, char* argv[])
     llvm::raw_fd_ostream dest(ll_path_str, EC);
     module->print(dest, nullptr);
 
-    std::cout << "\nRESULT:\n";
-
     // Run optimizer
     std::string optimizerCommand = "opt " + settings.get_optimization_level() + " " +
         ll_path_str + " -o " + bc_path_str;
@@ -124,6 +122,7 @@ int main(const int argc, char* argv[])
     // Run binary file
     std::string runCommand = settings.get_output_filename();
     std::cout << runCommand << std::endl;
+    std::cout << "\nRESULT:\n";
     int result = std::system(runCommand.c_str());
 
     if (result != 0)
