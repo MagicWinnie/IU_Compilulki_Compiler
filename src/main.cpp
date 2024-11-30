@@ -98,18 +98,30 @@ int main(const int argc, char* argv[])
     // Run optimizer
     std::string optimizerCommand = "opt " + settings.get_optimization_level() + " " +
         ll_path_str + " -o " + bc_path_str;
-    std::cout << optimizerCommand << std::endl;
-    std::system(optimizerCommand.c_str());
+    // std::cout << optimizerCommand << std::endl;
+    if (int result = std::system(optimizerCommand.c_str()); result != 0)
+    {
+        std::cerr << "Optimizer failed with code: " << result << std::endl;
+        return EXIT_FAILURE;
+    }
 
     // Run llc
     std::string llcCommand = "llc -filetype=obj " + ll_path_str + " -o " + o_path_str;
-    std::cout << llcCommand << std::endl;
-    std::system(llcCommand.c_str());
+    // std::cout << llcCommand << std::endl;
+    if (int result = std::system(llcCommand.c_str()); result != 0)
+    {
+        std::cerr << "LLC failed with code: " << result << std::endl;
+        return EXIT_FAILURE;
+    }
 
     // Run compile
     std::string clangCommand = "g++ -no-pie " + o_path_str + " -o " + settings.get_output_filename();
-    std::cout << clangCommand << std::endl;
-    std::system(clangCommand.c_str());
+    // std::cout << clangCommand << std::endl;
+    if (int result = std::system(clangCommand.c_str()); result != 0)
+    {
+        std::cerr << "Object compile failed with code: " << result << std::endl;
+        return EXIT_FAILURE;
+    }
 
     // Remove the intermediate files
     remove(o_path);
@@ -121,11 +133,10 @@ int main(const int argc, char* argv[])
 
     // Run binary file
     std::string runCommand = settings.get_output_filename();
-    std::cout << runCommand << std::endl;
+    // std::cout << runCommand << std::endl;
     std::cout << "\nRESULT:\n";
-    int result = std::system(runCommand.c_str());
 
-    if (result != 0)
+    if (int result = std::system(runCommand.c_str()); result != 0)
     {
         std::cerr << "Execution failed with code: " << result << std::endl;
         return EXIT_FAILURE;
