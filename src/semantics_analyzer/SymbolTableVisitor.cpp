@@ -679,7 +679,7 @@ void SymbolTableVisitor::visitMethodDeclaration(MethodDeclaration& node)
     if (!doesHaveReturnStatement && expectedReturnType != "void")
     {
         throw std::runtime_error(
-            "Method " + node.methodName->name + "needs a return statement of type " + expectedReturnType +
+            "Method " + node.methodName->name + " needs a return statement of type " + expectedReturnType +
             " at the end");
     }
     if (node.returnType) node.returnType->accept(*this);
