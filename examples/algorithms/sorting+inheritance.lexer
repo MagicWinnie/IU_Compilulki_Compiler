@@ -11,175 +11,164 @@ sort                                           -> sort                    -> IDE
 Delimiter{Span(9, 16, 17), 18}                 -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
 Delimiter{Span(9, 20, 21), 14}                 -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(9, 27, 28), 20}                 -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(9, 35, 36), 21}                 -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(9, 36, 37), 19}                 -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(9, 38, 40), 3}                    -> is                      -> IS                                            
-Keyword{Span(10, 9, 12), 5}                    -> var                     -> VAR                                           
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(10, 15, 16), 14}                -> :                       -> COLON                                         
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(10, 24, 25), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(10, 25, 26), 23, 0}               -> 0                       -> INTEGER                                       
-Delimiter{Span(10, 26, 27), 19}                -> )                       -> RIGHT_PAREN                                   
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(11, 11, 13), 17}                -> :=                      -> COLON_EQUAL                                   
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(11, 21, 22), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(11, 22, 23), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(11, 23, 24), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(12, 5, 8), 4}                     -> end                     -> END                                           
-Keyword{Span(13, 1, 4), 4}                     -> end                     -> END                                           
-Keyword{Span(15, 1, 6), 1}                     -> class                   -> CLASS                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(9, 30, 31), 19}                 -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(9, 31, 32), 14}                 -> :                       -> COLON                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Keyword{Span(9, 42, 44), 3}                    -> is                      -> IS                                            
+Keyword{Span(10, 9, 15), 13}                   -> return                  -> RETURN                                        
+arr                                            -> arr                     -> IDENTIFIER                                    
+Keyword{Span(11, 5, 8), 4}                     -> end                     -> END                                           
+Keyword{Span(12, 1, 4), 4}                     -> end                     -> END                                           
+Keyword{Span(14, 1, 6), 1}                     -> class                   -> CLASS                                         
 BubbleSorter                                   -> BubbleSorter            -> IDENTIFIER                                    
-Keyword{Span(15, 20, 27), 2}                   -> extends                 -> EXTENDS                                       
+Keyword{Span(14, 20, 27), 2}                   -> extends                 -> EXTENDS                                       
 BaseSorter                                     -> BaseSorter              -> IDENTIFIER                                    
-Keyword{Span(15, 39, 41), 3}                   -> is                      -> IS                                            
-Keyword{Span(16, 5, 11), 6}                    -> method                  -> METHOD                                        
+Keyword{Span(14, 39, 41), 3}                   -> is                      -> IS                                            
+Keyword{Span(15, 5, 11), 6}                    -> method                  -> METHOD                                        
 sort                                           -> sort                    -> IDENTIFIER                                    
-Delimiter{Span(16, 16, 17), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(15, 16, 17), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(16, 20, 21), 14}                -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(16, 27, 28), 20}                -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(16, 35, 36), 21}                -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(16, 36, 37), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(16, 38, 40), 3}                   -> is                      -> IS                                            
-Keyword{Span(17, 9, 12), 5}                    -> var                     -> VAR                                           
+Delimiter{Span(15, 20, 21), 14}                -> :                       -> COLON                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(15, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(15, 31, 32), 14}                -> :                       -> COLON                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Keyword{Span(15, 42, 44), 3}                   -> is                      -> IS                                            
+Keyword{Span(16, 9, 12), 5}                    -> var                     -> VAR                                           
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(17, 15, 16), 14}                -> :                       -> COLON                                         
+Delimiter{Span(16, 15, 16), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(17, 24, 25), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(17, 25, 26), 23, 0}               -> 0                       -> INTEGER                                       
-Delimiter{Span(17, 26, 27), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(18, 9, 14), 8}                    -> while                   -> WHILE                                         
+Delimiter{Span(16, 24, 25), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(16, 25, 26), 23, 0}               -> 0                       -> INTEGER                                       
+Delimiter{Span(16, 26, 27), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(17, 9, 14), 8}                    -> while                   -> WHILE                                         
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(18, 16, 17), 15}                -> .                       -> DOT                                           
+Delimiter{Span(17, 16, 17), 15}                -> .                       -> DOT                                           
 Less                                           -> Less                    -> IDENTIFIER                                    
-Delimiter{Span(18, 21, 22), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(17, 21, 22), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(18, 25, 26), 15}                -> .                       -> DOT                                           
+Delimiter{Span(17, 25, 26), 15}                -> .                       -> DOT                                           
 Length                                         -> Length                  -> IDENTIFIER                                    
-Delimiter{Span(18, 32, 33), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(18, 34, 38), 9}                   -> loop                    -> LOOP                                          
-Keyword{Span(19, 13, 16), 5}                   -> var                     -> VAR                                           
+Delimiter{Span(17, 32, 33), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(17, 34, 38), 9}                   -> loop                    -> LOOP                                          
+Keyword{Span(18, 13, 16), 5}                   -> var                     -> VAR                                           
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(19, 19, 20), 14}                -> :                       -> COLON                                         
+Delimiter{Span(18, 19, 20), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(19, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(19, 29, 30), 23, 0}               -> 0                       -> INTEGER                                       
-Delimiter{Span(19, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(20, 13, 18), 8}                   -> while                   -> WHILE                                         
+Delimiter{Span(18, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(18, 29, 30), 23, 0}               -> 0                       -> INTEGER                                       
+Delimiter{Span(18, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(19, 13, 18), 8}                   -> while                   -> WHILE                                         
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(20, 20, 21), 15}                -> .                       -> DOT                                           
+Delimiter{Span(19, 20, 21), 15}                -> .                       -> DOT                                           
 Less                                           -> Less                    -> IDENTIFIER                                    
-Delimiter{Span(20, 25, 26), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(19, 25, 26), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(20, 29, 30), 15}                -> .                       -> DOT                                           
+Delimiter{Span(19, 29, 30), 15}                -> .                       -> DOT                                           
 Length                                         -> Length                  -> IDENTIFIER                                    
-Delimiter{Span(20, 36, 37), 15}                -> .                       -> DOT                                           
+Delimiter{Span(19, 36, 37), 15}                -> .                       -> DOT                                           
 Minus                                          -> Minus                   -> IDENTIFIER                                    
-Delimiter{Span(20, 42, 43), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(19, 42, 43), 18}                -> (                       -> LEFT_PAREN                                    
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(20, 44, 45), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(20, 45, 46), 15}                -> .                       -> DOT                                           
+Delimiter{Span(19, 44, 45), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(19, 45, 46), 15}                -> .                       -> DOT                                           
 Minus                                          -> Minus                   -> IDENTIFIER                                    
-Delimiter{Span(20, 51, 52), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(20, 52, 53), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(20, 53, 54), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(20, 54, 55), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(20, 56, 60), 9}                   -> loop                    -> LOOP                                          
-Keyword{Span(21, 17, 19), 10}                  -> if                      -> IF                                            
+Delimiter{Span(19, 51, 52), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(19, 52, 53), 23, 1}               -> 1                       -> INTEGER                                       
+Delimiter{Span(19, 53, 54), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(19, 54, 55), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(19, 56, 60), 9}                   -> loop                    -> LOOP                                          
+Keyword{Span(20, 17, 19), 10}                  -> if                      -> IF                                            
 arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(21, 23, 24), 15}                -> .                       -> DOT                                           
+Delimiter{Span(20, 23, 24), 15}                -> .                       -> DOT                                           
 get                                            -> get                     -> IDENTIFIER                                    
-Delimiter{Span(21, 27, 28), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(20, 27, 28), 18}                -> (                       -> LEFT_PAREN                                    
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(21, 29, 30), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(21, 30, 31), 15}                -> .                       -> DOT                                           
+Delimiter{Span(20, 29, 30), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(20, 30, 31), 15}                -> .                       -> DOT                                           
 Greater                                        -> Greater                 -> IDENTIFIER                                    
-Delimiter{Span(21, 38, 39), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(20, 38, 39), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(21, 42, 43), 15}                -> .                       -> DOT                                           
+Delimiter{Span(20, 42, 43), 15}                -> .                       -> DOT                                           
 get                                            -> get                     -> IDENTIFIER                                    
-Delimiter{Span(21, 46, 47), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(20, 46, 47), 18}                -> (                       -> LEFT_PAREN                                    
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(21, 48, 49), 15}                -> .                       -> DOT                                           
+Delimiter{Span(20, 48, 49), 15}                -> .                       -> DOT                                           
 Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(21, 53, 54), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(21, 54, 55), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(21, 55, 56), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(21, 56, 57), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(21, 57, 58), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(21, 59, 63), 11}                  -> then                    -> THEN                                          
-Keyword{Span(22, 21, 24), 5}                   -> var                     -> VAR                                           
+Delimiter{Span(20, 53, 54), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(20, 54, 55), 23, 1}               -> 1                       -> INTEGER                                       
+Delimiter{Span(20, 55, 56), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(20, 56, 57), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(20, 57, 58), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(20, 59, 63), 11}                  -> then                    -> THEN                                          
+Keyword{Span(21, 21, 24), 5}                   -> var                     -> VAR                                           
 tmp                                            -> tmp                     -> IDENTIFIER                                    
-Delimiter{Span(22, 29, 30), 14}                -> :                       -> COLON                                         
+Delimiter{Span(21, 29, 30), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(22, 38, 39), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(22, 39, 40), 23, 0}               -> 0                       -> INTEGER                                       
-Delimiter{Span(22, 40, 41), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(21, 38, 39), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(21, 39, 40), 23, 0}               -> 0                       -> INTEGER                                       
+Delimiter{Span(21, 40, 41), 19}                -> )                       -> RIGHT_PAREN                                   
 tmp                                            -> tmp                     -> IDENTIFIER                                    
-Delimiter{Span(23, 25, 27), 17}                -> :=                      -> COLON_EQUAL                                   
+Delimiter{Span(22, 25, 27), 17}                -> :=                      -> COLON_EQUAL                                   
 arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(23, 31, 32), 15}                -> .                       -> DOT                                           
+Delimiter{Span(22, 31, 32), 15}                -> .                       -> DOT                                           
 get                                            -> get                     -> IDENTIFIER                                    
-Delimiter{Span(23, 35, 36), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(22, 35, 36), 18}                -> (                       -> LEFT_PAREN                                    
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(23, 37, 38), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(22, 37, 38), 19}                -> )                       -> RIGHT_PAREN                                   
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(23, 24, 25), 15}                -> .                       -> DOT                                           
+set                                            -> set                     -> IDENTIFIER                                    
+Delimiter{Span(23, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
+j                                              -> j                       -> IDENTIFIER                                    
+Delimiter{Span(23, 30, 31), 16}                -> ,                       -> COMMA                                         
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(23, 35, 36), 15}                -> .                       -> DOT                                           
+get                                            -> get                     -> IDENTIFIER                                    
+Delimiter{Span(23, 39, 40), 18}                -> (                       -> LEFT_PAREN                                    
+j                                              -> j                       -> IDENTIFIER                                    
+Delimiter{Span(23, 41, 42), 15}                -> .                       -> DOT                                           
+Plus                                           -> Plus                    -> IDENTIFIER                                    
+Delimiter{Span(23, 46, 47), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(23, 47, 48), 23, 1}               -> 1                       -> INTEGER                                       
+Delimiter{Span(23, 48, 49), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(23, 49, 50), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(23, 50, 51), 19}                -> )                       -> RIGHT_PAREN                                   
 arr                                            -> arr                     -> IDENTIFIER                                    
 Delimiter{Span(24, 24, 25), 15}                -> .                       -> DOT                                           
 set                                            -> set                     -> IDENTIFIER                                    
 Delimiter{Span(24, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(24, 30, 31), 16}                -> ,                       -> COMMA                                         
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(24, 35, 36), 15}                -> .                       -> DOT                                           
-get                                            -> get                     -> IDENTIFIER                                    
-Delimiter{Span(24, 39, 40), 18}                -> (                       -> LEFT_PAREN                                    
-j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(24, 41, 42), 15}                -> .                       -> DOT                                           
+Delimiter{Span(24, 30, 31), 15}                -> .                       -> DOT                                           
 Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(24, 46, 47), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(24, 47, 48), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(24, 48, 49), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(24, 49, 50), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(24, 50, 51), 19}                -> )                       -> RIGHT_PAREN                                   
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(25, 24, 25), 15}                -> .                       -> DOT                                           
-set                                            -> set                     -> IDENTIFIER                                    
-Delimiter{Span(25, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
-j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(25, 30, 31), 15}                -> .                       -> DOT                                           
-Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(25, 35, 36), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(25, 36, 37), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(25, 37, 38), 19}                -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(25, 38, 39), 16}                -> ,                       -> COMMA                                         
+Delimiter{Span(24, 35, 36), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(24, 36, 37), 23, 1}               -> 1                       -> INTEGER                                       
+Delimiter{Span(24, 37, 38), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(24, 38, 39), 16}                -> ,                       -> COMMA                                         
 tmp                                            -> tmp                     -> IDENTIFIER                                    
-Delimiter{Span(25, 43, 44), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(26, 17, 20), 4}                   -> end                     -> END                                           
+Delimiter{Span(24, 43, 44), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(25, 17, 20), 4}                   -> end                     -> END                                           
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(27, 19, 21), 17}                -> :=                      -> COLON_EQUAL                                   
+Delimiter{Span(26, 19, 21), 17}                -> :=                      -> COLON_EQUAL                                   
 j                                              -> j                       -> IDENTIFIER                                    
-Delimiter{Span(27, 23, 24), 15}                -> .                       -> DOT                                           
+Delimiter{Span(26, 23, 24), 15}                -> .                       -> DOT                                           
 Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(27, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(27, 29, 30), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(27, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(28, 13, 16), 4}                   -> end                     -> END                                           
+Delimiter{Span(26, 28, 29), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(26, 29, 30), 23, 1}               -> 1                       -> INTEGER                                       
+Delimiter{Span(26, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(27, 13, 16), 4}                   -> end                     -> END                                           
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(29, 15, 17), 17}                -> :=                      -> COLON_EQUAL                                   
+Delimiter{Span(28, 15, 17), 17}                -> :=                      -> COLON_EQUAL                                   
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(29, 19, 20), 15}                -> .                       -> DOT                                           
+Delimiter{Span(28, 19, 20), 15}                -> .                       -> DOT                                           
 Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(29, 24, 25), 18}                -> (                       -> LEFT_PAREN                                    
-Integer{Span(29, 25, 26), 23, 1}               -> 1                       -> INTEGER                                       
-Delimiter{Span(29, 26, 27), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(30, 9, 12), 4}                    -> end                     -> END                                           
+Delimiter{Span(28, 24, 25), 18}                -> (                       -> LEFT_PAREN                                    
+Integer{Span(28, 25, 26), 23, 1}               -> 1                       -> INTEGER                                       
+Delimiter{Span(28, 26, 27), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(29, 9, 12), 4}                    -> end                     -> END                                           
+Keyword{Span(30, 9, 15), 13}                   -> return                  -> RETURN                                        
+arr                                            -> arr                     -> IDENTIFIER                                    
 Keyword{Span(31, 5, 8), 4}                     -> end                     -> END                                           
 Keyword{Span(32, 1, 4), 4}                     -> end                     -> END                                           
 Keyword{Span(34, 1, 6), 1}                     -> class                   -> CLASS                                         
@@ -192,24 +181,21 @@ merge                                          -> merge                   -> IDE
 Delimiter{Span(35, 17, 18), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
 Delimiter{Span(35, 21, 22), 14}                -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(35, 28, 29), 20}                -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(35, 36, 37), 21}                -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(35, 37, 38), 16}                -> ,                       -> COMMA                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(35, 31, 32), 16}                -> ,                       -> COMMA                                         
 left                                           -> left                    -> IDENTIFIER                                    
-Delimiter{Span(35, 43, 44), 14}                -> :                       -> COLON                                         
+Delimiter{Span(35, 37, 38), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(35, 52, 53), 16}                -> ,                       -> COMMA                                         
+Delimiter{Span(35, 46, 47), 16}                -> ,                       -> COMMA                                         
 mid                                            -> mid                     -> IDENTIFIER                                    
-Delimiter{Span(35, 57, 58), 14}                -> :                       -> COLON                                         
+Delimiter{Span(35, 51, 52), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(35, 66, 67), 16}                -> ,                       -> COMMA                                         
+Delimiter{Span(35, 60, 61), 16}                -> ,                       -> COMMA                                         
 right                                          -> right                   -> IDENTIFIER                                    
-Delimiter{Span(35, 73, 74), 14}                -> :                       -> COLON                                         
+Delimiter{Span(35, 67, 68), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(35, 82, 83), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(35, 84, 86), 3}                   -> is                      -> IS                                            
+Delimiter{Span(35, 76, 77), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(35, 78, 80), 3}                   -> is                      -> IS                                            
 Keyword{Span(36, 9, 12), 5}                    -> var                     -> VAR                                           
 i                                              -> i                       -> IDENTIFIER                                    
 Delimiter{Span(36, 15, 16), 14}                -> :                       -> COLON                                         
@@ -257,23 +243,17 @@ Delimiter{Span(41, 33, 34), 19}                -> )                       -> RIG
 Keyword{Span(43, 9, 12), 5}                    -> var                     -> VAR                                           
 leftArr                                        -> leftArr                 -> IDENTIFIER                                    
 Delimiter{Span(43, 21, 22), 14}                -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(43, 28, 29), 20}                -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(43, 36, 37), 21}                -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(43, 37, 38), 18}                -> (                       -> LEFT_PAREN                                    
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(43, 31, 32), 18}                -> (                       -> LEFT_PAREN                                    
 n1                                             -> n1                      -> IDENTIFIER                                    
-Delimiter{Span(43, 40, 41), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(43, 34, 35), 19}                -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(44, 9, 12), 5}                    -> var                     -> VAR                                           
 rightArr                                       -> rightArr                -> IDENTIFIER                                    
 Delimiter{Span(44, 22, 23), 14}                -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(44, 29, 30), 20}                -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(44, 37, 38), 21}                -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(44, 38, 39), 18}                -> (                       -> LEFT_PAREN                                    
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(44, 32, 33), 18}                -> (                       -> LEFT_PAREN                                    
 n2                                             -> n2                      -> IDENTIFIER                                    
-Delimiter{Span(44, 41, 42), 19}                -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(44, 35, 36), 19}                -> )                       -> RIGHT_PAREN                                   
 i                                              -> i                       -> IDENTIFIER                                    
 Delimiter{Span(46, 11, 13), 17}                -> :=                      -> COLON_EQUAL                                   
 Integer                                        -> Integer                 -> IDENTIFIER                                    
@@ -539,20 +519,17 @@ mergeSort                                      -> mergeSort               -> IDE
 Delimiter{Span(83, 21, 22), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
 Delimiter{Span(83, 25, 26), 14}                -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(83, 32, 33), 20}                -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(83, 40, 41), 21}                -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(83, 41, 42), 16}                -> ,                       -> COMMA                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(83, 35, 36), 16}                -> ,                       -> COMMA                                         
 left                                           -> left                    -> IDENTIFIER                                    
-Delimiter{Span(83, 47, 48), 14}                -> :                       -> COLON                                         
+Delimiter{Span(83, 41, 42), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(83, 56, 57), 16}                -> ,                       -> COMMA                                         
+Delimiter{Span(83, 50, 51), 16}                -> ,                       -> COMMA                                         
 right                                          -> right                   -> IDENTIFIER                                    
-Delimiter{Span(83, 63, 64), 14}                -> :                       -> COLON                                         
+Delimiter{Span(83, 57, 58), 14}                -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(83, 72, 73), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(83, 74, 76), 3}                   -> is                      -> IS                                            
+Delimiter{Span(83, 66, 67), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(83, 68, 70), 3}                   -> is                      -> IS                                            
 Keyword{Span(84, 9, 11), 10}                   -> if                      -> IF                                            
 right                                          -> right                   -> IDENTIFIER                                    
 Delimiter{Span(84, 17, 18), 15}                -> .                       -> DOT                                           
@@ -618,12 +595,9 @@ sort                                           -> sort                    -> IDE
 Delimiter{Span(96, 16, 17), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
 Delimiter{Span(96, 20, 21), 14}                -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(96, 27, 28), 20}                -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(96, 35, 36), 21}                -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(96, 36, 37), 19}                -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(96, 38, 40), 3}                   -> is                      -> IS                                            
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(96, 30, 31), 19}                -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(96, 32, 34), 3}                   -> is                      -> IS                                            
 mergeSort                                      -> mergeSort               -> IDENTIFIER                                    
 Delimiter{Span(97, 18, 19), 18}                -> (                       -> LEFT_PAREN                                    
 arr                                            -> arr                     -> IDENTIFIER                                    
@@ -652,199 +626,199 @@ Delimiter{Span(104, 28, 29), 14}               -> :                       -> COL
 Integer                                        -> Integer                 -> IDENTIFIER                                    
 Delimiter{Span(104, 37, 38), 19}               -> )                       -> RIGHT_PAREN                                   
 Delimiter{Span(104, 39, 40), 14}               -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(104, 46, 47), 20}               -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(104, 54, 55), 21}               -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Keyword{Span(104, 56, 58), 3}                  -> is                      -> IS                                            
-Keyword{Span(105, 9, 12), 5}                   -> var                     -> VAR                                           
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(105, 17, 18), 14}               -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(105, 24, 25), 20}               -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(105, 32, 33), 21}               -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(105, 33, 34), 18}               -> (                       -> LEFT_PAREN                                    
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Keyword{Span(104, 50, 52), 3}                  -> is                      -> IS                                            
 size                                           -> size                    -> IDENTIFIER                                    
-Delimiter{Span(105, 38, 39), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(106, 9, 12), 5}                   -> var                     -> VAR                                           
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(106, 15, 16), 14}               -> :                       -> COLON                                         
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(106, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(106, 25, 26), 23, 0}              -> 0                       -> INTEGER                                       
-Delimiter{Span(106, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(107, 9, 14), 8}                   -> while                   -> WHILE                                         
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(107, 16, 17), 15}               -> .                       -> DOT                                           
-Less                                           -> Less                    -> IDENTIFIER                                    
-Delimiter{Span(107, 21, 22), 18}               -> (                       -> LEFT_PAREN                                    
-size                                           -> size                    -> IDENTIFIER                                    
-Delimiter{Span(107, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(107, 28, 32), 9}                  -> loop                    -> LOOP                                          
-Keyword{Span(108, 13, 16), 5}                  -> var                     -> VAR                                           
-el                                             -> el                      -> IDENTIFIER                                    
-Delimiter{Span(108, 20, 21), 14}               -> :                       -> COLON                                         
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(108, 29, 30), 15}               -> .                       -> DOT                                           
-scan                                           -> scan                    -> IDENTIFIER                                    
-Delimiter{Span(108, 34, 35), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(108, 35, 36), 19}               -> )                       -> RIGHT_PAREN                                   
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(109, 16, 17), 15}               -> .                       -> DOT                                           
-set                                            -> set                     -> IDENTIFIER                                    
-Delimiter{Span(109, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(109, 22, 23), 16}               -> ,                       -> COMMA                                         
-el                                             -> el                      -> IDENTIFIER                                    
-Delimiter{Span(109, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(110, 15, 17), 17}               -> :=                      -> COLON_EQUAL                                   
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(110, 19, 20), 15}               -> .                       -> DOT                                           
-Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(110, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(110, 25, 26), 23, 1}              -> 1                       -> INTEGER                                       
-Delimiter{Span(110, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(111, 9, 12), 4}                   -> end                     -> END                                           
-Keyword{Span(112, 9, 15), 13}                  -> return                  -> RETURN                                        
-arr                                            -> arr                     -> IDENTIFIER                                    
-Keyword{Span(113, 5, 8), 4}                    -> end                     -> END                                           
-Keyword{Span(115, 5, 11), 6}                   -> method                  -> METHOD                                        
-printArray                                     -> printArray              -> IDENTIFIER                                    
-Delimiter{Span(115, 22, 23), 18}               -> (                       -> LEFT_PAREN                                    
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(115, 27, 28), 14}               -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(115, 34, 35), 20}               -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(115, 42, 43), 21}               -> ]                       -> RIGHT_SQUARE_BRACKET                          
-Delimiter{Span(115, 43, 44), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(115, 45, 47), 3}                  -> is                      -> IS                                            
-Keyword{Span(116, 9, 12), 5}                   -> var                     -> VAR                                           
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(116, 15, 16), 14}               -> :                       -> COLON                                         
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(116, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(116, 25, 26), 23, 0}              -> 0                       -> INTEGER                                       
-Delimiter{Span(116, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(117, 9, 14), 8}                   -> while                   -> WHILE                                         
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(117, 16, 17), 15}               -> .                       -> DOT                                           
-Less                                           -> Less                    -> IDENTIFIER                                    
-Delimiter{Span(117, 21, 22), 18}               -> (                       -> LEFT_PAREN                                    
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(117, 25, 26), 15}               -> .                       -> DOT                                           
-Length                                         -> Length                  -> IDENTIFIER                                    
-Delimiter{Span(117, 32, 33), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(117, 34, 38), 9}                  -> loop                    -> LOOP                                          
-arr                                            -> arr                     -> IDENTIFIER                                    
-Delimiter{Span(118, 16, 17), 15}               -> .                       -> DOT                                           
-get                                            -> get                     -> IDENTIFIER                                    
-Delimiter{Span(118, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
-i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(118, 22, 23), 19}               -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(118, 23, 24), 15}               -> .                       -> DOT                                           
+Delimiter{Span(105, 13, 14), 15}               -> .                       -> DOT                                           
 print                                          -> print                   -> IDENTIFIER                                    
-Delimiter{Span(118, 29, 30), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(118, 30, 31), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(105, 19, 20), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(105, 20, 21), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(106, 9, 12), 5}                   -> var                     -> VAR                                           
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(106, 17, 18), 14}               -> :                       -> COLON                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(106, 27, 28), 18}               -> (                       -> LEFT_PAREN                                    
+size                                           -> size                    -> IDENTIFIER                                    
+Delimiter{Span(106, 32, 33), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(107, 9, 12), 5}                   -> var                     -> VAR                                           
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(119, 15, 17), 17}               -> :=                      -> COLON_EQUAL                                   
+Delimiter{Span(107, 15, 16), 14}               -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(107, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(107, 25, 26), 23, 0}              -> 0                       -> INTEGER                                       
+Delimiter{Span(107, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(108, 9, 14), 8}                   -> while                   -> WHILE                                         
 i                                              -> i                       -> IDENTIFIER                                    
-Delimiter{Span(119, 19, 20), 15}               -> .                       -> DOT                                           
+Delimiter{Span(108, 16, 17), 15}               -> .                       -> DOT                                           
+Less                                           -> Less                    -> IDENTIFIER                                    
+Delimiter{Span(108, 21, 22), 18}               -> (                       -> LEFT_PAREN                                    
+size                                           -> size                    -> IDENTIFIER                                    
+Delimiter{Span(108, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(108, 28, 32), 9}                  -> loop                    -> LOOP                                          
+Keyword{Span(109, 13, 16), 5}                  -> var                     -> VAR                                           
+el                                             -> el                      -> IDENTIFIER                                    
+Delimiter{Span(109, 20, 21), 14}               -> :                       -> COLON                                         
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(109, 29, 30), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(109, 30, 31), 19}               -> )                       -> RIGHT_PAREN                                   
+el                                             -> el                      -> IDENTIFIER                                    
+Delimiter{Span(110, 15, 16), 15}               -> .                       -> DOT                                           
+scan                                           -> scan                    -> IDENTIFIER                                    
+Delimiter{Span(110, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(110, 21, 22), 19}               -> )                       -> RIGHT_PAREN                                   
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(111, 16, 17), 15}               -> .                       -> DOT                                           
+set                                            -> set                     -> IDENTIFIER                                    
+Delimiter{Span(111, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(111, 22, 23), 16}               -> ,                       -> COMMA                                         
+el                                             -> el                      -> IDENTIFIER                                    
+Delimiter{Span(111, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(112, 15, 17), 17}               -> :=                      -> COLON_EQUAL                                   
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(112, 19, 20), 15}               -> .                       -> DOT                                           
 Plus                                           -> Plus                    -> IDENTIFIER                                    
-Delimiter{Span(119, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(119, 25, 26), 23, 1}              -> 1                       -> INTEGER                                       
-Delimiter{Span(119, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(120, 9, 12), 4}                   -> end                     -> END                                           
-Keyword{Span(121, 5, 8), 4}                    -> end                     -> END                                           
-Keyword{Span(123, 5, 11), 6}                   -> method                  -> METHOD                                        
-test                                           -> test                    -> IDENTIFIER                                    
-Delimiter{Span(123, 16, 17), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(123, 17, 18), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(123, 19, 21), 3}                  -> is                      -> IS                                            
-Keyword{Span(125, 9, 12), 5}                   -> var                     -> VAR                                           
-arr1                                           -> arr1                    -> IDENTIFIER                                    
-Delimiter{Span(125, 18, 19), 14}               -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(125, 25, 26), 20}               -> [                       -> LEFT_SQUARE_BRACKET                           
-Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(125, 33, 34), 21}               -> ]                       -> RIGHT_SQUARE_BRACKET                          
-arr1                                           -> arr1                    -> IDENTIFIER                                    
-Delimiter{Span(126, 14, 16), 17}               -> :=                      -> COLON_EQUAL                                   
-createArray                                    -> createArray             -> IDENTIFIER                                    
-Delimiter{Span(126, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(126, 29, 30), 23, 8}              -> 8                       -> INTEGER                                       
-Delimiter{Span(126, 30, 31), 19}               -> )                       -> RIGHT_PAREN                                   
-BaseSorter                                     -> BaseSorter              -> IDENTIFIER                                    
-Delimiter{Span(127, 19, 20), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(127, 20, 21), 19}               -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(127, 21, 22), 15}               -> .                       -> DOT                                           
-sort                                           -> sort                    -> IDENTIFIER                                    
-Delimiter{Span(127, 26, 27), 18}               -> (                       -> LEFT_PAREN                                    
-arr1                                           -> arr1                    -> IDENTIFIER                                    
-Delimiter{Span(127, 31, 32), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(112, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(112, 25, 26), 23, 1}              -> 1                       -> INTEGER                                       
+Delimiter{Span(112, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(113, 9, 12), 4}                   -> end                     -> END                                           
+Keyword{Span(114, 9, 15), 13}                  -> return                  -> RETURN                                        
+arr                                            -> arr                     -> IDENTIFIER                                    
+Keyword{Span(115, 5, 8), 4}                    -> end                     -> END                                           
+Keyword{Span(117, 5, 11), 6}                   -> method                  -> METHOD                                        
 printArray                                     -> printArray              -> IDENTIFIER                                    
-Delimiter{Span(128, 19, 20), 18}               -> (                       -> LEFT_PAREN                                    
-arr1                                           -> arr1                    -> IDENTIFIER                                    
-Delimiter{Span(128, 24, 25), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(131, 9, 12), 5}                   -> var                     -> VAR                                           
-arr2                                           -> arr2                    -> IDENTIFIER                                    
-Delimiter{Span(131, 18, 19), 14}               -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(131, 25, 26), 20}               -> [                       -> LEFT_SQUARE_BRACKET                           
+Delimiter{Span(117, 22, 23), 18}               -> (                       -> LEFT_PAREN                                    
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(117, 27, 28), 14}               -> :                       -> COLON                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(117, 37, 38), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(117, 39, 41), 3}                  -> is                      -> IS                                            
+Keyword{Span(118, 9, 12), 5}                   -> var                     -> VAR                                           
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(118, 15, 16), 14}               -> :                       -> COLON                                         
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(131, 33, 34), 21}               -> ]                       -> RIGHT_SQUARE_BRACKET                          
-arr2                                           -> arr2                    -> IDENTIFIER                                    
-Delimiter{Span(132, 14, 16), 17}               -> :=                      -> COLON_EQUAL                                   
+Delimiter{Span(118, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(118, 25, 26), 23, 0}              -> 0                       -> INTEGER                                       
+Delimiter{Span(118, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(119, 9, 14), 8}                   -> while                   -> WHILE                                         
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(119, 16, 17), 15}               -> .                       -> DOT                                           
+Less                                           -> Less                    -> IDENTIFIER                                    
+Delimiter{Span(119, 21, 22), 18}               -> (                       -> LEFT_PAREN                                    
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(119, 25, 26), 15}               -> .                       -> DOT                                           
+Length                                         -> Length                  -> IDENTIFIER                                    
+Delimiter{Span(119, 32, 33), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(119, 33, 34), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(119, 34, 35), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(119, 36, 40), 9}                  -> loop                    -> LOOP                                          
+arr                                            -> arr                     -> IDENTIFIER                                    
+Delimiter{Span(122, 16, 17), 15}               -> .                       -> DOT                                           
+get                                            -> get                     -> IDENTIFIER                                    
+Delimiter{Span(122, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(122, 22, 23), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(122, 23, 24), 15}               -> .                       -> DOT                                           
+print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(122, 29, 30), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(122, 30, 31), 19}               -> )                       -> RIGHT_PAREN                                   
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(123, 15, 17), 17}               -> :=                      -> COLON_EQUAL                                   
+i                                              -> i                       -> IDENTIFIER                                    
+Delimiter{Span(123, 19, 20), 15}               -> .                       -> DOT                                           
+Plus                                           -> Plus                    -> IDENTIFIER                                    
+Delimiter{Span(123, 24, 25), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(123, 25, 26), 23, 1}              -> 1                       -> INTEGER                                       
+Delimiter{Span(123, 26, 27), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(124, 9, 12), 4}                   -> end                     -> END                                           
+Keyword{Span(125, 5, 8), 4}                    -> end                     -> END                                           
+Keyword{Span(127, 5, 11), 6}                   -> method                  -> METHOD                                        
+test                                           -> test                    -> IDENTIFIER                                    
+Delimiter{Span(127, 16, 17), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(127, 17, 18), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(127, 19, 21), 3}                  -> is                      -> IS                                            
+Keyword{Span(129, 9, 12), 5}                   -> var                     -> VAR                                           
+arr1                                           -> arr1                    -> IDENTIFIER                                    
+Delimiter{Span(129, 18, 19), 14}               -> :                       -> COLON                                         
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(129, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(129, 36, 37), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(129, 37, 38), 23, 4}              -> 4                       -> INTEGER                                       
+Delimiter{Span(129, 38, 39), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(129, 39, 40), 19}               -> )                       -> RIGHT_PAREN                                   
+arr1                                           -> arr1                    -> IDENTIFIER                                    
+Delimiter{Span(130, 13, 14), 15}               -> .                       -> DOT                                           
+Length                                         -> Length                  -> IDENTIFIER                                    
+Delimiter{Span(130, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(130, 21, 22), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(130, 22, 23), 15}               -> .                       -> DOT                                           
+print                                          -> print                   -> IDENTIFIER                                    
+Delimiter{Span(130, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(130, 29, 30), 19}               -> )                       -> RIGHT_PAREN                                   
+arr1                                           -> arr1                    -> IDENTIFIER                                    
+Delimiter{Span(131, 14, 16), 17}               -> :=                      -> COLON_EQUAL                                   
 createArray                                    -> createArray             -> IDENTIFIER                                    
+Delimiter{Span(131, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(131, 36, 37), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(131, 37, 38), 23, 4}              -> 4                       -> INTEGER                                       
+Delimiter{Span(131, 38, 39), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(131, 39, 40), 19}               -> )                       -> RIGHT_PAREN                                   
+arr1                                           -> arr1                    -> IDENTIFIER                                    
+Delimiter{Span(132, 13, 14), 15}               -> .                       -> DOT                                           
+Length                                         -> Length                  -> IDENTIFIER                                    
+Delimiter{Span(132, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(132, 21, 22), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(132, 22, 23), 15}               -> .                       -> DOT                                           
+print                                          -> print                   -> IDENTIFIER                                    
 Delimiter{Span(132, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(132, 29, 30), 23, 8}              -> 8                       -> INTEGER                                       
-Delimiter{Span(132, 30, 31), 19}               -> )                       -> RIGHT_PAREN                                   
-BubbleSorter                                   -> BubbleSorter            -> IDENTIFIER                                    
-Delimiter{Span(133, 21, 22), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(133, 22, 23), 19}               -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(133, 23, 24), 15}               -> .                       -> DOT                                           
-sort                                           -> sort                    -> IDENTIFIER                                    
-Delimiter{Span(133, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
-arr2                                           -> arr2                    -> IDENTIFIER                                    
-Delimiter{Span(133, 33, 34), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(132, 29, 30), 19}               -> )                       -> RIGHT_PAREN                                   
 printArray                                     -> printArray              -> IDENTIFIER                                    
 Delimiter{Span(134, 19, 20), 18}               -> (                       -> LEFT_PAREN                                    
-arr2                                           -> arr2                    -> IDENTIFIER                                    
+arr1                                           -> arr1                    -> IDENTIFIER                                    
 Delimiter{Span(134, 24, 25), 19}               -> )                       -> RIGHT_PAREN                                   
 Keyword{Span(137, 9, 12), 5}                   -> var                     -> VAR                                           
-arr3                                           -> arr3                    -> IDENTIFIER                                    
+arr2                                           -> arr2                    -> IDENTIFIER                                    
 Delimiter{Span(137, 18, 19), 14}               -> :                       -> COLON                                         
-Array                                          -> Array                   -> IDENTIFIER                                    
-Delimiter{Span(137, 25, 26), 20}               -> [                       -> LEFT_SQUARE_BRACKET                           
+IntArray                                       -> IntArray                -> IDENTIFIER                                    
+Delimiter{Span(137, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
 Integer                                        -> Integer                 -> IDENTIFIER                                    
-Delimiter{Span(137, 33, 34), 21}               -> ]                       -> RIGHT_SQUARE_BRACKET                          
-arr3                                           -> arr3                    -> IDENTIFIER                                    
+Delimiter{Span(137, 36, 37), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(137, 37, 38), 23, 8}              -> 8                       -> INTEGER                                       
+Delimiter{Span(137, 38, 39), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(137, 39, 40), 19}               -> )                       -> RIGHT_PAREN                                   
+arr2                                           -> arr2                    -> IDENTIFIER                                    
 Delimiter{Span(138, 14, 16), 17}               -> :=                      -> COLON_EQUAL                                   
 createArray                                    -> createArray             -> IDENTIFIER                                    
 Delimiter{Span(138, 28, 29), 18}               -> (                       -> LEFT_PAREN                                    
-Integer{Span(138, 29, 31), 23, 11}             -> 11                      -> INTEGER                                       
-Delimiter{Span(138, 31, 32), 19}               -> )                       -> RIGHT_PAREN                                   
-MergeSorter                                    -> MergeSorter             -> IDENTIFIER                                    
-Delimiter{Span(139, 20, 21), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(139, 21, 22), 19}               -> )                       -> RIGHT_PAREN                                   
-Delimiter{Span(139, 22, 23), 15}               -> .                       -> DOT                                           
+Integer                                        -> Integer                 -> IDENTIFIER                                    
+Delimiter{Span(138, 36, 37), 18}               -> (                       -> LEFT_PAREN                                    
+Integer{Span(138, 37, 38), 23, 8}              -> 8                       -> INTEGER                                       
+Delimiter{Span(138, 38, 39), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(138, 39, 40), 19}               -> )                       -> RIGHT_PAREN                                   
+arr2                                           -> arr2                    -> IDENTIFIER                                    
+Delimiter{Span(139, 14, 16), 17}               -> :=                      -> COLON_EQUAL                                   
+BubbleSorter                                   -> BubbleSorter            -> IDENTIFIER                                    
+Delimiter{Span(139, 29, 30), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(139, 30, 31), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(139, 31, 32), 15}               -> .                       -> DOT                                           
 sort                                           -> sort                    -> IDENTIFIER                                    
-Delimiter{Span(139, 27, 28), 18}               -> (                       -> LEFT_PAREN                                    
-arr3                                           -> arr3                    -> IDENTIFIER                                    
-Delimiter{Span(139, 32, 33), 19}               -> )                       -> RIGHT_PAREN                                   
+Delimiter{Span(139, 36, 37), 18}               -> (                       -> LEFT_PAREN                                    
+arr2                                           -> arr2                    -> IDENTIFIER                                    
+Delimiter{Span(139, 41, 42), 19}               -> )                       -> RIGHT_PAREN                                   
 printArray                                     -> printArray              -> IDENTIFIER                                    
 Delimiter{Span(140, 19, 20), 18}               -> (                       -> LEFT_PAREN                                    
-arr3                                           -> arr3                    -> IDENTIFIER                                    
+arr2                                           -> arr2                    -> IDENTIFIER                                    
 Delimiter{Span(140, 24, 25), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(141, 5, 8), 4}                    -> end                     -> END                                           
-Keyword{Span(143, 5, 9), 7}                    -> this                    -> THIS                                          
-Delimiter{Span(143, 9, 10), 18}                -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(143, 10, 11), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(143, 12, 14), 3}                  -> is                      -> IS                                            
+Keyword{Span(147, 5, 8), 4}                    -> end                     -> END                                           
+Keyword{Span(149, 5, 9), 7}                    -> this                    -> THIS                                          
+Delimiter{Span(149, 9, 10), 18}                -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(149, 10, 11), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(149, 12, 14), 3}                  -> is                      -> IS                                            
 test                                           -> test                    -> IDENTIFIER                                    
-Delimiter{Span(144, 17, 18), 18}               -> (                       -> LEFT_PAREN                                    
-Delimiter{Span(144, 18, 19), 19}               -> )                       -> RIGHT_PAREN                                   
-Keyword{Span(145, 9, 12), 4}                   -> end                     -> END                                           
-Keyword{Span(146, 1, 4), 4}                    -> end                     -> END                                           
+Delimiter{Span(150, 17, 18), 18}               -> (                       -> LEFT_PAREN                                    
+Delimiter{Span(150, 18, 19), 19}               -> )                       -> RIGHT_PAREN                                   
+Keyword{Span(151, 9, 12), 4}                   -> end                     -> END                                           
+Keyword{Span(152, 1, 4), 4}                    -> end                     -> END                                           

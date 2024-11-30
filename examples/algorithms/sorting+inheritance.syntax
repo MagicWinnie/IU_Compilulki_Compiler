@@ -11,22 +11,13 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 0
-                      VariableName: i
-                  BodyDeclaration
-                    Assignment
-                      CompoundExpression: Integer
-                        Arguments
-                          Expressions
-                            Primary: 1
-                      VariableName: i
+                    ReturnStatement
+                      CompoundExpression: arr
               Parameters
                 Parameter: arr
-                  ClassName: Array
+                  ClassName: IntArray
+              ReturnType
+                ClassName: IntArray
               MethodName: sort
     ClassDeclaration
       ClassName: BubbleSorter
@@ -159,9 +150,14 @@ Program
                             Expressions
                               CompoundExpression: arr
                                 CompoundExpression: Length
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: arr
               Parameters
                 Parameter: arr
-                  ClassName: Array
+                  ClassName: IntArray
+              ReturnType
+                ClassName: IntArray
               MethodName: sort
     ClassDeclaration
       ClassName: MergeSorter
@@ -216,19 +212,17 @@ Program
                       VariableName: n2
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Array
+                      CompoundExpression: IntArray
                         Arguments
                           Expressions
                             CompoundExpression: n1
-                        CompoundExpression: Integer
                       VariableName: leftArr
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Array
+                      CompoundExpression: IntArray
                         Arguments
                           Expressions
                             CompoundExpression: n2
-                        CompoundExpression: Integer
                       VariableName: rightArr
                   BodyDeclaration
                     Assignment
@@ -480,7 +474,7 @@ Program
                               CompoundExpression: n2
               Parameters
                 Parameter: arr
-                  ClassName: Array
+                  ClassName: IntArray
                 Parameter: left
                   ClassName: Integer
                 Parameter: mid
@@ -546,7 +540,7 @@ Program
                                     CompoundExpression: right
               Parameters
                 Parameter: arr
-                  ClassName: Array
+                  ClassName: IntArray
                 Parameter: left
                   ClassName: Integer
                 Parameter: right
@@ -570,7 +564,7 @@ Program
                                     Primary: 1
               Parameters
                 Parameter: arr
-                  ClassName: Array
+                  ClassName: IntArray
               MethodName: sort
     ClassDeclaration
       ClassName: Main
@@ -581,12 +575,14 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
+                    CompoundExpression: size
+                      CompoundExpression: print
+                  BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Array
+                      CompoundExpression: IntArray
                         Arguments
                           Expressions
                             CompoundExpression: size
-                        CompoundExpression: Integer
                       VariableName: arr
                   BodyDeclaration
                     VariableDeclaration
@@ -602,8 +598,10 @@ Program
                           BodyDeclaration
                             VariableDeclaration
                               CompoundExpression: Integer
-                                CompoundExpression: scan
                               VariableName: el
+                          BodyDeclaration
+                            CompoundExpression: el
+                              CompoundExpression: scan
                           BodyDeclaration
                             CompoundExpression: arr
                               CompoundExpression: set
@@ -631,7 +629,7 @@ Program
                 Parameter: size
                   ClassName: Integer
               ReturnType
-                ClassName: Array
+                ClassName: IntArray
               MethodName: createArray
           MemberDeclaration
             MethodDeclaration
@@ -671,7 +669,7 @@ Program
                                 CompoundExpression: Length
               Parameters
                 Parameter: arr
-                  ClassName: Array
+                  ClassName: IntArray
               MethodName: printArray
           MemberDeclaration
             MethodDeclaration
@@ -679,22 +677,32 @@ Program
                 BodyDeclarations
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Array
-                        CompoundExpression: Integer
+                      CompoundExpression: IntArray
+                        Arguments
+                          Expressions
+                            CompoundExpression: Integer
+                              Arguments
+                                Expressions
+                                  Primary: 4
                       VariableName: arr1
+                  BodyDeclaration
+                    CompoundExpression: arr1
+                      CompoundExpression: Length
+                        CompoundExpression: print
                   BodyDeclaration
                     Assignment
                       CompoundExpression: createArray
                         Arguments
                           Expressions
-                            Primary: 8
+                            CompoundExpression: Integer
+                              Arguments
+                                Expressions
+                                  Primary: 4
                       VariableName: arr1
                   BodyDeclaration
-                    CompoundExpression: BaseSorter
-                      CompoundExpression: sort
-                        Arguments
-                          Expressions
-                            CompoundExpression: arr1
+                    CompoundExpression: arr1
+                      CompoundExpression: Length
+                        CompoundExpression: print
                   BodyDeclaration
                     CompoundExpression: printArray
                       Arguments
@@ -702,50 +710,37 @@ Program
                           CompoundExpression: arr1
                   BodyDeclaration
                     VariableDeclaration
-                      CompoundExpression: Array
-                        CompoundExpression: Integer
+                      CompoundExpression: IntArray
+                        Arguments
+                          Expressions
+                            CompoundExpression: Integer
+                              Arguments
+                                Expressions
+                                  Primary: 8
                       VariableName: arr2
                   BodyDeclaration
                     Assignment
                       CompoundExpression: createArray
                         Arguments
                           Expressions
-                            Primary: 8
+                            CompoundExpression: Integer
+                              Arguments
+                                Expressions
+                                  Primary: 8
                       VariableName: arr2
                   BodyDeclaration
-                    CompoundExpression: BubbleSorter
-                      CompoundExpression: sort
-                        Arguments
-                          Expressions
-                            CompoundExpression: arr2
+                    Assignment
+                      CompoundExpression: BubbleSorter
+                        CompoundExpression: sort
+                          Arguments
+                            Expressions
+                              CompoundExpression: arr2
+                      VariableName: arr2
                   BodyDeclaration
                     CompoundExpression: printArray
                       Arguments
                         Expressions
                           CompoundExpression: arr2
-                  BodyDeclaration
-                    VariableDeclaration
-                      CompoundExpression: Array
-                        CompoundExpression: Integer
-                      VariableName: arr3
-                  BodyDeclaration
-                    Assignment
-                      CompoundExpression: createArray
-                        Arguments
-                          Expressions
-                            Primary: 11
-                      VariableName: arr3
-                  BodyDeclaration
-                    CompoundExpression: MergeSorter
-                      CompoundExpression: sort
-                        Arguments
-                          Expressions
-                            CompoundExpression: arr3
-                  BodyDeclaration
-                    CompoundExpression: printArray
-                      Arguments
-                        Expressions
-                          CompoundExpression: arr3
               MethodName: test
           MemberDeclaration
             ConstructorDeclaration

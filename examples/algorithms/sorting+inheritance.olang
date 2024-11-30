@@ -6,14 +6,13 @@ Program: Main()
 
 // Base class
 class BaseSorter is
-    method sort(arr: Array[Integer]) is
-        var i : Integer(0)
-        i := Integer(1)
+    method sort(arr: IntArray): IntArray is
+        return arr
     end
 end
 
 class BubbleSorter extends BaseSorter is
-    method sort(arr: Array[Integer]) is
+    method sort(arr: IntArray): IntArray is
         var i : Integer(0)
         while i.Less(arr.Length) loop
             var j : Integer(0)
@@ -28,11 +27,12 @@ class BubbleSorter extends BaseSorter is
             end
             i := i.Plus(1)
         end
+        return arr
     end
 end
 
 class MergeSorter extends BaseSorter is
-    method merge(arr: Array[Integer], left: Integer, mid: Integer, right: Integer) is
+    method merge(arr: IntArray, left: Integer, mid: Integer, right: Integer) is
         var i : Integer(0)
         var j : Integer(0)
         var k : Integer(0)
@@ -40,8 +40,8 @@ class MergeSorter extends BaseSorter is
         var n1 : mid.Minus(left).Plus(1)
         var n2 : right.Minus(mid)
 
-        var leftArr : Array[Integer](n1)
-        var rightArr : Array[Integer](n2)
+        var leftArr : IntArray(n1)
+        var rightArr : IntArray(n2)
 
         i := Integer(0)
         while i.Less(n1) loop
@@ -80,7 +80,7 @@ class MergeSorter extends BaseSorter is
         end
     end
 
-    method mergeSort(arr: Array[Integer], left: Integer, right: Integer) is
+    method mergeSort(arr: IntArray, left: Integer, right: Integer) is
         if right.Greater(left) then
             var mid : left.Plus(right.Minus(left).Div(2))
             
@@ -93,7 +93,7 @@ class MergeSorter extends BaseSorter is
         end
     end
 
-    method sort(arr: Array[Integer]) is
+    method sort(arr: IntArray) is
         mergeSort(arr, 0, arr.Length.Minus(1))
     end
 end
@@ -101,20 +101,24 @@ end
 class Main is
 
     
-    method createArray(size: Integer) : Array[Integer] is
-        var arr : Array[Integer](size)
+    method createArray(size: Integer) : IntArray is
+        size.print()
+        var arr : IntArray(size)
         var i : Integer(0)
         while i.Less(size) loop
-            var el : Integer.scan()
+            var el : Integer()
+            el.scan()
             arr.set(i, el)
             i := i.Plus(1)
         end
         return arr
     end
     
-    method printArray(arr : Array[Integer]) is
+    method printArray(arr : IntArray) is
         var i : Integer(0)
-        while i.Less(arr.Length) loop
+        while i.Less(arr.Length()) loop
+            /arr.Length().print()
+
             arr.get(i).print()
             i := i.Plus(1)
         end     
@@ -122,22 +126,24 @@ class Main is
     
     method test() is
         // sorter 1 (does nothing)
-        var arr1 : Array[Integer]
-        arr1 := createArray(8)
-        BaseSorter().sort(arr1)
+        var arr1 : IntArray(Integer(4))
+        arr1.Length().print()
+        arr1 := createArray(Integer(4))
+        arr1.Length().print()
+        /arr1 := BaseSorter().sort(arr1)
         printArray(arr1)
         
         // sorter 2 (uses bubble sort)
-        var arr2 : Array[Integer]
-        arr2 := createArray(8)
-        BubbleSorter().sort(arr2)
+        var arr2 : IntArray(Integer(8))
+        arr2 := createArray(Integer(8))
+        arr2 := BubbleSorter().sort(arr2)
         printArray(arr2)
         
         // sorter 3 (uses merge sort)
-        var arr3 : Array[Integer]
-        arr3 := createArray(11)
-        MergeSorter().sort(arr3)
-        printArray(arr3)
+        // var arr3 : IntArray(Integer(11))
+        // arr3 := createArray(Integer(11))
+        // MergeSorter().sort(arr3)
+        // printArray(arr3)
     end
 
     this() is
