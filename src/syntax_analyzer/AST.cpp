@@ -255,14 +255,14 @@ llvm::Value* ClassDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuild
         auto currentClassMethods = symbolTable.lookupClass(className->name, className->span)->methods;
 
         // Add base class methods to the current class if not already present
-        for (const auto& baseMethod : baseClassMethods)
+        for (const auto& [fst, snd] : baseClassMethods)
         {
-            if (currentClassMethods.find(baseMethod.first) == currentClassMethods.end())
+            if (currentClassMethods.find(fst) == currentClassMethods.end())
             {
-                currentClass->addMethod(baseMethod.first, baseMethod.second);
+                currentClass->addMethod(fst, snd);
                 // Add call to the base class method
-                std::string baseMethodName = baseClassName + "_" + baseMethod.first.methodName;
-                std::string currentMethodName = className->name + "_" + baseMethod.first.methodName;
+                std::string baseMethodName = baseClassName + "_" + fst.methodName;
+                std::string currentMethodName = className->name + "_" + fst.methodName;
                 llvm::Function* baseMethodFunc = module.getFunction(baseMethodName);
                 if (!baseMethodFunc)
                 {
@@ -272,7 +272,7 @@ llvm::Value* ClassDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuild
                 // Create args signature
                 std::vector<llvm::Type*> args;
                 args.push_back(llvm::PointerType::get(classType, 0));
-                for (const auto& argType : baseMethod.first.parameterTypes)
+                for (const auto& argType : fst.parameterTypes)
                 {
                     args.push_back(llvm::StructType::getTypeByName(context, argType));
                 }
@@ -641,11 +641,10 @@ void ConstructorDeclaration::accept(Visitor& visitor)
     visitor.visitConstructorDeclaration(*this);
 }
 
-llvm::Value*
-ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                ScopedSymbolTable& symbolTable)
+llvm::Value* ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder,
+                                             llvm::Module& module, ScopedSymbolTable& symbolTable)
 {
-    llvm::StructType* classType = llvm::StructType::getTypeByName(context, className);
+    const llvm::StructType* classType = llvm::StructType::getTypeByName(context, className);
 
 
     // Generate the constructor function (name it based on the class it's constructing).
@@ -675,9 +674,9 @@ ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& b
 
     llvm::FunctionType* functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), paramTypes, false);
     std::string constructorName = className + "_Constructor";
-    for (int i = 0; i < paramStringTypes.size(); i++)
+    for (const auto & paramStringType : paramStringTypes)
     {
-        constructorName += "_" + paramStringTypes[i];
+        constructorName += "_" + paramStringType;
     }
     llvm::Function* function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, constructorName,
                                                       &module);
@@ -805,14 +804,14 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
     }
     if (expression->isCompound)
     {
-        CompoundExpression* expr = dynamic_cast<CompoundExpression*>(expression.get());
-        auto val = expr->codegen(context, builder, module, symbolTable);
+        auto* expr = dynamic_cast<CompoundExpression*>(expression.get());
+        const auto val = expr->codegen(context, builder, module, symbolTable);
         symbolTable.addLocalVariable(variable->name, val, expr->identifier);
         return val;
     }
     else
     {
-        Primary* expr = dynamic_cast<Primary*>(expression.get());
+        const auto* expr = dynamic_cast<Primary*>(expression.get());
         llvm::StructType* classType = llvm::StructType::getTypeByName(context, expr->type);
         llvm::AllocaInst* classAlloc = builder.CreateAlloca(classType, nullptr, variable->name);
         std::string constructorName = expr->type + "_Constructor_";
@@ -823,23 +822,23 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
         {
             if (expr->literal->type == BOOL_LITERAL)
             {
-                BoolLiteral* boolLiteral = dynamic_cast<BoolLiteral*>(expr->literal.get());
+                const auto* boolLiteral = dynamic_cast<BoolLiteral*>(expr->literal.get());
                 llvm::Value* boolValue = llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), boolLiteral->value);
                 constructorArgs.push_back(boolValue);
                 constructorName += "Boolean";
             }
             else if (expr->literal->type == INT_LITERAL)
             {
-                IntLiteral* intLiteral = dynamic_cast<IntLiteral*>(expr->literal.get());
+                const auto* intLiteral = dynamic_cast<IntLiteral*>(expr->literal.get());
                 llvm::Value* intValue = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), intLiteral->value);
                 constructorArgs.push_back(intValue);
                 constructorName += "Integer";
             }
             else if (expr->literal->type == REAL_LITERAL)
             {
-                RealLiteral* realLiteral = dynamic_cast<RealLiteral*>(expr->literal.get());
+                const auto* realLiteral = dynamic_cast<RealLiteral*>(expr->literal.get());
                 llvm::Value* realValue = llvm::ConstantFP::get(llvm::Type::getDoubleTy(context),
-                                                               (double)realLiteral->value);
+                                                               static_cast<double>(realLiteral->value));
                 constructorArgs.push_back(realValue);
                 constructorName += "Real";
             }
@@ -934,9 +933,9 @@ llvm::Value* MethodDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuil
     //
     llvm::FunctionType* functionType = llvm::FunctionType::get(llvmReturnType, paramTypes, false);
     std::string funcName = symbolTable.currClassName + "_" + methodName->name;
-    for (int i = 0; i < paramStringTypes.size(); i++)
+    for (const auto & paramStringType : paramStringTypes)
     {
-        funcName += "_" + paramStringTypes[i];
+        funcName += "_" + paramStringType;
     }
     llvm::Function* function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, funcName,
                                                       &module);
