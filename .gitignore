@@ -2,6 +2,9 @@
 *.lexer
 *.syntax
 *.semantics
+*.ll
+!std/*.ll
+!std/**/*.ll
 
 # Virtual environment for python scripts
 venv/
