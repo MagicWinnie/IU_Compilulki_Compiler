@@ -1,31 +1,23 @@
 // Array test
-// Creating and printing the array of cubes of integers from 0 to 4
+// Creating and printing the array of cubes of integers
 
 Program: Main
 
 class Main is
+    this() is
+        var size : Integer(5)
+        var arr : IntArray(size)
 
-  method Plus(i: Integer): Integer is
-            return i.Plus(Integer(10))
-
+        var i : Integer(0)
+        while i.Less(size) loop
+            arr.set(i, i.Mult(i).Mult(i))
+            i := i.Plus(1)
         end
 
-         method Plus(r: Rea): Real is
-                    r
-
-                end
-    this() is
-
-
-        Plus(Integer(5))
-
-
-
-
-
-
-
-
+        i := Integer(0)
+        while i.Less(size) loop
+            arr.get(i).print()
+            i := i.Plus(1)
+        end
     end
-
 end
