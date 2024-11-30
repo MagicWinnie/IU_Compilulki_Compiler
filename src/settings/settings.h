@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <string>
-#define OUTPUT_DEFAULT_EXTENSION ".o"
+#define OUTPUT_DEFAULT_EXTENSION ".out"
 
 class Settings
 {

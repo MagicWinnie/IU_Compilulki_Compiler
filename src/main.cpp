@@ -13,24 +13,26 @@
 #include "llvm/Support/raw_ostream.h"
 
 
-void loadCustomIR(llvm::LLVMContext &context, llvm::Module &module, const std::string &filePath) {
+void loadCustomIR(llvm::LLVMContext& context, llvm::Module& module, const std::string& filePath)
+{
     llvm::SMDiagnostic err;
-    auto loadedModule = llvm::parseIRFile("std/"+filePath, err, context);
+    auto loadedModule = llvm::parseIRFile("std/" + filePath, err, context);
 
-    if (!loadedModule) {
+    if (!loadedModule)
+    {
         err.print("IR Loading Error", llvm::errs());
         return;
     }
 
     // Merge loaded module with your existing module
-    if (llvm::Linker::linkModules(module, std::move(loadedModule))) {
+    if (llvm::Linker::linkModules(module, std::move(loadedModule)))
+    {
         llvm::errs() << "Error linking module!\n";
     }
 }
 
 int main(const int argc, char* argv[])
 {
-
     llvm::LLVMContext context;
     llvm::IRBuilder<> builder(context);
     auto module = std::make_unique<llvm::Module>("compilul'ki", context);
@@ -41,10 +43,10 @@ int main(const int argc, char* argv[])
     loadCustomIR(context, *module.get(), "real.ll");
     loadCustomIR(context, *module.get(), "int_array.ll");
     loadCustomIR(context, *module.get(), "int_list.ll");
-//    loadCustomIR(context, *module.get(), "real_array.ll");
-//    loadCustomIR(context, *module.get(), "real_list.ll");
-//    loadCustomIR(context, *module.get(), "bool_array.ll");
-//    loadCustomIR(context, *module.get(), "bool_list.ll");
+    //    loadCustomIR(context, *module.get(), "real_array.ll");
+    //    loadCustomIR(context, *module.get(), "real_list.ll");
+    //    loadCustomIR(context, *module.get(), "bool_array.ll");
+    //    loadCustomIR(context, *module.get(), "bool_list.ll");
     auto settings = Settings();
     settings.parse(argc, argv);
     settings.process();
@@ -73,41 +75,52 @@ int main(const int argc, char* argv[])
     program->codegen(context, builder, *module.get(), symbolTableVisitor.symbolTable);
 
     std::error_code EC;
-    if(settings.get_debug())
-    {
-        std::cout << "\n\n\nCode generated" << std::endl;
-        module->print(llvm::outs(), nullptr);
-    }
 
+    std::filesystem::path ll_path(settings.get_output_filename());
 
-    std::string output_filename = settings.get_output_filename();
-    llvm::raw_fd_ostream dest(output_filename + ".ll", EC);
+    ll_path.replace_extension(".ll");;
+    std::string ll_path_str = ll_path.string();
+
+    ll_path.replace_extension(".bc");
+    std::string bc_path_str = ll_path.string();
+
+    ll_path.replace_extension(".o");
+    std::string o_path_str = ll_path.string();
+
+    llvm::raw_fd_ostream dest(ll_path_str, EC);
     module->print(dest, nullptr);
 
-    std::cout<<"\nRESULT:\n";
+    std::cout << "\nRESULT:\n";
 
-    std::string optimizerCommand = "opt " + settings.get_optimization_level() + " "+output_filename+".ll -o "+output_filename+".bc";
-
+    std::string optimizerCommand = "opt " + settings.get_optimization_level() + " " +
+        ll_path_str + " -o " + bc_path_str;
+    std::cout << optimizerCommand << std::endl;
     std::system(optimizerCommand.c_str());
 
-    std::string llcCommand = "llc -filetype=obj "+output_filename+".ll -o "+output_filename+".o";
+    std::string llcCommand = "llc -filetype=obj " + ll_path_str + " -o " + o_path_str;
+    std::cout << llcCommand << std::endl;
     std::system(llcCommand.c_str());
 
-    std::string clangCommand = "clang "+output_filename+".o -o "+output_filename;
+    std::string clangCommand = "g++ -no-pie " + o_path_str + " -o " + settings.get_output_filename();
+    std::cout << clangCommand << std::endl;
     std::system(clangCommand.c_str());
 
 
     // Remove the intermediate files
-    std::string rmCommand = "rm "+output_filename+".o "+output_filename+".bc";
+    std::string rmCommand = "rm " + o_path_str + " " + bc_path_str;
+    std::cout << rmCommand << std::endl;
     std::system(rmCommand.c_str());
-    if(!settings.get_debug()){
-        rmCommand = "rm "+output_filename+".ll";
+    if (!settings.get_debug())
+    {
+        rmCommand = "rm " + ll_path_str;
         std::system(rmCommand.c_str());
     }
-    std::string runCommand = "./"+output_filename;
+    std::string runCommand = "./" + settings.get_output_filename();
+    std::cout << runCommand << std::endl;
     int result = std::system(runCommand.c_str());
 
-    if (result != 0) {
+    if (result != 0)
+    {
         std::cerr << "Execution failed with code: " << result << std::endl;
         return EXIT_FAILURE;
     }
