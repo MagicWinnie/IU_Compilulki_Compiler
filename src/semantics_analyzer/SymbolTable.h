@@ -259,9 +259,9 @@ public:
                           const std::vector<std::string> &argTypes,
                           llvm::Function *func);
 
-    int getFieldIndex(std::string basicString, std::string basicString1);
+    int getFieldIndex(const std::string& className, const std::string& varName);
 
-    llvm::Value *getThisPointer();
+    llvm::Value *getThisPointer() const;
 
     void setThisPointer(llvm::Value *thisPtr);
 
