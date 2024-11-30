@@ -43,30 +43,34 @@ int main(const int argc, char* argv[])
     loadCustomIR(context, *module.get(), "real.ll");
     loadCustomIR(context, *module.get(), "int_array.ll");
     loadCustomIR(context, *module.get(), "int_list.ll");
-    //    loadCustomIR(context, *module.get(), "real_array.ll");
-    //    loadCustomIR(context, *module.get(), "real_list.ll");
-    //    loadCustomIR(context, *module.get(), "bool_array.ll");
-    //    loadCustomIR(context, *module.get(), "bool_list.ll");
+    // loadCustomIR(context, *module.get(), "real_array.ll");
+    // loadCustomIR(context, *module.get(), "real_list.ll");
+    // loadCustomIR(context, *module.get(), "bool_array.ll");
+    // loadCustomIR(context, *module.get(), "bool_list.ll");
+
     auto settings = Settings();
     settings.parse(argc, argv);
     settings.process();
-
     if (settings.get_debug())
     {
         std::cout << settings << std::endl;
     }
 
+    // LEXER
     auto lexer = Lexer(settings.get_infile(), settings.get_debug());
     auto tokens = lexer.parse();
 
+    // PARSER
     auto parser = Parser(std::move(tokens), settings.get_infile(), settings.get_debug());
     std::unique_ptr<Program> program = parser.parse();
 
+    // SEMANTICS
     SymbolTableVisitor symbolTableVisitor;
     program->accept(symbolTableVisitor);
 
     std::cout << "\033[0m" << std::endl;
 
+    // OPTIMIZER
     OptimizeVisitor optimizeVisitor(symbolTableVisitor.symbolTable);
     program->accept(optimizeVisitor);
 
@@ -77,45 +81,48 @@ int main(const int argc, char* argv[])
     std::error_code EC;
 
     std::filesystem::path ll_path(settings.get_output_filename());
-
     ll_path.replace_extension(".ll");;
     std::string ll_path_str = ll_path.string();
 
-    ll_path.replace_extension(".bc");
-    std::string bc_path_str = ll_path.string();
+    std::filesystem::path bc_path(settings.get_output_filename());
+    bc_path.replace_extension(".bc");
+    std::string bc_path_str = bc_path.string();
 
-    ll_path.replace_extension(".o");
-    std::string o_path_str = ll_path.string();
+    std::filesystem::path o_path(settings.get_output_filename());
+    o_path.replace_extension(".o");
+    std::string o_path_str = o_path.string();
 
     llvm::raw_fd_ostream dest(ll_path_str, EC);
     module->print(dest, nullptr);
 
     std::cout << "\nRESULT:\n";
 
-    std::string optimizerCommand = "opt " + settings.get_optimization_level() + " " +
+    // Run optimizer
+    std::string optimizerCommand = "opt-19 " + settings.get_optimization_level() + " " +
         ll_path_str + " -o " + bc_path_str;
     std::cout << optimizerCommand << std::endl;
     std::system(optimizerCommand.c_str());
 
-    std::string llcCommand = "llc -filetype=obj " + ll_path_str + " -o " + o_path_str;
+    // Run llc
+    std::string llcCommand = "llc-19 -filetype=obj " + ll_path_str + " -o " + o_path_str;
     std::cout << llcCommand << std::endl;
     std::system(llcCommand.c_str());
 
+    // Run compile
     std::string clangCommand = "g++ -no-pie " + o_path_str + " -o " + settings.get_output_filename();
     std::cout << clangCommand << std::endl;
     std::system(clangCommand.c_str());
 
-
     // Remove the intermediate files
-    std::string rmCommand = "rm " + o_path_str + " " + bc_path_str;
-    std::cout << rmCommand << std::endl;
-    std::system(rmCommand.c_str());
+    remove(o_path);
+    remove(bc_path);
     if (!settings.get_debug())
     {
-        rmCommand = "rm " + ll_path_str;
-        std::system(rmCommand.c_str());
+        remove(ll_path);
     }
-    std::string runCommand = "./" + settings.get_output_filename();
+
+    // Run binary file
+    std::string runCommand = settings.get_output_filename();
     std::cout << runCommand << std::endl;
     int result = std::system(runCommand.c_str());
 
