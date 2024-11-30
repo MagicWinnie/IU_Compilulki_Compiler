@@ -3,8 +3,8 @@ Program
     ClassName: Main
     ProgramArguments
       Literals
-        Literal: 1.100000
-        Literal: 1.200000
+        Literal: 5
+        Literal: 2
   ClassDeclarations
     ClassDeclaration
       ClassName: Main
@@ -15,30 +15,32 @@ Program
               Body
                 BodyDeclarations
                   BodyDeclaration
-                    VariableDeclaration
-                      Primary: true
-                      VariableName: eq
-                  BodyDeclaration
-                    VariableDeclaration
-                      Primary: false
-                      VariableName: dif
-                  BodyDeclaration
                     IfStatement
-                      CompoundExpression: eq
+                      CompoundExpression: a
+                        CompoundExpression: Greater
+                          Arguments
+                            Expressions
+                              CompoundExpression: b
                       IfBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              CompoundExpression: dif
+                              CompoundExpression: Boolean
+                                Arguments
+                                  Expressions
+                                    Primary: true
                                 CompoundExpression: print
                       ElseBranch
                         Body
                           BodyDeclarations
                             BodyDeclaration
-                              CompoundExpression: eq
+                              CompoundExpression: Boolean
+                                Arguments
+                                  Expressions
+                                    Primary: false
                                 CompoundExpression: print
               Parameters
                 Parameter: a
-                  ClassName: Real
+                  ClassName: Integer
                 Parameter: b
-                  ClassName: Real
+                  ClassName: Integer
