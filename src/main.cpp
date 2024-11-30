@@ -98,13 +98,13 @@ int main(const int argc, char* argv[])
     std::cout << "\nRESULT:\n";
 
     // Run optimizer
-    std::string optimizerCommand = "opt-19 " + settings.get_optimization_level() + " " +
+    std::string optimizerCommand = "opt " + settings.get_optimization_level() + " " +
         ll_path_str + " -o " + bc_path_str;
     std::cout << optimizerCommand << std::endl;
     std::system(optimizerCommand.c_str());
 
     // Run llc
-    std::string llcCommand = "llc-19 -filetype=obj " + ll_path_str + " -o " + o_path_str;
+    std::string llcCommand = "llc -filetype=obj " + ll_path_str + " -o " + o_path_str;
     std::cout << llcCommand << std::endl;
     std::system(llcCommand.c_str());
 
