@@ -1,3 +1,8 @@
+# Olang
+*.lexer
+*.syntax
+*.semantics
+
 # Virtual environment for python scripts
 venv/
 
