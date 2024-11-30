@@ -835,7 +835,10 @@ llvm::Value *MethodDeclaration::codegen(llvm::LLVMContext &context, llvm::IRBuil
     auto retValue = body->codegen(context, builder, module, symbolTable);
     // Step 7: Return the generated value (for non-void functions)
 
-    builder.CreateRetVoid();
+    if(llvmReturnType->isVoidTy()){
+        builder.CreateRetVoid();
+    }
+
     llvm::verifyFunction(*function);
 
     symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
