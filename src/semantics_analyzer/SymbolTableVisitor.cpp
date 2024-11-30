@@ -109,15 +109,15 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addFunctionEntry("print", "IntArray", "void", Span(0, 0, 0), {});
 
     //IntList
-    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {""});
-    symbolTable.addFunctionEntry("Create_Default", "IntList", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Constructor", "IntList", "void", Span(0, 0, 0), {""});
+    symbolTable.addFunctionEntry("Constructor", "IntList", "void", Span(0, 0, 0), {"Integer"});
 
     symbolTable.addFunctionEntry("append", "IntList", "void", Span(0, 0, 0), {"Integer"});
     symbolTable.addFunctionEntry("head", "IntList", "Integer", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("tail", "IntList", "IntList", Span(0, 0, 0), {});
 
     //RealArray
-    symbolTable.addFunctionEntry("Create_Default", "RealArray", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Constructor", "RealArray", "void", Span(0, 0, 0), {"Integer"});
 
     //    symbolTable.addFunctionEntry("toList", "RealArray", "RealList", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Length", "RealArray", "Integer", Span(0, 0, 0), {});
@@ -134,7 +134,7 @@ SymbolTableVisitor::SymbolTableVisitor()
     //    symbolTable.addFunctionEntry("tail", "RealList", "RealList", Span(0, 0, 0), {});
     //
     //BoolArray
-    symbolTable.addFunctionEntry("Create_Default", "BoolArray", "void", Span(0, 0, 0), {"Integer"});
+    symbolTable.addFunctionEntry("Constructor", "BoolArray", "void", Span(0, 0, 0), {"Integer"});
 
     //    symbolTable.addFunctionEntry("toList", "BoolArray", "BoolList", Span(0, 0, 0), {});
     symbolTable.addFunctionEntry("Length", "BoolArray", "Integer", Span(0, 0, 0), {});
