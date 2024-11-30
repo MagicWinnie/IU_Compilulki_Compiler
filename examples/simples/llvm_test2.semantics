@@ -1,0 +1,64 @@
+Program
+  ProgramDeclaration
+    ClassName: Main
+  ClassDeclarations
+    ClassDeclaration
+      ClassName: A
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: a
+              Parameters
+                Parameter: a
+                  ClassName: Integer
+              ReturnType
+                ClassName: Integer
+              MethodName: test
+          MemberDeclaration
+            MethodDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    ReturnStatement
+                      CompoundExpression: a
+              Parameters
+                Parameter: a
+                  ClassName: Real
+              ReturnType
+                ClassName: Real
+              MethodName: test
+    ClassDeclaration
+      ClassName: Main
+      ClassBody
+        MemberDeclarations
+          MemberDeclaration
+            VariableDeclaration
+              CompoundExpression: A
+              VariableName: c
+          MemberDeclaration
+            VariableDeclaration
+              Primary: 555
+              VariableName: a
+          MemberDeclaration
+            ConstructorDeclaration
+              Body
+                BodyDeclarations
+                  BodyDeclaration
+                    VariableDeclaration
+                      CompoundExpression: Integer
+                        Arguments
+                          Expressions
+                            Primary: 5555
+                      VariableName: a
+                  BodyDeclaration
+                    CompoundExpression: c
+                      CompoundExpression: test
+                        Arguments
+                          Expressions
+                            CompoundExpression: a
+                        CompoundExpression: print

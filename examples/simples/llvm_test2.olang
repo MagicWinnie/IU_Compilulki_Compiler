@@ -1,0 +1,27 @@
+Program: Main
+
+class A is
+
+    method test(a: Integer): Integer is
+        return a
+    end
+
+    method test(a: Real): Real is
+        return a
+    end
+
+end
+
+class Main is
+
+    var c: A()
+
+    this() is
+
+        var a: Integer(5555)
+        var b: Real(33.0)
+        c.test(a).print()
+
+    end
+
+end

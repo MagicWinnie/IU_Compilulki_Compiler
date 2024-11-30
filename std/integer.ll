@@ -172,6 +172,33 @@ entry:
   ret %Integer %returnValue
 }
 
+; Function: Integer Mult Real
+define %Real @Integer_Mult_Real(ptr %self, %Real %realValue) {
+entry:
+  ; Get the value of the self Integer object
+  %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
+  %selfValue = load i32, ptr %selfFieldPtr, align 4
+
+  ; Convert selfValue to double
+  %selfAsReal = sitofp i32 %selfValue to double
+
+  ; Extract the double value from the %Real object (realValue)
+  %realValueAsDouble = extractvalue %Real %realValue, 0
+
+  ; Perform addition
+  %result = fmul double %selfAsReal, %realValueAsDouble
+
+  ; Allocate space for the Real object (pointer to Real)
+  %realResult = alloca %Real, align 8
+
+  ; Call the Real constructor to create the Real object with the result
+  call void @Real_Constructor_Real(ptr %realResult, double %result)
+
+  ; Load the Real object and return it
+  %loadedReal = load %Real, ptr %realResult, align 8
+  ret %Real %loadedReal
+}
+
 define %Integer @Integer_Plus_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get a pointer to the field of the self Integer object
@@ -200,32 +227,32 @@ entry:
   ret %Integer %returnValue
 }
 
-;; Function: Integer Plus Real
-;define %Real @Integer_Plus_Real(ptr %self, %Real %realValue) {
-;entry:
-;  ; Get the value of the self Integer object
-;  %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
-;  %selfValue = load i32, ptr %selfFieldPtr, align 4
+; Function: Integer Plus Real
+define %Real @Integer_Plus_Real(ptr %self, %Real %realValue) {
+entry:
+  ; Get the value of the self Integer object
+  %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
+  %selfValue = load i32, ptr %selfFieldPtr, align 4
 
-;  ; Convert selfValue to double
-;  %selfAsReal = sitofp i32 %selfValue to double
+  ; Convert selfValue to double
+  %selfAsReal = sitofp i32 %selfValue to double
 
-;  ; Extract the double value from the %Real object (realValue)
-;  %realValueAsDouble = extractvalue %Real %realValue, 0
+  ; Extract the double value from the %Real object (realValue)
+  %realValueAsDouble = extractvalue %Real %realValue, 0
 
-;  ; Perform addition
-;  %result = fadd double %selfAsReal, %realValueAsDouble
+  ; Perform addition
+  %result = fadd double %selfAsReal, %realValueAsDouble
 
-;  ; Allocate space for the Real object (pointer to Real)
-;  %realResult = alloca %Real, align 8
+  ; Allocate space for the Real object (pointer to Real)
+  %realResult = alloca %Real, align 8
 
-;  ; Call the Real constructor to create the Real object with the result
-;  call void @Real_Constructor_Real(ptr %realResult, double %result)
+  ; Call the Real constructor to create the Real object with the result
+  call void @Real_Constructor_Real(ptr %realResult, double %result)
 
-;  ; Load the Real object and return it
-;  %loadedReal = load %Real, ptr %realResult, align 8
-;  ret %Real %loadedReal
-;}
+  ; Load the Real object and return it
+  %loadedReal = load %Real, ptr %realResult, align 8
+  ret %Real %loadedReal
+}
 
 define %Integer @Integer_Minus_Integer(ptr %self, %Integer %other) {
 entry:
@@ -249,6 +276,33 @@ entry:
   ret %Integer %returnValue
 }
 
+; Function: Integer Minus Real
+define %Real @Integer_Minus_Real(ptr %self, %Real %realValue) {
+entry:
+  ; Get the value of the self Integer object
+  %selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
+  %selfValue = load i32, ptr %selfFieldPtr, align 4
+
+  ; Convert selfValue to double
+  %selfAsReal = sitofp i32 %selfValue to double
+
+  ; Extract the double value from the %Real object (realValue)
+  %realValueAsDouble = extractvalue %Real %realValue, 0
+
+  ; Perform addition
+  %result = fsub double %selfAsReal, %realValueAsDouble
+
+  ; Allocate space for the Real object (pointer to Real)
+  %realResult = alloca %Real, align 8
+
+  ; Call the Real constructor to create the Real object with the result
+  call void @Real_Constructor_Real(ptr %realResult, double %result)
+
+  ; Load the Real object and return it
+  %loadedReal = load %Real, ptr %realResult, align 8
+  ret %Real %loadedReal
+}
+
 define %Integer @Integer_Div_Integer(ptr %self, %Integer %other) {
 entry:
   ; Get the value of the self Integer object
@@ -269,6 +323,33 @@ entry:
 
   ; Return the new Integer object as a value
   ret %Integer %returnValue
+}
+
+; Function: Integer Div Real
+define %Real @Integer_Div_Real(ptr %self, %Real %realValue) {
+entry:
+; Get the value of the self Integer object
+%selfFieldPtr = getelementptr inbounds %Integer, ptr %self, i32 0, i32 0
+%selfValue = load i32, ptr %selfFieldPtr, align 4
+
+; Convert selfValue to double
+%selfAsReal = sitofp i32 %selfValue to double
+
+; Extract the double value from the %Real object (realValue)
+%realValueAsDouble = extractvalue %Real %realValue, 0
+
+; Perform addition
+%result = fdiv double %selfAsReal, %realValueAsDouble
+
+; Allocate space for the Real object (pointer to Real)
+%realResult = alloca %Real, align 8
+
+; Call the Real constructor to create the Real object with the result
+call void @Real_Constructor_Real(ptr %realResult, double %result)
+
+; Load the Real object and return it
+%loadedReal = load %Real, ptr %realResult, align 8
+ret %Real %loadedReal
 }
 
 
