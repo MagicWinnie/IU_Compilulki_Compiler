@@ -93,15 +93,15 @@ llvm::Value* ProgramDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBui
             args.push_back(argValue); // Add argument value to the call list
             if (arg->type == INT_LITERAL)
             {
-                argTypes.push_back("Integer");
+                argTypes.emplace_back("Integer");
             }
             else if (arg->type == REAL_LITERAL)
             {
-                argTypes.push_back("Real");
+                argTypes.emplace_back("Real");
             }
             else if (arg->type == BOOL_LITERAL)
             {
-                argTypes.push_back("Boolean");
+                argTypes.emplace_back("Boolean");
             }
         }
     }
@@ -531,7 +531,6 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
             for (auto& arg : arguments->expressions->expressions)
             {
                 llvm::Value* argValue = arg->codegen(context, builder, module, symbolTable);
-                std::cout << "HERE2" << std::endl;
                 auto strArgType = arg->get_type(symbolTable, symbolTable.currClassName);
                 // create load
                 if (argValue && argValue->getType()->isPointerTy())
@@ -1422,7 +1421,6 @@ std::string Expression::get_type(ScopedSymbolTable& symbolTable, std::string pre
     const auto identifierType = symbolTable.getIdentifierType(expr->identifier);
     if (identifierType == ID_VARIABLE)
     {
-        std::cout << "Variable " << expr->identifier << " " << expr->span.get_line_num() << std::endl;
         previousType = symbolTable.lookupVariable(expr->identifier, expr->span)->type;
         symbolTable.makeVariableUsed(expr->identifier);
     }

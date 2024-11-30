@@ -138,18 +138,23 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
     classEntries[name] = ClassEntry(name);
 }
 
-VariableEntry* ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
-                                                 const bool throw_error)
+std::unique_ptr<VariableEntry> ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
+                                                                  const bool throw_error)
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    const auto found = variableTypes.find(name);
+    if (found != variableTypes.end())
     {
-        auto& [varEntries] = *it;
-        auto found = varEntries.find(name);
-        if (found != varEntries.end())
-        {
-            return &found->second;
-        }
+        return std::make_unique<VariableEntry>(name, found->second, true);
     }
+    // for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
+    // {
+    //     auto& [varEntries] = *it;
+    //     const auto found = varEntries.find(name);
+    //     if (found != varEntries.end())
+    //     {
+    //         return &found->second;
+    //     }
+    // }
     if (throw_error)
     {
         throw std::runtime_error(
