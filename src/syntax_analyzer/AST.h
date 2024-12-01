@@ -93,9 +93,9 @@ class Literal;
 class Visitor
 {
 public:
-    Visitor() = default;
+    Visitor();
 
-    virtual ~Visitor() = default;
+    virtual ~Visitor();
 
     virtual void visitProgram(Program&) = 0;
 
@@ -193,10 +193,7 @@ public:
     explicit Literals(std::vector<std::unique_ptr<Literal>>);
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -213,10 +210,7 @@ class Literal : public Entity
 public:
     LiteralType type;
 
-    [[nodiscard]] virtual std::string to_string() const
-    {
-        return "";
-    }
+    [[nodiscard]] virtual std::string to_string() const;
 
     void accept(Visitor&) override;
 };
@@ -226,19 +220,12 @@ class BoolLiteral final : public Literal
 public:
     bool value;
 
-    [[nodiscard]] std::string to_string() const override
-    {
-        return value ? "true" : "false";
-    }
+    [[nodiscard]] std::string to_string() const override;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                          ScopedSymbolTable& symbolTable) override;
 
-    explicit BoolLiteral(const bool value)
-        : value(value)
-    {
-        type = BOOL_LITERAL;
-    }
+    explicit BoolLiteral(const bool value);
 };
 
 class IntLiteral final : public Literal
@@ -246,22 +233,12 @@ class IntLiteral final : public Literal
 public:
     int value;
 
-    [[nodiscard]] std::string to_string() const override
-    {
-        return std::to_string(value);
-    }
+    [[nodiscard]] std::string to_string() const override;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return llvm::ConstantInt::get(context, llvm::APInt(32, value, true));
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
-    explicit IntLiteral(const int value)
-        : value(value)
-    {
-        type = INT_LITERAL;
-    }
+    explicit IntLiteral(const int value);
 };
 
 class RealLiteral final : public Literal
@@ -269,22 +246,12 @@ class RealLiteral final : public Literal
 public:
     long double value;
 
-    [[nodiscard]] std::string to_string() const override
-    {
-        return std::to_string(value);
-    }
+    [[nodiscard]] std::string to_string() const override;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return llvm::ConstantFP::get(context, llvm::APFloat(static_cast<double>(value)));
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
-    explicit RealLiteral(const long double value)
-        : value(value)
-    {
-        type = REAL_LITERAL;
-    }
+    explicit RealLiteral(const long double value);
 };
 
 
@@ -296,10 +263,7 @@ public:
     explicit Arguments(std::unique_ptr<Expressions>);
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -315,10 +279,7 @@ public:
     ClassName(std::string, const Span&, std::unique_ptr<ClassName> className = nullptr);
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -435,10 +396,7 @@ public:
     std::vector<std::unique_ptr<Expression>> expressions;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -453,9 +411,7 @@ public:
 
     std::string get_type(ScopedSymbolTable& symbolTable, std::string previousType);
 
-    Expression() : span(Span(0, 0, 0)), isCompound(false)
-    {
-    }
+    Expression();
 };
 
 class Primary final : public Expression
@@ -472,18 +428,7 @@ public:
 
     std::unique_ptr<ClassName> class_name = nullptr;
 
-    [[nodiscard]] std::string to_string() const
-    {
-        if (literal)
-        {
-            return literal->to_string();
-        }
-        if (class_name)
-        {
-            return class_name->name;
-        }
-        return "";
-    }
+    [[nodiscard]] std::string to_string() const;
 
 
     void accept(Visitor&) override;
@@ -507,10 +452,7 @@ public:
                          const std::string& prevValueType) const;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return this->codegen(context, builder, module, symbolTable, nullptr, "");
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
 
     void accept(Visitor&) override;
@@ -524,10 +466,7 @@ public:
     explicit ProgramArguments(std::unique_ptr<Literals>);
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -577,10 +516,7 @@ public:
 
     VariableDeclaration(std::unique_ptr<VariableName>, std::unique_ptr<Expression>);
 
-    void markForDeletion()
-    {
-        needsToBeDeleted = true;
-    }
+    void markForDeletion();
 
 
     void accept(Visitor&) override;
@@ -609,10 +545,7 @@ public:
     std::vector<std::unique_ptr<Parameter>> parameters;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -626,10 +559,7 @@ public:
     explicit MethodName(std::string, const Span&);
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -644,10 +574,7 @@ public:
     Parameter(std::string, const Span&, std::unique_ptr<ClassName>);
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -659,10 +586,7 @@ public:
     Span span;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     explicit VariableName(std::string, const Span&);
 
@@ -676,10 +600,7 @@ public:
     std::unique_ptr<ClassName> className;
 
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override
-    {
-        return nullptr;
-    }
+                         ScopedSymbolTable& symbolTable) override;
 
     explicit ReturnType(std::unique_ptr<ClassName>);
 
@@ -714,10 +635,7 @@ public:
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                          ScopedSymbolTable& symbolTable) override;
 
-    Assignment()
-    {
-        statementType = ASSIGNMENT;
-    }
+    Assignment();
 
     void accept(Visitor&) override;
 };

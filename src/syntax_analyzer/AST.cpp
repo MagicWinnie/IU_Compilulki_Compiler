@@ -6,6 +6,149 @@
 #include <utility>
 #include "AST.h"
 
+Visitor::Visitor() = default;
+Visitor::~Visitor() = default;
+
+llvm::Value* Literals::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                               ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+std::string Literal::to_string() const
+{
+    return "";
+}
+
+std::string BoolLiteral::to_string() const
+{
+    return value ? "true" : "false";
+}
+
+BoolLiteral::BoolLiteral(const bool value): value(value)
+{
+    type = BOOL_LITERAL;
+}
+
+std::string IntLiteral::to_string() const
+{
+    return std::to_string(value);
+}
+
+llvm::Value* IntLiteral::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                 ScopedSymbolTable& symbolTable)
+{
+    return llvm::ConstantInt::get(context, llvm::APInt(32, value, true));
+}
+
+IntLiteral::IntLiteral(const int value): value(value)
+{
+    type = INT_LITERAL;
+}
+
+std::string RealLiteral::to_string() const
+{
+    return std::to_string(value);
+}
+
+llvm::Value* RealLiteral::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                  ScopedSymbolTable& symbolTable)
+{
+    return llvm::ConstantFP::get(context, llvm::APFloat(static_cast<double>(value)));
+}
+
+RealLiteral::RealLiteral(const long double value): value(value)
+{
+    type = REAL_LITERAL;
+}
+
+llvm::Value* Arguments::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+llvm::Value* ClassName::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+llvm::Value* Expressions::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                  ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+Expression::Expression(): span(Span(0, 0, 0)), isCompound(false)
+{
+}
+
+std::string Primary::to_string() const
+{
+    if (literal)
+    {
+        return literal->to_string();
+    }
+    if (class_name)
+    {
+        return class_name->name;
+    }
+    return "";
+}
+
+llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                         ScopedSymbolTable& symbolTable)
+{
+    return this->codegen(context, builder, module, symbolTable, nullptr, "");
+}
+
+llvm::Value* ProgramArguments::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                       ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+void VariableDeclaration::markForDeletion()
+{
+    needsToBeDeleted = true;
+}
+
+llvm::Value* Parameters::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                 ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+llvm::Value* MethodName::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                 ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+llvm::Value* Parameter::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+llvm::Value* VariableName::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                   ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+llvm::Value* ReturnType::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
+                                 ScopedSymbolTable& symbolTable)
+{
+    return nullptr;
+}
+
+Assignment::Assignment()
+{
+    statementType = ASSIGNMENT;
+}
+
 Entity::~Entity() = default;
 
 
