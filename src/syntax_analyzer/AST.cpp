@@ -524,6 +524,9 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
         {
             args.push_back(prevValue); // Add the initial variable as the first argument
         }
+        else{
+            args.push_back(symbolTable.getThisPointer());
+        }
 
         // Add other arguments if available
         if (arguments)
