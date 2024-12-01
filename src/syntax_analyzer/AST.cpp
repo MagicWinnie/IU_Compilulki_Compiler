@@ -173,7 +173,6 @@ void ClassDeclaration::accept(Visitor& visitor)
 llvm::Value* ClassDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                        ScopedSymbolTable& symbolTable)
 {
-    // TODO fix if class name has elements
     auto elements = symbolTable.lookupClass(className->name, className->span)->getFields();
     std::vector<llvm::Type*> elementsType;
     for (const auto& element : elements)

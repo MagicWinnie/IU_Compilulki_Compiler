@@ -1,5 +1,4 @@
-
-Program: Main(1.1, 1.2)
+Program: Main
 
 class Main is
     method returnInteger() : Integer is
