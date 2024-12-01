@@ -153,11 +153,6 @@ void OptimizeVisitor::visitIfStatement(IfStatement& node)
                 if (boolLiteral->value == true)
                 {
                     const auto bodyDeclarations = node.ifBranch->body->bodyDeclarations.get();
-                    // parentBodyDeclarations->bodyDeclarations
-
-                    //
-                    // Remove bodyDeclaration with index indexOfCurrentBodyDeclaration
-                    // Add bodyDeclarations to parentBodyDeclarations at index indexOfCurrentBodyDeclaration
 
                     for (int i = 0; i < bodyDeclarations->bodyDeclarations.size(); i++)
                     {
@@ -175,13 +170,7 @@ void OptimizeVisitor::visitIfStatement(IfStatement& node)
                 }
                 else
                 {
-                    // Remove if branch
                     const auto bodyDeclarations = std::move(node.elseBranch->body->bodyDeclarations);
-                    // parentBodyDeclarations->bodyDeclarations
-
-                    //
-                    // Remove bodyDeclaration with index indexOfCurrentBodyDeclaration
-                    // Add bodyDeclarations to parentBodyDeclarations at index indexOfCurrentBodyDeclaration
 
                     for (int i = 0; i < bodyDeclarations->bodyDeclarations.size(); i++)
                     {
@@ -199,8 +188,6 @@ void OptimizeVisitor::visitIfStatement(IfStatement& node)
                 }
             }
         }
-
-        // Check if literal statementType is BoolLiteral
     }
     if (node.expression) node.expression->accept(*this);
     if (node.ifBranch) node.ifBranch->accept(*this);
