@@ -6,15 +6,6 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <iostream>
-#include <llvm/IR/Value.h>
-#include <llvm/IR/Constants.h>
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/IRBuilder.h>
-#include <llvm/IR/Module.h>
-#include "llvm/IR/DataLayout.h"
-#include "llvm/IR/Intrinsics.h"
-#include "llvm/IR/Verifier.h"
 
 #include "../lexical_analyzer/span.h"
 #include "../semantics_analyzer/SymbolTable.h"
@@ -178,9 +169,6 @@ public:
 
     virtual void accept(Visitor&) = 0;
 
-    virtual llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                 ScopedSymbolTable& symbolTable) = 0;
-
     // Helper function to print indentation
     static void printIndent(int);
 };
@@ -191,9 +179,6 @@ public:
     std::vector<std::unique_ptr<Literal>> literals;
 
     explicit Literals(std::vector<std::unique_ptr<Literal>>);
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -222,9 +207,6 @@ public:
 
     [[nodiscard]] std::string to_string() const override;
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     explicit BoolLiteral(bool value);
 };
 
@@ -234,9 +216,6 @@ public:
     int value;
 
     [[nodiscard]] std::string to_string() const override;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     explicit IntLiteral(int value);
 };
@@ -248,9 +227,6 @@ public:
 
     [[nodiscard]] std::string to_string() const override;
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     explicit RealLiteral(long double value);
 };
 
@@ -261,9 +237,6 @@ public:
     std::unique_ptr<Expressions> expressions;
 
     explicit Arguments(std::unique_ptr<Expressions>);
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -278,9 +251,6 @@ public:
 
     ClassName(std::string, const Span&, std::unique_ptr<ClassName> className = nullptr);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -289,9 +259,6 @@ class ProgramDeclaration final : public Entity
 public:
     std::unique_ptr<ClassName> className;
     std::unique_ptr<ProgramArguments> arguments;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -303,9 +270,6 @@ public:
     std::unique_ptr<ProgramDeclaration> programDeclaration;
     std::unique_ptr<ClassDeclarations> classDeclarations;
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
 
     void accept(Visitor&) override;
 };
@@ -314,9 +278,6 @@ class ClassDeclarations final : public Entity
 {
 public:
     std::vector<std::unique_ptr<ClassDeclaration>> classDeclarations;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -328,9 +289,6 @@ public:
     std::unique_ptr<Extension> extension;
     std::unique_ptr<ClassBody> classBody;
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -338,10 +296,6 @@ class MemberDeclarations final : public Entity
 {
 public:
     std::vector<std::unique_ptr<MemberDeclaration>> member_declarations;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -371,9 +325,6 @@ public:
 
     explicit Extension(std::unique_ptr<ClassName>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -384,9 +335,6 @@ public:
 
     explicit ClassBody(std::unique_ptr<MemberDeclarations>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -394,9 +342,6 @@ class Expressions final : public Entity
 {
 public:
     std::vector<std::unique_ptr<Expression>> expressions;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -417,9 +362,6 @@ public:
 class Primary final : public Expression
 {
 public:
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     explicit Primary(std::unique_ptr<ClassName>&, const std::string&, const Span&);
 
     explicit Primary(std::unique_ptr<Literal>&, const std::string&, const Span&);
@@ -446,15 +388,6 @@ public:
     explicit CompoundExpression(std::string, const Span& span, std::unique_ptr<Arguments> args = nullptr,
                                 std::vector<std::unique_ptr<CompoundExpression>> compExpr = {});
 
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable, llvm::Value* prevValue,
-                         const std::string& prevValueType) const;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
-
     void accept(Visitor&) override;
 };
 
@@ -465,9 +398,6 @@ public:
 
     explicit ProgramArguments(std::unique_ptr<Literals>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -477,9 +407,6 @@ public:
     std::unique_ptr<VariableDeclaration> variableDeclaration;
     std::unique_ptr<MethodDeclaration> methodDeclaration;
     std::unique_ptr<ConstructorDeclaration> constructorDeclaration;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -492,9 +419,6 @@ public:
     std::unique_ptr<Body> body;
     Span span;
     std::string className;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     ConstructorDeclaration(std::unique_ptr<Parameters>, std::unique_ptr<Body>, const Span&, std::string);
 
@@ -510,9 +434,6 @@ public:
     MemberDeclaration* memberParent = nullptr;
     bool isClassField = false;
     bool needsToBeDeleted = false;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     VariableDeclaration(std::unique_ptr<VariableName>, std::unique_ptr<Expression>);
 
@@ -533,9 +454,6 @@ public:
     MethodDeclaration(std::unique_ptr<MethodName>&, std::unique_ptr<Parameters>&,
                       std::unique_ptr<ReturnType>&, std::unique_ptr<Body>&);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -543,9 +461,6 @@ class Parameters final : public Entity
 {
 public:
     std::vector<std::unique_ptr<Parameter>> parameters;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -557,9 +472,6 @@ public:
     Span span;
 
     explicit MethodName(std::string, const Span&);
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -573,9 +485,6 @@ public:
 
     Parameter(std::string, const Span&, std::unique_ptr<ClassName>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -584,9 +493,6 @@ class VariableName final : public Entity
 public:
     std::string name;
     Span span;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     explicit VariableName(std::string, const Span&);
 
@@ -598,9 +504,6 @@ class ReturnType final : public Entity
 {
 public:
     std::unique_ptr<ClassName> className;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     explicit ReturnType(std::unique_ptr<ClassName>);
 
@@ -618,10 +521,6 @@ public:
 
     explicit BodyDeclaration(std::unique_ptr<Statement>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
-
     void accept(Visitor&) override;
 };
 
@@ -631,9 +530,6 @@ class Assignment final : public Statement
 public:
     std::unique_ptr<VariableName> variableName;
     std::unique_ptr<Expression> expression;
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     Assignment();
 
@@ -648,9 +544,6 @@ public:
 
     WhileLoop(std::unique_ptr<Expression>, std::unique_ptr<Body>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -664,10 +557,6 @@ public:
     IfStatement(std::unique_ptr<Expression>, std::unique_ptr<IfBranch>,
                 std::unique_ptr<ElseBranch> else_branch = nullptr);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
-
     void accept(Visitor&) override;
 };
 
@@ -677,9 +566,6 @@ public:
     std::unique_ptr<Body> body;
 
     explicit IfBranch(std::unique_ptr<Body>);
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -691,9 +577,6 @@ public:
 
     explicit ElseBranch(std::unique_ptr<Body>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -703,9 +586,6 @@ public:
     std::unique_ptr<Expression> expression;
 
     explicit ReturnStatement(std::unique_ptr<Expression>);
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };
@@ -717,9 +597,6 @@ public:
 
     explicit Body(std::unique_ptr<BodyDeclarations>);
 
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
-
     void accept(Visitor&) override;
 };
 
@@ -729,9 +606,6 @@ public:
     std::vector<std::unique_ptr<BodyDeclaration>> bodyDeclarations;
 
     explicit BodyDeclarations(std::vector<std::unique_ptr<BodyDeclaration>>);
-
-    llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                         ScopedSymbolTable& symbolTable) override;
 
     void accept(Visitor&) override;
 };

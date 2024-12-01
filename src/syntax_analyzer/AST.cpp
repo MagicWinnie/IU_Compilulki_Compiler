@@ -9,12 +9,6 @@
 Visitor::Visitor() = default;
 Visitor::~Visitor() = default;
 
-llvm::Value* Literals::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                               ScopedSymbolTable& symbolTable)
-{
-    return nullptr;
-}
-
 std::string Literal::to_string() const
 {
     return "";
@@ -35,12 +29,6 @@ std::string IntLiteral::to_string() const
     return std::to_string(value);
 }
 
-llvm::Value* IntLiteral::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                 ScopedSymbolTable& symbolTable)
-{
-    return llvm::ConstantInt::get(context, llvm::APInt(32, value, true));
-}
-
 IntLiteral::IntLiteral(const int value): value(value)
 {
     type = INT_LITERAL;
@@ -51,33 +39,9 @@ std::string RealLiteral::to_string() const
     return std::to_string(value);
 }
 
-llvm::Value* RealLiteral::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                  ScopedSymbolTable& symbolTable)
-{
-    return llvm::ConstantFP::get(context, llvm::APFloat(static_cast<double>(value)));
-}
-
 RealLiteral::RealLiteral(const long double value): value(value)
 {
     type = REAL_LITERAL;
-}
-
-llvm::Value* Arguments::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                ScopedSymbolTable& symbolTable)
-{
-    return nullptr;
-}
-
-llvm::Value* ClassName::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                ScopedSymbolTable& symbolTable)
-{
-    return nullptr;
-}
-
-llvm::Value* Expressions::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                  ScopedSymbolTable& symbolTable)
-{
-    return nullptr;
 }
 
 Expression::Expression(): span(Span(0, 0, 0)), isCompound(false)
@@ -101,12 +65,6 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
                                          ScopedSymbolTable& symbolTable)
 {
     return this->codegen(context, builder, module, symbolTable, nullptr, "");
-}
-
-llvm::Value* ProgramArguments::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                       ScopedSymbolTable& symbolTable)
-{
-    return nullptr;
 }
 
 void VariableDeclaration::markForDeletion()
@@ -198,99 +156,9 @@ void ProgramDeclaration::accept(Visitor& visitor)
     visitor.visitProgramDeclaration(*this);
 }
 
-llvm::Value* ProgramDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                         ScopedSymbolTable& symbolTable)
-{
-    // TODO to other place REFACTOR!!
-
-
-    // Step 1: Create or get the 'main' function.
-    llvm::FunctionType* mainFuncType = llvm::FunctionType::get(llvm::Type::getInt32Ty(context),
-                                                               false); // main returns an int32 (exit code)
-    llvm::Function* mainFunc = llvm::Function::Create(mainFuncType, llvm::Function::ExternalLinkage, "main", module);
-
-    // Step 2: Create the entry block for the main function
-    llvm::BasicBlock* entry = llvm::BasicBlock::Create(context, "entry", mainFunc);
-    builder.SetInsertPoint(entry); // Set the insertion point to the entry block of the main function
-
-    // Step 3: Get the struct type for the class (e.g., 'Main') using className
-    llvm::StructType* mainType = llvm::StructType::getTypeByName(context, className->name);
-
-    // Step 4: Allocate memory for the 'Main' object
-    llvm::AllocaInst* mainAlloc = builder.CreateAlloca(mainType, nullptr, "main_object");
-
-    // Handle arguments
-    std::vector<llvm::Value*> args;
-    std::vector<std::string> argTypes;
-    args.push_back(mainAlloc); // Add the 'Main' object as the first argument
-    if (arguments)
-    {
-        for (const auto& arg : arguments->literals->literals)
-        {
-            llvm::Value* argValue = arg->codegen(context, builder, module, symbolTable);
-            if (!argValue)
-            {
-                llvm::errs() << "Error: Failed to generate code for argument.\n";
-                return nullptr;
-            }
-            args.push_back(argValue); // Add argument value to the call list
-            if (arg->type == INT_LITERAL)
-            {
-                argTypes.emplace_back("Integer");
-            }
-            else if (arg->type == REAL_LITERAL)
-            {
-                argTypes.emplace_back("Real");
-            }
-            else if (arg->type == BOOL_LITERAL)
-            {
-                argTypes.emplace_back("Boolean");
-            }
-        }
-    }
-
-    // Step 5: Retrieve the constructor function for Main (e.g., '@Main_Create_Default')
-    std::string constructor_name = className->name + "_Constructor";
-    for (const auto& argType : argTypes)
-    {
-        constructor_name += "_" + argType;
-    }
-
-    llvm::Function* constructorFunc = module.getFunction(constructor_name);
-    if (!constructorFunc)
-    {
-        llvm::errs() << "Error: Constructor function not found for " << constructor_name << "\n";
-        return nullptr;
-    }
-
-    // Step 6: Call the constructor function to initialize the 'Main' object
-    builder.CreateCall(constructorFunc, args);
-
-
-    //    // Step 7: Optionally, return the object or return an exit code from main
-    builder.CreateRet(
-        llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 0)); // Return 0 for a successful execution
-
-    return mainAlloc;
-}
-
 void Program::accept(Visitor& visitor)
 {
     visitor.visitProgram(*this);
-}
-
-llvm::Value* Program::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                              ScopedSymbolTable& symbolTable)
-{
-    if (classDeclarations)
-    {
-        classDeclarations->codegen(context, builder, module, symbolTable);
-    }
-    if (programDeclaration)
-    {
-        programDeclaration->codegen(context, builder, module, symbolTable);
-    }
-    return nullptr;
 }
 
 void ClassDeclarations::accept(Visitor& visitor)
@@ -1524,13 +1392,6 @@ llvm::Value* BodyDeclarations::codegen(llvm::LLVMContext& context, llvm::IRBuild
         value = bodyDeclaration->codegen(context, builder, module, symbolTable);
     }
     return value;
-}
-
-
-llvm::Value* BoolLiteral::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
-                                  ScopedSymbolTable& symbolTable)
-{
-    return llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), value);
 }
 
 std::string Expression::get_type(ScopedSymbolTable& symbolTable, std::string previousType)
