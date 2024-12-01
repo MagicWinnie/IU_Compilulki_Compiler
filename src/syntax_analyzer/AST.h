@@ -260,7 +260,7 @@ public:
 
     llvm::Value *codegen(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, llvm::Module &module,
                          ScopedSymbolTable &symbolTable) override {
-        return llvm::ConstantFP::get(context, llvm::APFloat((double) value));
+        return llvm::ConstantFP::get(context, llvm::APFloat(static_cast<double>(value)));
     }
 
     explicit RealLiteral(const long double value)

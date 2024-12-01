@@ -82,7 +82,7 @@ llvm::Value* ProgramDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBui
     args.push_back(mainAlloc); // Add the 'Main' object as the first argument
     if (arguments)
     {
-        for (auto& arg : arguments->literals->literals)
+        for (const auto& arg : arguments->literals->literals)
         {
             llvm::Value* argValue = arg->codegen(context, builder, module, symbolTable);
             if (!argValue)
@@ -706,7 +706,7 @@ llvm::Value* ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::I
     builder.SetInsertPoint(entryBlock);
 
     //Call init function
-    std::string initName = className + "_Init";
+    const std::string initName = className + "_Init";
     llvm::Function* initFunc = module.getFunction(initName);
     if (!initFunc)
     {
@@ -767,7 +767,7 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
     if (isClassField)
     {
         // Get the current class type
-        llvm::StructType* classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
+        const llvm::StructType* classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
         if (!classType)
         {
             llvm::errs() << "Error: Class type not found.\n";
@@ -787,7 +787,7 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
             // Get the 'this' pointer (first argument of the constructor)
             llvm::Argument* thisPtr = constructor->arg_begin();
             // TODO get index of the field
-            unsigned fieldIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variable->name);
+            const unsigned fieldIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variable->name);
             if (fieldIndex == -1)
             {
                 llvm::errs() << "Error: Field index not found.\n";
@@ -1097,13 +1097,13 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
         if (symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name) != -1)
         {
             llvm::Value* thisPtr = symbolTable.getThisPointer();
-            // Then the variable is a class field. Acces varaible from the 'this' argument
+            // Then the variable is a class field. Access variable from the 'this' argument
             // TODO maybe bug
             llvm::StructType* classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
-            // get this ptr as first arguemtn of current fucntion
+            // get this ptr as first argument of current function
             // get this pointer from arguments
 
-            int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name);
+            const int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variableName->name);
 
             ptr = builder.CreateConstInBoundsGEP2_32(classType, thisPtr, memberIndex, 0, variableName->name);
 
@@ -1119,8 +1119,8 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
 
         // Use memcpy to copy the value
         llvm::Type* valueType = value->getType();
-        llvm::DataLayout dataLayout(&module); // Get the data layout from the module
-        uint64_t size = dataLayout.getTypeAllocSize(valueType); // Get the size of the type
+        const llvm::DataLayout dataLayout(&module); // Get the data layout from the module
+        const uint64_t size = dataLayout.getTypeAllocSize(valueType); // Get the size of the type
 
         // Create constants for memcpy parameters
         llvm::Value* sizeValue = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context), size);
@@ -1195,7 +1195,7 @@ llvm::Value* IfStatement::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>&
     ThenBB = builder.GetInsertBlock();
 
     builder.SetInsertPoint(ElseBB);
-    llvm::Value* ElseV = nullptr;
+    const llvm::Value* ElseV = nullptr;
     if (this->elseBranch)
     {
         ElseV = this->elseBranch->codegen(context, builder, module, symbolTable);
@@ -1333,8 +1333,8 @@ llvm::Value* ReturnStatement::codegen(llvm::LLVMContext& context, llvm::IRBuilde
                                       ScopedSymbolTable& symbolTable)
 {
     llvm::BasicBlock* currentBlock = builder.GetInsertBlock();
-    llvm::Function* currentFunction = currentBlock->getParent();
-    auto functionReturnType = currentFunction->getReturnType();
+    const llvm::Function* currentFunction = currentBlock->getParent();
+    const auto functionReturnType = currentFunction->getReturnType();
     auto* bodyVal = expression->codegen(context, builder, module, symbolTable);
     if (expression)
     {

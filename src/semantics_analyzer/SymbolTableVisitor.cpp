@@ -1,4 +1,3 @@
-#include <iostream>
 #include <stdexcept>
 #include "SymbolTableVisitor.h"
 
@@ -560,7 +559,7 @@ void checkReturnStatement(const std::string& expectedReturnType,
             }
             else if (bodyDeclaration->statement->statementType == IF_STATEMENT)
             {
-                auto* ifStatement = dynamic_cast<IfStatement*>(bodyDeclaration->statement.get());
+                const auto* ifStatement = dynamic_cast<IfStatement*>(bodyDeclaration->statement.get());
                 checkReturnStatement(expectedReturnType, ifStatement->ifBranch->body.get(), methodName, symbolTable);
                 if (ifStatement->elseBranch)
                 {
@@ -570,7 +569,7 @@ void checkReturnStatement(const std::string& expectedReturnType,
             }
             else if (bodyDeclaration->statement->statementType == WHILE_LOOP)
             {
-                auto* whileLoop = dynamic_cast<WhileLoop*>(bodyDeclaration->statement.get());
+                const auto* whileLoop = dynamic_cast<WhileLoop*>(bodyDeclaration->statement.get());
                 checkReturnStatement(expectedReturnType, whileLoop->body.get(), methodName, symbolTable);
             }
         }

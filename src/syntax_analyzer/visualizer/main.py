@@ -1,4 +1,5 @@
 import sys
+
 import pygraphviz as pgv
 from treelib import Tree
 

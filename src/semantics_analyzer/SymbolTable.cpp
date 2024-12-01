@@ -74,7 +74,7 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
         identifierTypes[name] = ID_VARIABLE;
         variableTypes[name] = type;
         current_scope.addVariableEntry(name, type);
-        auto classEntry = lookupClass(currClassName, span, true);
+        const auto classEntry = lookupClass(currClassName, span, true);
         //        if(classEntry->getFieldIndex(name) != -1){
         //            throw std::runtime_error(
         //                "Variable '" + name + "' is already declared in this class " +
@@ -84,7 +84,7 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
         //        }
         if (isClassField)
         {
-            VariableEntry field = {name, type};
+            const VariableEntry field = {name, type};
             classEntry->addField(field);
         }
     }
@@ -339,7 +339,7 @@ std::string ScopedSymbolTable::getIdentifierStringType(const std::string& identi
 llvm::Function* ScopedSymbolTable::getMethodValue(const std::string& className, const std::string& funcName,
                                                   const std::vector<std::string>& argTypes)
 {
-    auto classEntry = lookupClass(className, Span(0, 0, 0), false);
+    const auto classEntry = lookupClass(className, Span(0, 0, 0), false);
     return classEntry->getMethodValue(funcName, argTypes);
 }
 

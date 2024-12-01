@@ -358,7 +358,7 @@ std::unique_ptr<ClassDeclaration> Parser::parseClassDeclaration()
     auto classDeclaration = std::make_unique<ClassDeclaration>();
     expectAndConsume(CLASS);
     auto className = parseClassName();
-    auto classNameString = className->name;
+    const auto classNameString = className->name;
     classDeclaration->className = std::move(className);
     classDeclaration->extension = parseExtension();
     expectAndConsume(IS);
