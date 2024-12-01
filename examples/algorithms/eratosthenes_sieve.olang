@@ -1,16 +1,16 @@
 // Решето Эратосфена для нахождения простых чисел до заданного числа
 
-Program: Main(50)
+Program: Main()
 
 class Main is
     this() is
-        var n : 50
-        var A : Array[Boolean](n.Plus(1)) // array from 0 to n (has n + 1 elements)
+        var n : Integer(50)
+        var A : IntArray(51) // array from 0 to n (has n + 1 elements)
         var i : Integer(0)
         
         // populate array with true
         while i.Less(A.Length()) loop
-            A.set(i, true)
+            A.set(i, 1)
             i := i.Plus(1)
         end
         
@@ -19,9 +19,10 @@ class Main is
         while i.Mult(i).Less(A.Length()) loop
             if A.get(i) then
                 var j : Integer(0)
-                var k : Integer(i.Mult(i).Plus(j.Mult(i)))
+                var k : Integer()
+                k := i.Mult(i).Plus(j.Mult(i))
                 while k.Less(A.Length()) loop
-                    A.set(k, false)
+                    A.set(k, 0)
                     j := j.Plus(1)
                     k := i.Mult(i).Plus(j.Mult(i))
                 end
@@ -30,9 +31,9 @@ class Main is
         end
         
         // print primes from 2 to n
-        i := Integer(0)
+        i := Integer(2)
         while i.Less(A.Length()) loop
-            if A.get(i) then
+            if A.get(i).Equal(1) then
                 i.print()
             end
             i := i.Plus(1)
