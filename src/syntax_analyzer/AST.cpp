@@ -593,10 +593,7 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
     {
         return value;
     }
-    else
-    {
-        return compoundExpressions[0]->codegen(context, builder, module, symbolTable, value, valueType);
-    }
+    return compoundExpressions[0]->codegen(context, builder, module, symbolTable, value, valueType);
 }
 
 ProgramArguments::ProgramArguments(std::unique_ptr<Literals> literals) : literals(std::move(literals))
@@ -743,7 +740,7 @@ llvm::Value* ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::I
 
     // Finally, return void from the constructor function.
     builder.CreateRetVoid();
-    llvm::verifyFunction(*function);
+    verifyFunction(*function);
     symbolTable.addFunctionValue(constructorName, className, paramStringTypes, function);
 
     return nullptr;
@@ -782,7 +779,7 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
         if (constructor)
         {
             // Set the insertion point to the constructor's entry block
-            llvm::IRBuilder<> ctorBuilder(&constructor->getEntryBlock(), constructor->getEntryBlock().begin());
+            llvm::IRBuilder ctorBuilder(&constructor->getEntryBlock(), constructor->getEntryBlock().begin());
 
             // Get the 'this' pointer (first argument of the constructor)
             llvm::Argument* thisPtr = constructor->arg_begin();
@@ -813,51 +810,48 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
         symbolTable.addLocalVariable(variable->name, val, expr->identifier);
         return val;
     }
-    else
+    const auto* expr = dynamic_cast<Primary*>(expression.get());
+    llvm::StructType* classType = llvm::StructType::getTypeByName(context, expr->type);
+    llvm::AllocaInst* classAlloc = builder.CreateAlloca(classType, nullptr, variable->name);
+    std::string constructorName = expr->type + "_Constructor_";
+
+    std::vector<llvm::Value*> constructorArgs;
+    constructorArgs.push_back(classAlloc);
+    if (expr->literal)
     {
-        const auto* expr = dynamic_cast<Primary*>(expression.get());
-        llvm::StructType* classType = llvm::StructType::getTypeByName(context, expr->type);
-        llvm::AllocaInst* classAlloc = builder.CreateAlloca(classType, nullptr, variable->name);
-        std::string constructorName = expr->type + "_Constructor_";
-
-        std::vector<llvm::Value*> constructorArgs;
-        constructorArgs.push_back(classAlloc);
-        if (expr->literal)
+        if (expr->literal->type == BOOL_LITERAL)
         {
-            if (expr->literal->type == BOOL_LITERAL)
-            {
-                const auto* boolLiteral = dynamic_cast<BoolLiteral*>(expr->literal.get());
-                llvm::Value* boolValue = llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), boolLiteral->value);
-                constructorArgs.push_back(boolValue);
-                constructorName += "Boolean";
-            }
-            else if (expr->literal->type == INT_LITERAL)
-            {
-                const auto* intLiteral = dynamic_cast<IntLiteral*>(expr->literal.get());
-                llvm::Value* intValue = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), intLiteral->value);
-                constructorArgs.push_back(intValue);
-                constructorName += "Integer";
-            }
-            else if (expr->literal->type == REAL_LITERAL)
-            {
-                const auto* realLiteral = dynamic_cast<RealLiteral*>(expr->literal.get());
-                llvm::Value* realValue = llvm::ConstantFP::get(llvm::Type::getDoubleTy(context),
-                                                               static_cast<double>(realLiteral->value));
-                constructorArgs.push_back(realValue);
-                constructorName += "Real";
-            }
+            const auto* boolLiteral = dynamic_cast<BoolLiteral*>(expr->literal.get());
+            llvm::Value* boolValue = llvm::ConstantInt::get(llvm::Type::getInt1Ty(context), boolLiteral->value);
+            constructorArgs.push_back(boolValue);
+            constructorName += "Boolean";
         }
-
-        llvm::Function* constructorFunc = module.getFunction(constructorName);
-        if (!constructorFunc)
+        else if (expr->literal->type == INT_LITERAL)
         {
-            llvm::errs() << "Error: " << constructorName << " not found.\n";
-            return nullptr;
+            const auto* intLiteral = dynamic_cast<IntLiteral*>(expr->literal.get());
+            llvm::Value* intValue = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), intLiteral->value);
+            constructorArgs.push_back(intValue);
+            constructorName += "Integer";
         }
-        builder.CreateCall(constructorFunc, constructorArgs);
-        symbolTable.addLocalVariable(variable->name, classAlloc, expr->type);
-        return classAlloc;
+        else if (expr->literal->type == REAL_LITERAL)
+        {
+            const auto* realLiteral = dynamic_cast<RealLiteral*>(expr->literal.get());
+            llvm::Value* realValue = llvm::ConstantFP::get(llvm::Type::getDoubleTy(context),
+                                                           static_cast<double>(realLiteral->value));
+            constructorArgs.push_back(realValue);
+            constructorName += "Real";
+        }
     }
+
+    llvm::Function* constructorFunc = module.getFunction(constructorName);
+    if (!constructorFunc)
+    {
+        llvm::errs() << "Error: " << constructorName << " not found.\n";
+        return nullptr;
+    }
+    builder.CreateCall(constructorFunc, constructorArgs);
+    symbolTable.addLocalVariable(variable->name, classAlloc, expr->type);
+    return classAlloc;
 
     return nullptr;
 }
@@ -989,7 +983,7 @@ llvm::Value* MethodDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuil
         builder.CreateRetVoid();
     }
 
-    llvm::verifyFunction(*function);
+    verifyFunction(*function);
 
     symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
     return function;
@@ -1128,7 +1122,7 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
 
         // Call llvm.memcpy intrinsic
         // TODO maybe memmove
-        llvm::Function* memcpyFunc = llvm::Intrinsic::getDeclaration(&module, llvm::Intrinsic::memcpy,
+        llvm::Function* memcpyFunc = getDeclaration(&module, llvm::Intrinsic::memcpy,
                                                                      {
                                                                          value->getType(), ptr->getType(),
                                                                          sizeValue->getType()
@@ -1138,23 +1132,20 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
 
         return value;
     }
-    else
+    llvm::Value* value = expression->codegen(context, builder, module, symbolTable);
+    if (!value)
     {
-        llvm::Value* value = expression->codegen(context, builder, module, symbolTable);
-        if (!value)
-        {
-            llvm::errs() << "Error: Failed to generate code for assignment expression.\n";
-            return nullptr;
-        }
-        llvm::Value* ptr = symbolTable.getLocalVariable(variableName->name);
-        if (!ptr)
-        {
-            llvm::errs() << "Error: Undefined local variable " << variableName->name << "\n";
-            return nullptr;
-        }
-        builder.CreateStore(value, ptr);
-        return value;
+        llvm::errs() << "Error: Failed to generate code for assignment expression.\n";
+        return nullptr;
     }
+    llvm::Value* ptr = symbolTable.getLocalVariable(variableName->name);
+    if (!ptr)
+    {
+        llvm::errs() << "Error: Undefined local variable " << variableName->name << "\n";
+        return nullptr;
+    }
+    builder.CreateStore(value, ptr);
+    return value;
 }
 
 llvm::Value* IfStatement::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,

@@ -60,7 +60,7 @@ public:
     std::unique_ptr<Assignment> parseAssignment();
     std::unique_ptr<MemberDeclarations> parseMemberDeclarations(const std::string&);
     std::unique_ptr<MemberDeclaration> parseMemberDeclaration(const std::string&);
-    std::unique_ptr<ConstructorDeclaration> parseConstructorDeclaration(std::string);
+    std::unique_ptr<ConstructorDeclaration> parseConstructorDeclaration(const std::string&);
     std::unique_ptr<VariableDeclaration> parseVariableDeclaration();
     std::unique_ptr<MethodDeclaration> parseMethodDeclaration();
     std::unique_ptr<MethodName> parseMethodName();

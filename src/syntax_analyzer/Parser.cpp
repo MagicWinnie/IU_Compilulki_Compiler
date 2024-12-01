@@ -588,7 +588,7 @@ std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration(const std::str
     return nullptr;
 }
 
-std::unique_ptr<ConstructorDeclaration> Parser::parseConstructorDeclaration(std::string className)
+std::unique_ptr<ConstructorDeclaration> Parser::parseConstructorDeclaration(const std::string& className)
 {
     expectAndConsume(THIS);
     expectAndConsume(LEFT_PAREN);

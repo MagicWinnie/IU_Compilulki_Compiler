@@ -16,7 +16,7 @@
 void loadCustomIR(llvm::LLVMContext& context, llvm::Module& module, const std::string& filePath)
 {
     llvm::SMDiagnostic err;
-    auto loadedModule = llvm::parseIRFile("std/" + filePath, err, context);
+    auto loadedModule = parseIRFile("std/" + filePath, err, context);
 
     if (!loadedModule)
     {
@@ -34,7 +34,7 @@ void loadCustomIR(llvm::LLVMContext& context, llvm::Module& module, const std::s
 int main(const int argc, char* argv[])
 {
     llvm::LLVMContext context;
-    llvm::IRBuilder<> builder(context);
+    llvm::IRBuilder builder(context);
     auto module = std::make_unique<llvm::Module>("compilul'ki", context);
 
     loadCustomIR(context, *module.get(), "memory.ll");

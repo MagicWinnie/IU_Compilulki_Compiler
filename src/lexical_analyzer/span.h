@@ -10,8 +10,8 @@ public:
     Span(size_t line_num, size_t pos_begin, size_t pos_end);
 
     // to string
-    std::string to_string() const;
-    int get_line_num() const;
-    int get_pos_begin() const;
-    int get_pos_end() const;
+    [[nodiscard]] std::string to_string() const;
+    [[nodiscard]] int get_line_num() const;
+    [[nodiscard]] int get_pos_begin() const;
+    [[nodiscard]] int get_pos_end() const;
 };
