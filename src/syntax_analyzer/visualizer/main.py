@@ -6,8 +6,8 @@ IDENTATION = "  "  # 2 spaces
 
 
 def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <PATH TO .syntax FILE>")
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <PATH TO .syntax FILE> <PATH TO OUTPUT FILE>")
         exit(1)
 
     with open(sys.argv[1], mode="r") as fp:
@@ -39,7 +39,7 @@ def main():
 
     G = pgv.AGraph("tree.dot", rankdir="TB", strict=True)
     G.layout(prog="dot", args="")
-    G.draw("tree.pdf")
+    G.draw(sys.argv[2])
 
 
 if __name__ == "__main__":
