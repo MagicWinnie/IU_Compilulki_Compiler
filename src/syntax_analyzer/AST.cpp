@@ -853,8 +853,6 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
     builder.CreateCall(constructorFunc, constructorArgs);
     symbolTable.addLocalVariable(variable->name, classAlloc, expr->type);
     return classAlloc;
-
-    return nullptr;
 }
 
 MethodDeclaration::MethodDeclaration(std::unique_ptr<MethodName>& method_name, std::unique_ptr<Parameters>& parameters,
