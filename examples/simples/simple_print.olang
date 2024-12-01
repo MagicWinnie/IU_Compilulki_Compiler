@@ -9,6 +9,6 @@ end
 class Main is
     this() is
         var q : Test()
-        t.print()
+        q.print()
     end
 end
