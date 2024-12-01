@@ -437,10 +437,10 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
         llvm::Value* ptr = symbolTable.getLocalVariable(identifier);
         if (!ptr)
         {
-            // Then the variable is a class field. Acces varaible from the 'this' argument
+            // Then the variable is a class field. Access variable from the 'this' argument
             // TODO maybe bug
             llvm::StructType* classType = llvm::StructType::getTypeByName(context, symbolTable.currClassName);
-            // get this ptr as first arguemtn of current fucntion
+            // get this ptr as first argument of current function
             // get this pointer from arguments
             llvm::Value* thisPtr = symbolTable.getThisPointer();
             int memberIndex = symbolTable.getFieldIndex(symbolTable.currClassName, identifier);
@@ -524,7 +524,8 @@ llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBui
         {
             args.push_back(prevValue); // Add the initial variable as the first argument
         }
-        else{
+        else
+        {
             args.push_back(symbolTable.getThisPointer());
         }
 
@@ -1077,7 +1078,6 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
 {
     if (expression->isCompound)
     {
-
         llvm::Value* value = expression->codegen(context, builder, module, symbolTable);
         if (!value)
         {
@@ -1123,10 +1123,10 @@ llvm::Value* Assignment::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& 
         // Call llvm.memcpy intrinsic
         // TODO maybe memmove
         llvm::Function* memcpyFunc = getDeclaration(&module, llvm::Intrinsic::memcpy,
-                                                                     {
-                                                                         value->getType(), ptr->getType(),
-                                                                         sizeValue->getType()
-                                                                     }
+                                                    {
+                                                        value->getType(), ptr->getType(),
+                                                        sizeValue->getType()
+                                                    }
         );
         builder.CreateCall(memcpyFunc, {ptr, value, sizeValue, isVolatile});
 

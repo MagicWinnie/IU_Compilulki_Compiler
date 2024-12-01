@@ -510,7 +510,7 @@ public:
                          ScopedSymbolTable& symbolTable) override
     {
         return this->codegen(context, builder, module, symbolTable, nullptr, "");
-    };
+    }
 
 
     void accept(Visitor&) override;

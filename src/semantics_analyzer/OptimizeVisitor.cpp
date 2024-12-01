@@ -105,7 +105,7 @@ void OptimizeVisitor::visitStatement(Statement &node) {
 
 void OptimizeVisitor::visitIfStatement(IfStatement &node) {
     if (node.expression && !node.expression->isCompound) {
-        auto expression = dynamic_cast<Primary *>(node.expression.get());
+        const auto expression = dynamic_cast<Primary *>(node.expression.get());
         if (expression->literal) {
             const auto literal = std::move(expression->literal);
             if (literal->type == BOOL_LITERAL) {

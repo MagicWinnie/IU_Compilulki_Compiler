@@ -81,7 +81,7 @@ int main(const int argc, char* argv[])
     std::error_code EC;
 
     std::filesystem::path ll_path(settings.get_output_filename());
-    ll_path.replace_extension(".ll");;
+    ll_path.replace_extension(".ll");
     std::string ll_path_str = ll_path.string();
 
     std::filesystem::path bc_path(settings.get_output_filename());
