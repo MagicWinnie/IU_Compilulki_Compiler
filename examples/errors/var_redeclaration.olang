@@ -2,14 +2,10 @@ Program: Main()
 
 class Main is
     this() is
-
        var a : Integer
        a := Integer(10)
 
        var a: Real
        a := Real(10.0)
     end
-
-
 end
-
