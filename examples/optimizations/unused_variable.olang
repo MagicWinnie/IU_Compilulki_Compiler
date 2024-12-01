@@ -1,4 +1,3 @@
-
 Program: Main()
 
 class Main is
@@ -7,6 +6,5 @@ class Main is
         var b : Integer(10)
         var c : Integer(15)
         a := a.Plus(b)
-        b.print()
     end
 end

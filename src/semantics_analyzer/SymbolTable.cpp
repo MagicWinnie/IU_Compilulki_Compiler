@@ -75,13 +75,6 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
         variableTypes[name] = type;
         current_scope.addVariableEntry(name, type);
         const auto classEntry = lookupClass(currClassName, span, true);
-        //        if(classEntry->getFieldIndex(name) != -1){
-        //            throw std::runtime_error(
-        //                "Variable '" + name + "' is already declared in this class " +
-        //                "at line: " + std::to_string(span.get_line_num()) +
-        //                " column: " + std::to_string(span.get_pos_begin())
-        //            );
-        //        }
         if (isClassField)
         {
             const VariableEntry field = {name, type};
@@ -146,15 +139,6 @@ std::unique_ptr<VariableEntry> ScopedSymbolTable::lookupVariable(const std::stri
     {
         return std::make_unique<VariableEntry>(name, found->second, true);
     }
-    // for (auto it = scopes.rbegin(); it != scopes.rend(); ++it)
-    // {
-    //     auto& [varEntries] = *it;
-    //     const auto found = varEntries.find(name);
-    //     if (found != varEntries.end())
-    //     {
-    //         return &found->second;
-    //     }
-    // }
     if (throw_error)
     {
         throw std::runtime_error(
@@ -239,18 +223,6 @@ MethodEntry* ScopedSymbolTable::lookupFunction(const std::string& className, con
             return methodEntry;
         }
     }
-
-    // auto funcName = methodName;
-    // for (const auto& param : params)
-    // {
-    //     funcName += "_" + param;
-    // }
-    // const MethodSignature signature(funcName, params);
-    // ClassEntry* classEntry = lookupClass(className, span, true);
-    // if (MethodEntry* methodEntry = classEntry->lookupMethod(signature))
-    // {
-    //     return methodEntry;
-    // }
 
     if (throw_error)
     {
