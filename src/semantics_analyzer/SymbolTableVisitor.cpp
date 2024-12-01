@@ -14,6 +14,7 @@ SymbolTableVisitor::SymbolTableVisitor()
     symbolTable.addClassEntry("IntList", Span(0, 0, 0));
     symbolTable.addClassEntry("RealList", Span(0, 0, 0));
     symbolTable.addClassEntry("BoolList", Span(0, 0, 0));
+    symbolTable.addClassEntry("void", Span(0, 0, 0));
 
     // Integer
     symbolTable.addFunctionEntry("Constructor", "Integer", "void", Span(0, 0, 0), {});
@@ -220,62 +221,7 @@ void SymbolTableVisitor::visitPrimary(Primary& node)
     if (node.class_name) node.class_name->accept(*this);
 }
 
-// void SymbolTableVisitor::compoundExpressionParser(const CompoundExpression& node, const bool isFirst,
-//                                                   std::string previousType)
-// {
-//     std::vector<std::string> argTypes;
-//     if (node.arguments)
-//     {
-//         for (const auto& arg : node.arguments->expressions->expressions)
-//         {
-//             if (arg->isCompound)
-//             {
-//                 const auto compoundArgument = dynamic_cast<CompoundExpression*>(arg.get());
-//                 compoundExpressionParser(*compoundArgument, true, symbolTable.currClassName);
-//             }
-//             argTypes.push_back(arg->get_type(symbolTable));
-//         }
-//     }
-//
-//     const auto identifierType = symbolTable.getIdentifierType(node.identifier);
-//     if (identifierType == ID_VARIABLE)
-//     {
-//         previousType = symbolTable.lookupVariable(node.identifier, node.span)->type;
-//         symbolTable.makeVariableUsed(node.identifier);
-//     }
-//     else if (identifierType == ID_CLASS)
-//     {
-//         previousType = node.identifier;
-//         if (node.arguments)
-//         {
-//             symbolTable.lookupFunction(previousType, "Constructor", argTypes, node.span);
-//         }
-//         //llvmSymbolTable.lookupClass(node.identifier, node.span);
-//     }
-//     else if (identifierType == ID_FUNCTION)
-//     {
-//         previousType = symbolTable.lookupFunction(
-//             previousType, node.identifier, argTypes, node.span
-//         )->returnType;
-//
-//         //llvmSymbolTable.lookupFunction(node.identifier, node.span);
-//     }
-//     else
-//     {
-//         throw std::runtime_error(
-//             "Identifier " + node.identifier + " is not declared" +
-//             " at line: " + std::to_string(node.span.get_line_num()) +
-//             " column: " + std::to_string(node.span.get_pos_begin())
-//         );
-//     }
-//
-//     for (const auto& compoundExpression : node.compoundExpressions)
-//     {
-//         compoundExpressionParser(*compoundExpression, false, previousType);
-//     }
-// }
-
-void markVariableForDeletion(const std::string& variableName, Body& body)
+void markVariableForDeletion(const std::string& variableName, const Body& body)
 {
     for (const auto& bodyDeclaration : body.bodyDeclarations->bodyDeclarations)
     {
@@ -564,17 +510,17 @@ void SymbolTableVisitor::visitVariableDeclaration(VariableDeclaration& node)
     if (node.variable) node.variable->accept(*this);
 }
 
-void checkTypeOfReturnStatement(const std::string& expectedReturnType, const ReturnStatement* returnStatement,
-                                ScopedSymbolTable& symbolTable)
+void checkTypeOfReturnStatement(const std::string& methodName, const std::string& expectedReturnType,
+                                const ReturnStatement* returnStatement, ScopedSymbolTable& symbolTable)
 {
     if (returnStatement == nullptr)
     {
         if (expectedReturnType != "void")
         {
-            //            throw std::runtime_error(
-            //                    "Method " + node.methodName->name + " is of type " + expectedReturnType +
-            //                    " but is being assigned to type void");
-            throw std::runtime_error("ReturnStatement type error");
+            throw std::runtime_error(
+                "Method " + methodName + " is of type " + expectedReturnType +
+                " but is being assigned to type void"
+            );
         }
     }
     else
@@ -587,13 +533,12 @@ void checkTypeOfReturnStatement(const std::string& expectedReturnType, const Ret
             const auto type = expression->get_type(symbolTable, symbolTable.currClassName);
             if (type != expectedReturnType)
             {
-                //                throw std::runtime_error(
-                //                        "Method " + node.methodName->name + " is of type " + expectedReturnType +
-                //                        " but is being assigned to type " + type +
-                //                        " at line: " + std::to_string(span.get_line_num()) +
-                //                        " column: " + std::to_string(span.get_pos_begin())
-                //                );
-                throw std::runtime_error("ReturnStatement type error");
+                throw std::runtime_error(
+                    "Method " + methodName + " is of type " + expectedReturnType +
+                    " but is being assigned to type " + type +
+                    " at line: " + std::to_string(span.get_line_num()) +
+                    " column: " + std::to_string(span.get_pos_begin())
+                );
             }
         }
         // TODO check for primary expression
@@ -611,7 +556,7 @@ void checkReturnStatement(const std::string& expectedReturnType,
             if (bodyDeclaration->statement->statementType == RETURN_STATEMENT)
             {
                 returnStatement = dynamic_cast<ReturnStatement*>(bodyDeclaration->statement.get());
-                checkTypeOfReturnStatement(expectedReturnType, returnStatement, symbolTable);
+                checkTypeOfReturnStatement(methodName, expectedReturnType, returnStatement, symbolTable);
             }
             else if (bodyDeclaration->statement->statementType == IF_STATEMENT)
             {
