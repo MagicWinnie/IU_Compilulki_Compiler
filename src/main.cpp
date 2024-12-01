@@ -74,7 +74,10 @@ int main(const int argc, char* argv[])
     OptimizeVisitor optimizeVisitor(symbolTableVisitor.symbolTable);
     program->accept(optimizeVisitor);
 
-    parser.toFile(".semantics", program);
+    if (settings.get_debug())
+    {
+        parser.toFile(".semantics", program);
+    }
 
     program->codegen(context, builder, *module.get(), symbolTableVisitor.symbolTable);
 
