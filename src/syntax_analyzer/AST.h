@@ -225,7 +225,7 @@ public:
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                          ScopedSymbolTable& symbolTable) override;
 
-    explicit BoolLiteral(const bool value);
+    explicit BoolLiteral(bool value);
 };
 
 class IntLiteral final : public Literal
@@ -238,7 +238,7 @@ public:
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                          ScopedSymbolTable& symbolTable) override;
 
-    explicit IntLiteral(const int value);
+    explicit IntLiteral(int value);
 };
 
 class RealLiteral final : public Literal
@@ -251,7 +251,7 @@ public:
     llvm::Value* codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                          ScopedSymbolTable& symbolTable) override;
 
-    explicit RealLiteral(const long double value);
+    explicit RealLiteral(long double value);
 };
 
 

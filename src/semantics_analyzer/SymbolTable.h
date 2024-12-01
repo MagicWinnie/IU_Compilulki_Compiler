@@ -30,7 +30,7 @@ struct VariableEntry
 
     VariableEntry(std::string name, std::string type);
 
-    VariableEntry(std::string name, std::string type, const bool is_used);
+    VariableEntry(std::string name, std::string type, bool is_used);
 };
 
 struct MethodSignature
