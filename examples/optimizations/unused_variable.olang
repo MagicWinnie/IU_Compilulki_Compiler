@@ -6,6 +6,6 @@ class Main is
         var b : Integer(10)
         var c : Integer(15)
         a := a.Plus(b)
-        c.print()
+        b.print()
     end
 end
