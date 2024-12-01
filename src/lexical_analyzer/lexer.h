@@ -23,20 +23,20 @@ inline std::unordered_map<char, TokenCode> tokenMap = {
 };
 
 
-
-class Lexer {
+class Lexer
+{
     std::string infile_path;
     std::ifstream infile;
     bool debug;
 
-    void getNextChar(size_t *);
+    void getNextChar(size_t*);
 
-    static std::unique_ptr<Token> getKeywordToken(const std::string &, const Span &);
+    static std::unique_ptr<Token> getKeywordToken(const std::string&, const Span&);
 
 public:
-    explicit Lexer(const std::string &, const bool &);
+    explicit Lexer(const std::string&, const bool&);
 
-    std::vector<std::unique_ptr<Token> > parse();
+    std::vector<std::unique_ptr<Token>> parse();
 
     ~Lexer();
 };

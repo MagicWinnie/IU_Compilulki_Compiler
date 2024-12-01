@@ -36,9 +36,11 @@ inline std::unordered_map<TokenCode, std::string> tokenCodeToString = {
     {UNKNOWN, "UNKNOWN"}
 };
 
-inline std::string getEnumName(const TokenCode code) {
+inline std::string getEnumName(const TokenCode code)
+{
     const auto it = tokenCodeToString.find(code);
-    if (it != tokenCodeToString.end()) {
+    if (it != tokenCodeToString.end())
+    {
         return it->second; // Return the string if found
     }
     return "UNKNOWN_ENUM_VALUE"; // Fallback in case of unknown enum value

@@ -2,7 +2,8 @@
 
 #include <string>
 
-class Span {
+class Span
+{
     size_t line_num;
     size_t pos_begin, pos_end;
 
