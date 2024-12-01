@@ -7,7 +7,8 @@
 #include "token_code.h"
 
 
-class Token {
+class Token
+{
 protected:
     Span span;
     TokenCode code;
@@ -15,9 +16,10 @@ protected:
 public:
     virtual ~Token() = default;
 
-    Token(const Span &span, const TokenCode code)
+    Token(const Span& span, const TokenCode code)
         : span(span),
-          code(code) {
+          code(code)
+    {
     }
 
     virtual std::string to_string();
@@ -26,22 +28,26 @@ public:
     [[nodiscard]] Span get_span() const;
 };
 
-class Keyword final : public Token {
+class Keyword final : public Token
+{
 public:
-    Keyword(const Span &span, const TokenCode code) : Token(span, code) {
+    Keyword(const Span& span, const TokenCode code) : Token(span, code)
+    {
     }
 
     std::string to_string() override;
 };
 
-class Identifier final : public Token {
+class Identifier final : public Token
+{
 protected:
     std::string identifier;
 
 public:
-    Identifier(const Span &span, const TokenCode code, std::string identifier)
+    Identifier(const Span& span, const TokenCode code, std::string identifier)
         : Token(span, code),
-          identifier(std::move(identifier)) {
+          identifier(std::move(identifier))
+    {
     }
 
     [[nodiscard]] std::string get_identifier() const;
@@ -49,52 +55,54 @@ public:
     std::string to_string() override;
 };
 
-class Integer final : public Token {
-
-
-
+class Integer final : public Token
+{
 public:
     long value;
-    Integer(const Span &span, const TokenCode code, const long value)
+
+    Integer(const Span& span, const TokenCode code, const long value)
         : Token(span, code),
-          value(value) {
+          value(value)
+    {
     }
 
     std::string to_string() override;
 };
 
-class Real final : public Token {
-
-
-
+class Real final : public Token
+{
 public:
     long double value;
-    Real(const Span &span, const TokenCode code, const long double value)
+
+    Real(const Span& span, const TokenCode code, const long double value)
         : Token(span, code),
-          value(value) {
+          value(value)
+    {
     }
 
     std::string to_string() override;
 };
 
-class Boolean final : public Token {
-
-
-
+class Boolean final : public Token
+{
 public:
     bool value;
-    Boolean(const Span &span, const TokenCode code, const bool value)
+
+    Boolean(const Span& span, const TokenCode code, const bool value)
         : Token(span, code),
-          value(value) {
+          value(value)
+    {
     }
 
     std::string to_string() override;
 };
 
-class Delimiter final : public Token {
+class Delimiter final : public Token
+{
 public:
-    Delimiter(const Span &span, const TokenCode code)
-        : Token(span, code) {
+    Delimiter(const Span& span, const TokenCode code)
+        : Token(span, code)
+    {
     }
 
     std::string to_string() override;
