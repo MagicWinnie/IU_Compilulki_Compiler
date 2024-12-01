@@ -28,14 +28,9 @@ struct VariableEntry
 
     VariableEntry() = default;
 
-    VariableEntry(std::string name, std::string type): name(std::move(name)), type(std::move(type))
-    {
-    }
+    VariableEntry(std::string name, std::string type);
 
-    VariableEntry(std::string name, std::string type, const bool is_used): name(std::move(name)), type(std::move(type)),
-                                                                           is_used(is_used)
-    {
-    }
+    VariableEntry(std::string name, std::string type, const bool is_used);
 };
 
 struct MethodSignature
@@ -45,29 +40,15 @@ struct MethodSignature
 
     // Constructor
     MethodSignature() = default; // Default constructor
-    MethodSignature(std::string methodName, std::vector<std::string> parameterTypes)
-        : methodName(std::move(methodName)), parameterTypes(std::move(parameterTypes))
-    {
-    }
+    MethodSignature(std::string methodName, std::vector<std::string> parameterTypes);
 
     // Define equality operator to use MethodSignature in a map or set
-    bool operator==(const MethodSignature& other) const
-    {
-        return methodName == other.methodName && parameterTypes == other.parameterTypes;
-    }
+    bool operator==(const MethodSignature& other) const;
 };
 
 struct MethodSignatureHash
 {
-    std::size_t operator()(const MethodSignature& signature) const
-    {
-        std::size_t hash = std::hash<std::string>{}(signature.methodName);
-        for (const auto& paramType : signature.parameterTypes)
-        {
-            hash ^= std::hash<std::string>{}(paramType) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-        }
-        return hash;
-    }
+    std::size_t operator()(const MethodSignature& signature) const;
 };
 
 struct MethodEntry
@@ -86,149 +67,41 @@ public:
     std::unordered_map<std::string, std::string> methodReturnTypes;
     ClassEntry* parentClass = nullptr;
 
-    explicit ClassEntry(std::string className) : name(std::move(className))
-    {
-    }
+    explicit ClassEntry(std::string className);
 
     ClassEntry() = default;
 
-    std::string getName() const
-    {
-        return name;
-    }
+    std::string getName() const;
 
-    void addField(const VariableEntry& field)
-    {
-        fields.push_back(field);
-    }
+    void addField(const VariableEntry& field);
 
-    std::vector<VariableEntry> getFields() const
-    {
-        return fields;
-    }
+    std::vector<VariableEntry> getFields() const;
 
-    void addMethod(const MethodSignature& signature, const MethodEntry& method)
-    {
-        methods[signature] = method;
-        // Get method name before _
-        const std::string methodName = signature.methodName.substr(0, signature.methodName.find('_'));
-        methodReturnTypes[methodName] = method.returnType;
-    }
+    void addMethod(const MethodSignature& signature, const MethodEntry& method);
 
-    void addMethodValue(const MethodSignature& signature, llvm::Function* value)
-    {
-        methodValues[signature] = value;
-    }
+    void addMethodValue(const MethodSignature& signature, llvm::Function* value);
 
-    llvm::Function* getMethodValue(const MethodSignature& signature)
-    {
-        return methodValues[signature];
-    }
+    llvm::Function* getMethodValue(const MethodSignature& signature);
 
-    llvm::Function* getMethodValue(const std::string& funcName, const std::vector<std::string>& argTypes)
-    {
-        const MethodSignature signature(funcName, argTypes);
-        return methodValues[signature];
-    }
+    llvm::Function* getMethodValue(const std::string& funcName, const std::vector<std::string>& argTypes);
 
-    bool doesMethodExists(const std::string& name)
-    {
-        std::vector<MethodEntry> classMethods = getMethods(name);
-        return std::any_of(
-            classMethods.begin(),
-            classMethods.end(),
-            [name](const MethodEntry& entry) { return entry.signature.methodName == name; }
-        );
-    }
+    bool doesMethodExists(const std::string& name);
 
-    std::vector<MethodEntry> getMethods(const std::string& name)
-    {
-        std::vector<MethodEntry> methodsList;
-        for (const auto& [signature, method] : methods)
-        {
-            if (signature.methodName == name)
-            {
-                methodsList.push_back(method);
-            }
-        }
-        return methodsList;
-    }
+    std::vector<MethodEntry> getMethods(const std::string& name);
 
-    std::vector<MethodEntry> getMethodsByNameWithoutTypes(const std::string& prefix)
-    {
-        std::vector<MethodEntry> methodsList;
-        for (const auto& [signature, method] : methods)
-        {
-            const std::string methodName = signature.methodName.substr(0, signature.methodName.find('_'));
-            if (methodName == prefix)
-            {
-                methodsList.push_back(method);
-            }
-        }
-        return methodsList;
-    }
+    std::vector<MethodEntry> getMethodsByNameWithoutTypes(const std::string& prefix);
 
-    void setParentClass(ClassEntry* parent)
-    {
-        parentClass = parent;
-    }
+    void setParentClass(ClassEntry* parent);
 
-    ClassEntry* getParentClass() const
-    {
-        return parentClass;
-    }
+    ClassEntry* getParentClass() const;
 
-    std::string getMethodReturnType(const std::string& name)
-    {
-        return methodReturnTypes[name];
-    }
+    std::string getMethodReturnType(const std::string& name);
 
-    const VariableEntry* lookupField(const std::string& name) const
-    {
-        for (const auto& field : fields)
-        {
-            if (field.name == name)
-            {
-                return &field;
-            }
-        }
-        if (parentClass)
-        {
-            return parentClass->lookupField(name);
-        }
-        return nullptr;
-    }
+    const VariableEntry* lookupField(const std::string& name) const;
 
-    MethodEntry* lookupMethod(const MethodSignature& signature)
-    {
-        const auto it = methods.find(signature);
-        if (it != methods.end())
-        {
-            return &it->second;
-        }
+    MethodEntry* lookupMethod(const MethodSignature& signature);
 
-        if (parentClass)
-        {
-            return parentClass->lookupMethod(signature);
-        }
-        return nullptr;
-    }
-
-    int getFieldIndex(const std::string& varName) const
-    {
-        for (int i = 0; i < fields.size(); i++)
-        {
-            if (fields[i].name == varName)
-            {
-                return i;
-            }
-        }
-        if (parentClass)
-        {
-            return parentClass->getFieldIndex(varName);
-        }
-        return -1;
-    }
+    int getFieldIndex(const std::string& varName) const;
 };
 
 
