@@ -11,7 +11,7 @@ public:
 
     // to string
     [[nodiscard]] std::string to_string() const;
-    [[nodiscard]] int get_line_num() const;
-    [[nodiscard]] int get_pos_begin() const;
-    [[nodiscard]] int get_pos_end() const;
+    [[nodiscard]] size_t get_line_num() const;
+    [[nodiscard]] size_t get_pos_begin() const;
+    [[nodiscard]] size_t get_pos_end() const;
 };

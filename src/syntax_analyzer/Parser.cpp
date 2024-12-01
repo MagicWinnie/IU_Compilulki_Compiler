@@ -41,7 +41,7 @@ void Parser::expectAndConsume(const TokenCode code)
 }
 
 
-void throwError(const std::string& expected, const std::string& got, const int lineNumber, const int column)
+void throwError(const std::string& expected, const std::string& got, const size_t lineNumber, const size_t column)
 {
     const std::string errorString = "Expected token: " + expected + " at line: " + std::to_string(lineNumber) +
         " column: " + std::to_string(column) + ", got: " + got;
