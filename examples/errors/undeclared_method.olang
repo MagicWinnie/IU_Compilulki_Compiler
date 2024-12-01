@@ -1,23 +1,9 @@
-
-Program: Main(1.1, 1.2)
-
-
-class A is
-    method abc() : Integer is
-        var a: Integer
-        return a
-    end
-end
-
-class B extends A is
-    this () is
-        var b: Real()
-    end
-end
+Program: Main
 
 class Main is
     this() is
-        var a : B
-        a.cddsf()
+        var a : Integer
+        a := Integer(10)
+        a.error()
     end
 end
