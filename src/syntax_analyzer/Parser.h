@@ -46,7 +46,7 @@ public:
     std::unique_ptr<CompoundExpression> parseCompoundExpression();
     std::unique_ptr<ClassDeclarations> parseClassDeclarations();
     std::unique_ptr<ClassDeclaration> parseClassDeclaration();
-    std::unique_ptr<ClassBody> parseClassBody(std::string);
+    std::unique_ptr<ClassBody> parseClassBody(const std::string&);
     std::unique_ptr<ClassName> parseClassName();
     std::unique_ptr<Extension> parseExtension();
     std::unique_ptr<Body> parseBody();
@@ -58,8 +58,8 @@ public:
     std::unique_ptr<ElseBranch> parseElseBranch();
     std::unique_ptr<WhileLoop> parseWhileLoop();
     std::unique_ptr<Assignment> parseAssignment();
-    std::unique_ptr<MemberDeclarations> parseMemberDeclarations(std::string);
-    std::unique_ptr<MemberDeclaration> parseMemberDeclaration(std::string);
+    std::unique_ptr<MemberDeclarations> parseMemberDeclarations(const std::string&);
+    std::unique_ptr<MemberDeclaration> parseMemberDeclaration(const std::string&);
     std::unique_ptr<ConstructorDeclaration> parseConstructorDeclaration(std::string);
     std::unique_ptr<VariableDeclaration> parseVariableDeclaration();
     std::unique_ptr<MethodDeclaration> parseMethodDeclaration();

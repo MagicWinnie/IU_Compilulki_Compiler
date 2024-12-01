@@ -54,7 +54,7 @@ void ScopedSymbolTable::leaveScope()
 }
 
 void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::string& type, const Span& span,
-                                         bool isClassField)
+                                         const bool isClassField)
 {
     if (!scopes.empty())
     {

@@ -38,9 +38,9 @@ def main():
 
     tree.to_graphviz(filename="tree.dot", shape="box", reverse=True)
 
-    G = pgv.AGraph("tree.dot", rankdir="TB", strict=True)
-    G.layout(prog="dot", args="")
-    G.draw(sys.argv[2])
+    graph = pgv.AGraph("tree.dot", rankdir="TB", strict=True)
+    graph.layout(prog="dot", args="")
+    graph.draw(sys.argv[2])
 
 
 if __name__ == "__main__":

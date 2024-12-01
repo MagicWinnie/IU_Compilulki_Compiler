@@ -367,7 +367,7 @@ std::unique_ptr<ClassDeclaration> Parser::parseClassDeclaration()
     return classDeclaration;
 }
 
-std::unique_ptr<ClassBody> Parser::parseClassBody(std::string className)
+std::unique_ptr<ClassBody> Parser::parseClassBody(const std::string& className)
 {
     return std::make_unique<ClassBody>(parseMemberDeclarations(className));
 }
@@ -549,7 +549,7 @@ std::unique_ptr<Assignment> Parser::parseAssignment()
 }
 
 
-std::unique_ptr<MemberDeclarations> Parser::parseMemberDeclarations(std::string className)
+std::unique_ptr<MemberDeclarations> Parser::parseMemberDeclarations(const std::string& className)
 {
     auto memberDeclarations = std::make_unique<MemberDeclarations>();
     auto memberDeclaration = parseMemberDeclaration(className);
@@ -561,7 +561,7 @@ std::unique_ptr<MemberDeclarations> Parser::parseMemberDeclarations(std::string 
     return memberDeclarations;
 }
 
-std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration(std::string className)
+std::unique_ptr<MemberDeclaration> Parser::parseMemberDeclaration(const std::string& className)
 {
     const auto nextToken = peekNextToken();
     auto memberDeclaration = std::make_unique<MemberDeclaration>();

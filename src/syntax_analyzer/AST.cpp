@@ -426,7 +426,7 @@ void CompoundExpression::accept(Visitor& visitor)
 
 llvm::Value* CompoundExpression::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                          ScopedSymbolTable& symbolTable, llvm::Value* prevValue,
-                                         const std::string& prevValueType)
+                                         const std::string& prevValueType) const
 {
     llvm::Value* value = nullptr;
     std::string valueType;
@@ -633,10 +633,10 @@ llvm::Value* MemberDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuil
 
 ConstructorDeclaration::ConstructorDeclaration(std::unique_ptr<Parameters> parameters, std::unique_ptr<Body> body,
                                                const Span& span,
-                                               std::string className) : className(std::move(className)),
-                                                                        parameters(std::move(parameters)),
+                                               std::string className) : parameters(std::move(parameters)),
                                                                         body(std::move(body)),
-                                                                        span(span)
+                                                                        span(span),
+                                                                        className(std::move(className))
 {
 }
 
