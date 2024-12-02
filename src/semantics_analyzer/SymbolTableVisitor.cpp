@@ -381,7 +381,8 @@ void SymbolTableVisitor::visitAssignment(Assignment& node)
             if (parentClassEntry->getName() == variableType)
             {
                 foundVariable->type = expressionType;
-                symbolTable.variableTypes[foundVariable->name] = expressionType;
+                symbolTable.changeVariableType(foundVariable->name, expressionType);
+
                 variableType = expressionType;
                 break;
             }

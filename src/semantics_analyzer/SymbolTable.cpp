@@ -244,7 +244,6 @@ void ScopedSymbolTable::addVariableEntry(const std::string& name, const std::str
 
         // Add the new entry to the current scope
         identifierTypes[name] = ID_VARIABLE;
-        variableTypes[name] = type;
         current_scope.addVariableEntry(name, type);
         const auto classEntry = lookupClass(currClassName, span, true);
         if (isClassField)
@@ -306,10 +305,16 @@ void ScopedSymbolTable::addClassEntry(const std::string& name, const Span& span)
 std::unique_ptr<VariableEntry> ScopedSymbolTable::lookupVariable(const std::string& name, const Span& span,
                                                                  const bool throw_error)
 {
-    const auto found = variableTypes.find(name);
-    if (found != variableTypes.end())
+
+    // Iterate over all scopes from the innermost to the outermost
+    for (auto it = scopes.size(); it-- > 0;)
     {
-        return std::make_unique<VariableEntry>(name, found->second, true);
+        auto& varEntries = scopes[it].varEntries;
+        auto found = varEntries.find(name);
+        if (found != varEntries.end())
+        {
+            return std::make_unique<VariableEntry>(name, found->second.type, found->second.is_used);
+        }
     }
     if (throw_error)
     {
@@ -441,7 +446,12 @@ IdentifierType ScopedSymbolTable::getIdentifierType(const std::string& identifie
 {
     if (identifierTypes.find(identifier) != identifierTypes.end())
     {
-        return identifierTypes[identifier];
+        auto identifierType = identifierTypes[identifier];
+        if(identifierType==ID_VARIABLE){
+
+        }
+        return identifierType;
+
     }
     return ID_UNDEFINED;
 }
@@ -468,16 +478,15 @@ std::string ScopedSymbolTable::getIdentifierStringType(const std::string& identi
     switch (getIdentifierType(identifier))
     {
     case ID_VARIABLE:
-        return variableTypes[identifier];
+        return lookupVariable(identifier, span)->type;
     case ID_CLASS:
         return identifier;
-    default:
-        throw std::runtime_error(
+    }
+    throw std::runtime_error(
             "Identifier " + identifier + " is not declared" +
             " at line: " + std::to_string(span.get_line_num()) +
             " column: " + std::to_string(span.get_pos_begin())
-        );
-    }
+    );
 }
 
 llvm::Function* ScopedSymbolTable::getMethodValue(const std::string& className, const std::string& funcName,
@@ -501,4 +510,18 @@ llvm::Value* ScopedSymbolTable::getThisPointer() const
 void ScopedSymbolTable::setThisPointer(llvm::Value* thisPtr)
 {
     this->thisPtr = thisPtr;
+}
+
+void ScopedSymbolTable::changeVariableType(std::string varName, const std::string newType) {
+    for (auto it = scopes.size(); it-- > 0;)
+    {
+        auto& varEntries = scopes[it].varEntries;
+        auto found = varEntries.find(varName);
+        if (found != varEntries.end())
+        {
+            found->second.type = newType;
+            return;
+        }
+    }
+
 }

@@ -316,6 +316,7 @@ void ClassDeclaration::accept(Visitor& visitor)
 llvm::Value* ClassDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                        ScopedSymbolTable& symbolTable)
 {
+    symbolTable.enterScope();
     auto elements = symbolTable.lookupClass(className->name, className->span)->getFields();
     std::vector<llvm::Type*> elementsType;
     for (const auto& element : elements)
@@ -456,6 +457,7 @@ llvm::Value* ClassDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuild
             }
         }
     }
+    symbolTable.leaveScope();
     return nullptr;
 }
 
@@ -788,6 +790,7 @@ void ConstructorDeclaration::accept(Visitor& visitor)
 llvm::Value* ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder,
                                              llvm::Module& module, ScopedSymbolTable& symbolTable)
 {
+    symbolTable.enterScope();
     const llvm::StructType* classType = llvm::StructType::getTypeByName(context, className);
 
 
@@ -885,7 +888,7 @@ llvm::Value* ConstructorDeclaration::codegen(llvm::LLVMContext& context, llvm::I
     builder.CreateRetVoid();
     verifyFunction(*function);
     symbolTable.addFunctionValue(constructorName, className, paramStringTypes, function);
-
+    symbolTable.leaveScope();
     return nullptr;
 }
 
@@ -926,7 +929,7 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
 
             // Get the 'this' pointer (first argument of the constructor)
             llvm::Argument* thisPtr = constructor->arg_begin();
-            // TODO get index of the field
+
             const unsigned fieldIndex = symbolTable.getFieldIndex(symbolTable.currClassName, variable->name);
             if (fieldIndex == -1)
             {
@@ -939,12 +942,16 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
                 fieldType, thisPtr, fieldIndex, 0, variable->name + "_load");
 
             // Generate the initialization value
-            llvm::Value* initValue = expression->codegen(context, ctorBuilder, module, symbolTable);
+            auto* expr = dynamic_cast<CompoundExpression*>(expression.get());
+            llvm::Value* initValue = expr->codegen(context, ctorBuilder, module, symbolTable);
 
             // Store the initialization value into the field
             ctorBuilder.CreateStore(initValue, fieldPtr);
+
+            symbolTable.addVariableEntry(variable->name, expr->identifier, Span(0, 0, 0), true);
             return nullptr;
         }
+
     }
     if (expression->isCompound)
     {
@@ -994,6 +1001,7 @@ llvm::Value* VariableDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBu
     }
     builder.CreateCall(constructorFunc, constructorArgs);
     symbolTable.addLocalVariable(variable->name, classAlloc, expr->type);
+    symbolTable.addVariableEntry(variable->name, expr->type, Span(0, 0, 0), false);
     return classAlloc;
 }
 
@@ -1028,6 +1036,7 @@ bool isReturnStatement(llvm::Value* V)
 llvm::Value* MethodDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                         ScopedSymbolTable& symbolTable)
 {
+    symbolTable.enterScope();
     // Step 1: Get the function return type
     llvm::Type* llvmReturnType = nullptr;
     if (returnType == nullptr)
@@ -1066,6 +1075,7 @@ llvm::Value* MethodDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuil
             }
             paramTypes.push_back(paramType);
             paramNames.push_back(param->name);
+            symbolTable.addVariableEntry(param->name, stringParamType, Span(0, 0, 0), false);
             i++;
         }
     }
@@ -1127,6 +1137,7 @@ llvm::Value* MethodDeclaration::codegen(llvm::LLVMContext& context, llvm::IRBuil
     verifyFunction(*function);
 
     symbolTable.addFunctionValue(methodName->name, symbolTable.currClassName, paramStringTypes, function);
+    symbolTable.leaveScope();
     return function;
 }
 
@@ -1352,6 +1363,7 @@ void WhileLoop::accept(Visitor& visitor)
 llvm::Value* WhileLoop::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                 ScopedSymbolTable& symbolTable)
 {
+    symbolTable.enterScope();
     llvm::Function* TheFunction = builder.GetInsertBlock()->getParent();
     llvm::BasicBlock* LoopBB = llvm::BasicBlock::Create(context, "loop", TheFunction);
     llvm::BasicBlock* AfterBB = llvm::BasicBlock::Create(context, "afterloop", TheFunction);
@@ -1396,6 +1408,7 @@ llvm::Value* WhileLoop::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& b
     CondV = builder.CreateICmpNE(CondV, llvm::ConstantInt::get(CondV->getType(), 0), "whilecond");
     builder.CreateCondBr(CondV, LoopBB, AfterBB);
     builder.SetInsertPoint(AfterBB);
+    symbolTable.leaveScope();
     return nullptr;
 }
 
@@ -1424,10 +1437,12 @@ void IfBranch::accept(Visitor& visitor)
 llvm::Value* IfBranch::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                ScopedSymbolTable& symbolTable)
 {
+    symbolTable.enterScope();
     if (body)
     {
         return body->codegen(context, builder, module, symbolTable);
     }
+    symbolTable.leaveScope();
     return nullptr;
 }
 
@@ -1443,10 +1458,12 @@ void ElseBranch::accept(Visitor& visitor)
 llvm::Value* ElseBranch::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                                  ScopedSymbolTable& symbolTable)
 {
+    symbolTable.enterScope();
     if (body)
     {
         body->codegen(context, builder, module, symbolTable);
     }
+    symbolTable.leaveScope();
     return nullptr;
 }
 
@@ -1498,6 +1515,7 @@ void Body::accept(Visitor& visitor)
 llvm::Value* Body::codegen(llvm::LLVMContext& context, llvm::IRBuilder<>& builder, llvm::Module& module,
                            ScopedSymbolTable& symbolTable)
 {
+
     if (bodyDeclarations)
     {
         return bodyDeclarations->codegen(context, builder, module, symbolTable);

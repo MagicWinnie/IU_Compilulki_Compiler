@@ -1,14 +1,22 @@
-Program: Main
+Program: Main()
 
-class Test is
-    var t: Integer(555)
-    method print() is
-        t.print()
+class A is
+    method test(a: Integer): Integer is
+        Integer(777).print()
+        a.print()
+        return Integer(767)
+    end
+
+    method test(a: Real): Real is
+        return a
     end
 end
+
 class Main is
+    var c: A()
+
     this() is
-        var q : Test()
-        q.print()
+        c.test(Real(555.0)).print()
     end
+
 end

@@ -125,7 +125,6 @@ public:
     std::vector<SymbolTable> scopes;
     std::unordered_map<std::string, ClassEntry> classEntries;
     std::unordered_map<std::string, IdentifierType> identifierTypes;
-    std::unordered_map<std::string, std::string> variableTypes;
     std::unordered_map<std::string, llvm::Value*> varEntries;
     llvm::Value* thisPtr = nullptr;
 
@@ -186,4 +185,6 @@ public:
     void setThisPointer(llvm::Value* thisPtr);
 
     SymbolTable getCurrentScope();
+
+    void changeVariableType(std::string string, const std::string basicString);
 };
